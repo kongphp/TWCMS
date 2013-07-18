@@ -1,0 +1,27 @@
+body,div,ul,li,dl,dd,dt,input,form{margin:0;padding:0;font-family:Arial,Verdana;font-size:12px}
+ul,li{list-style:none}
+a,a:visited{color:#077AC7;text-decoration:none}
+a:hover{color:#BD0A01}
+img,input{border:0 none}
+body{background:#38739F}
+
+#lgn{width:250px;margin:auto;position:relative;-webkit-animation:aIn 600ms linear;-moz-animation:aIn 600ms linear;-o-animation:aIn 600ms linear;animation:aIn 600ms linear}
+#lgn dt,#lgn dd{margin-top:10px}
+#lgn dt a{display:block;background:url(../img/logo.gif) no-repeat;width:175px;height:50px;margin:auto}
+
+#lgn dd{position:relative;height:40px;background:url(../img/btn.png) 0 -120px no-repeat}
+#lgn label{position:absolute;top:10px;_top:13px;left:8px;color:#A9A9A9;font-size:18px}
+
+#lgn .int{padding:8px;width:234px;height:24px;background:transparent;vertical-align:middle;font-size:18px}
+#lgn .int:focus{outline:0 none}
+#lgn .tips{position:absolute;top:-54px;_top:-52px;left:260px;width:250px;padding:62px 9px 4px;_padding-bottom:2px;background:url(../img/btn.png) 0 bottom no-repeat}
+#lgn .tips b{font-size:12px;line-height:24px;color:#CC0000}
+
+#btn{width:250px;height:40px;background:url(../img/btn.png) 0 0 no-repeat;cursor:pointer;color: white;font-size:20px}
+#btn:hover{background-position:0 -40px}
+#btn:active{background-position:0 -80px}
+
+@-webkit-keyframes aIn{0%{opacity:0;-webkit-transform:scale(.1)}50%{opacity:1;-webkit-transform:scale(1.1)}70%{-webkit-transform:scale(.9)}100%{-webkit-transform:scale(1)}}
+@-moz-keyframes aIn{0%{opacity:0;-moz-transform:scale(.1)}50%{opacity:1;-moz-transform:scale(1.1)}70%{-moz-transform:scale(.9)}100%{-moz-transform:scale(1)}}
+@-o-keyframes aIn{0%{opacity:0;-o-transform:scale(.1)}50%{opacity:1;-o-transform:scale(1.1)}70%{-o-transform:scale(.9)}100%{-o-transform:scale(1)}}
+@keyframes aIn{0%{opacity:0;transform:scale(.1)}50%{opacity:1;transform:scale(1.1)}70%{transform:scale(.9)}100%{transform:scale(1)}}
