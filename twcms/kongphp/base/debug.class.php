@@ -56,13 +56,14 @@ class debug{
 		// 第1步正确定位
 		$trace = $e->getTrace();
 		if(!empty($trace) && $trace[0]['function'] == 'error_handler' && $trace[0]['class'] == 'debug') {
-			$file = $trace[0]['file'];
-			$line = $trace[0]['line'];
+			$message = $e->getMessage();
+			$file = $trace[0]['args'][2];
+			$line = $trace[0]['args'][3];
 		}else{
+			$message = '[程序异常] : '.$e->getMessage();
 			$file = $e->getFile();
 			$line = $e->getLine();
 		}
-		$message = $e->getMessage();
 		$message = self::to_message($message);
 
 		// 第2步写日志 (暂不使用 error_log() )
@@ -187,7 +188,7 @@ class debug{
 	 */
 	public static function to_message($s) {
 		$s = strip_tags($s);
-		if(substr($s, 0, 13) == 'mysql_connect') {
+		if(strpos($s, 'mysql_connect') !== false) {
 			$s = '连接数据库出错！请查看 config.inc.php 文件中的用户名和密码是否正确？';
 		}
 		return $s;
