@@ -205,17 +205,17 @@ class base{
 	public static function get_original_file($filename, $path) {
 		if(empty($_SERVER['_config']['plugin_disable'])) {
 			$plugins = self::get_plugins();
-			if(empty($plugins['enable']) || !is_array($plugins['enable'])) return FALSE;
-
-			$plugin_enable = array_keys($plugins['enable']);
-			foreach($plugin_enable as $p) {
-				// 第1步 查找 plugin/xxx/APP_NAME/xxx.(php|htm)
-				if(is_file(PLUGIN_PATH.$p.'/'.APP_NAME.'/'.$filename)) {
-					return PLUGIN_PATH.$p.'/'.APP_NAME.'/'.$filename;
-				}
-				// 第2步 查找 plugin/xxx/xxx.(php|htm)
-				if(is_file(PLUGIN_PATH.$p.'/'.$filename)) {
-					return PLUGIN_PATH.$p.'/'.$filename;
+			if(isset($plugins['enable']) && is_array($plugins['enable'])) {
+				$plugin_enable = array_keys($plugins['enable']);
+				foreach($plugin_enable as $p) {
+					// 第1步 查找 plugin/xxx/APP_NAME/xxx.(php|htm)
+					if(is_file(PLUGIN_PATH.$p.'/'.APP_NAME.'/'.$filename)) {
+						return PLUGIN_PATH.$p.'/'.APP_NAME.'/'.$filename;
+					}
+					// 第2步 查找 plugin/xxx/xxx.(php|htm)
+					if(is_file(PLUGIN_PATH.$p.'/'.$filename)) {
+						return PLUGIN_PATH.$p.'/'.$filename;
+					}
 				}
 			}
 		}
