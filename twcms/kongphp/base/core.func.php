@@ -94,7 +94,7 @@ function M($model) {
 		$modelfile = base::get_original_file($modelname, MODEL_PATH);
 
 		if(!$modelfile) {
-			throw new Exception("模型 {$modelfile} 文件不存在");
+			throw new Exception("模型 $modelname 文件不存在");
 		}
 
 		$s = file_get_contents($modelfile);
