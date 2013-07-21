@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>致命错误！</title>
+<title>错误啦！</title>
 <style>
 body,div,ul,li,p,h1{margin:0;padding:0;font:14px/1.8 'Microsoft YaHei',Verdana,Arial,sans-serif}
 body{background:#aaa;color:#000}
