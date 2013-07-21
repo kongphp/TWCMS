@@ -11,49 +11,9 @@ class base{
 	public static function start() {
 		ob_start();
 		debug::init();
-		self::init_timezone();
 		self::init_set();
 		self::init_get();
 		self::init_control();
-	}
-
-	/**
-	 * 初始化时区
-	 * @return void
-	 */
-	public static function init_timezone() {
-		if(empty($_SERVER['_config']['timeoffset'])) return;
-		$zones = array (
-			'-12' => 'Kwajalein',
-			'-11' => 'Pacific/Midway',
-			'-10' => 'Pacific/Honolulu',
-			'-9' => 'America/Anchorage',
-			'-8' => 'America/Los_Angeles',
-			'-7' => 'America/Denver',
-			'-6' => 'America/Tegucigalpa',
-			'-5' => 'America/New_York',
-			'-4' => 'America/Halifax',
-			'-3' => 'America/Sao_Paulo',
-			'-2' => 'Atlantic/South_Georgia',
-			'-1' => 'Atlantic/Azores',
-			'0' => 'Europe/Dublin',
-			'+1' => 'Europe/Belgrade',
-			'+2' => 'Europe/Minsk',
-			'+3' => 'Asia/Tehran',
-			'+4' => 'Asia/Muscat',
-			'+5' => 'Asia/Katmandu',
-			'+6' => 'Asia/Rangoon',
-			'+7' => 'Asia/Krasnoyarsk',
-			'+8' => 'Asia/Shanghai',
-			'+9' => 'Australia/Darwin',
-			'+10' => 'Australia/Canberra',
-			'+11' => 'Asia/Magadan',
-			'+12' => 'Pacific/Fiji',
-			'+13' => 'Pacific/Tongatapu',
-		);
-		if(isset($zones[$_SERVER['_config']['timeoffset']])) {
-			date_default_timezone_set($zones[$_SERVER['_config']['timeoffset']]);	// php5.4 以后，不再支持 Etc/GMT+8 这种格式
-		}
 	}
 
 	/**
@@ -61,6 +21,8 @@ class base{
 	 * @return void
 	 */
 	public static function init_set() {
+		date_default_timezone_set($_SERVER['_config']['zone']);	// php5.4 以后，不再支持 Etc/GMT+8 这种格式
+
 		spl_autoload_register(array('base', 'autoload_handler'));	// 设置自动包含类文件方法
 		ini_set('magic_quotes_runtime', 0);	//关闭自动添加反斜线
 

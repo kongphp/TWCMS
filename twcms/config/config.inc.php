@@ -5,7 +5,7 @@ $_SERVER['_config'] = array(
 
 	'plugin_disable' => 0,			// 禁止掉所有插件
 
-	'timeoffset' => '+8',			// 时区
+	'zone' => 'Asia/Shanghai',		// 时区
 
 	// 数据库配置，type 为默认的数据库类型，可以支持多种数据库: mysql|pdo_mysql|mongodb	
 	'db' => array(
