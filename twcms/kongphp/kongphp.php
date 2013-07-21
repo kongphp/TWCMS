@@ -42,9 +42,9 @@ if(DEBUG) {
 	include KONG_PATH.'base/model.class.php';
 	include KONG_PATH.'base/view.class.php';
 	include KONG_PATH.'base/control.class.php';
-	include KONG_PATH.'db/db_interface.php';
+	include KONG_PATH.'db/db.interface.php';
 	include KONG_PATH.'db/db_mysql.class.php';
-	include KONG_PATH.'cache/cache_interface.php';
+	include KONG_PATH.'cache/cache.interface.php';
 	include KONG_PATH.'cache/cache_memcache.class.php';
 }else{
 	$runfile = RUNTIME_PATH.'_runtime.php';
@@ -58,9 +58,9 @@ if(DEBUG) {
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/model.class.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/view.class.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/control.class.php'), "<?ph>\r\n");
-		$s .= trim(php_strip_whitespace(KONG_PATH.'db/db_interface.php'), "<?ph>\r\n");
+		$s .= trim(php_strip_whitespace(KONG_PATH.'db/db.interface.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'db/db_mysql.class.php'), "<?ph>\r\n");
-		$s .= trim(php_strip_whitespace(KONG_PATH.'cache/cache_interface.php'), "<?ph>\r\n");
+		$s .= trim(php_strip_whitespace(KONG_PATH.'cache/cache.interface.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'cache/cache_memcache.class.php'), "<?ph>\r\n");
 		$s = str_replace('defined(\'KONG_PATH\') || exit;', '', $s);
 		file_put_contents($runfile, '<?php'.$s);
