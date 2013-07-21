@@ -94,7 +94,7 @@ class base{
 		}elseif(is_file(KONG_PATH.'ext/'.$classname.'.class.php')) {
 			include KONG_PATH.'ext/'.$classname.'.class.php';
 		}else{
-			throw new Exception('class '.$classname.' does not exists');
+			throw new Exception("class $classname does not exists");
 		}
 		DEBUG && $_SERVER['_include'][] = $classname.' 类';
 		return class_exists($classname, false);
@@ -145,7 +145,7 @@ class base{
 			$controlfile = self::get_original_file($controlname, CONTROL_PATH);
 
 			if(!$controlfile) {
-				throw new Exception("您输入的 URL 不正确，$controlname 文件不存在");
+				throw new Exception("访问的 URL 不正确，$controlname 文件不存在");
 			}
 
 			$s = file_get_contents($controlfile);
@@ -164,7 +164,7 @@ class base{
 		if(method_exists($newcontrol, $action)) {
 			$newcontrol->$action();
 		}else{
-			throw new Exception("您输入的 URL 不正确，$action 方法未实现");
+			throw new Exception("访问的 URL 不正确，$action 方法未实现");
 		}
 	}
 

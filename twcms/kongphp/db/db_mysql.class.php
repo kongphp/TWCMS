@@ -475,6 +475,7 @@ class db_mysql implements db_interface {
 		}
 		
 		if(!$result && $isthrow) {
+			DEBUG || $sql = str_replace($this->tablepre, '***', $sql);
 			throw new Exception('MySQL Query Error: <b>'.$sql.'</b>. '.mysql_error());
 		}
 		//$this->querynum++;	//去掉原因，可通过 $_SERVER['_sqls'] 查看

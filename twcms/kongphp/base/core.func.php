@@ -100,7 +100,7 @@ function M($model) {
 		$s = file_get_contents($modelfile);
 		$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'base::parse_hook', $s);	// 处理 hook
 		if(!FW($objfile, $s)) {
-			throw new Exception("写入 model 编译文件 {$modelname} 失败");
+			throw new Exception("写入 model 编译文件 $modelname 失败");
 		}
 	}
 

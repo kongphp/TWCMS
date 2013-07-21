@@ -39,7 +39,7 @@ class log {
 		try{
 			$fp = fopen($logfile, 'ab+');
 			if(!$fp) {
-				throw new Exception('写入日志失败，可能文件'.$logfile.'不可写或磁盘已满。');
+				throw new Exception("写入日志失败，可能文件 $file 不可写或磁盘已满。");
 			}
 			fwrite($fp, $s);
 			fclose($fp);
@@ -65,9 +65,9 @@ class log {
 	 */
 	public static function trace_save($file = 'php_trace.php') {
 		if(empty($_SERVER['_trace'])) return;
-		$s = "\r\n\r\n<?php exit;?>\r\n========================================================================\r\n";
+		$s = "<?php exit;?>\r\n========================================================================\r\n";
 		$s .= $_SERVER['REQUEST_URI']."\r\nPOST:".print_r($_POST, 1)."\r\nSQL:".print_r($_SERVER['_sqls'], 1)."\r\n";
-		$s .= $_SERVER['_trace'];
+		$s .= $_SERVER['_trace']."\r\n\r\n";
 		self::write_log($s, $file);
 	}
 }
