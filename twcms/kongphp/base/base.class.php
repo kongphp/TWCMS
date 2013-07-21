@@ -76,7 +76,7 @@ class base{
 		header("Cache-Control: private, post-check=0, pre-check=0, max-age=0");
 		header("Pragma: no-cache");
 		header('Content-Type: text/html; charset=UTF-8');
-		//header('X-Powered-By: KongPHP;');
+		//header('X-Powered-By: KongPHP');
 	}
 
 	/**
