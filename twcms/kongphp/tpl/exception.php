@@ -34,6 +34,7 @@ ul{list-style:none}
 		<li><span>模型目录:</span> <?php echo MODEL_PATH;?></li>
 		<li><span>视图目录:</span> <?php echo VIEW_PATH.(isset($_SERVER['_setting'][APP_NAME.'_theme']) ? $_SERVER['_setting'][APP_NAME.'_theme'] : 'default').'/'; ?></li>
 		<li><span>控制器:</span> <?php echo CONTROL_PATH;?><font color="red"><?php echo $_GET[0];?>_control.class.php</font></li>
+		<li><span>日志目录:</span> <?php echo RUNTIME_PATH.'logs/';?></li>
 	</ul>
 
 	<h1>程序流程</h1>
