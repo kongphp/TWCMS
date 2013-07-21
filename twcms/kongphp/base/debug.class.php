@@ -83,7 +83,7 @@ class debug{
 				echo json_encode(array('kp_error' => $kp_error));
 			}else{
 				if(DEBUG) {
-					self::html($message, $file, $line, $e->getTraceAsString());
+					self::exception($message, $file, $line, $e->getTraceAsString());
 				}else{
 					$len = strlen($_SERVER['DOCUMENT_ROOT']);
 					$file = substr($file, $len);
@@ -103,7 +103,7 @@ class debug{
 	 * @param string $tracestr 异常追踪信息
 	 * @return void
 	 */
-	public static function html($message, $file, $line, $tracestr) {
+	public static function exception($message, $file, $line, $tracestr) {
 		include KONG_PATH.'tpl/exception.php';
 	}
 
