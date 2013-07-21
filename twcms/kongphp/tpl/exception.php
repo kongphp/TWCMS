@@ -12,6 +12,7 @@ ul{list-style:none}
 .kongcont .c1,.kongcont h1,.footer{width:98%;margin:auto;overflow:hidden}
 .kongcont .c1{word-break:break-all;padding:3px}
 .kongcont .c1 li,table tr td{padding:0 3px}
+.kongcont .c1 li span{float:left;display:inline;width:70px}
 .kongcont .c1 li.even{background:#ddd}
 .footer{border-top:1px solid #dbdbdb;padding:5px 3px 10px;color:#666;text-align:right}
 </style>
@@ -27,6 +28,13 @@ ul{list-style:none}
 
 	<h1>错误位置</h1>
 	<div class="c1"><?php echo self::get_code($file, $line);?></div>
+
+	<h1>基本信息</h1>
+	<ul class="c1">
+		<li><span>模型目录:</span> <?php echo MODEL_PATH;?></li>
+		<li><span>视图目录:</span> <?php echo VIEW_PATH.(isset($_SERVER['_setting'][APP_NAME.'_theme']) ? $_SERVER['_setting'][APP_NAME.'_theme'] : 'default').'/'; ?></li>
+		<li><span>控制器:</span> <?php echo CONTROL_PATH;?><font color="red"><?php echo $_GET[0];?>_control.class.php</font></li>
+	</ul>
 
 	<h1>程序流程</h1>
 	<ul class="c1"><?php echo self::arr2str(explode("\n", $tracestr), 0);?></ul>
@@ -47,13 +55,13 @@ ul{list-style:none}
 	<ul class="c1"><?php echo self::arr2str(get_included_files(), 1);?></ul>
 
 	<h1>其他信息</h1>
-	<div class="c1">
-		<p><span>请求路径:</span> <?php echo $_SERVER['REQUEST_URI'];?></p>
-		<p><span>当前时间:</span> <?php echo date('Y-m-d H:i:s', $_SERVER['_time']);?></p>
-		<p><span>当前网协:</span> <?php echo $_SERVER['_ip'];?></p>
-		<p><span>运行时间:</span> <?php echo runtime();?></p>
-		<p><span>内存开销:</span> <?php echo runmem();?></p>
-	</div>
+	<ul class="c1">
+		<li><span>请求路径:</span> <?php echo $_SERVER['REQUEST_URI'];?></li>
+		<li><span>当前时间:</span> <?php echo date('Y-m-d H:i:s', $_SERVER['_time']);?></li>
+		<li><span>当前网协:</span> <?php echo $_SERVER['_ip'];?></li>
+		<li><span>运行时间:</span> <?php echo runtime();?></li>
+		<li><span>内存开销:</span> <?php echo runmem();?></li>
+	</ul>
 
 	<div class="footer">&lt;?php echo 'KongPHP, Road to Jane.'; ?&gt;</div>
 </div>
