@@ -91,14 +91,14 @@ function M($model) {
 
 	// 如果缓存文件不存在，则搜索目录
 	if(DEBUG || !is_file($objfile)) {
-		$modelfile = base::get_original_file($modelname, MODEL_PATH);
+		$modelfile = core::get_original_file($modelname, MODEL_PATH);
 
 		if(!$modelfile) {
 			throw new Exception("模型 $modelname 文件不存在");
 		}
 
 		$s = file_get_contents($modelfile);
-		$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'base::parse_hook', $s);	// 处理 hook
+		$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
 		if(!FW($objfile, $s)) {
 			throw new Exception("写入 model 编译文件 $modelname 失败");
 		}

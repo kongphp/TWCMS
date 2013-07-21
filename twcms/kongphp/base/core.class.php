@@ -3,7 +3,7 @@
 // | Copyright (C) 2013 wuzhaohuan <kongphp@gmail.com> All rights reserved.
 // +------------------------------------------------------------------------------
 
-class base{
+class core{
 	/**
 	 * 开始加载框架
 	 * @return void
@@ -23,7 +23,7 @@ class base{
 	public static function init_set() {
 		date_default_timezone_set($_SERVER['_config']['zone']);	// php5.4 以后，不再支持 Etc/GMT+8 这种格式
 
-		spl_autoload_register(array('base', 'autoload_handler'));	// 设置自动包含类文件方法
+		spl_autoload_register(array('core', 'autoload_handler'));	// 设置自动包含类文件方法
 		ini_set('magic_quotes_runtime', 0);	//关闭自动添加反斜线
 
 		// GPC 安全过滤
@@ -112,7 +112,7 @@ class base{
 
 			$s = file_get_contents($controlfile);
 			$s = self::parse_extends($s);
-			$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'base::parse_hook', $s);	// 处理 hook
+			$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
 			if(!FW($objfile, $s)) {
 				throw new Exception("写入 control 编译文件 $controlname 失败");
 			}
@@ -144,7 +144,7 @@ class base{
 					$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
 					$s2 = file_get_contents($realfile);
 					$s2 = self::parse_extends($s2);
-					$s2 = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'base::parse_hook', $s2);	// 处理 hook
+					$s2 = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s2);	// 处理 hook
 					if(!FW($objfile, $s2)) {
 						throw new Exception("写入继承的类的编译文件 $controlname 失败");
 					}
@@ -234,7 +234,7 @@ class base{
 		if(!is_dir(PLUGIN_PATH) || !empty($_SERVER['_config']['plugin_disable'])) return '';
 		$str = '';
 
-		$plugins = base::get_plugins();
+		$plugins = core::get_plugins();
 		if(empty($plugins['enable'])) return '';
 
 		$plugin_enable = array_keys($plugins['enable']);

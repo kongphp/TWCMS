@@ -5,7 +5,7 @@
 
 class control extends view{
 	public function message($msg, $jumpurl = '') {
-		if(core::gpc('ajax')) {
+		if(R('ajax')) {
 
 		} else {
 			echo $msg;

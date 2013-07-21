@@ -35,8 +35,8 @@ defined('RUNTIME_MODEL_PATH') || define('RUNTIME_MODEL_PATH', RUNTIME_PATH.APP_N
 if(DEBUG) {
 	include CONFIG_PATH.'config.inc.php';
 	include CONFIG_PATH.'setting.inc.php';
-	include KONG_PATH.'base/core.func.php';
-	include KONG_PATH.'base/base.class.php';
+	include KONG_PATH.'base/base.func.php';
+	include KONG_PATH.'base/core.class.php';
 	include KONG_PATH.'base/debug.class.php';
 	include KONG_PATH.'base/log.class.php';
 	include KONG_PATH.'base/model.class.php';
@@ -51,8 +51,8 @@ if(DEBUG) {
 	if(!is_file($runfile)) {
 		$s  = trim(php_strip_whitespace(CONFIG_PATH.'config.inc.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(CONFIG_PATH.'setting.inc.php'), "<?ph>\r\n");
-		$s .= trim(php_strip_whitespace(KONG_PATH.'base/core.func.php'), "<?ph>\r\n");
-		$s .= trim(php_strip_whitespace(KONG_PATH.'base/base.class.php'), "<?ph>\r\n");
+		$s .= trim(php_strip_whitespace(KONG_PATH.'base/base.func.php'), "<?ph>\r\n");
+		$s .= trim(php_strip_whitespace(KONG_PATH.'base/core.class.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/debug.class.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/log.class.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/model.class.php'), "<?ph>\r\n");
@@ -68,7 +68,7 @@ if(DEBUG) {
 	}
 	include $runfile;
 }
-base::start();
+core::start();
 
 if(DEBUG > 1 && !R('ajax', 'R')) {
 	debug::sys_trace();

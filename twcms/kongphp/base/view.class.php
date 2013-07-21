@@ -35,7 +35,7 @@ class view{
 		$php_file = RUNTIME_PATH.$view_dir.$this->theme.','.$filename.'.php';
 
 		if(!is_file($php_file) || DEBUG) {
-			$tpl_file = base::get_original_file($filename, VIEW_PATH.$this->theme.'/');
+			$tpl_file = core::get_original_file($filename, VIEW_PATH.$this->theme.'/');
 
 			if(!$tpl_file) {
 				throw new Exception("模板文件 $filename 不存在");
@@ -58,7 +58,7 @@ class view{
 		$s = preg_replace_callback('#\{inc\:([\w\.]+)\}#', array($this, 'parse_inc'), $s);
 
 		//第2步 解析模板hook
-		$s = preg_replace_callback('#\{hook\:([\w\.]+)\}#', 'base::parse_hook', $s);
+		$s = preg_replace_callback('#\{hook\:([\w\.]+)\}#', 'core::parse_hook', $s);
 
 		//第3步 解析php代码 (是否支持模板中的PHP代码 1 为支持 0 为不支持)
 		$s = preg_replace('#(?:\<\?.*?\?\>|\<\?.*)#s', '', $s);	//清理掉PHP语法(目的统一规范)
@@ -89,7 +89,7 @@ class view{
 
 	private function parse_inc($matches) {
 		$filename = $matches[1];
-		$tpl_file = base::get_original_file("inc-$filename", VIEW_PATH.$this->theme.'/');
+		$tpl_file = core::get_original_file("inc-$filename", VIEW_PATH.$this->theme.'/');
 
 		if(!$tpl_file) {
 			throw new Exception("模板文件 inc-$filename 不存在");
@@ -108,7 +108,7 @@ class view{
 
 		//为减少IO，把需要用到的函数代码放到模板解析代码头部
 		$lib_str = file_get_contents($lib_file);
-		$lib_str = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'base::parse_hook', $lib_str);
+		$lib_str = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $lib_str);
 		$this->head_arr['kp_block_'.$func] = $lib_str;
 
 		$s = $this->rep_double($s);
