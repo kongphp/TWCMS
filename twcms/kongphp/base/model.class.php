@@ -28,6 +28,10 @@ cache + db + model:
 */
 	
 class model{
+	// 每个模型都可以有自己的 db、cache 服务器
+	//public $db_conf = array();
+	//public $cache_conf = array();
+
 	// 必须指定这三项
 	public $table;			// 表名
 	public $pri = array();	// 主键字段，如 ('cid'), ('cid', 'id')
@@ -44,14 +48,17 @@ class model{
 	 * @return object
 	 */
 	function __get($var) {
-		if($var == 'db') {
-			$this->$var = $this->load_db();
-			return $this->$var;
-		}elseif($var == 'cache') {
-			$this->$var = $this->load_cache();
-			return $this->$var;
-		}else{
-			throw new Exception('Not found model:'.$var);
+		switch ($var) {
+			case 'db':
+				return $this->db = $this->load_db();
+			case 'cache':
+				return $this->cache = $this->load_db();
+			case 'db_conf':
+				return $this->db_conf = &$_SERVER['_config']['db'];
+			case 'cache_conf':
+				return $this->cache_conf = &$_SERVER['_config']['cache'];
+			default:
+				throw new Exception("Model variables not found: $var");
 		}
 	}
 
@@ -68,16 +75,19 @@ class model{
 	 * @return object
 	 */
 	public function load_db() {
-		$c = &$_SERVER['_config']['db'];
-
-		$type = $c['type'];
-		$id = $c['master']['host'];
+		$type = $this->db_conf['type'];
+		if(isset($this->db_conf['master'])) {
+			$m = $this->db_conf['master'];
+			$id = $type.'-'.$m['host'].'-'.$m['user'].'-'.$m['password'].'-'.$m['name'].'-'.$m['tablepre'];
+		}else{
+			$id = $type;
+		}
 
 		if(isset(self::$dbs[$id])) {
 			return self::$dbs[$id];
 		}else{
 			$db = 'db_'.$type;
-			self::$dbs[$id] = new $db();
+			self::$dbs[$id] = new $db($this->db_conf);
 			return self::$dbs[$id];
 		}
 	}
@@ -87,14 +97,21 @@ class model{
 	 * @return object
 	 */
 	public function load_cache() {
-		$type = &$_SERVER['_config']['cache']['type'];
+		$type = $this->cache_conf['type'];
 
-		if(isset(self::$caches[$type])) {
-			return self::$caches[$type];
+		if(isset($this->cache_conf[$type])) {
+			$c = $this->cache_conf[$type];
+			$id = $type.'-'.$c['host'].'-'.$c['port'];
+		}else{
+			$id = $type;
+		}
+
+		if(isset(self::$caches[$id])) {
+			return self::$caches[$id];
 		}else{
 			$cache = 'cache_'.$type;
-			self::$caches[$type] = new $cache();
-			return self::$caches[$type];
+			self::$caches[$id] = new $cache($this->cache_conf);
+			return self::$caches[$id];
 		}
 	}
 
@@ -268,7 +285,7 @@ class model{
 	 */
 	public function find_update($where, $data, $lowprority = FALSE) {
 		$this->unique = array();
-		if($_SERVER['_config']['cache']['enable']) {
+		if($this->cache_conf['enable']) {
 			$n = $this->find_count($where);
 			if($n > 2000) {
 				$this->cache->truncate($this->table);
@@ -290,7 +307,7 @@ class model{
 	 */
 	public function find_delete($where, $lowprority = FALSE) {
 		$this->unique = array();
-		if($_SERVER['_config']['cache']['enable']) {
+		if($this->cache_conf['enable']) {
 			$n = $this->find_count($where);
 			if($n > 2000) {
 				$this->cache->truncate($this->table);
@@ -394,7 +411,7 @@ class model{
 	 * @return mixed
 	 */
 	public function cache_db_get($key) {
-		if($_SERVER['_config']['cache']['enable']) {
+		if($this->cache_conf['enable']) {
 			$data = $this->cache->get($key);
 			if(empty($data)) {
 				$data = $this->db->get($key);
@@ -412,7 +429,7 @@ class model{
 	 * @return array
 	 */
 	public function cache_db_multi_get($keys) {
-		if($_SERVER['_config']['cache']['enable']) {
+		if($this->cache_conf['enable']) {
 			$data = $this->cache->multi_get($keys);
 			if(empty($data)) {
 				$data = $this->db->multi_get($keys);
@@ -441,7 +458,7 @@ class model{
 	 * @return boot
 	 */
 	public function cache_db_set($key, $data, $life = 0) {
-		$_SERVER['_config']['cache']['enable'] && $this->cache->set($key, $data, $life);	// 更新缓存
+		$this->cache_conf['enable'] && $this->cache->set($key, $data, $life);	// 更新缓存
 		return $this->db->set($key, $data);
 	}
 
@@ -453,7 +470,7 @@ class model{
 	 * @return boot
 	 */
 	public function cache_db_update($key, $data) {
-		$_SERVER['_config']['cache']['enable'] && $this->cache->update($key, $data);	// 更新缓存
+		$this->cache_conf['enable'] && $this->cache->update($key, $data);	// 更新缓存
 		return $this->db->update($key, $data);
 	}
 
@@ -463,7 +480,7 @@ class model{
 	 * @return boot
 	 */
 	public function cache_db_delete($key) {
-		$_SERVER['_config']['cache']['enable'] && $this->cache->delete($key);
+		$this->cache_conf['enable'] && $this->cache->delete($key);
 		return $this->db->delete($key);
 	}
 
@@ -472,7 +489,7 @@ class model{
 	 * @return boot
 	 */
 	public function cache_db_truncate() {
-		$_SERVER['_config']['cache']['enable'] && $this->cache->truncate($this->table);
+		$this->cache_conf['enable'] && $this->cache->truncate($this->table);
 		return $this->db->truncate($this->table);
 	}
 
@@ -483,7 +500,7 @@ class model{
 	 */
 	public function cache_db_maxid($val = FALSE) {
 		$key = $this->table.'-'.$this->maxid;
-		if($_SERVER['_config']['cache']['enable']) {
+		if($this->cache_conf['enable']) {
 			if($val === FALSE) {
 				$maxid = $this->cache->maxid($key, $val);
 				if(empty($maxid)) {
@@ -507,7 +524,7 @@ class model{
 	 */
 	public function cache_db_count($val = FALSE) {
 		$key = $this->table;
-		if($_SERVER['_config']['cache']['enable']) {
+		if($this->cache_conf['enable']) {
 			if($val === FALSE) {
 				$rows = $this->cache->count($key, $val);
 				if(empty($rows)) {
@@ -536,11 +553,11 @@ class model{
 	 */
 	public function cache_db_find_fetch($table, $pri, $where = array(), $order = array(), $start = 0, $limit = 0) {
 		// 如果是 mongodb 就直接取数据，不支持缓存
-		if($_SERVER['_config']['db']['type'] == 'mongodb') {
+		if($this->db_conf['type'] == 'mongodb') {
 			return $this->db->find_fetch($table, $pri, $where, $order, $start, $limit);
 		}else{
-			if($_SERVER['_config']['cache']['enable']) {
-				if($_SERVER['_config']['cache']['l2_cache'] === 1) {
+			if($this->cache_conf['enable']) {
+				if($this->cache_conf['l2_cache'] === 1) {
 					$key = $table.'_'.md5(serialize(array($pri, $where, $order, $start, $limit)));
 					$keys = $this->cache->l2_cache_get($key);
 					if(empty($keys)) {

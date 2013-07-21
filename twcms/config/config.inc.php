@@ -39,6 +39,7 @@ $_SERVER['_config'] = array(
 		'enable'=>0,
 		'l2_cache'=>1,
 		'type'=>'memcache',
+		'pre' => 'tw_',
 		'memcache'=>array (
 			'multi'=>1,
 			'host'=>'127.0.0.1',

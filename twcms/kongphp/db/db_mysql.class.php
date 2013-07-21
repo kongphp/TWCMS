@@ -5,14 +5,16 @@
 
 defined('KONG_PATH') || exit;
 class db_mysql implements db_interface {
+	private $conf;
 	public $tablepre;		// 数据表前缀
 	//public $querynum = 0;	//记录SQL执行数 (去掉原因，可通过 $_SERVER['_sqls'] 查看)
 	//private $wlink;		// 写(主)数据库
 	//private $rlink;		// 读(从)数据库
 	//private $xlink;		// 分发数据库
 
-	public function __construct() {
-		$this->tablepre = $_SERVER['_config']['db']['master']['tablepre'];
+	public function __construct(&$conf) {
+		$this->conf = $conf;
+		$this->tablepre = $conf['master']['tablepre'];
 	}
 
 	/**
@@ -21,34 +23,32 @@ class db_mysql implements db_interface {
 	 * @return resource
 	 */
 	public function __get($var) {
-		$c = $_SERVER['_config']['db'];
-
 		// 主数据库 (写)
 		if($var == 'wlink') {
-			$cfg = $c['master'];
+			$cfg = $this->conf['master'];
 			empty($cfg['engine']) && $cfg['engine'] = '';
 			$this->wlink = $this->connect($cfg['host'], $cfg['user'], $cfg['password'], $cfg['name'], $cfg['charset'], $cfg['engine']);
 			return $this->wlink;
 
 		// 从数据库群 (读)
 		}elseif($var == 'rlink') {
-			if(empty($c['slaves'])) {
+			if(empty($this->conf['slaves'])) {
 				$this->rlink = $this->wlink;
 				return $this->rlink;
 			}
-			$n = rand(0, count($c['slaves']) - 1);
-			$cfg = $c['slaves'][$n];
+			$n = rand(0, count($this->conf['slaves']) - 1);
+			$cfg = $this->conf['slaves'][$n];
 			empty($cfg['engine']) && $cfg['engine'] = '';
 			$this->rlink = $this->connect($cfg['host'], $cfg['user'], $cfg['password'], $cfg['name'], $cfg['charset'], $cfg['engine']);
 			return $this->rlink;
 
 		// 单点分发数据库 (负责所有表的 maxid count 读写)
 		}elseif($var == 'xlink') {
-			if(empty($c['arbiter'])) {
+			if(empty($this->conf['arbiter'])) {
 				$this->xlink = $this->wlink;
 				return $this->xlink;
 			}
-			$cfg = $c['arbiter'];
+			$cfg = $this->conf['arbiter'];
 			empty($cfg['engine']) && $cfg['engine'] = '';
 			$this->xlink = $this->connect($cfg['host'], $cfg['user'], $cfg['password'], $cfg['name'], $cfg['charset'], $cfg['engine']);
 			return $this->xlink;
@@ -475,8 +475,11 @@ class db_mysql implements db_interface {
 		}
 		
 		if(!$result && $isthrow) {
-			DEBUG || $sql = str_replace($this->tablepre, '***', $sql);
-			throw new Exception('MySQL Query Error: <b>'.$sql.'</b>. '.mysql_error());
+			if(DEBUG) {
+				throw new Exception('MySQL Query Error: <b>'.$sql.'</b>. '.mysql_error());
+			}else{
+				throw new Exception('MySQL Query Error: <b>'.str_replace($this->tablepre, '***', $sql).'</b>');
+			}
 		}
 		//$this->querynum++;	//去掉原因，可通过 $_SERVER['_sqls'] 查看
 		return $result;

@@ -5,15 +5,17 @@
 
 defined('KONG_PATH') || exit;
 class cache_memcache implements cache_interface{
+	private $conf;
 	private $is_getmulti = FALSE;	//是否支持 getMulti 方法
-	public $pre;	//缓存前缀 （防止键名冲突）
+	public $pre;	//缓存前缀 （防止同一台缓存服务器，有多套程序，键名冲突问题）
 
-	public function __construct() {
-		$this->pre = $_SERVER['_config']['db']['master']['tablepre'];
+	public function __construct(&$conf) {
+		$this->conf = $conf;
+		$this->pre = $conf['pre'];
 	}
 
 	public function __get($var) {
-		$c = $_SERVER['_config']['cache']['memcache'];
+		$c = $this->conf['memcache'];
 		if($var == 'memcache') {
 			// 判断 Mongo 扩展是否安装
 			if(extension_loaded('Memcached')) {
@@ -92,7 +94,7 @@ class cache_memcache implements cache_interface{
 	 */
 	public function set($key, $data, $life = 0) {
 		// 二级缓存开启时，写入最新微秒时间
-		if($_SERVER['_config']['cache']['l2_cache'] === 1) {
+		if($this->conf['l2_cache'] === 1) {
 			$this->memcache->delete($this->pre.'_twocache_time');
 		}
 		return $this->memcache->set($this->pre.$key, $data, 0, $life);
@@ -122,7 +124,7 @@ class cache_memcache implements cache_interface{
 	 */
 	public function delete($key) {
 		// 二级缓存开启时，写入最新微秒时间
-		if($_SERVER['_config']['cache']['l2_cache'] === 1) {
+		if($this->conf['l2_cache'] === 1) {
 			$this->memcache->delete($this->pre.'_twocache_time');
 		}
 		return $this->memcache->delete($this->pre.$key);
