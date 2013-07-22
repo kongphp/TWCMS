@@ -179,9 +179,11 @@ class view{
 		return str_replace('\"', '"', $s);
 	}
 
-	//转$abc[a]['b']["c"] 为 $abc['a']['b']['c']
+	//转$abc[a]['b']["c"][$d] 为 $abc['a']['b']['c'][$d]
 	private function rep_vars($s) {
-		$s = str_replace(array('["', '"]', '[\'', '\']'), array('[', ']', '[', ']'), $s);
-		return str_replace(array('[', ']'), array('[\'', '\']'), $s);
+		$s = preg_replace('#\[(\w+)\]#', "['\\1']", $s);
+		$s = preg_replace('#\[\"(\w+)\"\]#', "['\\1']", $s);
+		$s = preg_replace('#\[\'(\d+)\'\]#', '[\\1]', $s);
+		return $s;
 	}
 }
