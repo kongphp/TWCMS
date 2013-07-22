@@ -13,7 +13,7 @@ class db_mysql implements db_interface {
 	//private $xlink;		// 分发数据库
 
 	public function __construct(&$conf) {
-		$this->conf = $conf;
+		$this->conf = &$conf;
 		$this->tablepre = $conf['master']['tablepre'];
 	}
 

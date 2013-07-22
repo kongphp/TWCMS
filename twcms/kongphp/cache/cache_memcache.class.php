@@ -10,7 +10,7 @@ class cache_memcache implements cache_interface{
 	public $pre;	//缓存前缀 （防止同一台缓存服务器，有多套程序，键名冲突问题）
 
 	public function __construct(&$conf) {
-		$this->conf = $conf;
+		$this->conf = &$conf;
 		$this->pre = $conf['pre'];
 	}
 
