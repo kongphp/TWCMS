@@ -3,7 +3,7 @@
 // | Copyright (C) 2013 wuzhaohuan <kongphp@gmail.com> All rights reserved.
 // +------------------------------------------------------------------------------
 
-class control extends view{
+class control{
 	public function __get($var) {
 		if($var == 'view') {
 			return $this->view = new view();			
