@@ -1,8 +1,8 @@
 <?php defined('KONG_PATH') || exit; ?>
 <style type="text/css">
-#kong_trace_win{z-index:999;position:fixed;left:1%;bottom:10px;display:none;width:98%;min-width:300px;font:14px/1.6 'Microsoft YaHei',Verdana,Arial,sans-serif;border-radius:5px;box-shadow:-2px 2px 20px #555;background:#fff;border:1px solid #ccc}
+#kong_trace_win{display:none;z-index:999;position:fixed;left:1%;bottom:10px;width:98%;min-width:300px;font:14px/1.6 'Microsoft YaHei',Verdana,Arial,sans-serif;border-radius:5px;box-shadow:-2px 2px 20px #555;background:#fff;border:1px solid #ccc}
 #kong_trace_win,#kong_trace_win,#kong_trace_win div,#kong_trace_win h6,#kong_trace_win ol,#kong_trace_win li{margin:0;padding:0}
-#kong_trace_open{z-index:999;position:fixed;right:5px;bottom:5px;width:80px;height:24px;line-height:24px;text-align:center;border:1px solid #ccc;border-radius:5px;background:#eee;cursor:pointer;box-shadow:0 0 12px #555}
+#kong_trace_open{display:none;z-index:999;position:fixed;right:5px;bottom:5px;width:80px;height:24px;line-height:24px;text-align:center;border:1px solid #ccc;border-radius:5px;background:#eee;cursor:pointer;box-shadow:0 0 12px #555}
 #kong_trace_size,#kong_trace_close{float:right;display:inline;margin:3px 5px 0 0!important;border:1px solid #ccc;border-radius:5px;background:#eee;width:24px;height:24px;line-height:24px;text-align:center;cursor:pointer}
 #kong_trace_title{height:32px;overflow:hidden;padding:0 3px;border-bottom:1px solid #ccc}
 #kong_trace_title h6{float:left;display:inline;width:100px;height:32px;line-height:32px;font-size:16px;font-weight:700;text-align:center;color:#999;cursor:pointer;text-shadow:1px 1px 0 #F2F2F2}
@@ -48,6 +48,10 @@
 </div>
 <script type="text/javascript">
 (function(){
+var isIE = !!window.ActiveXObject;
+var isIE6 = window.VBArray && !window.XMLHttpRequest;
+var isQuirks = document.compatMode == 'BackCompat';
+var isDisable = (isIE && isQuirks) || isIE6;
 var win = document.getElementById('kong_trace_win');
 var size = document.getElementById('kong_trace_size');
 var open = document.getElementById('kong_trace_open');
@@ -104,8 +108,11 @@ for(var i = 0; i < tab_tit.length; i++) {
 		};
 	})(i);
 }
-parseInt(history[0]) && open.click();
-parseInt(history[1]) && size.click();
-tab_tit[history[2]].click();
+if(!isDisable) {
+	open.style.display = 'block';
+	parseInt(history[0]) && open.click();
+	parseInt(history[1]) && size.click();
+	tab_tit[history[2]].click();
+}
 })();
 </script>
