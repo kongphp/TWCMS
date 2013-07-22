@@ -13,6 +13,18 @@ class control{
 		}
 	}
 
+	public function assign($k, &$v) {
+		$this->view->assign($k, $v);
+	}
+
+	public function assign_value($k, $v) {
+		$this->view->assign_value($k, $v);
+	}
+
+	public function display($filename = null) {
+		$this->view->display($filename);
+	}
+
 	public function message($msg, $jumpurl = '') {
 		if(R('ajax')) {
 
