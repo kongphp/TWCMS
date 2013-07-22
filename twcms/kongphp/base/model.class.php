@@ -9,7 +9,7 @@
 1、读取：先读cache，缓存没有时读db，并写入cache。
 2、写入：同时写入 cache 和 db。
 
-对外开放的最常用的13个方法
+对外开放的最常用的14个方法
 cache + db + model:
  	$this->add();
 	$this->get();
@@ -21,6 +21,7 @@ cache + db + model:
  	$this->count();
 
  	$this->find_fetch(); // 支持二级缓存
+ 	$this->find_fetch_key(); // 支持二级缓存
  	$this->find_update();
  	$this->find_delete();
  	$this->find_maxid();
@@ -274,7 +275,7 @@ class model{
 	 * @return array
 	 */
 	public function find_fetch_key($where = array(), $order = array(), $start = 0, $limit = 0) {
-		return $this->db->find_fetch_key($this->table, $this->pri, $where, $order, $start, $limit);	
+		return $this->db->cache_db_find_fetch_key($this->table, $this->pri, $where, $order, $start, $limit);
 	}
 
 	/**
@@ -571,5 +572,29 @@ class model{
 			}
 			return $this->db->find_fetch($table, $pri, $where, $order, $start, $limit);
 		}
+	}
+
+	/**
+	 * cache+db 根据条件返回 key 数组
+	 * @param string $table	表名
+	 * @param array $pri	主键
+	 * @param array $where	条件
+	 * @param array $order	排序
+	 * @param int $start	开始位置
+	 * @param int $limit	读取几条
+	 * @return array
+	 */
+	public function cache_db_find_fetch_key($table, $pri, $where = array(), $order = array(), $start = 0, $limit = 0) {
+		if($this->cache_conf['enable'] && $this->cache_conf['l2_cache'] === 1) {
+			$key = $table.'_'.md5(serialize(array($pri, $where, $order, $start, $limit)));
+			$keys = $this->cache->l2_cache_get($key);
+			if(empty($keys)) {
+				$keys = $this->db->find_fetch_key($table, $pri, $where, $order, $start, $limit);
+				$this->cache->l2_cache_set($key, $keys);
+			}
+		}else{
+			$keys = $this->db->find_fetch_key($table, $pri, $where, $order, $start, $limit);
+		}
+		return $keys;
 	}
 }
