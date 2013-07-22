@@ -11,7 +11,7 @@ class log {
 	 * @return boot
 	 */
 	public static function write($s, $file = 'php_error.php') {
-		$time = date('Y-m-d H:i:s');
+		$time = date('Y-m-d H:i:s', $_SERVER['_time']);
 		$ip = $_SERVER['_ip'];
 		$url = self::to_str($_SERVER['REQUEST_URI']);
 		$s = self::to_str($s);
