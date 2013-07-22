@@ -557,21 +557,9 @@ class model{
 		if($this->db_conf['type'] == 'mongodb') {
 			return $this->db->find_fetch($table, $pri, $where, $order, $start, $limit);
 		}else{
-			if($this->cache_conf['enable']) {
-				if($this->cache_conf['l2_cache'] === 1) {
-					$key = $table.'_'.md5(serialize(array($pri, $where, $order, $start, $limit)));
-					$keys = $this->cache->l2_cache_get($key);
-					if(empty($keys)) {
-						$keys = $this->db->find_fetch_key($table, $pri, $where, $order, $start, $limit);
-						$this->cache->l2_cache_set($key, $keys);
-					}
-				}else{
-					$keys = $this->db->find_fetch_key($table, $pri, $where, $order, $start, $limit);
-				}
-				return $this->cache_db_multi_get($keys);
-			}
-			return $this->db->find_fetch($table, $pri, $where, $order, $start, $limit);
+			$keys = $this->cache_db_find_fetch_key($table, $pri, $where, $order, $start, $limit);
 		}
+		return $this->cache_db_multi_get($keys);
 	}
 
 	/**
