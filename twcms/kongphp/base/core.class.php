@@ -9,11 +9,54 @@ class core{
 	 * @return void
 	 */
 	public static function start() {
-		ob_start();
 		debug::init();
+		self::ob_start();
 		self::init_set();
 		self::init_get();
 		self::init_control();
+	}
+
+	/**
+	 * 打开输出控制缓冲
+	 * @return void
+	 */
+	public static function ob_start() {
+		ob_start(array('core', 'ob_gzip'));
+	}
+
+	/**
+	 * GZIP压缩处理
+	 * @param string $s 数据
+	 * @return string
+	 */
+	public static function ob_gzip($s) {
+		$gzip = $_SERVER['_config']['gzip'];
+		$isfirst = empty($_SERVER['_isgzip']);
+
+		if($gzip) {
+			if(ini_get('zlib.output_compression')) {
+				$isfirst && header("Content-Encoding: gzip");
+			}elseif(function_exists('gzencode') && strpos($_SERVER["HTTP_ACCEPT_ENCODING"], 'gzip') !== FALSE) {
+				$s = gzencode($s, 5);
+				if($isfirst) {
+					header("Content-Encoding: gzip");
+					header("Content-Length: ".strlen($s));
+				}
+			}
+		}elseif($isfirst) {
+			header("Content-Encoding: none");
+			header("Content-Length: ".strlen($s));
+		}
+		$isfirst && $_SERVER['_isgzip'] = 1;
+		return $s;
+	}
+
+	/**
+	 * 清空输出缓冲区
+	 * @return void
+	 */
+	public static function ob_clean() {
+		$_SERVER['_config']['gzip'] && ob_clean();
 	}
 
 	/**
