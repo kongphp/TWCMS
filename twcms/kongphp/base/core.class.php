@@ -289,9 +289,7 @@ class core{
 			$hook_str = trim($hook_str);
 			if(substr($hook_str, 0, 5) == '<?php') $hook_str = substr($hook_str, 5);
 			$hook_str = ltrim($hook_str);
-			if(substr($hook_str, 0, 5) == 'exit;') $hook_str = substr($hook_str, 5);
-			$hook_str = ltrim($hook_str);
-			if(substr($hook_str, 0, 2) == '?>') $hook_str = substr($hook_str, 2);
+			if(substr($hook_str, 0, 29) == 'defined(\'KONG_PATH\') || exit;') $hook_str = substr($hook_str, 29);
 			if(substr($hook_str, -2, 2) == '?>') $hook_str = substr($hook_str, 0, -2);
 
 			$str .= $hook_str;
