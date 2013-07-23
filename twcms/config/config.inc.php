@@ -7,7 +7,7 @@ $_SERVER['_config'] = array(
 
 	'zone' => 'Asia/Shanghai',		// 时区
 
-	'gzip' => 0,	// 开启 GZIP 压缩
+	'gzip' => 1,	// 开启 GZIP 压缩
 
 	// 数据库配置，type 为默认的数据库类型，可以支持多种数据库: mysql|pdo_mysql|mongodb	
 	'db' => array(
