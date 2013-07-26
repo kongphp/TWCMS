@@ -110,28 +110,68 @@ class core{
 	 * @return void
 	 */
 	public static function init_get() {
-		$_GET = array();
-		$u = strtolower($_SERVER["QUERY_STRING"]);
+		if(!empty($_SERVER['_setting'][APP_NAME.'_parseurl'])) {
+			self::parseurl();
+		}elseif(empty($_GET['kong_parseurl'])) {
+			$_GET = array();
+			$u = strtolower($_SERVER["QUERY_STRING"]);
 
-		//清除URL后缀
-		$url_suffix = C('url_suffix');
-		if($url_suffix) {
-			$suf_len = strlen($url_suffix);
-			if(substr($u, -($suf_len)) == $url_suffix) $u = substr($u, 0, -($suf_len));
+			//清除URL后缀
+			$url_suffix = C('url_suffix');
+			if($url_suffix) {
+				$suf_len = strlen($url_suffix);
+				if(substr($u, -($suf_len)) == $url_suffix) $u = substr($u, 0, -($suf_len));
+			}
+
+			$uarr = explode('-', $u);
+
+			if(isset($uarr[0])) {
+				$_GET['control'] = $uarr[0];
+				array_shift($uarr);
+			}
+
+			if(isset($uarr[0])) {
+				$_GET['action'] = $uarr[0];
+				array_shift($uarr);
+			}
+
+			$num = count($uarr);
+			for($i=0; $i<$num; $i+=2){
+				isset($uarr[$i+1]) && $_GET[$uarr[$i]] = $uarr[$i+1];
+			}
 		}
 
-		$uarr = explode('-', $u);
+		$_GET['control'] = isset($_GET['control']) && preg_match('/^\w+$/', $_GET['control']) ? $_GET['control'] : 'index';
+		$_GET['action'] = isset($_GET['action']) && preg_match('/^\w+$/', $_GET['action']) ? $_GET['action'] : 'index';
+	}
 
-		$_GET['control'] = isset($uarr[0]) && preg_match('/^\w+$/', $uarr[0]) ? $uarr[0] : 'index';	//获取 control
-		array_shift($uarr);
+	/**
+	 * 解析 URL 为 $_GET
+	 * @return void
+	 */
+	public static function parseurl() {
+		$controlname = 'parseurl_control.class.php';
+		$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
 
-		$_GET['action'] = isset($uarr[0]) && preg_match('/^\w+$/', $uarr[0]) ? $uarr[0] : 'index';	//获取 action
-		array_shift($uarr);
+		if(DEBUG || !is_file($objfile)) {
+			$controlfile = self::get_original_file($controlname, CONTROL_PATH);
 
-		$num = count($uarr);
-		for($i=0; $i<$num; $i+=2){
-			isset($uarr[$i+1]) && $_GET[$uarr[$i]] = $uarr[$i+1];
+			if(!$controlfile) {
+				$_GET['control'] = 'parseurl';
+				throw new Exception("解析 URL 出错，$controlname 文件不存在");
+			}
+
+			$s = file_get_contents($controlfile);
+			$s = self::parse_extends($s);
+			$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
+			if(!FW($objfile, $s)) {
+				throw new Exception("写入 control 编译文件 $controlname 失败");
+			}
 		}
+
+		include $objfile;
+		$obj = new parseurl_control();
+		$obj->index();
 	}
 
 	/**
@@ -139,8 +179,8 @@ class core{
 	 * @return void
 	 */
 	public static function init_control() {
-		$control = R('control');
-		$action = R('action');
+		$control = &$_GET['control'];
+		$action = &$_GET['action'];
 		$controlname = "{$control}_control.class.php";
 		$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
 
@@ -179,11 +219,11 @@ class core{
 
 		if(DEBUG || !is_file($objfile)) {
 			$errorfile = self::get_original_file($errorname, CONTROL_PATH);
-	
+
 			if(!$errorfile) {
-				throw new Exception("访问的 URL 不正确，$controlname 文件不存在");
+				throw new Exception("控制器加载失败，$controlname 文件不存在");
 			}
-	
+
 			$s = file_get_contents($errorfile);
 			$s = self::parse_extends($s);
 			$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
