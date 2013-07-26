@@ -142,13 +142,11 @@ class core{
 		$control = R(0);
 		$action = R(1);
 		$controlname = "{$control}_control.class.php";
-
 		$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
 
 		// 如果缓存文件不存在，则搜索目录
 		if(DEBUG || !is_file($objfile)) {
 			$controlfile = self::get_original_file($controlname, CONTROL_PATH);
-
 			if($controlfile) {
 				$s = file_get_contents($controlfile);
 				$s = self::parse_extends($s);
@@ -157,35 +155,44 @@ class core{
 					throw new Exception("写入 control 编译文件 $controlname 失败");
 				}
 			}else{
-				$control = 'error404';
-				$errorname = 'error404_control.class.php';
-				$objfile = RUNTIME_PATH.APP_NAME."_control/$errorname";
-
-				$errorfile = self::get_original_file($errorname, CONTROL_PATH);
-
-				if(!$errorfile) {
-					throw new Exception("访问的 URL 不正确，$controlname 文件不存在");
-				}
-
-				$s = file_get_contents($errorfile);
-				$s = self::parse_extends($s);
-				$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
-				if(!FW($objfile, $s)) {
-					throw new Exception("写入 control 编译文件 $controlname 失败");
-				}
+				self::error404($controlname);
+				return;
 			}
 		}
 
 		include $objfile;
+		$class_name = $control.'_control';
+		$obj = new $class_name();
+		$obj->$action();
+	}
 
-		$controlclass = $control.'_control';
-		$newcontrol = new $controlclass();
+	/**
+	 * 执行错误404控制器
+	 * @param string $controlname 不存在的控制器文件名
+	 * @return void
+	 */
+	public static function error404($controlname) {
+		$errorname = 'error404_control.class.php';
+		$objfile = RUNTIME_PATH.APP_NAME."_control/$errorname";
 
-		if(method_exists($newcontrol, $action)) {
-			$newcontrol->$action();
-		}else{
-			throw new Exception("访问的 URL 不正确，$action 方法未实现");
+		if(DEBUG || !is_file($objfile)) {
+			$errorfile = self::get_original_file($errorname, CONTROL_PATH);
+	
+			if(!$errorfile) {
+				throw new Exception("访问的 URL 不正确，$controlname 文件不存在");
+			}
+	
+			$s = file_get_contents($errorfile);
+			$s = self::parse_extends($s);
+			$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
+			if(!FW($objfile, $s)) {
+				throw new Exception("写入 control 编译文件 $errorname 失败");
+			}
 		}
+
+		include $objfile;
+		$obj = new error404_control();
+		$obj->index();
 	}
 
 	/**
