@@ -149,21 +149,36 @@ class core{
 		if(DEBUG || !is_file($objfile)) {
 			$controlfile = self::get_original_file($controlname, CONTROL_PATH);
 
-			if(!$controlfile) {
-				throw new Exception("访问的 URL 不正确，$controlname 文件不存在");
-			}
+			if($controlfile) {
+				$s = file_get_contents($controlfile);
+				$s = self::parse_extends($s);
+				$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
+				if(!FW($objfile, $s)) {
+					throw new Exception("写入 control 编译文件 $controlname 失败");
+				}
+			}else{
+				$control = 'error404';
+				$errorname = 'error404_control.class.php';
+				$objfile = RUNTIME_PATH.APP_NAME."_control/$errorname";
 
-			$s = file_get_contents($controlfile);
-			$s = self::parse_extends($s);
-			$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
-			if(!FW($objfile, $s)) {
-				throw new Exception("写入 control 编译文件 $controlname 失败");
+				$errorfile = self::get_original_file($errorname, CONTROL_PATH);
+
+				if(!$errorfile) {
+					throw new Exception("访问的 URL 不正确，$controlname 文件不存在");
+				}
+
+				$s = file_get_contents($errorfile);
+				$s = self::parse_extends($s);
+				$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
+				if(!FW($objfile, $s)) {
+					throw new Exception("写入 control 编译文件 $controlname 失败");
+				}
 			}
 		}
 
 		include $objfile;
 
-		$controlclass = "{$control}_control";
+		$controlclass = $control.'_control';
 		$newcontrol = new $controlclass();
 
 		if(method_exists($newcontrol, $action)) {
