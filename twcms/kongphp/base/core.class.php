@@ -172,6 +172,8 @@ class core{
 	 * @return void
 	 */
 	public static function error404($controlname) {
+		log::write('404错误，访问的 URL 不存在', 'php_error404.php');
+
 		$errorname = 'error404_control.class.php';
 		$objfile = RUNTIME_PATH.APP_NAME."_control/$errorname";
 
