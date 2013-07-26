@@ -30,7 +30,7 @@
 		<ol>
 			<li><span>模型:</span> <?php echo MODEL_PATH;?></li>
 			<li><span>视图:</span> <?php echo VIEW_PATH.(isset($_SERVER['_setting'][APP_NAME.'_theme']) ? $_SERVER['_setting'][APP_NAME.'_theme'] : 'default').'/'; if(isset($_SERVER['_tplname'])) { echo '<font color="red">'.$_SERVER['_tplname'].'</font>'; } ?></li>
-			<li><span>控制器:</span> <?php echo CONTROL_PATH;?><font color="red"><?php echo $_GET[0];?>_control.class.php</font></li>
+			<li><span>控制器:</span> <?php echo CONTROL_PATH;?><font color="red"><?php echo $_GET['control'];?>_control.class.php</font></li>
 			<li><span>当前页面:</span> <?php echo $_SERVER['SCRIPT_FILENAME'];?></li>
 			<li><span>当前时间:</span> <?php echo date('Y-m-d H:i:s', $_SERVER['_time']);?></li>
 			<li><span>当前网协:</span> <?php echo $_SERVER['_ip'];?></li>

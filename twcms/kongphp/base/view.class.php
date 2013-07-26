@@ -25,7 +25,7 @@ class view{
 	}
 
 	public function display($filename = null) {
-		$_SERVER['_tplname'] = is_null($filename) ? $_GET[0].'_'.$_GET[1].'.htm' : $filename;
+		$_SERVER['_tplname'] = is_null($filename) ? $_GET['control'].'_'.$_GET['action'].'.htm' : $filename;
 		extract($this->vars, EXTR_SKIP);
 		include $this->get_tplfile($_SERVER['_tplname']);
 	}

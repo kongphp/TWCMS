@@ -122,10 +122,10 @@ class core{
 
 		$uarr = explode('-', $u);
 
-		$_GET[0] = isset($uarr[0]) && preg_match('/^\w+$/', $uarr[0]) ? $uarr[0] : 'index';	//获取 control
+		$_GET['control'] = isset($uarr[0]) && preg_match('/^\w+$/', $uarr[0]) ? $uarr[0] : 'index';	//获取 control
 		array_shift($uarr);
 
-		$_GET[1] = isset($uarr[0]) && preg_match('/^\w+$/', $uarr[0]) ? $uarr[0] : 'index';	//获取 action
+		$_GET['action'] = isset($uarr[0]) && preg_match('/^\w+$/', $uarr[0]) ? $uarr[0] : 'index';	//获取 action
 		array_shift($uarr);
 
 		$num = count($uarr);
@@ -139,8 +139,8 @@ class core{
 	 * @return void
 	 */
 	public static function init_control() {
-		$control = R(0);
-		$action = R(1);
+		$control = R('control');
+		$action = R('action');
 		$controlname = "{$control}_control.class.php";
 		$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
 
