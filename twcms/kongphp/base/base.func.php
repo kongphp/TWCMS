@@ -218,7 +218,7 @@ function get_byte($byte) {
 	}
 }
 
-// 获取下级所有目录名 按名称升序 排序 （严格限制目录名只能是 数字 字母 _）
+// 获取下级所有目录名 （严格限制目录名只能是 数字 字母 _）
 function get_dirs($path, $fullpath = false) {
 	$arr = array();
 	$dh = opendir($path);
@@ -226,7 +226,7 @@ function get_dirs($path, $fullpath = false) {
 		if(preg_match('#\W#', $dir) || !is_dir($path.$dir)) continue;
 		$arr[] = $fullpath ? $path.$dir.'/' : $dir;
 	}
-	sort($arr);
+	sort($arr); // 排序方式:目录名升序
 	return $arr;
 }
 
