@@ -161,12 +161,7 @@ class core{
 				throw new Exception("解析 URL 出错，$controlname 文件不存在");
 			}
 
-			$s = file_get_contents($controlfile);
-			$s = self::parse_extends($s);
-			$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
-			if(!FW($objfile, $s)) {
-				throw new Exception("写入 control 编译文件 $controlname 失败");
-			}
+			self::parse_all($controlfile, $objfile, "写入 control 编译文件 $controlname 失败");
 		}
 
 		include $objfile;
@@ -188,12 +183,7 @@ class core{
 		if(DEBUG || !is_file($objfile)) {
 			$controlfile = self::get_original_file($controlname, CONTROL_PATH);
 			if($controlfile) {
-				$s = file_get_contents($controlfile);
-				$s = self::parse_extends($s);
-				$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
-				if(!FW($objfile, $s)) {
-					throw new Exception("写入 control 编译文件 $controlname 失败");
-				}
+				self::parse_all($controlfile, $objfile, "写入 control 编译文件 $controlname 失败");
 			}else{
 				self::error404($controlname);
 				return;
@@ -224,12 +214,7 @@ class core{
 				throw new Exception("控制器加载失败，$controlname 文件不存在");
 			}
 
-			$s = file_get_contents($errorfile);
-			$s = self::parse_extends($s);
-			$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
-			if(!FW($objfile, $s)) {
-				throw new Exception("写入 control 编译文件 $errorname 失败");
-			}
+			self::parse_all($errorfile, $objfile, "写入 control 编译文件 $errorname 失败");
 		}
 
 		include $objfile;
@@ -238,7 +223,22 @@ class core{
 	}
 
 	/**
-	 * 递归解析继承的控制器类
+	 * 将原始程序代码解析并写入缓存文件中
+	 * @param string $readfile 原始路径
+	 * @param string $writefile 缓存路径
+	 * @param string $errorstr 写入出错提示
+	 */
+	public static function parse_all($readfile, $writefile, $errorstr) {
+		$s = file_get_contents($readfile);
+		$s = self::parse_extends($s);
+		$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
+		if(!FW($writefile, $s)) {
+			throw new Exception($errorstr);
+		}
+	}
+
+	/**
+	 * 递归解析继承的控制器类 (不好理解？递归在 parse_all)
 	 * @param string $s 文件内容
 	 * @return string
 	 */
@@ -249,12 +249,7 @@ class core{
 				$realfile = CONTROL_PATH.$controlname;
 				if(is_file($realfile)) {
 					$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
-					$s2 = file_get_contents($realfile);
-					$s2 = self::parse_extends($s2);
-					$s2 = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s2);	// 处理 hook
-					if(!FW($objfile, $s2)) {
-						throw new Exception("写入继承的类的编译文件 $controlname 失败");
-					}
+					self::parse_all($realfile, $objfile, "写入继承的类的编译文件 $controlname 失败");
 					$s = str_replace_once($m[0], 'include RUNTIME_PATH.APP_NAME.\'_control/'.$controlname."'; \r\n".$m[0], $s);
 				}else{
 					throw new Exception("您继承的类文件 $controlname 不存在");
