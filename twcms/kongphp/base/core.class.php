@@ -102,11 +102,11 @@ class core{
 	}
 
 	/**
-	 * 初始化 $_GET 变量      注意: 不支持复杂URL 如：?index-index.html?page=1 (不想支持复杂URL)
+	 * 初始化 $_GET 变量  注意: 默认不支持复杂URL 如：?index-index.html?page=1 (复杂URL请通过 parseurl_control.class.php 实现)
 	 */
 	public static function init_get() {
 		if(!empty($_SERVER['_setting'][APP_NAME.'_parseurl'])) {
-			self::parseurl();
+			self::parseurl_control();
 		}elseif(empty($_GET['kong_parseurl'])) {
 			$_GET = array();
 			$u = strtolower($_SERVER["QUERY_STRING"]);
@@ -138,12 +138,18 @@ class core{
 
 		$_GET['control'] = isset($_GET['control']) && preg_match('/^\w+$/', $_GET['control']) ? $_GET['control'] : 'index';
 		$_GET['action'] = isset($_GET['action']) && preg_match('/^\w+$/', $_GET['action']) ? $_GET['action'] : 'index';
+
+		// 限制访问特殊控制器 直接转为错误404
+		if(in_array($_GET['control'], array('parseurl', 'error404'))) {
+			$_GET['control'] = 'error404';
+			$_GET['action'] = 'index';
+		}
 	}
 
 	/**
-	 * 解析 URL 为 $_GET
+	 * 执行解析 URL 为 $_GET 的控制器
 	 */
-	public static function parseurl() {
+	public static function parseurl_control() {
 		$controlname = 'parseurl_control.class.php';
 		$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
 
