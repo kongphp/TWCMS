@@ -6,7 +6,6 @@
 class core{
 	/**
 	 * 开始加载框架
-	 * @return void
 	 */
 	public static function start() {
 		debug::init();
@@ -18,7 +17,6 @@ class core{
 
 	/**
 	 * 打开输出控制缓冲
-	 * @return void
 	 */
 	public static function ob_start() {
 		ob_start(array('core', 'ob_gzip'));
@@ -53,7 +51,6 @@ class core{
 
 	/**
 	 * 清空输出缓冲区
-	 * @return void
 	 */
 	public static function ob_clean() {
 		$_SERVER['_config']['gzip'] && ob_clean();
@@ -61,7 +58,6 @@ class core{
 
 	/**
 	 * 初始化基本设置
-	 * @return void
 	 */
 	public static function init_set() {
 		date_default_timezone_set($_SERVER['_config']['zone']);	// php5.4 以后，不再支持 Etc/GMT+8 这种格式
@@ -107,7 +103,6 @@ class core{
 
 	/**
 	 * 初始化 $_GET 变量      注意: 不支持复杂URL 如：?index-index.html?page=1 (不想支持复杂URL)
-	 * @return void
 	 */
 	public static function init_get() {
 		if(!empty($_SERVER['_setting'][APP_NAME.'_parseurl'])) {
@@ -147,7 +142,6 @@ class core{
 
 	/**
 	 * 解析 URL 为 $_GET
-	 * @return void
 	 */
 	public static function parseurl() {
 		$controlname = 'parseurl_control.class.php';
@@ -171,7 +165,6 @@ class core{
 
 	/**
 	 * 初始化控制器，并实例化
-	 * @return void
 	 */
 	public static function init_control() {
 		$control = &$_GET['control'];
@@ -199,7 +192,6 @@ class core{
 	/**
 	 * 执行错误404控制器
 	 * @param string $controlname 不存在的控制器文件名
-	 * @return void
 	 */
 	public static function error404($controlname) {
 		log::write('404错误，访问的 URL 不存在', 'php_error404.php');

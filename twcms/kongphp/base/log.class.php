@@ -50,7 +50,6 @@ class log {
 	/**
 	 * 跟踪调试
 	 * @param string $s 描述
-	 * @return void
 	 */
 	public static function trace($s) {
 		if(!DEBUG) return;
@@ -61,7 +60,6 @@ class log {
 	/**
 	 * 保存 trace
 	 * @param string $file 保存文件名
-	 * @return void
 	 */
 	public static function trace_save($file = 'php_trace.php') {
 		if(empty($_SERVER['_trace'])) return;

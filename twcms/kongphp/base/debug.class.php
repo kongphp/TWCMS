@@ -6,7 +6,6 @@
 class debug{
 	/**
 	 * 初始化 debug 操作
-	 * @return void
 	 */
 	public static function init() {
 		if(DEBUG) {
@@ -26,7 +25,6 @@ class debug{
 	 * @param string $errstr 错误消息
 	 * @param string $errfile 错误文件
 	 * @param int $errline 错误行号
-	 * @return void
 	 */
 	public static function error_handler($errno, $errstr, $errfile, $errline) {
 		if(!empty($_SERVER['_exception'])) return;
@@ -48,7 +46,6 @@ class debug{
 	/**
 	 * 异常处理
 	 * @param int $e 异常对象
-	 * @return void
 	 */
 	public static function exception_handler($e) {
 		DEBUG && $_SERVER['_exception'] = 1;	// 只输出一次
@@ -101,7 +98,6 @@ class debug{
 	 * @param string $file 异常文件
 	 * @param int $line 异常行号
 	 * @param string $tracestr 异常追踪信息
-	 * @return void
 	 */
 	public static function exception($message, $file, $line, $tracestr) {
 		include KONG_PATH.'tpl/exception.php';
@@ -137,7 +133,6 @@ class debug{
 
 	/**
 	 * 程序关闭时执行
-	 * @return void
 	 */
 	public static function shutdown_handler() {
 		if (empty($_SERVER['_exception'])) {
@@ -152,7 +147,6 @@ class debug{
 	 * @param string $message 错误消息
 	 * @param string $file 错误文件
 	 * @param int $line 错误行号
-	 * @return void
 	 */
 	public static function sys_error($message, $file, $line) {
 		ob_clean();
@@ -196,7 +190,6 @@ class debug{
 
 	/**
 	 * 输出追踪信息
-	 * @return void
 	 */
 	public static function sys_trace() {
 		include KONG_PATH.'tpl/sys_trace.php';
