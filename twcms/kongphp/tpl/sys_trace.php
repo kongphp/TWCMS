@@ -81,7 +81,9 @@ size.onclick = function() {
 	if(is_size == 0) {
 		this.innerHTML = "小";
 		//win.style.top = "10px";
-		var H = document.body.clientHeight > window.screen.availHeight ? window.screen.availHeight - 200 : document.body.clientHeight;
+		var H = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight;
+		H = H > window.screen.availHeight ? window.screen.availHeight - 200 : H;
+		H = H < 600 ? 600 : H;
 		cont.style.height = H - 63 +"px";
 		is_size = 1;
 		history[1] = 1;
