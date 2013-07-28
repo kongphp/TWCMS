@@ -178,7 +178,7 @@ class core{
 		$controlname = "{$control}_control.class.php";
 		$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
 
-		// 如果缓存文件不存在，则搜索目录
+		// 如果缓存文件不存在，则搜索原始文件，并编译后，写入缓存文件
 		if(DEBUG || !is_file($objfile)) {
 			$controlfile = self::get_original_file($controlname, CONTROL_PATH);
 			if($controlfile) {

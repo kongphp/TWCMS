@@ -89,7 +89,7 @@ function M($model) {
 	}
 	$objfile = RUNTIME_MODEL_PATH.$modelname;
 
-	// 如果缓存文件不存在，则搜索目录
+	// 如果缓存文件不存在，则搜索原始文件，并编译后，写入缓存文件
 	if(DEBUG || !is_file($objfile)) {
 		$modelfile = core::get_original_file($modelname, MODEL_PATH);
 
