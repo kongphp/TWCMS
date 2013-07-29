@@ -18,14 +18,14 @@ ul{list-style:none}
 </head>
 <body>
 <div class="kongcont">
-    <h1>错误信息</h1>
-    <div class="c1">
-        <p><span>消息:</span> <font color="red"><?php echo $message;?></font></p>
-        <p><span>文件:</span> <?php echo $file;?></p>
-        <p><span>位置:</span> 第 <?php echo $line;?> 行</p>
-    </div>
+	<h1>错误信息</h1>
+	<div class="c1">
+		<p><span>消息:</span> <font color="red"><?php echo $message;?></font></p>
+		<p><span>文件:</span> <?php echo $file;?></p>
+		<p><span>位置:</span> 第 <?php echo $line;?> 行</p>
+	</div>
 
-    <div class="footer">&lt;?php echo 'KongPHP, Road to Jane.'; ?&gt;</div>
+	<div class="footer">&lt;?php echo 'KongPHP, Road to Jane.'; ?&gt;</div>
 </div>
 </body>
 </html>
