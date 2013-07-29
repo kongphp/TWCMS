@@ -186,7 +186,7 @@ function _array_multisort(&$data, $c_1, $c_2 = true, $a_1 = 1, $a_2 = 1) {
  * @param int	$type	输出类型 1为数字 2为a1 3为Aa1
  * @param string	$chars	随机字符 可自定义
  * @return string
-*/
+ */
 function random($length, $type = 1, $chars = '0123456789abcdefghijklmnopqrstuvwxyz') {
 	if($type == 1) {
 		$hash = sprintf('%0'.$length.'d', mt_rand(0, pow(10, $length) - 1));
@@ -236,9 +236,42 @@ function get_dirs($path, $fullpath = false) {
  * @param string $replace 替换的字符串
  * @param string $content 执行替换的字符串
  * @return string
-*/
+ */
 function str_replace_once($search, $replace, $content) {
 	$pos = strpos($content, $search);
 	if($pos === false) return $content;
 	return substr_replace($content, $replace, $pos, strlen($search));
+}
+
+/**
+ * 字符串加密、解密函数
+ * @param string $string	字符串
+ * @param string $type		ENCODE为加密，DECODE为解密，可选参数，默认为ENCODE
+ * @param string $key		密钥：数字、字母、下划线
+ * @param string $expiry	过期时间
+ * @return string
+ */
+function str_auth($string, $type = 'ENCODE', $key = '', $expiry = 0) {
+	$key_length = 4;
+	$key = empty($key) ? C('auth_key') : $key;
+	$fixedkey = md5(md5($key));
+	$egiskeys = md5(substr($fixedkey, 16, 16));
+	$runtokey = $key_length ? ($type == 'ENCODE' ? substr(md5(microtime(true)), -$key_length) : substr($string, 0, $key_length)) : '';
+	$keys = md5(substr($runtokey, 0, 16) . substr($fixedkey, 0, 16) . substr($runtokey, 16) . substr($fixedkey, 16));
+	$string = $type == 'ENCODE' ? sprintf('%010d', $expiry ? $expiry + time() : 0).substr(md5($string.$egiskeys), 0, 16) . $string : base64_decode(substr($string, $key_length));
+
+	$i = 0; $result = '';
+	$string_length = strlen($string);
+	for($i = 0; $i < $string_length; $i++) {
+		$result .= chr(ord($string{$i}) ^ ord($keys{$i % 32}));
+	}
+	if($type == 'ENCODE') {
+		return $runtokey . str_replace('=', '', base64_encode($result));
+	}else{
+		if((substr($result, 0, 10) == 0 || substr($result, 0, 10) - time() > 0) && substr($result, 10, 16) == substr(md5(substr($result, 26).$egiskeys), 0, 16)) {
+			return substr($result, 26);
+		}else{
+			return '';
+		}
+	}
 }

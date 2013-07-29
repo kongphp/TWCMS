@@ -2,12 +2,10 @@
 $_SERVER['_config'] = array(
 	'url_suffix' => '.html',
 	'twcms_view_php' => 1,
-
 	'plugin_disable' => 0,			// 禁止掉所有插件
-
 	'zone' => 'Asia/Shanghai',		// 时区
-
 	'gzip' => 1,	// 开启 GZIP 压缩
+	'auth_key' => '9dcf4553f11bb174c6f17623712d9d62',	// 加密KEY
 
 	// 数据库配置，type 为默认的数据库类型，可以支持多种数据库: mysql|pdo_mysql|mongodb	
 	'db' => array(
