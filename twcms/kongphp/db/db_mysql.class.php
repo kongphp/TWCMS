@@ -185,7 +185,7 @@ class db_mysql implements db_interface {
 		}elseif(mysql_errno($this->xlink) == 1146) {
 			$sql = "CREATE TABLE `{$this->tablepre}framework_maxid` (";
 			$sql .= "`name` char(32) NOT NULL default '',";
-			$sql .= "`maxid` int(11) unsigned NOT NULL default '0',";
+			$sql .= "`maxid` int(10) unsigned NOT NULL default '0',";
 			$sql .= "PRIMARY KEY (`name`)";
 			$sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci";
 			$this->query($sql, $this->xlink);
@@ -239,7 +239,7 @@ class db_mysql implements db_interface {
 		}elseif(mysql_errno($this->xlink) == 1146) {
 			$sql = "CREATE TABLE {$this->tablepre}framework_count (";
 			$sql .= "`name` char(32) NOT NULL default '',";
-			$sql .= "`count` int(11) unsigned NOT NULL default '0',";
+			$sql .= "`count` int(10) unsigned NOT NULL default '0',";
 			$sql .= "PRIMARY KEY (`name`)";
 			$sql .= ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci";
 			$this->query($sql, $this->xlink);
