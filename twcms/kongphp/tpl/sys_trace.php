@@ -6,7 +6,7 @@
 #kong_trace_size,#kong_trace_close{float:right;display:inline;margin:3px 5px 0 0!important;border:1px solid #ccc;border-radius:5px;background:#eee;width:24px;height:24px;line-height:24px;text-align:center;cursor:pointer}
 #kong_trace_title{height:32px;overflow:hidden;padding:0 3px;border-bottom:1px solid #ccc}
 #kong_trace_title h6{float:left;display:inline;width:100px;height:32px;line-height:32px;font-size:16px;font-weight:700;text-align:center;color:#999;cursor:pointer;text-shadow:1px 1px 0 #F2F2F2}
-#kong_trace_cont{width:100%;height:230px;overflow:auto}
+#kong_trace_cont{width:100%;height:240px;overflow:auto}
 #kong_trace_cont ol{list-style:none;padding:5px;overflow:hidden;word-break:break-all}
 #kong_trace_cont ol.ktun{display:none}
 #kong_trace_cont ol li{padding:0 3px}
@@ -31,6 +31,7 @@
 			<li><span>模型:</span> <?php echo MODEL_PATH;?></li>
 			<li><span>视图:</span> <?php echo VIEW_PATH.(isset($_SERVER['_setting'][APP_NAME.'_theme']) ? $_SERVER['_setting'][APP_NAME.'_theme'] : 'default').'/'; if(isset($_SERVER['_tplname'])) { echo '<font color="red">'.$_SERVER['_tplname'].'</font>'; } ?></li>
 			<li><span>控制器:</span> <?php echo CONTROL_PATH;?><font color="red"><?php echo $_GET['control'];?>_control.class.php</font></li>
+			<li><span>日志目录:</span> <?php echo RUNTIME_PATH.'logs/';?></li>
 			<li><span>当前页面:</span> <?php echo $_SERVER['SCRIPT_FILENAME'];?></li>
 			<li><span>当前时间:</span> <?php echo date('Y-m-d H:i:s', $_SERVER['_time']);?></li>
 			<li><span>当前网协:</span> <?php echo $_SERVER['_ip'];?></li>
@@ -90,7 +91,7 @@ size.onclick = function() {
 	}else{
 		this.innerHTML = "大";
 		//win.style.top = "auto";
-		cont.style.height = "230px";
+		cont.style.height = "240px";
 		is_size = 0;
 		history[1] = 0;
 	}
