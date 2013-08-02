@@ -1,232 +1,232 @@
-# ÓÃ»§±í£¬¿É¸ù¾İ uid ·¶Î§½øĞĞ·ÖÇø
+# ç”¨æˆ·è¡¨ï¼Œå¯æ ¹æ® uid èŒƒå›´è¿›è¡Œåˆ†åŒº
 DROP TABLE IF EXISTS pre_user;
 CREATE TABLE pre_user (
-  uid int(10) unsigned NOT NULL AUTO_INCREMENT,		# ÓÃ»§ID
-  username char(16) NOT NULL DEFAULT '',		# ÓÃ»§Ãû
-  password char(32) NOT NULL DEFAULT '',		# ÃÜÂë	md5(md5() + salt)
-  salt char(8) NOT NULL DEFAULT '',			# Ëæ»ú¸ÉÈÅ×Ö·û£¬ÓÃÀ´»ìÏıÃÜÂë
-  groupid smallint(5) unsigned NOT NULL DEFAULT '0',	# ÓÃ»§×é
+  uid int(10) unsigned NOT NULL AUTO_INCREMENT,		# ç”¨æˆ·ID
+  username char(16) NOT NULL DEFAULT '',		# ç”¨æˆ·å
+  password char(32) NOT NULL DEFAULT '',		# å¯†ç 	md5(md5() + salt)
+  salt char(8) NOT NULL DEFAULT '',			# éšæœºå¹²æ‰°å­—ç¬¦ï¼Œç”¨æ¥æ··æ·†å¯†ç 
+  groupid smallint(5) unsigned NOT NULL DEFAULT '0',	# ç”¨æˆ·ç»„
   email char(40) NOT NULL DEFAULT '',			# EMAIL
-  homepage char(40) NOT NULL DEFAULT '',		# Ö÷Ò³µÄURL£¨ÍâÁ´£©
-  intro text NOT NULL,					# ¸öÈË½éÉÜ
-  regip int(10) unsigned NOT NULL DEFAULT '0',		# ×¢²áIP
-  regdate int(10) unsigned NOT NULL DEFAULT '0',	# ×¢²áÈÕÆÚ
-  loginip int(10) unsigned NOT NULL DEFAULT '0',	# µÇÂ½IP
-  logindate int(10) unsigned NOT NULL DEFAULT '0',	# µÇÂ½ÈÕÆÚ
-  lastip int(10) unsigned NOT NULL DEFAULT '0',		# ÉÏ´ÎµÇÂ½IP
-  lastdate int(10) unsigned NOT NULL DEFAULT '0',	# ÉÏ´ÎµÇÂ½ÈÕÆÚ
-  contents int(10) unsigned NOT NULL DEFAULT '0',	# ÄÚÈİÊı
-  uploads int(10) unsigned NOT NULL DEFAULT '0',	# ÉÏ´«Êı
-  comments int(10) unsigned NOT NULL DEFAULT '0',	# ÆÀÂÛÊı
-  logins int(10) unsigned NOT NULL DEFAULT '0',		# µÇÂ½Êı
+  homepage char(40) NOT NULL DEFAULT '',		# ä¸»é¡µçš„URLï¼ˆå¤–é“¾ï¼‰
+  intro text NOT NULL,					# ä¸ªäººä»‹ç»
+  regip int(10) unsigned NOT NULL DEFAULT '0',		# æ³¨å†ŒIP
+  regdate int(10) unsigned NOT NULL DEFAULT '0',	# æ³¨å†Œæ—¥æœŸ
+  loginip int(10) unsigned NOT NULL DEFAULT '0',	# ç™»é™†IP
+  logindate int(10) unsigned NOT NULL DEFAULT '0',	# ç™»é™†æ—¥æœŸ
+  lastip int(10) unsigned NOT NULL DEFAULT '0',		# ä¸Šæ¬¡ç™»é™†IP
+  lastdate int(10) unsigned NOT NULL DEFAULT '0',	# ä¸Šæ¬¡ç™»é™†æ—¥æœŸ
+  contents int(10) unsigned NOT NULL DEFAULT '0',	# å†…å®¹æ•°
+  uploads int(10) unsigned NOT NULL DEFAULT '0',	# ä¸Šä¼ æ•°
+  comments int(10) unsigned NOT NULL DEFAULT '0',	# è¯„è®ºæ•°
+  logins int(10) unsigned NOT NULL DEFAULT '0',		# ç™»é™†æ•°
   PRIMARY KEY (uid),
   UNIQUE KEY username(username),
   KEY email(email)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ºóÌ¨¹ÜÀíÓÃ»§×é±í
+# åå°ç®¡ç†ç”¨æˆ·ç»„è¡¨
 DROP TABLE IF EXISTS pre_user_group;
 CREATE TABLE pre_user_group (
-  groupid smallint(5) unsigned NOT NULL AUTO_INCREMENT,		# ÓÃ»§×éID
-  groupname char(20) NOT NULL DEFAULT '',			# ÓÃ»§×éÃû
-  system tinyint(1) unsigned NOT NULL DEFAULT '0',		# ÊÇ·ñÓÉÏµÍ³¶¨Òå (1ÎªÏµÍ³¶¨Òå£¬0Îª×Ô¶¨Òå)
-  purviews text NOT NULL,					# ºóÌ¨È¨ÏŞ (Îª¿ÕÊ±²»ÏŞÖÆ)
+  groupid smallint(5) unsigned NOT NULL AUTO_INCREMENT,		# ç”¨æˆ·ç»„ID
+  groupname char(20) NOT NULL DEFAULT '',			# ç”¨æˆ·ç»„å
+  system tinyint(1) unsigned NOT NULL DEFAULT '0',		# æ˜¯å¦ç”±ç³»ç»Ÿå®šä¹‰ (1ä¸ºç³»ç»Ÿå®šä¹‰ï¼Œ0ä¸ºè‡ªå®šä¹‰)
+  purviews text NOT NULL,					# åå°æƒé™ (ä¸ºç©ºæ—¶ä¸é™åˆ¶)
   PRIMARY KEY (groupid)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ÉÏ´«¸½¼ş±í
+# ä¸Šä¼ é™„ä»¶è¡¨
 DROP TABLE IF EXISTS pre_attach;
 CREATE TABLE pre_attach (
-  aid int(10) unsigned NOT NULL AUTO_INCREMENT,		# ¸½¼şID
-  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# ·ÖÀàID
-  mid tinyint(1) unsigned NOT NULL DEFAULT '0',		# Ä£ĞÍID
-  uid int(10) unsigned NOT NULL DEFAULT '0',		# ÓÃ»§ID
-  id int(10) unsigned NOT NULL DEFAULT '0',		# ÄÚÈİID
-  filename char(80) NOT NULL DEFAULT '',		# ÎÄ¼şÔ­Ãû
-  filetype char(7) NOT NULL DEFAULT '',			# ÎÄ¼şÀàĞÍ
-  filesize int(10) unsigned NOT NULL DEFAULT '0',	# ÎÄ¼ş´óĞ¡
-  filepath char(150) NOT NULL DEFAULT '',		# ÎÄ¼şÂ·¾¶
-  dateline int(10) unsigned NOT NULL DEFAULT '0',	# ÉÏ´«Ê±¼ä
-  downloads int(10) unsigned NOT NULL DEFAULT '0',	# ÏÂÔØ´ÎÊı
-  isimage tinyint(1) unsigned NOT NULL DEFAULT '0',	# ÊÇ·ñÊÇÍ¼Æ¬ (1ÎªÍ¼Æ¬£¬0ÎªÎÄ¼ş¡£Ö÷ÒªÇø·ÖÊÇ·ñÊÇ¿ÉÏÂÔØµÄ¸½¼ş)
+  aid int(10) unsigned NOT NULL AUTO_INCREMENT,		# é™„ä»¶ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# åˆ†ç±»ID
+  mid tinyint(1) unsigned NOT NULL DEFAULT '0',		# æ¨¡å‹ID
+  uid int(10) unsigned NOT NULL DEFAULT '0',		# ç”¨æˆ·ID
+  id int(10) unsigned NOT NULL DEFAULT '0',		# å†…å®¹ID
+  filename char(80) NOT NULL DEFAULT '',		# æ–‡ä»¶åŸå
+  filetype char(7) NOT NULL DEFAULT '',			# æ–‡ä»¶ç±»å‹
+  filesize int(10) unsigned NOT NULL DEFAULT '0',	# æ–‡ä»¶å¤§å°
+  filepath char(150) NOT NULL DEFAULT '',		# æ–‡ä»¶è·¯å¾„
+  dateline int(10) unsigned NOT NULL DEFAULT '0',	# ä¸Šä¼ æ—¶é—´
+  downloads int(10) unsigned NOT NULL DEFAULT '0',	# ä¸‹è½½æ¬¡æ•°
+  isimage tinyint(1) unsigned NOT NULL DEFAULT '0',	# æ˜¯å¦æ˜¯å›¾ç‰‡ (1ä¸ºå›¾ç‰‡ï¼Œ0ä¸ºæ–‡ä»¶ã€‚ä¸»è¦åŒºåˆ†æ˜¯å¦æ˜¯å¯ä¸‹è½½çš„é™„ä»¶)
   PRIMARY KEY (aid),
   KEY id (id, aid),
   KEY uid (uid, aid)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ·ÖÀàÀ¸Ä¿±í
+# åˆ†ç±»æ ç›®è¡¨
 DROP TABLE IF EXISTS pre_category;
 CREATE TABLE pre_category (
-  cid smallint(5) unsigned NOT NULL AUTO_INCREMENT,	# ·ÖÀàID
-  mid tinyint(1) unsigned NOT NULL DEFAULT '0',		# ÄÚÈİÄ£ĞÍID
-  type tinyint(1) unsigned NOT NULL DEFAULT '0',	# ·ÖÀàÀàĞÍ (1ÎªÁĞ±í£¬2ÎªÆµµÀ£¬3ÎªÁ´½Ó)
-  upid int(10) NOT NULL DEFAULT '0',			# ÉÏ¼¶ID
-  name char(30) NOT NULL DEFAULT '',			# ·ÖÀàÃû³Æ
-  alias char(50) NOT NULL DEFAULT '',			# Î¨Ò»±ğÃû (±ØÌî£¬Ö»ÄÜÊÇÓ¢ÎÄ¡¢Êı×Ö¡¢ÏÂ»®Ïß£¬²¢ÇÒ²»³¬¹ı50¸ö×Ö·û£¬ÓÃÓÚÎ±¾²Ì¬)
-  intro char(255) NOT NULL DEFAULT '',			# ·ÖÀà½éÉÜ
-  cate_tpl char(80) NOT NULL DEFAULT '',		# ·ÖÀàÒ³Ä£°å
-  show_tpl char(80) NOT NULL DEFAULT '',		# ÄÚÈİÒ³Ä£°å
-  count int(10) unsigned NOT NULL DEFAULT '0',		# ÄÚÈİÊı
-  orderby smallint(5) NOT NULL DEFAULT '0',		# ÅÅĞò
-  seo_title char(80) NOT NULL DEFAULT '',		# SEO±êÌâ
-  seo_keywords char(80) NOT NULL DEFAULT '',		# SEO¹Ø¼ü´Ê
-  seo_description char(150) NOT NULL DEFAULT '',	# SEOÃèÊö
+  cid smallint(5) unsigned NOT NULL AUTO_INCREMENT,	# åˆ†ç±»ID
+  mid tinyint(1) unsigned NOT NULL DEFAULT '0',		# å†…å®¹æ¨¡å‹ID
+  type tinyint(1) unsigned NOT NULL DEFAULT '0',	# åˆ†ç±»ç±»å‹ (1ä¸ºåˆ—è¡¨ï¼Œ2ä¸ºé¢‘é“ï¼Œ3ä¸ºé“¾æ¥)
+  upid int(10) NOT NULL DEFAULT '0',			# ä¸Šçº§ID
+  name char(30) NOT NULL DEFAULT '',			# åˆ†ç±»åç§°
+  alias char(50) NOT NULL DEFAULT '',			# å”¯ä¸€åˆ«å (å¿…å¡«ï¼Œåªèƒ½æ˜¯è‹±æ–‡ã€æ•°å­—ã€ä¸‹åˆ’çº¿ï¼Œå¹¶ä¸”ä¸è¶…è¿‡50ä¸ªå­—ç¬¦ï¼Œç”¨äºä¼ªé™æ€)
+  intro char(255) NOT NULL DEFAULT '',			# åˆ†ç±»ä»‹ç»
+  cate_tpl char(80) NOT NULL DEFAULT '',		# åˆ†ç±»é¡µæ¨¡æ¿
+  show_tpl char(80) NOT NULL DEFAULT '',		# å†…å®¹é¡µæ¨¡æ¿
+  count int(10) unsigned NOT NULL DEFAULT '0',		# å†…å®¹æ•°
+  orderby smallint(5) NOT NULL DEFAULT '0',		# æ’åº
+  seo_title char(80) NOT NULL DEFAULT '',		# SEOæ ‡é¢˜
+  seo_keywords char(80) NOT NULL DEFAULT '',		# SEOå…³é”®è¯
+  seo_description char(150) NOT NULL DEFAULT '',	# SEOæè¿°
   PRIMARY KEY (cid),
   UNIQUE KEY alias (alias)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ÄÚÈİÄ£ĞÍ±í
+# å†…å®¹æ¨¡å‹è¡¨
 DROP TABLE IF EXISTS pre_model;
 CREATE TABLE pre_model (
-  mid tinyint(1) unsigned NOT NULL AUTO_INCREMENT,	# Ä£ĞÍID (Õı³£Çé¿ö£¬È«Õ¾²»Ó¦¸Ã³¬¹ı255¸öÄ£ĞÍ)
-  name char(10) NOT NULL DEFAULT '',			# Ä£ĞÍÃû³Æ
-  tablename char(20) NOT NULL DEFAULT '',		# Ä£ĞÍ±íÃû (Èç: tw_cms_xxx)
-  index_tpl char(80) NOT NULL DEFAULT '',		# Ä¬ÈÏÆµµÀÒ³Ä£°å
-  cate_tpl char(80) NOT NULL DEFAULT '',		# Ä¬ÈÏÁĞ±íÒ³Ä£°å
-  show_tpl char(80) NOT NULL DEFAULT '',		# Ä¬ÈÏÄÚÈİÒ³Ä£°å
-  system tinyint(1) unsigned NOT NULL DEFAULT '0',	# ÊÇ·ñÓÉÏµÍ³¶¨Òå (1ÎªÏµÍ³¶¨Òå£¬0Îª×Ô¶¨Òå)
+  mid tinyint(1) unsigned NOT NULL AUTO_INCREMENT,	# æ¨¡å‹ID (æ­£å¸¸æƒ…å†µï¼Œå…¨ç«™ä¸åº”è¯¥è¶…è¿‡255ä¸ªæ¨¡å‹)
+  name char(10) NOT NULL DEFAULT '',			# æ¨¡å‹åç§°
+  tablename char(20) NOT NULL DEFAULT '',		# æ¨¡å‹è¡¨å (å¦‚: tw_cms_xxx)
+  index_tpl char(80) NOT NULL DEFAULT '',		# é»˜è®¤é¢‘é“é¡µæ¨¡æ¿
+  cate_tpl char(80) NOT NULL DEFAULT '',		# é»˜è®¤åˆ—è¡¨é¡µæ¨¡æ¿
+  show_tpl char(80) NOT NULL DEFAULT '',		# é»˜è®¤å†…å®¹é¡µæ¨¡æ¿
+  system tinyint(1) unsigned NOT NULL DEFAULT '0',	# æ˜¯å¦ç”±ç³»ç»Ÿå®šä¹‰ (1ä¸ºç³»ç»Ÿå®šä¹‰ï¼Œ0ä¸ºè‡ªå®šä¹‰)
   PRIMARY KEY (mid),
   UNIQUE KEY tablename (tablename)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# Î¨Ò»±ğÃû±í£¬ÓÃÓÚÎ±¾²Ì¬ (Ö»´¢´æÄÚÈİµÄ±ğÃû£¬·ÖÀàºÍÆäËû±ğÃû·Å kv ±í)
+# å”¯ä¸€åˆ«åè¡¨ï¼Œç”¨äºä¼ªé™æ€ (åªå‚¨å­˜å†…å®¹çš„åˆ«åï¼Œåˆ†ç±»å’Œå…¶ä»–åˆ«åæ”¾ kv è¡¨)
 DROP TABLE IF EXISTS pre_unique_alias;
 CREATE TABLE pre_unique_alias (
-  alias char(50) NOT NULL,				# Î¨Ò»±ğÃû (Ö»ÄÜÊÇÓ¢ÎÄ¡¢Êı×Ö¡¢ÏÂ»®Ïß)
-  mid tinyint(1) unsigned NOT NULL DEFAULT '0',		# Ä£ĞÍID
-  id int(10) unsigned NOT NULL DEFAULT '0',		# ÄÚÈİID
+  alias char(50) NOT NULL,				# å”¯ä¸€åˆ«å (åªèƒ½æ˜¯è‹±æ–‡ã€æ•°å­—ã€ä¸‹åˆ’çº¿)
+  mid tinyint(1) unsigned NOT NULL DEFAULT '0',		# æ¨¡å‹ID
+  id int(10) unsigned NOT NULL DEFAULT '0',		# å†…å®¹ID
   PRIMARY KEY (alias)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# µ¥Ò³±í
+# å•é¡µè¡¨
 DROP TABLE IF EXISTS pre_cms_page;
 CREATE TABLE pre_cms_page (
-  cid smallint(5) unsigned NOT NULL,			# ·ÖÀàID
-  content mediumtext NOT NULL,				# µ¥Ò³ÄÚÈİ
+  cid smallint(5) unsigned NOT NULL,			# åˆ†ç±»ID
+  content mediumtext NOT NULL,				# å•é¡µå†…å®¹
   PRIMARY KEY (cid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ÎÄÕÂ±í (¿É¸ù¾İ id ·¶Î§·ÖÇø)
+# æ–‡ç« è¡¨ (å¯æ ¹æ® id èŒƒå›´åˆ†åŒº)
 DROP TABLE IF EXISTS pre_cms_article;
 CREATE TABLE pre_cms_article (
-  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# ·ÖÀàID (ÉóºË/¶¨Ê±·¢²¼µÈ¿¼ÂÇµ¥¶ÀÉè¼ÆÒ»ÕÅ±í)
-  id int(10) unsigned NOT NULL AUTO_INCREMENT,		# ÄÚÈİID
-  title char(80) NOT NULL DEFAULT '',			# ±êÌâ
-  color char(6) NOT NULL DEFAULT '',			# ±êÌâÑÕÉ«
-  alias char(50) NOT NULL DEFAULT '',			# Ó¢ÎÄ±ğÃû (ÓÃÓÚÎ±¾²Ì¬)
-  tags varchar(80) NOT NULL DEFAULT '',			# tagsÄÚÈİ (,ºÅ·Ö¸î)
-  intro varchar(255) NOT NULL DEFAULT '',		# ÄÚÈİ½éÉÜ
-  pic varchar(255) NOT NULL DEFAULT '',			# Í¼Æ¬µØÖ·
-  uid int(10) unsigned NOT NULL DEFAULT '0',		# ÓÃ»§ID
-  author varchar(20) NOT NULL DEFAULT '',		# ×÷Õß
-  source varchar(150) NOT NULL DEFAULT '',		# À´Ô´
-  dateline int(10) unsigned NOT NULL DEFAULT '0',	# ·¢±íÊ±¼ä
-  lasttime int(10) unsigned NOT NULL DEFAULT '0',	# ¸üĞÂÊ±¼ä
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# åˆ†ç±»ID (å®¡æ ¸/å®šæ—¶å‘å¸ƒç­‰è€ƒè™‘å•ç‹¬è®¾è®¡ä¸€å¼ è¡¨)
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,		# å†…å®¹ID
+  title char(80) NOT NULL DEFAULT '',			# æ ‡é¢˜
+  color char(6) NOT NULL DEFAULT '',			# æ ‡é¢˜é¢œè‰²
+  alias char(50) NOT NULL DEFAULT '',			# è‹±æ–‡åˆ«å (ç”¨äºä¼ªé™æ€)
+  tags varchar(80) NOT NULL DEFAULT '',			# tagså†…å®¹ (,å·åˆ†å‰²)
+  intro varchar(255) NOT NULL DEFAULT '',		# å†…å®¹ä»‹ç»
+  pic varchar(255) NOT NULL DEFAULT '',			# å›¾ç‰‡åœ°å€
+  uid int(10) unsigned NOT NULL DEFAULT '0',		# ç”¨æˆ·ID
+  author varchar(20) NOT NULL DEFAULT '',		# ä½œè€…
+  source varchar(150) NOT NULL DEFAULT '',		# æ¥æº
+  dateline int(10) unsigned NOT NULL DEFAULT '0',	# å‘è¡¨æ—¶é—´
+  lasttime int(10) unsigned NOT NULL DEFAULT '0',	# æ›´æ–°æ—¶é—´
   ip int(10) unsigned NOT NULL DEFAULT '0',		# IP
-  type tinyint(1) unsigned NOT NULL DEFAULT '0',	# ÀàĞÍ (0Îª·¢²¼ 1ÎªÁ´½Ó 2Îª²İ¸å 3ÎªËÍÉó)
-  iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# ÊÇ·ñ½ûÖ¹ÆÀÂÛ (1Îª½ûÖ¹ 0ÎªÔÊĞí)
-  comments int(10) unsigned NOT NULL DEFAULT '0',	# ÆÀÂÛÊı
-  seo_title varchar(80) NOT NULL DEFAULT '',		# SEO±êÌâ/¸±±êÌâ
-  seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO¹Ø¼ü´Ê (Ã»ÌîĞ´Ê±¶ÁÈ¡tags)
-  seo_description varchar(255) NOT NULL DEFAULT '',	# SEOÃèÊö (Ã»ÌîĞ´Ê±¶ÁÈ¡ÄÚÈİÕªÒª)
+  type tinyint(1) unsigned NOT NULL DEFAULT '0',	# ç±»å‹ (0ä¸ºå‘å¸ƒ 1ä¸ºé“¾æ¥ 2ä¸ºè‰ç¨¿ 3ä¸ºé€å®¡)
+  iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# æ˜¯å¦ç¦æ­¢è¯„è®º (1ä¸ºç¦æ­¢ 0ä¸ºå…è®¸)
+  comments int(10) unsigned NOT NULL DEFAULT '0',	# è¯„è®ºæ•°
+  seo_title varchar(80) NOT NULL DEFAULT '',		# SEOæ ‡é¢˜/å‰¯æ ‡é¢˜
+  seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEOå…³é”®è¯ (æ²¡å¡«å†™æ—¶è¯»å–tags)
+  seo_description varchar(255) NOT NULL DEFAULT '',	# SEOæè¿° (æ²¡å¡«å†™æ—¶è¯»å–å†…å®¹æ‘˜è¦)
   PRIMARY KEY  (id),
   KEY cid_id (cid,id),
   KEY cid_dateline (cid,dateline)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ÎÄÕÂÊı¾İ±í (´óÄÚÈİ×Ö¶Î±í£¬¿É¸ù¾İ id ·¶Î§·ÖÇø)
+# æ–‡ç« æ•°æ®è¡¨ (å¤§å†…å®¹å­—æ®µè¡¨ï¼Œå¯æ ¹æ® id èŒƒå›´åˆ†åŒº)
 DROP TABLE IF EXISTS pre_cms_article_data;
 CREATE TABLE pre_cms_article_data (
-  id int(10) unsigned NOT NULL DEFAULT '0',		# ÄÚÈİID
-  content mediumtext NOT NULL,				# ÄÚÈİ
+  id int(10) unsigned NOT NULL DEFAULT '0',		# å†…å®¹ID
+  content mediumtext NOT NULL,				# å†…å®¹
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ÎÄÕÂ²é¿´Êı±í£¬ÓÃÀ´·ÖÀëÖ÷±íµÄĞ´Ñ¹Á¦
+# æ–‡ç« æŸ¥çœ‹æ•°è¡¨ï¼Œç”¨æ¥åˆ†ç¦»ä¸»è¡¨çš„å†™å‹åŠ›
 DROP TABLE IF EXISTS pre_cms_article_views;
 CREATE TABLE pre_cms_article_views (
-  id int(10) unsigned NOT NULL DEFAULT '0',		# ÄÚÈİID
-  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# ·ÖÀàID
-  views int(10) unsigned NOT NULL DEFAULT '0',		# ²é¿´´ÎÊı
+  id int(10) unsigned NOT NULL DEFAULT '0',		# å†…å®¹ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# åˆ†ç±»ID
+  views int(10) unsigned NOT NULL DEFAULT '0',		# æŸ¥çœ‹æ¬¡æ•°
   PRIMARY KEY  (id),
   KEY cid (cid,views),
   KEY views (views)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ÎÄÕÂ×îºóÆÀÂÛ±í£¬ÅÅĞòÊ¹ÓÃ£¬ÓÃÀ´¼õĞ¡Ö÷±íË÷Òı (ÓĞÆÀÂÛÊ±²ÅĞ´Èë)
+# æ–‡ç« æœ€åè¯„è®ºè¡¨ï¼Œæ’åºä½¿ç”¨ï¼Œç”¨æ¥å‡å°ä¸»è¡¨ç´¢å¼• (æœ‰è¯„è®ºæ—¶æ‰å†™å…¥)
 DROP TABLE IF EXISTS pre_cms_article_lastcomment;
 CREATE TABLE pre_cms_article_lastcomment (
-  id int(10) unsigned NOT NULL DEFAULT '0',		# ÄÚÈİID
-  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# ·ÖÀàID
-  lastdate int(10) unsigned NOT NULL DEFAULT '0',	# »Ø¸´Ê±¼ä
+  id int(10) unsigned NOT NULL DEFAULT '0',		# å†…å®¹ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# åˆ†ç±»ID
+  lastdate int(10) unsigned NOT NULL DEFAULT '0',	# å›å¤æ—¶é—´
   PRIMARY KEY  (id),
   KEY cid (cid,lastdate),
   KEY lastdate (lastdate)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ÎÄÕÂÆÀÂÛ±í
+# æ–‡ç« è¯„è®ºè¡¨
 DROP TABLE IF EXISTS pre_cms_article_comment;
 CREATE TABLE pre_cms_article_comment (
-  id int(10) unsigned NOT NULL DEFAULT '0',		# ÄÚÈİID (Îª¸ºÊ±²»ÏÔÊ¾µ½Ç°Ì¨,±íÎ´ÉóºË)
-  commentid int(10) unsigned NOT NULL AUTO_INCREMENT,	# ÆÀÂÛID
-  uid int(10) unsigned NOT NULL DEFAULT '0',		# ÓÃ»§ID
-  author char(30) NOT NULL DEFAULT '',			# ×÷Õß£¬¿ÉÄÜ²»µÈÓÚ username
-  content text NOT NULL,				# ÆÀÂÛÄÚÈİ
+  id int(10) unsigned NOT NULL DEFAULT '0',		# å†…å®¹ID (ä¸ºè´Ÿæ—¶ä¸æ˜¾ç¤ºåˆ°å‰å°,è¡¨æœªå®¡æ ¸)
+  commentid int(10) unsigned NOT NULL AUTO_INCREMENT,	# è¯„è®ºID
+  uid int(10) unsigned NOT NULL DEFAULT '0',		# ç”¨æˆ·ID
+  author char(30) NOT NULL DEFAULT '',			# ä½œè€…ï¼Œå¯èƒ½ä¸ç­‰äº username
+  content text NOT NULL,				# è¯„è®ºå†…å®¹
   ip int(10) unsigned NOT NULL DEFAULT '0',		# IP
-  dateline int(10) unsigned NOT NULL DEFAULT '0',	# ·¢±íÊ±¼ä
+  dateline int(10) unsigned NOT NULL DEFAULT '0',	# å‘è¡¨æ—¶é—´
   PRIMARY KEY  (id,commentid),
-  KEY ip (ip,id)	# ÓÃÀ´×ö·À¹àË®²å¼ş
+  KEY ip (ip,id)	# ç”¨æ¥åšé˜²çŒæ°´æ’ä»¶
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ÎÄÕÂ±êÇ©±í
+# æ–‡ç« æ ‡ç­¾è¡¨
 DROP TABLE IF EXISTS pre_cms_article_tag;
 CREATE TABLE pre_cms_article_tag (
   tagid int(10) unsigned NOT NULL AUTO_INCREMENT,	# tagID
-  name char(10) NOT NULL DEFAULT '',			# tagÃû³Æ
-  count int(10) unsigned NOT NULL DEFAULT '0',		# tagÊıÁ¿
-  content text NOT NULL,				# tagÄÚÈİ
+  name char(10) NOT NULL DEFAULT '',			# tagåç§°
+  count int(10) unsigned NOT NULL DEFAULT '0',		# tagæ•°é‡
+  content text NOT NULL,				# tagå†…å®¹
   PRIMARY KEY  (tagid),
   UNIQUE KEY name (name)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ÎÄÕÂ±êÇ©Êı¾İ±í
+# æ–‡ç« æ ‡ç­¾æ•°æ®è¡¨
 DROP TABLE IF EXISTS pre_cms_article_tag_data;
 CREATE TABLE pre_cms_article_tag_data (
   tagid int(10) unsigned NOT NULL,			# tagID
-  id int(10) unsigned NOT NULL DEFAULT '0',		# ÄÚÈİID
-  PRIMARY KEY  (tagid,id)				# ÅÅĞòÒªÓÃid
+  id int(10) unsigned NOT NULL DEFAULT '0',		# å†…å®¹ID
+  PRIMARY KEY  (tagid,id)				# æ’åºè¦ç”¨id
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ³Ö¾Ã±£´æµÄ key value Êı¾İ (°üÀ¨ÉèÖÃĞÅÏ¢)
+# æŒä¹…ä¿å­˜çš„ key value æ•°æ® (åŒ…æ‹¬è®¾ç½®ä¿¡æ¯)
 DROP TABLE IF EXISTS pre_kv;
 CREATE TABLE pre_kv (
-  k char(32) NOT NULL DEFAULT '',			# ¼üÃû
-  v text NOT NULL DEFAULT '',				# Êı¾İ
-  expiry int(10) unsigned NOT NULL DEFAULT '0',		# ¹ıÆÚÊ±¼ä
+  k char(32) NOT NULL DEFAULT '',			# é”®å
+  v text NOT NULL DEFAULT '',				# æ•°æ®
+  expiry int(10) unsigned NOT NULL DEFAULT '0',		# è¿‡æœŸæ—¶é—´
   PRIMARY KEY(k)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# »º´æ±í
+# ç¼“å­˜è¡¨
 DROP TABLE IF EXISTS pre_cache;
 CREATE TABLE pre_cache (
-  k char(32) NOT NULL DEFAULT '',			# ¼üÃû
-  v text NOT NULL DEFAULT '',				# Êı¾İ
-  expiry int(10) unsigned NOT NULL DEFAULT '0',		# ¹ıÆÚÊ±¼ä
+  k char(32) NOT NULL DEFAULT '',			# é”®å
+  v text NOT NULL DEFAULT '',				# æ•°æ®
+  expiry int(10) unsigned NOT NULL DEFAULT '0',		# è¿‡æœŸæ—¶é—´
   PRIMARY KEY(k)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ¼ÇÂ¼ÆäËü±íµÄ×ÜĞĞÊı
+# è®°å½•å…¶å®ƒè¡¨çš„æ€»è¡Œæ•°
 DROP TABLE IF EXISTS pre_framework_count;
 CREATE TABLE pre_framework_count (
-  name char(32) NOT NULL DEFAULT '',			# ±íÃû
-  count int(10) unsigned NOT NULL DEFAULT '0',		# ×ÜĞĞÊı
+  name char(32) NOT NULL DEFAULT '',			# è¡¨å
+  count int(10) unsigned NOT NULL DEFAULT '0',		# æ€»è¡Œæ•°
   PRIMARY KEY (name)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# ¼ÇÂ¼ÆäËü±íµÄ×î´óID
+# è®°å½•å…¶å®ƒè¡¨çš„æœ€å¤§ID
 DROP TABLE IF EXISTS pre_framework_maxid;
 CREATE TABLE pre_framework_maxid (
-  name char(32) NOT NULL DEFAULT '',			# ±íÃû
-  maxid int(10) unsigned NOT NULL DEFAULT '0',		# ×î´óID
+  name char(32) NOT NULL DEFAULT '',			# è¡¨å
+  maxid int(10) unsigned NOT NULL DEFAULT '0',		# æœ€å¤§ID
   PRIMARY KEY (name)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
