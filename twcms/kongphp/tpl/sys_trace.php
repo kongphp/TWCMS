@@ -1,7 +1,7 @@
 <?php defined('KONG_PATH') || exit; ?>
 <style type="text/css">
 #kong_trace_win{display:none;z-index:999;position:fixed;left:1%;bottom:10px;width:98%;min-width:300px;font:14px/1.6 'Microsoft YaHei',Verdana,Arial,sans-serif;border-radius:5px;box-shadow:-2px 2px 20px #555;background:#fff;border:1px solid #ccc}
-#kong_trace_win,#kong_trace_win,#kong_trace_win div,#kong_trace_win h6,#kong_trace_win ol,#kong_trace_win li{margin:0;padding:0}
+#kong_trace_win,#kong_trace_win,#kong_trace_win div,#kong_trace_win h6,#kong_trace_win ol,#kong_trace_win li{margin:0;padding:0;font:14px/1.6 'Microsoft YaHei',Verdana,Arial,sans-serif}
 #kong_trace_open{display:none;z-index:999;position:fixed;right:5px;bottom:5px;width:80px;height:24px;line-height:24px;text-align:center;border:1px solid #ccc;border-radius:5px;background:#eee;cursor:pointer;box-shadow:0 0 12px #555}
 #kong_trace_size,#kong_trace_close{float:right;display:inline;margin:3px 5px 0 0!important;border:1px solid #ccc;border-radius:5px;background:#eee;width:24px;height:24px;line-height:24px;text-align:center;cursor:pointer}
 #kong_trace_title{height:32px;overflow:hidden;padding:0 3px;border-bottom:1px solid #ccc}
