@@ -4,6 +4,7 @@
  */
 
 defined('TWCMS_PATH') or exit;
+
 class user extends model {
 	function __construct() {
 		$this->table = 'user';		// 表名
@@ -15,5 +16,10 @@ class user extends model {
 	public function get_user_by_username($username) {
 		$users = $this->find_fetch(array('username'=>$username), array(), 0, 1);
 		return $users ? array_pop($users) : array();
+	}
+
+	// 验证密码是否相等
+	public function verify_password($password, $salt, $password_md5) {
+		return md5(md5($password).$salt) == $password_md5;
 	}
 }
