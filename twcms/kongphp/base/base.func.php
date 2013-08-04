@@ -298,3 +298,13 @@ function str_auth($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 		return $keyc.str_replace('=', '', base64_encode($result));
 	}
 }
+
+// 生成 form hash
+function form_hash() {
+	return substr(md5(substr($_SERVER['_time'], 0, -5).$_SERVER['_config']['auth_key']), 16);
+}
+
+// 校验 form hash
+function form_submit() {
+	return R('FORM_HASH', 'P') == form_hash();
+}
