@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<title>通王CMS 后台登录</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<script>if(self.parent.frames.length != 0) self.parent.location=document.location;</script>
+<link href="{$C[admin_static]}admin/css/login.css" type="text/css" rel="stylesheet" />
+<script src="{$C[admin_static]}js/jquery.js" type="text/javascript"></script>
+</head>
+
+<body>
+<form method="post" action="?index-login.html">
+<input type="hidden" name="FORM_HASH" value="{$C[FORM_HASH]}" />
+<dl id="lgn">
+	<dt><a href="../" title="返回首页"></a></dt>
+	<dd><label>帐号</label><input type="text" name="username" class="int" /></dd>
+	<dd><label>密码</label><input type="password" name="password" class="int" /></dd>
+	<dt><input type="submit" value="登录" id="btn" /></dt>
+</dl>
+</form>
+<script type="text/javascript">
+var t = ($(document).height()-$("#lgn").height())/2;
+$("#lgn").animate({top: t+10}, 'slow').animate({top: t-10}, 'fast').animate({top: t}, 'fast');
+$(window).resize(function(){
+	$("#lgn").offset({top: ($(document).height()-$("#lgn").height())/2});
+});
+$("label").click(function(){
+	$(this).parent().children(".int").focus();
+	$(this).hide();
+});
+$(".int").focusin(function() {
+	$(this).parent().children("label").hide();
+	$(this).parent().children("div").remove();
+}).focusout(function(){
+	if($(this).val().length==0) $(this).parent().children("label").show();
+});
+$("form:first").submit(function(){
+	$.post($(this).attr("action"), $(this).serialize(), function(data){
+		data = toJson(data);
+		$(".tips").remove();
+		if(data.name != "") {
+			$("#lgn .int[name='"+data.name+"']").parent().append('<div class="tips"><i></i><b>'+data.message+"</b></div>");
+			tAn($(".tips"));
+			$(".tips").click(function(){
+				tAn($(this));
+			});
+		}else location.href="./";
+	});
+	return false;
+});
+function toJson(data) {
+	var json = {};
+	try{
+		json = eval("("+data+")");
+	}catch(e){
+		//alert(data);
+		$("body").replaceWith(data);
+	}
+	return json;
+}
+function tAn(obj) {
+	obj.animate({left: 270}, 150).animate({left: 260}, 150).animate({left: 270}, 150).animate({left: 260}, 150).animate({left: 270}, 150).animate({left: 260}, 150).animate({left: 270}, 150).animate({left: 260}, 150);
+}
+</script>
+</body>
+</html>
