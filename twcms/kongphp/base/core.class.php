@@ -248,7 +248,7 @@ class core{
 				if(is_file($realfile)) {
 					$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
 					self::parse_all($realfile, $objfile, "写入继承的类的编译文件 $controlname 失败");
-					$s = str_replace_once($m[0], 'include RUNTIME_PATH.APP_NAME.\'_control/'.$controlname."'; \r\n".$m[0], $s);
+					$s = str_replace_once($m[0], 'include RUNTIME_PATH.APP_NAME.\'_control/'.$controlname."'; ".$m[0], $s);
 				}else{
 					throw new Exception("您继承的类文件 $controlname 不存在");
 				}
