@@ -124,6 +124,15 @@ function FW($filename, $data) {
 	return file_put_contents($filename, $data, LOCK_EX);
 }
 
+// cookie 设置/删除
+function _setcookie($name, $value='', $expire=0, $path='', $domain='', $secure=false, $httponly=false) {
+	$name = $_SERVER['_config']['cookie_pre'].$name;
+	if(!$path) $path = $_SERVER['_config']['cookie_path'];
+	if(!$domain) $domain = $_SERVER['_config']['cookie_domain'];
+	$_COOKIE[$name] = $value;
+	return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
+}
+
 // 方便记忆 以 _ 开始的都是改造系统函数
 // 递归加反斜线
 function _addslashes(&$val) {
