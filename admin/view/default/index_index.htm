@@ -1,0 +1,50 @@
+<!doctype html>
+<head>
+<title>通王CMS 后台管理</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<link href="{$C[admin_static]}admin/css/admin.css" type="text/css" rel="stylesheet" />
+<script src="{$C[admin_static]}js/jquery.js" type="text/javascript"></script>
+<script src="{$C[admin_static]}admin/js/admin.js" type="text/javascript"></script>
+</head>
+
+<body scroll="no">
+<div class="acp">
+	<div id="box_opt"><a id="ifr_refresh" title="刷新" href="">刷新</a> <a id="full_screen" title="全屏" href="">全屏</a></div>
+	<div class="top">
+		<div class="logo"><a href="./"><img src="{$C[admin_static]}admin/img/logo.jpg" /></a></div>
+		<div class="nav">
+			<ul>
+				{loop:$C[navs] $arr $control}<li mod="{$control}">
+					<b>{$arr[name]}</b>
+					<dl>
+						{loop:$arr[sub] $name $action}<dd ac="{$action}" url="?{$control}-{$action}.html">{$name}</dd>
+						{/loop}<dt></dt>
+					</dl>
+				</li>
+				{/loop}
+			</ul>
+		</div>
+		<div class="uinfo">
+			<p>您好, {$C[users][username]}（{$C[users][groupname]}）[<a href="?index-logout.html">退出</a>]</p>
+			<p class="ilk"><a href="../index.php" target="_blank" title="网站首页">网站首页</a></p>
+		</div>
+	</div>
+	<div class="unber">
+		<div class="left">
+			<h1 id="menutit"></h1>
+			<dl id="menu"></dl>
+			<div class="copyright">Powered by <a href="http://www.twcms.cn" target="_blank">TWCMS</a> {$C[version]}<br />© 2012, <a href="http://www.tongwang.cn" target="_blank">TongWang</a> Inc.</div>
+		</div>
+		<div class="right">
+			<div id="closeer" title="关闭其它标签页"></div>
+			<div id="leftbtn" title="向上"></div>
+			<div id="rightbtn" title="向下"></div>
+			<div id="adder" title="新标签页"></div>
+			<div id="box_tab"><ul></ul></div>
+			<div id="box_place"></div>
+			<div id="box_frame"></div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
