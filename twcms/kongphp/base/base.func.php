@@ -167,9 +167,9 @@ function _urlencode($s) {
 	return str_replace('-', '%2D', urlencode($s));
 }
 
-// JSON 编码
+// 对 JSON 格式的字符串进行解码
 function _json_decode($s) {
-	return $s === FALSE ? FALSE : json_decode($s, 1);
+	return $s === FALSE ? FALSE : json_decode($s, true);
 }
 
 // 增强多维数组进行排序，最多支持两个字段排序
