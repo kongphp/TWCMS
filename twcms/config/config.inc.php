@@ -1,7 +1,5 @@
 <?php 
 $_SERVER['_config'] = array(
-	'url_suffix' => '.html',
-	'twcms_view_php' => 1,
 	'plugin_disable' => 0,			// 禁止掉所有插件
 	'zone' => 'Asia/Shanghai',		// 时区
 	'gzip' => 1,	// 开启 GZIP 压缩
@@ -59,6 +57,7 @@ $_SERVER['_config'] = array(
 	'admin_static' => '../static/',
 	'admin_editor' => '../static/ueditor/',
 
+	'url_suffix' => '.html',
 	'upload_path' => 'upload/',		// 上传目录
 	'version' => '2.0.0',			// 版本号
 	'release' => '20130902',		// 发布日期
