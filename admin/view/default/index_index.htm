@@ -14,7 +14,7 @@
 		<div class="logo"><a href="./"><img src="{$C[admin_static]}admin/img/logo.jpg" /></a></div>
 		<div class="nav">
 			<ul>
-				{loop:$C[navs] $arr $control}<li mod="{$control}">
+				{loop:$_navs $arr $control}<li mod="{$control}">
 					<b>{$arr[name]}</b>
 					<dl>
 						{loop:$arr[sub] $name $action}<dd ac="{$action}" url="?{$control}-{$action}.html">{$name}</dd>
@@ -25,7 +25,7 @@
 			</ul>
 		</div>
 		<div class="uinfo">
-			<p>您好, {$C[users][username]}（{$C[users][groupname]}）[<a href="?index-logout.html">退出</a>]</p>
+			<p>您好, {$_user[username]}（{$_group[groupname]}）[<a href="?index-logout.html">退出</a>]</p>
 			<p class="ilk"><a href="../index.php" target="_blank" title="网站首页">网站首页</a></p>
 		</div>
 	</div>

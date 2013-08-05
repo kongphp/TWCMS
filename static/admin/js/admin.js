@@ -35,7 +35,7 @@ function setNav() {
 //判断只加载一次标签
 function oneTab(url, isAdmSuf) {
 	url = !isAdmSuf ? url : admSuffix+url;
-	var newTabUrl = admSuffix+"?mod=my&action=newtab";
+	var newTabUrl = admSuffix+"?my-newtab.html";
 	if($("#box_tab ul li[url='"+url+"']").length>0) {
 		onTab($("#box_tab ul li[url='"+url+"']:first"));
 	}else if($("#box_tab ul li[url='"+newTabUrl+"']").length>0){
@@ -51,7 +51,7 @@ function oneTab(url, isAdmSuf) {
 //添加标签页
 function addTab(title, url) {
 	title = !title ? '\u65b0\u6807\u7b7e\u9875' : title;
-	url = (!url ? admSuffix+'?mod=my&action=newtab' : url);
+	url = (!url ? admSuffix+'?my-newtab.html' : url);
 
 	$("#box_tab ul").width($("#box_tab ul").width()+200);
 	$("#box_tab ul li.on").removeClass("on");
@@ -226,5 +226,6 @@ function windowTab() {
 
 //解决IE下缓存问题
 function getR() {
-	return "&r="+(new Date).getTime();
+	return "";
+	//return "?r="+(new Date).getTime();
 }
