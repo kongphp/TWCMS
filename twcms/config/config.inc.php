@@ -59,7 +59,7 @@ $_SERVER['_config'] = array(
 	'admin_static' => '../static/',
 	'admin_editor' => '../static/ueditor/',
 
-	'upload_path' => 'upload/',	// 上传目录
-	'version' => '2.0.3',			// 版本号
+	'upload_path' => 'upload/',		// 上传目录
+	'version' => '2.0.0',			// 版本号
 	'release' => '20130902',		// 发布日期
 );

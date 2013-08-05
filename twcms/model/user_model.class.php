@@ -18,6 +18,41 @@ class user extends model {
 		return $users ? array_pop($users) : array();
 	}
 
+	// 检查用户名是否合格
+	public function check_username(&$username) {
+		$username = trim($username);
+		if(empty($username)) {
+			return '用户名不能为空哦！';
+		}elseif(utf8::strlen($username) > 16) {
+			return '用户名不能大于16位哦！';
+		}elseif(str_replace(array("\t", "\r", "\n", ' ', '　', ',', '，', '-', '"', "'"), '', $username) != $username) {
+			return '用户名中含有非法字符！';
+		}elseif(htmlspecialchars($username) != $username) {
+			return '用户名中不能含有<>！';
+		}
+
+		// hook usre_model_check_username_end.php
+		return '';
+	}
+
+	// 返回安全的用户名
+	public function safe_username(&$username) {
+		$username = str_replace(array("\t", "\r", "\n", ' ', '　', ',', '，', '-', '"', "'"), '', $username);
+		$username = htmlspecialchars($username);
+	}
+
+	// 检查密码是否合格
+	public function check_password(&$password) {
+		if(empty($password)) {
+			return '密码不能为空哦！';
+		}elseif(utf8::strlen($password) < 6) {
+			return '密码不能小于6位哦！';
+		}elseif(utf8::strlen($password) > 32) {
+			return '密码不能大于32位哦！';
+		}
+		return '';
+	}
+
 	// 验证密码是否相等
 	public function verify_password($password, $salt, $password_md5) {
 		return md5(md5($password).$salt) == $password_md5;

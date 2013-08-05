@@ -14,18 +14,16 @@ class index_control extends admin_control{
 		if(empty($_POST)) {
 			$this->display();
 		}elseif(form_submit()) {
+			$user = M('user');
 			$username = R('username', 'P');
 			$password = R('password', 'P');
 
-			if(empty($username)) {
-				exit('{"name":"username", "message":"啊哦，帐号不能为空哦！"}');
-			}elseif(empty($password)){
-				exit('{"name":"password", "message":"啊哦，密码不能为空哦！"}');
-			}elseif(strlen($password) < 6){
-				exit('{"name":"password", "message":"啊哦，密码不能小于6位哦！"}');
+			if($message = $user->check_username($username)) {
+				exit('{"name":"username", "message":"啊哦，'.$message.'"}');
+			}elseif($message = $user->check_password($password)){
+				exit('{"name":"password", "message":"啊哦，'.$message.'"}');
 			}
 
-			$user = M('user');
 			$users = $user->get_user_by_username($username);
 			if($users && $user->verify_password($password, $users['salt'], $users['password'])) {
 				// 写入 cookie
