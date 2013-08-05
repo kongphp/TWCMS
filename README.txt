@@ -29,7 +29,7 @@ TWCMS2.0目录结构
 TWCMS2.0简易模板引擎(共8个标签)
 1，{inc:header.htm}			包含模板
 2，{hook:header_before.htm}		模板钩子(方便插件修改模板)
-3，{php}{/php}				模板支持PHP代码 (不支持<??><?php?>的写法，可在配置文件中关闭支持PHP代码)
+3，{php}{/php}				模板支持PHP代码 (不支持<??><?php?>的写法)
 4，{block:}{/block}			模板模块
 5，{loop:}{/loop}			数组遍历
 6，{if:} {else} {eleseif:} {/if}	逻辑判断

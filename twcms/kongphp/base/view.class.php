@@ -72,7 +72,7 @@ class view{
 		while(preg_match('#\{loop\:\$'.$reg_arr.'(?:\040\$[a-zA-Z_]\w*){1,2}\}.*?\{\/loop\}#s', $s))
 			$s = preg_replace_callback('#\{loop\:(\$'.$reg_arr.'(?:\040\$[a-zA-Z_]\w*){1,2})\}(.*?)\{\/loop\}#s', array($this, 'parse_loop'), $s);
 
-		//第6步 解析if
+		//第6步 解析if (未考虑安全过滤)
 		while(preg_match('#\{if\:[^\n\}]+\}.*?\{\/if\}#s', $s))
 			$s = preg_replace_callback('#\{if\:([^\n\}]+)\}(.*?)\{\/if\}#s', array($this, 'parse_if'), $s);
 
