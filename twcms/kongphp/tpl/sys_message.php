@@ -20,7 +20,7 @@ ul{list-style:none}
 </head>
 <body>
 <div class="kongcont">
-	<h1><?php echo $status ? '成功' : '失败';?>啦！</h1>
+	<h1><?php echo $status ? '成功' : '出错';?>啦！</h1>
 	<div class="c1">
 		<div><b style="font-size:16px;color:<?php echo $status ? 'green' : 'red';?>"><?php echo $message;?></b></div>
 		<div id="jump"></div>
