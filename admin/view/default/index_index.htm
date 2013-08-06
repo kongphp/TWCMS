@@ -17,7 +17,7 @@
 				{loop:$_navs $arr $control}<li mod="{$control}">
 					<b>{$arr[name]}</b>
 					<dl>
-						{loop:$arr[sub] $name $action}<dd ac="{$action}" url="?{$control}-{$action}.html">{$name}</dd>
+						{loop:$arr[sub] $name $action}<dd ac="{$action}" url="?u={$control}-{$action}.html">{$name}</dd>
 						{/loop}<dt></dt>
 					</dl>
 				</li>
@@ -25,7 +25,7 @@
 			</ul>
 		</div>
 		<div class="uinfo">
-			<p>您好, {$_user[username]}（{$_group[groupname]}）[<a href="?index-logout.html">退出</a>]</p>
+			<p>您好, {$_user[username]}（{$_group[groupname]}）[<a href="?u=index-logout.html">退出</a>]</p>
 			<p class="ilk"><a href="../index.php" target="_blank" title="网站首页">网站首页</a></p>
 		</div>
 	</div>
