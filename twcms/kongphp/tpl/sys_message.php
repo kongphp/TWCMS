@@ -22,13 +22,13 @@ ul{list-style:none}
 <div class="kongcont">
 	<h1><?php echo $status ? '成功' : '失败';?>啦！</h1>
 	<div class="c1">
-		<p><b style="font-size:16px;color:<?php echo $status ? 'green' : 'red';?>"><?php echo $message;?></b></p>
-		<p id="jump"></p>
-		<p><a href="javascript:jumpurl();">立即跳转</a></p>
+		<div><b style="font-size:16px;color:<?php echo $status ? 'green' : 'red';?>"><?php echo $message;?></b></div>
+		<div id="jump"></div>
 	</div>
 
 	<div class="footer">&lt;?php echo 'KongPHP, Road to Jane.'; ?&gt;</div>
 </div>
+<?php if($jumpurl != -1) { ?>
 <script type="text/javascript">
 var dot = '', t;
 var jump = document.getElementById("jump");
@@ -39,7 +39,7 @@ function jumpurl(){
 function display(){
 	dot += '.';
 	if(dot.length > 6) dot = '.';
-	jump.innerHTML = (time--) + '秒后自动跳转' + dot;
+	jump.innerHTML = '<p>' + (time--) + '秒后自动跳转' + dot + '</p><p><a href="javascript:jumpurl();">立即跳转</a></p>';
 	if(time == -1) {
 		clearInterval(t);
 		jumpurl();
@@ -48,5 +48,6 @@ function display(){
 display();
 t = setInterval(display, 1000);
 </script>
+<?php } ?>
 </body>
 </html>
