@@ -58,4 +58,6 @@ class index_control extends admin_control{
 		_setcookie('admauth', '', 1);
 		exit('<html><body><script>top.location="?u=index-login.html"</script></body></html>');
 	}
+
+	//hook admin_index_control_after.php
 }
