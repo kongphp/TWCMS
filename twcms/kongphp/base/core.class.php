@@ -102,18 +102,21 @@ class core{
 	}
 
 	/**
-	 * 初始化 $_GET 变量  注意: 不支持复杂URL 如：?index-index.html&page=1 (复杂URL可通过 parseurl_control.class.php 实现)
+	 * 初始化 $_GET 变量 (可通过 parseurl_control.class.php 自定义解析 URl)
 	 */
 	public static function init_get() {
 		if(!empty($_SERVER['_setting'][APP_NAME.'_parseurl'])) {
 			self::parseurl_control();
-		}elseif(empty($_GET['kong_parseurl'])) {
-			$_GET = array();
-			$u = strtolower($_SERVER["QUERY_STRING"]);
-
-			if(!empty($u) && strpos($u, '?') !== false) {
-				$u2 = explode('?', $u);
-				$u = $u2[0];
+		}else{
+			// 提示：为了满足各种需求，这里搞了三种方式，可能有点乱，没办法迫不得已。
+			if(isset($_SERVER['PATH_INFO'])) {
+				$u = $_SERVER['PATH_INFO'];
+			}elseif(isset($_GET['u'])) {
+				$u = $_GET['u'];
+				unset($_GET['u']);
+			}else{
+				$_GET = array();
+				$u = $_SERVER["QUERY_STRING"];
 			}
 
 			//清除URL后缀
@@ -138,11 +141,6 @@ class core{
 			$num = count($uarr);
 			for($i=0; $i<$num; $i+=2){
 				isset($uarr[$i+1]) && $_GET[$uarr[$i]] = $uarr[$i+1];
-			}
-
-			if(isset($u2[1])) {
-				parse_str($u2[1], $uarr2);
-				$_GET = array_merge($_GET, $uarr2);
 			}
 		}
 
