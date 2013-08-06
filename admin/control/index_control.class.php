@@ -6,10 +6,13 @@
 defined('TWCMS_PATH') or exit;
 
 class index_control extends admin_control{
+	// 后台首页
 	public function index() {
 		$this->display();
+		exit;
 	}
 
+	// 后台登陆
 	public function login() {
 		if(empty($_POST)) {
 			$this->display();
@@ -48,5 +51,11 @@ class index_control extends admin_control{
 		}else{
 			exit('{"name":"username", "message":"啊哦，表单失效！请刷新后再试！"}');
 		}
+	}
+
+	// 后台登出
+	public function logout(){
+		_setcookie('admauth', '', 1);
+		exit('<html><body><script>top.location="?u=index-login.html"</script></body></html>');
 	}
 }
