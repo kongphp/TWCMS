@@ -25,11 +25,11 @@ class control{
 		$this->view->display($filename);
 	}
 
-	public function message($status, $message, $jumpurl = null, $delay = 2) {
+	public function message($status, $message, $jumpurl = '', $delay = 2) {
 		if(R('ajax')) {
-			echo json_encode(array('status'=>$status, 'message'=>$message, 'delay'=>$delay));
+			echo json_encode(array('status'=>$status, 'message'=>$message, 'jumpurl'=>$jumpurl, 'delay'=>$delay));
 		}else{
-			if(is_null($jumpurl)) {
+			if(empty($jumpurl)) {
 				$jumpurl = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
 			}
 			include KONG_PATH.'tpl/sys_message.php';
