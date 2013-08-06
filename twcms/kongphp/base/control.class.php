@@ -27,7 +27,7 @@ class control{
 
 	public function message($status, $message, $jumpurl = '', $delay = 2) {
 		if(R('ajax')) {
-			echo json_encode(array('status'=>$status, 'message'=>$message, 'jumpurl'=>$jumpurl, 'delay'=>$delay));
+			echo json_encode(array('kong_status'=>$status, 'message'=>$message, 'jumpurl'=>$jumpurl, 'delay'=>$delay));
 		}else{
 			if(empty($jumpurl)) {
 				$jumpurl = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
