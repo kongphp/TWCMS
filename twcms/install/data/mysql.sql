@@ -9,11 +9,11 @@ CREATE TABLE pre_user (
   email char(40) NOT NULL DEFAULT '',			# EMAIL
   homepage char(40) NOT NULL DEFAULT '',		# 主页的URL（外链）
   intro text NOT NULL,					# 个人介绍
-  regip int(10) unsigned NOT NULL DEFAULT '0',		# 注册IP
+  regip int(10) NOT NULL DEFAULT '0',			# 注册IP
   regdate int(10) unsigned NOT NULL DEFAULT '0',	# 注册日期
-  loginip int(10) unsigned NOT NULL DEFAULT '0',	# 登陆IP
+  loginip int(10) NOT NULL DEFAULT '0',			# 登陆IP
   logindate int(10) unsigned NOT NULL DEFAULT '0',	# 登陆日期
-  lastip int(10) unsigned NOT NULL DEFAULT '0',		# 上次登陆IP
+  lastip int(10) NOT NULL DEFAULT '0',			# 上次登陆IP
   lastdate int(10) unsigned NOT NULL DEFAULT '0',	# 上次登陆日期
   contents int(10) unsigned NOT NULL DEFAULT '0',	# 内容数
   uploads int(10) unsigned NOT NULL DEFAULT '0',	# 上传数
@@ -122,7 +122,7 @@ CREATE TABLE pre_cms_article (
   source varchar(150) NOT NULL DEFAULT '',		# 来源
   dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
   lasttime int(10) unsigned NOT NULL DEFAULT '0',	# 更新时间
-  ip int(10) unsigned NOT NULL DEFAULT '0',		# IP
+  ip int(10) NOT NULL DEFAULT '0',			# IP
   type tinyint(1) unsigned NOT NULL DEFAULT '0',	# 类型 (0为发布 1为链接)
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
@@ -172,7 +172,7 @@ CREATE TABLE pre_cms_article_comment (
   uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
   author char(30) NOT NULL DEFAULT '',			# 作者，可能不等于 username
   content text NOT NULL,				# 评论内容
-  ip int(10) unsigned NOT NULL DEFAULT '0',		# IP
+  ip int(10) NOT NULL DEFAULT '0',			# IP
   dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
   PRIMARY KEY  (id,commentid),
   KEY ip (ip,id)	# 用来做防灌水插件
