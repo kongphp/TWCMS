@@ -64,7 +64,7 @@ var cookie = document.cookie.match(/kongphp_trace_page_show=(\d\|\d\|\d)/);
 var history = (cookie && typeof cookie[1] != 'undefined' && cookie[1].split('|')) || [0,0,0];
 var is_size = 0;
 var set_cookie = function() {
-	document.cookie = 'kongphp_trace_page_show=' + history.join('|');	
+	document.cookie = 'kongphp_trace_page_show=' + history.join('|');
 }
 open.onclick = function() {
 	win.style.display='block';

@@ -157,7 +157,7 @@ class db_mysql implements db_interface {
 	public function maxid($key, $val = FALSE) {
 		list($table, $col) = explode('-', $key);
 		$maxid = $this->table_maxid($key);
-		
+
 		if($val === FALSE) {
 			return $maxid;
 		} elseif(is_string($val) && $val{0} == '+') {
@@ -324,7 +324,7 @@ class db_mysql implements db_interface {
 			}
 		}
 		$s .= ($limit ? " LIMIT $start,$limit" : '');
-		
+
 		$ret = array();
 		$query = $this->query($s, $this->rlink);
 		while($row = mysql_fetch_assoc($query)) {
@@ -473,7 +473,7 @@ class db_mysql implements db_interface {
 		}else{
 			$result = mysql_query($sql, $link);
 		}
-		
+
 		if(!$result && $isthrow) {
 			if(DEBUG) {
 				throw new Exception('MySQL Query Error: <b>'.$sql.'</b>. '.mysql_error());

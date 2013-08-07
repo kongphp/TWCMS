@@ -27,7 +27,7 @@ cache + db + model:
  	$this->find_maxid();
  	$this->find_count();
 */
-	
+
 class model{
 	// 每个模型都可以有自己的 db、cache 服务器
 	//public $db_conf = array();
@@ -263,7 +263,7 @@ class model{
 	 * @return array
 	 */
 	public function find_fetch($where = array(), $order = array(), $start = 0, $limit = 0) {
-		return $this->cache_db_find_fetch($this->table, $this->pri, $where, $order, $start, $limit);	
+		return $this->cache_db_find_fetch($this->table, $this->pri, $where, $order, $start, $limit);
 	}
 
 	/**
@@ -296,7 +296,7 @@ class model{
 					$this->cache->delete($key);
 				}
 			}
-		}	
+		}
 		return $this->db->find_update($this->table, $where, $data, $lowprority);
 	}
 
@@ -391,7 +391,7 @@ class model{
 	}
 
 	/**
-	 * 多参数 转 数组 
+	 * 多参数 转 数组
 	 * @param int $arg1-$arg4 参数1-参数4
 	 * @return array
 	 */

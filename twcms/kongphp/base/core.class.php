@@ -300,7 +300,7 @@ class core{
 	/**
 	 * 获取所有插件
 	 * @param boolean $force 强制重新获取
-	 * @return array('not_install', 'disable', 'enable') 
+	 * @return array('not_install', 'disable', 'enable')
 	 */
 	public static function get_plugins($force = 0) {
 		static $plugins = array();
@@ -325,7 +325,7 @@ class core{
 			}
 		}
 
-		//排序规则 rank升序 -> 插件名升序 
+		//排序规则 rank升序 -> 插件名升序
 		_array_multisort($plugins['enable'], 'rank');
 		_array_multisort($plugins['disable'], 'rank');
 		_array_multisort($plugins['not_install'], 'rank');
@@ -336,7 +336,7 @@ class core{
 	/**
 	 * 解析启用插件目录，是否有 hook
 	 * @param array $matches 参数数组
-	 * @return string 
+	 * @return string
 	 */
 	public static function parse_hook($matches) {
 		if(!is_dir(PLUGIN_PATH) || !empty($_SERVER['_config']['plugin_disable'])) return '';

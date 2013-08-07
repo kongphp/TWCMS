@@ -56,7 +56,7 @@ class cache_memcache implements cache_interface{
 	 * @return array
 	 */
 	public function multi_get($keys) {
-		$data = array(); 
+		$data = array();
 		// 支持 getMulti 方法
 		if($this->is_getmulti) {
 			// 补上缓存前缀

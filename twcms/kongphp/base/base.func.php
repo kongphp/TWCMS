@@ -55,7 +55,7 @@ function C($key, $val = null) {
  * </code>
  * @param string $start 开始标签
  * @param string $end 结束标签
- * @param integer|string $dec 小数位或者m 
+ * @param integer|string $dec 小数位或者m
  * @return mixed
  */
 function G($start,$end='',$dec=4) {
