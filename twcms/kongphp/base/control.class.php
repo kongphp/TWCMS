@@ -6,10 +6,10 @@
 class control{
 	public function __get($var) {
 		if($var == 'view') {
-			return $this->view = new view();			
+			return $this->view = new view();
 		}elseif($var == 'db') {
 			$db = 'db_'.$_SERVER['_config']['db']['type'];
-			return $this->db = new $db($_SERVER['_config']['db']);	// 给开发者调试时使用，千万不要在控制器中操作 DB
+			return $this->db = new $db($_SERVER['_config']['db']);	// 给开发者调试时使用，不建议在控制器中操作 DB
 		}else{
 			return $this->$var = M($var);
 		}
