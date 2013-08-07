@@ -158,17 +158,22 @@ class model{
 	}
 
 	/**
-	 * 读取一条数据 如：
-	 * @param array/int $arr 键名数组  提示:主键一列:array(1) 主键多列：array(1, 2)
-	 * @param int $arg2-$arg4 参数2-参数4
+	 * 读取一条数据 (简化数组, 如: _get(1,2,3,4) 表示 get(array(1,2,3,4)) 最多支持4个参数)
+	 * @param string $arg1-$arg4 参数1-参数4
 	 * @return array
 	 */
-	// 技巧1：可以简写成 1 程序会自动转换成 array(1)
-	// 技巧2：get(1,2,3,4) 表示 get(array(1,2,3,4)) 最多支持4个参数
-	public function get($arr, $arg2 = FALSE, $arg3 = FALSE, $arg4 = FALSE) {
-		if($arg2 !== FALSE) {
-			$arr = $this->arg2arr($arr, $arg2, $arg3, $arg4);
-		}
+	public function _get($arg1, $arg2 = FALSE, $arg3 = FALSE, $arg4 = FALSE) {
+		$arr = ($arg2 !== FALSE) ? $this->arg2arr($arg1, $arg2, $arg3, $arg4) : (array)$arg1;
+		$this->get($arr);
+	}
+
+	/**
+	 * 读取一条数据
+	 * @param array $arr 键名数组  提示:主键一列:array(1) 主键多列：array(1, 2)
+	 * @return array
+	 */
+	// 技巧：可以简写成 1 程序会自动转换成 array(1)
+	public function get($arr) {
 		$key = $this->arr2key($arr);
 		if(!isset($this->unique[$key])) {
 			$this->unique[$key] = $this->cache_db_get($key);
@@ -210,15 +215,22 @@ class model{
 	}
 
 	/**
+	 * 删除一条数据 (简化数组, 如: _delete(1,2,3,4) 表示 delete(array(1,2,3,4)) 最多支持4个参数)
+	 * @param string $arg1-$arg4 参数1-参数4
+	 * @return array
+	 */
+	public function _delete($arg1, $arg2 = FALSE, $arg3 = FALSE, $arg4 = FALSE) {
+		$arr = ($arg2 !== FALSE) ? $this->arg2arr($arg1, $arg2, $arg3, $arg4) : (array)$arg1;
+		$this->delete($arr);
+	}
+
+	/**
 	 * 删除一条数据
 	 * @param string $arr	键名数组
 	 * @param int $arg2-$arg4 参数2-参数4
 	 * @return bool
 	 */
-	public function delete($arr, $arg2 = FALSE, $arg3 = FALSE, $arg4 = FALSE) {
-		if($arg2 !== FALSE) {
-			$arr = $this->arg2arr($arr, $arg2, $arg3, $arg4);
-		}
+	public function delete($arr) {
 		$key = $this->arr2key($arr);
 		$ret = $this->cache_db_delete($key);
 		if($ret) {
