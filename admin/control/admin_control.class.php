@@ -49,7 +49,7 @@ class admin_control extends control {
 						$err = 1;
 					}elseif($_SERVER['_ip'] != $ip) {
 						_setcookie('admauth', '', 1);
-						$this->message(0, '您的IP已经改变，为了安全起见，请重新登录！', '?u=index-login.html');
+						$this->message(0, '您的IP已经改变，为了安全考虑，请重新登录！', '?u=index-login.html');
 					}else{
 						// 初始化导航数组
 						$this->init_navigation();
@@ -96,12 +96,12 @@ class admin_control extends control {
 	protected function check_user_group() {
 		if($this->_group['groupid'] == 1) return;
 		if($this->_group['groupid'] > 5) {
-			log::write("非法登录后台", 'login_log.php');
+			log::write("无权用户组尝试登录后台", 'login_log.php');
 			$this->message(0, '对不起，您所在的用户组无权访问后台', -1);
 		}else{
 			$purviews = _json_decode($this->_group['purviews']);
 			/*
-			提示：$purviews 返回的结果如下，如果有特别需求，开发者可根据下面的结构进行扩展功能。
+			提示：$purviews 返回的结果如下，如果有特别需求，开发者可根据下面的结构进行扩展。
 			array(
 				'navs' => array(),	//显示的导航数组
 				'whitelist' => array('content'=>array('index'=>1,'comment'=>1))	//白名单，允许执行的权限
