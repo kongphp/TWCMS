@@ -17,7 +17,7 @@ class index_control extends admin_control{
 		if(empty($_POST)) {
 			$this->display();
 		}elseif(form_submit()) {
-			$user = M('user');
+			$user = &$this->user;
 			$username = R('username', 'P');
 			$password = R('password', 'P');
 

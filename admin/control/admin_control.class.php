@@ -37,8 +37,8 @@ class admin_control extends control {
 					$groupid  = $arr[3];
 					$ip       = $arr[4];
 
-					$user = M('user');
-					$user_group = M('user_group');
+					$user = &$this->user;
+					$user_group = &$this->user_group;
 
 					$this->_user = $user->get($uid);
 					$this->_group = $user_group->get($groupid);
