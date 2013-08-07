@@ -10,6 +10,8 @@ class control{
 		}elseif($var == 'db') {
 			$db = 'db_'.$_SERVER['_config']['db']['type'];
 			return $this->db = new $db($_SERVER['_config']['db']);	// 给开发者调试时使用，千万不要在控制器中操作 DB
+		}else{
+			return $this->$var = M($var);
 		}
 	}
 

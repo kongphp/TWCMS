@@ -59,7 +59,7 @@ class model{
 			case 'cache_conf':
 				return $this->cache_conf = &$_SERVER['_config']['cache'];
 			default:
-				throw new Exception("Model variables not found: $var");
+				return $this->$var = M($var);
 		}
 	}
 
