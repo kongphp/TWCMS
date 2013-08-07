@@ -13,6 +13,11 @@ function runmem() {
 	return MEMORY_LIMIT_ON ? get_byte(memory_get_usage() - $_SERVER['_start_memory']) : 'unknown';
 }
 
+// 获取安全IP
+function ip() {
+	return long2ip(ip2long($_SERVER['_ip']));
+}
+
 /**
  * 无Notice快捷取变量 (Request 的缩写)
  * @param string $k 键值
