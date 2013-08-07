@@ -207,8 +207,8 @@ CREATE TABLE pre_kv (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 缓存表
-DROP TABLE IF EXISTS pre_cache;
-CREATE TABLE pre_cache (
+DROP TABLE IF EXISTS pre_runtime;
+CREATE TABLE pre_runtime (
   k char(32) NOT NULL DEFAULT '',			# 键名
   v text NOT NULL DEFAULT '',				# 数据
   expiry int(10) unsigned NOT NULL DEFAULT '0',		# 过期时间
