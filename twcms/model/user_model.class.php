@@ -58,4 +58,17 @@ class user extends model {
 	public function verify_password($password, $salt, $password_md5) {
 		return md5(md5($password).$salt) == $password_md5;
 	}
+
+	// 防IP暴力破解
+	public function anti_ip_brute($ip) {
+		$password_error = $this->runtime->get('password_error_'.$ip);
+		return ($password_error && $password_error >= 8) ? true : false;
+	}
+
+	// 根据IP记录密码错误次数
+	public function password_error($ip) {
+		$password_error = (int)$this->runtime->get('password_error_'.$ip);
+		$password_error++;
+		$this->runtime->set('password_error_'.ip(), $password_error, 450);
+	}
 }

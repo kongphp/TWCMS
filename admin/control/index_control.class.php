@@ -28,6 +28,11 @@ class index_control extends admin_control{
 				exit('{"name":"password", "message":"啊哦，'.$message.'"}');
 			}
 
+			$ip = ip();
+			if($user->anti_ip_brute($ip)) {
+				exit('{"name":"password", "message":"啊哦，请15分钟之后再试！"}');
+			}
+
 			$users = $user->get_user_by_username($username);
 			if($users && $user->verify_password($password, $users['salt'], $users['password'])) {
 				// 写入 cookie
@@ -45,9 +50,19 @@ class index_control extends admin_control{
 				);
 				$user->update($data);
 
+				// 删除密码错误记录
+				$this->runtime->delete('password_error_'.$ip);
+
 				exit('{"name":"", "message":"登录成功！"}');
 			}else{
-				exit('{"name":"password", "message":"啊哦，帐号或密码不正确!"}');
+				// 记录密码错误日志
+				$log_password = '******'.substr($password, 6);
+				log::write("密码错误：$username - $log_password", 'login_log.php');
+
+				// 记录密码错误次数
+				$user->password_error($ip);
+
+				exit('{"name":"password", "message":"啊哦，帐号或密码不正确！"}');
 			}
 		}else{
 			exit('{"name":"username", "message":"啊哦，表单失效！请刷新后再试！"}');
