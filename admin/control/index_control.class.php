@@ -28,6 +28,7 @@ class index_control extends admin_control{
 				exit('{"name":"password", "message":"啊哦，'.$message.'"}');
 			}
 
+			// 防IP暴力破解
 			$ip = ip();
 			if($user->anti_ip_brute($ip)) {
 				exit('{"name":"password", "message":"啊哦，请15分钟之后再试！"}');
