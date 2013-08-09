@@ -32,7 +32,7 @@ class core{
 		$isfirst = empty($_SERVER['_isgzip']);
 
 		if($gzip) {
-			if(ini_get('zlib.output_compression')) {
+			if(function_exists('ini_get') && ini_get('zlib.output_compression')) {
 				$isfirst && header("Content-Encoding: gzip");
 			}elseif(function_exists('gzencode') && strpos($_SERVER["HTTP_ACCEPT_ENCODING"], 'gzip') !== FALSE) {
 				$s = gzencode($s, 5);
