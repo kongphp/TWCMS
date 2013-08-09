@@ -267,7 +267,7 @@ class core{
 
 	/**
 	 * 获取原始文件路径 (注意：插件最大，插件可代替程序核心功能)
-	 * 支持 control model view (目的：统一设计思路，方便记忆和理解)
+	 * 支持 block control model view (目的：统一设计思路，方便记忆和理解)
 	 * @param string $filename 文件名
 	 * @param string $path 绝对路径
 	 * @return string 获取成功返回路径, 获取失败返回false
@@ -290,7 +290,7 @@ class core{
 			}
 		}
 
-		// 第3步 查找 (control|model|view)/xxx.(php|htm)
+		// 第3步 查找 (block|control|model|view)/xxx.(php|htm)
 		if(is_file($path.$filename)) {
 			return $path.$filename;
 		}
@@ -350,15 +350,23 @@ class core{
 			$file = PLUGIN_PATH.$p.'/'.$matches[1];
 			if(!is_file($file)) continue;
 
-			$hook_str = file_get_contents($file);
-			$hook_str = trim($hook_str);
-			if(substr($hook_str, 0, 5) == '<?php') $hook_str = substr($hook_str, 5);
-			$hook_str = ltrim($hook_str);
-			if(substr($hook_str, 0, 29) == 'defined(\'KONG_PATH\') || exit;') $hook_str = substr($hook_str, 29);
-			if(substr($hook_str, -2, 2) == '?>') $hook_str = substr($hook_str, 0, -2);
-
-			$str .= $hook_str;
+			$s = file_get_contents($file);
+			$str .= self::cleanup_str($s);
 		}
 		return $str;
+	}
+
+	/**
+	 * 清除头尾不需要的代码
+	 * @param array $s 字符串
+	 * @return string
+	 */
+	public static function cleanup_str($s) {
+		$s = trim($s);
+		if(substr($s, 0, 5) == '<?php') $s = substr($s, 5);
+		$s = ltrim($s);
+		if(substr($s, 0, 29) == 'defined(\'KONG_PATH\') || exit;') $s = substr($s, 29);
+		if(substr($s, -2, 2) == '?>') $s = substr($s, 0, -2);
+		return $s;
 	}
 }

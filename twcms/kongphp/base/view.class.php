@@ -104,11 +104,12 @@ class view{
 		$config = $matches[2];
 		$s = $matches[3];
 
-		$lib_file = BLOCK_PATH.'kp_block_'.$func.'.lib.php';
+		$lib_file = core::get_original_file('kp_block_'.$func.'.lib.php', BLOCK_PATH);
 		if(!is_file($lib_file)) return '';
 
 		//为减少IO，把需要用到的函数代码放到模板解析代码头部
 		$lib_str = file_get_contents($lib_file);
+		$lib_str = core::cleanup_str($lib_str);
 		$lib_str = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $lib_str);
 		$this->head_arr['kp_block_'.$func] = $lib_str;
 
