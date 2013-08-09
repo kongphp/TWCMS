@@ -14,7 +14,7 @@ class debug{
 		}else{
 			error_reporting(0);	// 关闭错误输出
 		}
-		ini_set('display_errors', 'On');
+		function_exists('ini_set') && ini_set('display_errors', 'On');
 		set_error_handler(array('debug', 'error_handler'));	//设置错误处理方法
 		set_exception_handler(array('debug', 'exception_handler'));	// 设置异常处理方法
 	}
