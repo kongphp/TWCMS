@@ -25,12 +25,11 @@ define('KONG_VERSION', '1.0.0');	//框架版本
 defined('DEBUG') || define('DEBUG', true);	//调试模式
 defined('CONFIG_PATH') || define('CONFIG_PATH', APP_PATH.'config/');	//配置目录
 defined('CONTROL_PATH') || define('CONTROL_PATH', APP_PATH.'control/');	//控制器目录
-defined('BLOCK_PATH') || define('BLOCK_PATH', APP_PATH.'block/');	//模板块对象目录
+defined('BLOCK_PATH') || define('BLOCK_PATH', APP_PATH.'block/');	//模块目录
 defined('MODEL_PATH') || define('MODEL_PATH', APP_PATH.'model/');	//模型目录
 defined('VIEW_PATH') || define('VIEW_PATH', APP_PATH.'view/');	//视图目录
-defined('PLUGIN_PATH') || define('PLUGIN_PATH', APP_PATH.'plugin/');	//插件AOP目录
-defined('RUNTIME_PATH') || define('RUNTIME_PATH', APP_PATH.'runtime/');	//运行目录
-defined('RUNTIME_MODEL_PATH') || define('RUNTIME_MODEL_PATH', RUNTIME_PATH.APP_NAME.'_model/');	//运行模型目录
+defined('PLUGIN_PATH') || define('PLUGIN_PATH', APP_PATH.'plugin/');	//插件目录
+defined('RUNTIME_PATH') || define('RUNTIME_PATH', APP_PATH.'runtime/');	//运行缓存目录
 
 if(DEBUG) {
 	include CONFIG_PATH.'config.inc.php';
