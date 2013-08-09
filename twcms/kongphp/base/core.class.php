@@ -108,11 +108,11 @@ class core{
 			self::parseurl_control();
 		}else{
 			// 提示：为了满足各种需求，这里搞了三种方式，可能有点乱，没办法迫不得已。
-			if(isset($_SERVER['PATH_INFO'])) {
-				$u = $_SERVER['PATH_INFO'];
-			}elseif(isset($_GET['u'])) {
+			if(isset($_GET['u'])) {
 				$u = $_GET['u'];
 				unset($_GET['u']);
+			}elseif(!empty($_SERVER['PATH_INFO'])) {
+				$u = $_SERVER['PATH_INFO'];
 			}else{
 				$_GET = array();
 				$u = $_SERVER["QUERY_STRING"];
