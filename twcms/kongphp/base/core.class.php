@@ -63,7 +63,6 @@ class core{
 		date_default_timezone_set($_SERVER['_config']['zone']);	// php5.4 以后，不再支持 Etc/GMT+8 这种格式
 
 		spl_autoload_register(array('core', 'autoload_handler'));	// 设置自动包含类文件方法
-		ini_set('magic_quotes_runtime', 0);	//关闭自动添加反斜线
 
 		// GPC 安全过滤
 		if(get_magic_quotes_gpc()) {
