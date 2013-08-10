@@ -15,7 +15,6 @@ function runmem() {
 
 // 获取IP
 function ip() {
-	if(isset($_SERVER['_ip'])) return $_SERVER['_ip'];
 	if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 		$arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
 		// 取第一个非unknown的IP
@@ -28,7 +27,7 @@ function ip() {
 	}elseif(isset($_SERVER['REMOTE_ADDR'])) {
 		$ip = $_SERVER['REMOTE_ADDR'];
 	}
-	return $_SERVER['_ip'] = (false !== ip2long($ip)) ? $ip : '0.0.0.0';
+	return (false !== ip2long($ip)) ? $ip : '0.0.0.0';
 }
 
 /**

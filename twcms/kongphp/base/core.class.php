@@ -71,6 +71,12 @@ class core{
 			_stripslashes($_COOKIE);
 		}
 
+		// 初始化全局变量
+		$_SERVER['_sqls'] = array();	// debug 时使用
+		$_SERVER['_include'] = array();	// autoload 时使用
+		$_SERVER['_time'] = isset($_SERVER['REQUEST_TIME']) ? $_SERVER['REQUEST_TIME'] : time();
+		$_SERVER['_ip'] = ip();
+
 		// 输出 header 头
 		header("Expires: 0");
 		header("Cache-Control: private, post-check=0, pre-check=0, max-age=0");

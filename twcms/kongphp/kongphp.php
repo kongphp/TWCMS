@@ -15,12 +15,6 @@ $_SERVER['_start_time'] = microtime(1);
 define('MEMORY_LIMIT_ON', function_exists('memory_get_usage'));
 if(MEMORY_LIMIT_ON) $_SERVER['_start_memory'] = memory_get_usage();
 
-// 统一系统参数
-$_SERVER['_sqls'] = array();	// debug 时使用
-$_SERVER['_include'] = array();	// autoload 时使用
-$_SERVER['_ip'] = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
-$_SERVER['_time'] = time();
-
 define('KONG_VERSION', '1.0.0');	//框架版本
 defined('DEBUG') || define('DEBUG', true);	//调试模式
 defined('CONFIG_PATH') || define('CONFIG_PATH', APP_PATH.'config/');	//配置目录
