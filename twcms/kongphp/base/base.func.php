@@ -13,9 +13,22 @@ function runmem() {
 	return MEMORY_LIMIT_ON ? get_byte(memory_get_usage() - $_SERVER['_start_memory']) : 'unknown';
 }
 
-// 获取安全IP
+// 获取IP
 function ip() {
-	return long2ip(ip2long($_SERVER['_ip']));
+	if(isset($_SERVER['_ip'])) return $_SERVER['_ip'];
+	if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+		$arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+		// 取第一个非unknown的IP
+		foreach($arr as $ip) {
+			$ip = trim($ip);
+			if(strtolower($ip) != 'unknown') break;
+		}
+	}elseif(isset($_SERVER['HTTP_CLIENT_IP'])) {
+		$ip = $_SERVER['HTTP_CLIENT_IP'];
+	}elseif(isset($_SERVER['REMOTE_ADDR'])) {
+		$ip = $_SERVER['REMOTE_ADDR'];
+	}
+	return $_SERVER['_ip'] = (false !== ip2long($ip)) ? $ip : '0.0.0.0';
 }
 
 /**
