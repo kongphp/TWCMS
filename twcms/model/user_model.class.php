@@ -26,7 +26,7 @@ class user extends model {
 			return '用户名不能为空哦！';
 		}elseif(utf8::strlen($username) > 16) {
 			return '用户名不能大于16位哦！';
-		}elseif(str_replace(array("\t", "\r", "\n", ' ', '　', ',', '，', '-', '"', "'"), '', $username) != $username) {
+		}elseif(str_replace(array("\t","\r","\n",' ','　',',','，','-','"',"'",'\\','/','&','#','*'), '', $username) != $username) {
 			return '用户名中含有非法字符！';
 		}elseif(htmlspecialchars($username) != $username) {
 			return '用户名中不能含有<>！';
@@ -38,7 +38,7 @@ class user extends model {
 
 	// 返回安全的用户名
 	public function safe_username(&$username) {
-		$username = str_replace(array("\t", "\r", "\n", ' ', '　', ',', '，', '-', '"', "'"), '', $username);
+		$username = str_replace(array("\t","\r","\n",' ','　',',','，','-','"',"'",'\\','/','&','#','*'), '', $username);
 		$username = htmlspecialchars($username);
 	}
 
