@@ -40,7 +40,17 @@ class debug{
 		);
 
 		$errno_str = isset($error_type[$errno]) ? $error_type[$errno] : '未知错误';
-		throw new Exception("[$errno_str] : $errstr");
+		$s = "[$errno_str] : $errstr";
+		if(DEBUG) {
+			throw new Exception($s);
+		}else{
+			// 线上模式放宽一些，但要记录日志，方便发现问题
+			if($errno != E_NOTICE && $errno != E_USER_NOTICE) {
+				throw new Exception($s);
+			}else{
+				log::write($s);
+			}
+		}
 	}
 
 	/**
