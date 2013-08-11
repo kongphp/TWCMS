@@ -56,7 +56,7 @@ if(DEBUG) {
 		$s .= trim(php_strip_whitespace(KONG_PATH.'cache/cache.interface.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'cache/cache_memcache.class.php'), "<?ph>\r\n");
 		$s = str_replace('defined(\'KONG_PATH\') || exit;', '', $s);
-		file_put_contents($runfile, '<?php'.$s);
+		file_put_contents($runfile, '<?php '.$s);
 		unset($s);
 	}
 	include $runfile;

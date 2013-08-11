@@ -1,4 +1,4 @@
-<?php 
+<?php
 $_SERVER['_config'] = array(
 	'plugin_disable' => 0,			// 禁止掉所有插件
 	'zone' => 'Asia/Shanghai',		// 时区
@@ -9,7 +9,7 @@ $_SERVER['_config'] = array(
 	'cookie_path' => '/',
 	'cookie_domain' => '',
 
-	// 数据库配置，type 为默认的数据库类型，可以支持多种数据库: mysql|pdo_mysql|mongodb	
+	// 数据库配置，type 为默认的数据库类型，可以支持多种数据库: mysql|pdo_mysql|mongodb
 	'db' => array(
 		'type' => 'mysql',
 		// 主数据库
@@ -23,7 +23,7 @@ $_SERVER['_config'] = array(
 			'engine'=>'MyISAM',
 		),
 		// 从数据库(可以是从数据库服务器群，如果不设置将使用主数据库)
-		/* 
+		/*
 		'slaves' => array(
 			array(
 				'host' => 'localhost',
