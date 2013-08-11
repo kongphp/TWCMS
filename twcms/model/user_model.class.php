@@ -71,4 +71,17 @@ class user extends model {
 		$password_error++;
 		$this->runtime->set('password_error_'.$ip, $password_error, 450);
 	}
+
+	// 格式化后显示给用户
+	public function format(&$user) {
+		if(!$user) return;
+		$user['regdate'] = empty($user['regdate']) ? '0000-00-00 00:00' : date('Y-m-d H:i', $user['regdate']);
+		$user['regip'] = long2ip($user['regip']);
+		$user['logindate'] = empty($user['logindate']) ? '0000-00-00 00:00' : date('Y-m-d H:i', $user['logindate']);
+		$user['loginip'] = long2ip($user['loginip']);
+		$user['lastdate'] = empty($user['lastdate']) ? '0000-00-00 00:00' : date('Y-m-d H:i', $user['lastdate']);
+		$user['lastip'] = long2ip($user['lastip']);
+
+		// hook usre_model_format_end.php
+	}
 }

@@ -9,10 +9,10 @@ defined('TWCMS_PATH') or exit;
 class my_control extends admin_control {
 	// 我的首页
 	public function index() {
-		echo '我的首页';
+		// 格式化后显示给用户
+		$this->user->format($this->_user);
 
-		//$this->display();
-		var_dump($_SERVER);
+		$this->display();
 	}
 
 	//hook admin_my_control_after.php
