@@ -16,18 +16,14 @@ function runmem() {
 // 获取IP
 function ip() {
 	if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-		$arr = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
-		// 取第一个非unknown的IP
-		foreach($arr as $ip) {
-			$ip = trim($ip);
-			if(strtolower($ip) != 'unknown') break;
-		}
+		preg_match('#[\d\.]{7,15}#', $_SERVER['HTTP_X_FORWARDED_FOR'], $mat);
+		$ip = $mat[0];
 	}elseif(isset($_SERVER['HTTP_CLIENT_IP'])) {
 		$ip = $_SERVER['HTTP_CLIENT_IP'];
 	}elseif(isset($_SERVER['REMOTE_ADDR'])) {
 		$ip = $_SERVER['REMOTE_ADDR'];
 	}
-	return (false !== ip2long($ip)) ? $ip : '0.0.0.0';
+	return long2ip(ip2long($ip));
 }
 
 /**
