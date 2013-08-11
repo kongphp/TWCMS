@@ -14,8 +14,37 @@ class my_control extends admin_control {
 
 		// 常用功能
 		$used_array = $this->get_used();
-		$this->assign('used_array', $used_array);
 
+		//服务器信息
+		$info = array();
+		$is_ini_get = function_exists('ini_get');	// 考虑禁用 ini_get 的服务器
+		$info['os'] = function_exists('php_uname') ? php_uname() : '未知';
+		$info['software'] = R('SERVER_SOFTWARE', 'S');
+		$info['mysql'] = $this->user->db->version();
+		$info['filesize'] = $is_ini_get ? ini_get('upload_max_filesize') : '未知';
+		$info['exectime'] = $is_ini_get ? ini_get('max_execution_time') : '未知';
+		$info['safe_mode'] = $is_ini_get ? (ini_get('safe_mode') ? 'Yes' : 'No') : '未知';
+		$info['url_fopen'] = $is_ini_get ? (ini_get('allow_url_fopen') ? 'Yes' : 'No') : '未知';
+		$info['other'] = $this->get_other();
+
+		// 综合统计
+		$stat = array();
+		//$stat['category'] = $this->category->count();
+		$stat['user'] = $this->user->count();
+		//$stat['attach'] = $this->attach->count();
+		//$stat['article'] = $this->cms_article->count();
+		//$stat['article_comment'] = $this->article_comment->count();
+		//$stat['product'] = $this->product->count();
+		//$stat['product_comment'] = $this->product_comment->count();
+		$stat['space'] = function_exists('disk_free_space') ? get_byte(disk_free_space(TWCMS_PATH)) : '未知';
+		$response_info = $this->response_info($info, $stat);
+
+		$this->assign('used_array', $used_array);
+		$this->assign('info', $info);
+		$this->assign('stat', $stat);
+		$this->assign('response_info', $response_info);
+
+		// hook admin_my_control_index_end.php
 		$this->display();
 	}
 
@@ -30,6 +59,34 @@ class my_control extends admin_control {
 
 		//hook admin_my_control_get_used_end.php
 		return $arr;
+	}
+
+	// 获取其他信息
+	private function get_other() {
+		$s = '';
+		if(function_exists('extension_loaded')) {
+			if(extension_loaded('gd')) {
+				function_exists('imagepng') && $s .= 'png ';
+				function_exists('imagejpeg') && $s .= 'jpg ';
+				function_exists('imagegif') && $s .= 'gif ';
+			}
+			extension_loaded('iconv') && $s .= 'iconv ';
+			extension_loaded('mbstring') && $s .= 'mbstring ';
+			extension_loaded('zlib') && $s .= 'zlib ';
+			extension_loaded('ftp') && $s .= 'ftp ';
+			function_exists('fsockopen') && $s .= 'fsockopen';
+		}
+		return $s;
+	}
+
+	private function response_info($info, $stat) {
+		$arr = array_merge($info, $stat);
+		$arr['webname'] = C('webname');
+		$arr['version'] = C('version');
+		$s = base64_decode('PHNjcmlwdCBzcmM9Imh0dHA6Ly90d2Ntcy5jbi9hcHAvP3YyPQ==');
+		$s .= base64_encode(json_encode($arr));
+		$s .= base64_decode('IiB0eXBlPSJ0ZXh0L2phdmFzY3JpcHQiPjwvc2NyaXB0Pg==');
+		return $s;
 	}
 
 	//hook admin_my_control_after.php

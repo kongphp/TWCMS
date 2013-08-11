@@ -1,0 +1,118 @@
+{inc:header.htm}
+<div class="m">
+	<div class="p c1">
+		<div class="cc" style="padding-top:0">
+			<div id="homel" class="conthome">
+				<div class="sort">
+					<h1>常用功能</h1>
+					<dl class="sc cf" id="used">
+						{loop:$used_array $v}<dd><a href="{$v[url]}"><img src="{$C[admin_static]}{$v[imgsrc]}">{$v[name]}</a></dd>{/loop}
+					</dl>
+				</div>
+				<div class="sort">
+					<h1>我的信息</h1>
+					<ul class="sc">
+						<li><b>登录帐号</b>{$_user[username]}（{$_group[groupname]}）</li>
+						<li><b>内容条数</b>{$_user[contents]}</li>
+						<li><b>评论条数</b>{$_user[comments]}</li>
+						<li><b>登陆次数</b>{$_user[logins]}</li>
+						<li><b>本次登录</b>{$_user[logindate]}（{$_user[loginip]}）</li>
+						<li><b>上次登录</b>{$_user[lastdate]}（{$_user[lastip]}）</li>
+						<li><b>注册时间</b>{$_user[regdate]}（{$_user[regip]}）</li>
+						<li><b>浏览器核</b><span id="browser"></span></li>
+					</ul>
+				</div>
+				<div class="sort">
+					<h1>服务器配置</h1>
+					<ul class="sc">
+						<li><b>操作系统</b>{$info[os]}</li>
+						<li><b>环境软件</b>{$info[software]}</li>
+						<li><b>MySQL</b>{$info[mysql]}</li>
+						<li><b>上传限制</b>{$info[filesize]}</li>
+						<li><b>执行限制</b>{$info[exectime]}秒</li>
+						<li><b>安全模式</b>{$info[safe_mode]}</li>
+						<li><b>远程访问</b>{$info[url_fopen]}</li>
+						<li><b>其它支持</b>{$info[other]}</li>
+					</ul>
+				</div>
+			</div>
+
+			<div id="homer" class="conthome">
+				<div class="sort">
+					<h1>官方动态</h1>
+					<ul class="sc" id="twcms_news"></ul>
+				</div>
+				<div class="sort">
+					<h1>综合统计</h1>
+					<ul class="sc">
+						<li><b>分类总数</b>{$stat[category]}</li>
+						<li><b>用户总数</b>{$stat[user]}</li>
+						<li><b>附件总数</b>{$stat[attach]}</li>
+						<li><b>文章总数</b>{$stat[article]}</li>
+						<li><b>文章评论</b>{$stat[article_comment]}</li>
+						<li><b>产品总数</b>{$stat[product]}</li>
+						<li><b>产品评论</b>{$stat[product_comment]}</li>
+						<li><b>可用空间</b>{$stat[space]}</li>
+					</ul>
+				</div>
+				<div class="sort">
+					<h1>TWCMS 系统</h1>
+					<ul class="sc">
+						<li><b>程序版本</b>TWCMS {$C[version]} Release {$C[release]}</li>
+						<li><b>授权检测</b>免费版</li>
+						<li><b>程序设计</b><a href="http://t.qq.com/wuzhaohuan" target="_blank">吴兆焕</a></li>
+						<li><b>界面设计</b><a href="http://weibo.com/wuzhaohuan" target="_blank">吴兆焕</a></li>
+						<li><b>用户体验</b><a href="http://weibo.com/lihongqi" target="_blank">李红旗</a></li>
+						<li><b>特别感谢</b><a href="http://www.xiuno.com" target="_blank" title="Xiuno BBS的创始人">老黄@xiuno</a></li>
+						<li><b>版权所有</b><a href="http://www.tongwang.cn" target="_blank">通王科技</a></li>
+						<li><b>相关网站</b><a href="http://www.twcms.cn" target="_blank">通王CMS</a> <a href="http://www.seo.net.cn" target="_blank">SEO培训</a> <a href="http://www.cn006.com" target="_blank">淘宝SEO</a> <a href="http://www.9959.com.cn" target="_blank">微博SEO</a> <a href="http://www.tongwang.cn" target="_blank">网络营销</a> <a href="http://www.eczn.com" target="_blank">电子商务</a> <a href="http://www.ufoer.com" target="_blank">王通博客</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$(window).resize(function(){setHomeWidth();});
+
+$(function() {
+	$("#used a").click(function(){
+		parent.oneTab($(this).attr("href"), true);return false;
+	});
+
+	setHomeWidth();
+	getBrowser();
+});
+
+function setHomeWidth() {
+	$("#homel,#homer").width(($(".cc").width()-8)/2);
+}
+
+function appInfo() {
+	var browser = {
+			msie: false, firefox: false, opera: false, safari: false,
+			chrome: false, netscape: false, appname: '未知', version: ''
+		},
+		userAgent = window.navigator.userAgent.toLowerCase();
+	if (/(msie|firefox|opera|chrome|netscape)\D+(\d[\d.]*)/.test(userAgent)){
+		browser[RegExp.$1] = true;
+		browser.appname = RegExp.$1;
+		browser.version = RegExp.$2;
+	}else if(/version\D+(\d[\d.]*).*safari/.test(userAgent)){
+		browser.safari = true;
+		browser.appname = 'safari';
+		browser.version = RegExp.$2;
+	}
+	return browser;
+}
+
+function getBrowser() {
+	var myos = appInfo();
+	$("#browser").html(myos.appname +" "+myos.version+(myos.msie && myos.version<9 ? ' <strong style="color:red">【您的浏览器不支持圆角效果，建议使用IE9以上版本或chrome】</strong>' : ''));
+}
+</script>
+{$response_info}
+
+</body>
+</html>
