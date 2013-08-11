@@ -29,12 +29,17 @@ class debug{
 	public static function error_handler($errno, $errstr, $errfile, $errline) {
 		if(!empty($_SERVER['_exception'])) return;
 		$error_type = array(
+			E_ERROR					=> '运行错误',
 			E_WARNING				=> '运行警告',
 			E_PARSE					=> '语法错误',
 			E_NOTICE				=> '运行通知',
-			E_USER_ERROR			=> '运行错误',
-			E_USER_WARNING			=> '运行警告',
-			E_USER_NOTICE			=> '运行通知',
+			E_CORE_ERROR			=> '初始错误',
+			E_CORE_WARNING			=> '初始警告',
+			E_COMPILE_ERROR			=> '编译错误',
+			E_COMPILE_WARNING		=> '编译警告',
+			E_USER_ERROR			=> '用户定义的错误',
+			E_USER_WARNING			=> '用户定义的警告',
+			E_USER_NOTICE			=> '用户定义的通知',
 			E_STRICT				=> '代码标准建议',
 			E_RECOVERABLE_ERROR		=> '致命错误',
 		);
