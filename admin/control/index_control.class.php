@@ -29,7 +29,7 @@ class index_control extends admin_control{
 			}
 
 			// 防IP暴力破解
-			$ip = ip();
+			$ip = &$_SERVER['_ip'];
 			if($user->anti_ip_brute($ip)) {
 				exit('{"name":"password", "message":"啊哦，请15分钟之后再试！"}');
 			}
@@ -37,13 +37,13 @@ class index_control extends admin_control{
 			$users = $user->get_user_by_username($username);
 			if($users && $user->verify_password($password, $users['salt'], $users['password'])) {
 				// 写入 cookie
-				$admauth = str_auth("$users[uid]\t$users[username]\t$users[password]\t$users[groupid]\t$_SERVER[_ip]", 'ENCODE');
+				$admauth = str_auth("$users[uid]\t$users[username]\t$users[password]\t$users[groupid]\t$ip", 'ENCODE');
 				_setcookie('admauth', $admauth, 0, '', '', false, true);
 
 				// 更新登陆信息
 				$data = array(
 					'uid' => $users['uid'],
-					'loginip' => ip2long($_SERVER['_ip']),
+					'loginip' => ip2long($ip),
 					'logindate' => $_SERVER['_time'],
 					'lastip' => $users['loginip'],
 					'lastdate' => $users['logindate'],

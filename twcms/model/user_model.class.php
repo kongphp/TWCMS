@@ -69,6 +69,6 @@ class user extends model {
 	public function password_error($ip) {
 		$password_error = (int)$this->runtime->get('password_error_'.$ip);
 		$password_error++;
-		$this->runtime->set('password_error_'.ip(), $password_error, 450);
+		$this->runtime->set('password_error_'.$ip, $password_error, 450);
 	}
 }
