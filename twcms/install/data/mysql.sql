@@ -4,7 +4,7 @@ CREATE TABLE pre_user (
   uid int(10) unsigned NOT NULL AUTO_INCREMENT,		# 用户ID
   username char(16) NOT NULL DEFAULT '',		# 用户名
   password char(32) NOT NULL DEFAULT '',		# 密码	md5(md5() + salt)
-  salt char(20) NOT NULL DEFAULT '',			# 随机干扰字符，用来混淆密码
+  salt char(10) NOT NULL DEFAULT '',			# 随机干扰字符，用来混淆密码
   groupid smallint(5) unsigned NOT NULL DEFAULT '0',	# 用户组
   email char(40) NOT NULL DEFAULT '',			# EMAIL
   homepage char(40) NOT NULL DEFAULT '',		# 主页的URL（外链）
