@@ -48,6 +48,12 @@ class my_control extends admin_control {
 		$this->display();
 	}
 
+	// 修改密码
+	public function password() {
+		// hook admin_my_control_password_end.php
+		$this->display();
+	}
+
 	// 获取常用功能
 	private function get_used() {
 		$arr = array(

@@ -141,7 +141,6 @@ class admin_control extends control {
 				'name'=>'我的',
 				'sub'=>array(
 					'index'=>'后台首页',
-					'newtab'=>'新标签页',
 					'password'=>'修改密码',
 				)
 			),
@@ -150,8 +149,8 @@ class admin_control extends control {
 				'sub'=>array(
 					'index'=>'基本设置',
 					'seo'=>'SEO设置',
-					'ishtml'=>'链接设置',
-					'attachment'=>'附件设置',
+					'link'=>'链接设置',
+					'attach'=>'附件设置',
 				)
 			),
 			'category'=>array(
@@ -173,7 +172,7 @@ class admin_control extends control {
 				'name'=>'主题',
 				'sub'=>array(
 					'index'=>'主题设置',
-					'modify'=>'主题编辑',
+					'modify'=>'主题修改',
 				)
 			),
 			'plugin'=>array(
