@@ -48,6 +48,15 @@ class my_control extends admin_control {
 		$this->display();
 	}
 
+	// 新标签页
+	public function newtab() {
+		$this->_title = '新标签页';
+		$this->_place = '我的 &#187; '.$this->_title;
+
+		// hook admin_my_control_newtab_end.php
+		$this->display();
+	}
+
 	// 修改密码
 	public function password() {
 		// hook admin_my_control_password_end.php
