@@ -63,7 +63,7 @@
 						<li><b>程序设计</b><a href="http://t.qq.com/wuzhaohuan" target="_blank">吴兆焕</a></li>
 						<li><b>界面设计</b><a href="http://weibo.com/wuzhaohuan" target="_blank">吴兆焕</a></li>
 						<li><b>用户体验</b><a href="http://weibo.com/lihongqi" target="_blank">李红旗</a></li>
-						<li><b>特别感谢</b><a href="http://www.xiuno.com" target="_blank" title="Xiuno BBS的创始人">老黄@xiuno</a></li>
+						<li><b>特别感谢</b><a href="http://www.xiuno.com" target="_blank" title="Xiuno BBS创始人">老黄@xiuno</a> <a href="http://www.3hack.com" target="_blank" title="3HACK创始人,TWCMS安全顾问">Y35U</a></li>
 						<li><b>版权所有</b><a href="http://www.tongwang.cn" target="_blank">通王科技</a></li>
 						<li><b>相关网站</b><a href="http://www.twcms.cn" target="_blank">通王CMS</a> <a href="http://www.seo.net.cn" target="_blank">SEO培训</a> <a href="http://www.cn006.com" target="_blank">淘宝SEO</a> <a href="http://www.9959.com.cn" target="_blank">微博SEO</a> <a href="http://www.tongwang.cn" target="_blank">网络营销</a> <a href="http://www.eczn.com" target="_blank">电子商务</a> <a href="http://www.ufoer.com" target="_blank">王通博客</a></li>
 					</ul>
@@ -83,6 +83,8 @@ $(function() {
 
 	setHomeWidth();
 	getBrowser();
+
+	$("body").append('{$response_info}');
 });
 
 function setHomeWidth() {
@@ -112,7 +114,5 @@ function getBrowser() {
 	$("#browser").html(myos.appname +" "+myos.version+(myos.msie && myos.version<9 ? ' <strong style="color:red">【您的浏览器不支持圆角效果，建议使用IE9以上版本或chrome】</strong>' : ''));
 }
 </script>
-{$response_info}
-
 </body>
 </html>
