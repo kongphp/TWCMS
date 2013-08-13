@@ -1,7 +1,46 @@
 {inc:header.htm}
 <div class="m">
+	<div class="p c1">
+		<div class="cc">
+			<form action="?u=setting-index-ajax-1.html" method="post">
+				<div class="tb_t">基本设置</div>
+				<table class="tb">
+					<tr>
+						<th>站点标题</th>
+						<td>{$input[webname]}</td>
+					</tr>
+					<tr>
+						<th>站点域名</th>
+						<td>{$input[webdomain]}</td>
+					</tr>
+					<tr>
+						<th>所在目录</th>
+						<td>{$input[webdir]}</td>
+					</tr>
+					<tr>
+						<th>邮箱</th>
+						<td>{$input[webmail]}</td>
+					</tr>
+					<tr>
+						<th>统计代码</th>
+						<td>{$input[tongji]}</td>
+					</tr>
+					<tr>
+						<th>备案号</th>
+						<td>{$input[beian]}</td>
+					</tr>
 
+					{hook:admin_setting_index.htm}
+
+				</table>
+				<div class="tb_b"><input type="submit" value="&#20445;&#23384;" class="but1" /></div>
+			</form>
+		</div>
+	</div>
 </div>
 
+<script type="text/javascript">
+twAjax.submit("form:first");
+</script>
 </body>
 </html>

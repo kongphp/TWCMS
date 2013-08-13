@@ -1,7 +1,34 @@
 {inc:header.htm}
 <div class="m">
+	<div class="p c1">
+		<div class="cc">
+			<form action="?u=setting-attach-ajax-1.html" method="post">
+				<div class="tb_t">附件设置</div>
+				<table class="tb">
+					<tr>
+						<th>上传图片</th>
+						<td>允许类型{$input[up_img_ext]} 最大限制{$input[up_img_max_size]}KB</td>
+					</tr>
+					<tr>
+						<th>上传附件</th>
+						<td>允许类型{$input[up_file_ext]} 最大限制{$input[up_file_max_size]}KB</td>
+					</tr>
+					<tr>
+						<th>远程抓取</th>
+						<td>允许类型{$input[get_file_ext]} 最大限制{$input[get_file_max_size]}KB</td>
+					</tr>
 
+					{hook:admin_setting_attach.htm}
+
+				</table>
+				<div class="tb_b"><input type="submit" value="&#20445;&#23384;" class="but1" /></div>
+			</form>
+		</div>
+	</div>
 </div>
 
+<script type="text/javascript">
+twAjax.submit("form:first");
+</script>
 </body>
 </html>

@@ -121,7 +121,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .tb th b{color:red;padding-right:3px}
 .tb th,.tb td{padding:8px;line-height:20px}
 .tb td .desc{margin-top:4px;color:#666}
-.tb_b{height:22px;padding:7px 0 0 0;border-top:1px dashed #D0E6EC;overflow:hidden}
+.tb_b{height:22px;padding:7px 0 0 95px;border-top:1px dashed #D0E6EC;overflow:hidden}
 
 /*表格2*/
 .tb2 tr.tit{background:url(../img/bg_x.gif) 0 -91px repeat-x}
