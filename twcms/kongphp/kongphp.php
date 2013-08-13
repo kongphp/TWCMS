@@ -66,4 +66,3 @@ core::start();
 if(DEBUG > 1 && !R('ajax', 'R')) {
 	debug::sys_trace();
 }
-echo "\r\n<!--".number_format(microtime(1) - $_SERVER['_start_time'], 6).'-->';
