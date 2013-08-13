@@ -5,27 +5,27 @@
 
 class form{
 	// 文本
-	public static function get_text($name, $val='', $class='inp w1') {
+	public static function get_text($name, &$val, $class='inp w1') {
 		return '<input name="'.$name.'" type="text" value="'.htmlspecialchars($val).'" class="'.$class.'" />';
 	}
 
 	// 多行文本
-	public static function get_textarea($name, $val='', $class='inp w3') {
+	public static function get_textarea($name, &$val, $class='inp w3') {
 		return '<textarea name="'.$name.'" class="'.$class.'">'.htmlspecialchars($val).'</textarea>';
 	}
 
 	// 密码
-	public static function get_password($name, $val='', $class='inp w2') {
+	public static function get_password($name, &$val, $class='inp w2') {
 		return '<input name="'.$name.'" type="password" value="'.$val.'" class="'.$class.'" />';
 	}
 
 	// 数字
-	public static function get_number($name, $val='') {
-		return '<input name="'.$name.'" type="number" step="1" min="0" value="'.$val.'" class="inp wnum">';
+	public static function get_number($name, &$val, $class='inp wnum') {
+		return '<input name="'.$name.'" type="number" step="1" min="0" value="'.$val.'" class="'.$class.'">';
 	}
 
 	// 单选
-	public static function get_yesno($name, $val = 1) {
+	public static function get_yesno($name, &$val) {
 		$s = '<label><input class="mr3" name="'.$name.'" type="radio" value="1"'.($val==1 ? ' checked="checked"' : '').'>&#26159;</label>';
 		$s .= '<label><input class="mr3" name="'.$name.'" type="radio" value="0"'.($val==0 ? ' checked="checked"' : '').'>&#21542;</label>';
 		return $s;
