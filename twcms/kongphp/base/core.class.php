@@ -95,8 +95,6 @@ class core{
 			include KONG_PATH.'db/'.$classname.'.class.php';
 		}elseif(substr($classname, 0, 6) == 'cache_') {
 			include KONG_PATH.'cache/'.$classname.'.class.php';
-		}elseif(in_array($classname, array('log', 'form', 'check', 'image'))) {
-			include KONG_PATH.'base/'.$classname.'.class.php';
 		}elseif(is_file(KONG_PATH.'ext/'.$classname.'.class.php')) {
 			include KONG_PATH.'ext/'.$classname.'.class.php';
 		}else{
