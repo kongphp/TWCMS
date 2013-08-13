@@ -11,8 +11,10 @@ class runtime extends model {
 	private $changed = array();		// 表示修改过的key
 
 	function __construct() {
-		$this->table = 'runtime';		// 表名
+		$this->table = 'runtime';	// 表名
 		$this->pri = array('k');	// 主键
+
+		// hook runtime_construct_end.php
 	}
 
 	// 读取缓存
