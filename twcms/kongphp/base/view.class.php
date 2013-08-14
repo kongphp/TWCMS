@@ -90,10 +90,10 @@ class view{
 
 	private function parse_inc($matches) {
 		$filename = $matches[1];
-		$tpl_file = core::get_original_file("inc-$filename", VIEW_PATH.$this->theme.'/');
+		$tpl_file = core::get_original_file($filename, VIEW_PATH.$this->theme.'/');
 
 		if(!$tpl_file) {
-			throw new Exception("模板文件 inc-$filename 不存在");
+			throw new Exception("模板文件 $filename 不存在");
 		}
 
 		return file_get_contents($tpl_file);
