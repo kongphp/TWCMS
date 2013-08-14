@@ -44,9 +44,9 @@ class setting_control extends admin_control {
 		if(empty($_POST)) {
 			$cfg = $this->kv->xget('cfg');
 			$input = array();
-			$input['seotitle'] = form::get_text('seotitle', $cfg['seotitle']);
-			$input['seokeywords'] = form::get_text('seokeywords', $cfg['seokeywords']);
-			$input['seodescription'] = form::get_textarea('seodescription', $cfg['seodescription']);
+			$input['seo_title'] = form::get_text('seo_title', $cfg['seo_title']);
+			$input['seo_keywords'] = form::get_text('seo_keywords', $cfg['seo_keywords']);
+			$input['seo_description'] = form::get_textarea('seo_description', $cfg['seo_description']);
 
 			// hook admin_setting_control_seo_after.php
 
@@ -54,9 +54,9 @@ class setting_control extends admin_control {
 			$this->display();
 		}else{
 			_trim($_POST);
-			$this->kv->xset('seotitle', R('seotitle', 'P'), 'cfg');
-			$this->kv->xset('seokeywords', R('seokeywords', 'P'), 'cfg');
-			$this->kv->xset('seodescription', R('seodescription', 'P'), 'cfg');
+			$this->kv->xset('seo_title', R('seo_title', 'P'), 'cfg');
+			$this->kv->xset('seo_keywords', R('seo_keywords', 'P'), 'cfg');
+			$this->kv->xset('seo_description', R('seo_description', 'P'), 'cfg');
 
 			// hook admin_setting_control_seo_post_after.php
 
