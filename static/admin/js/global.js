@@ -61,7 +61,7 @@ function _tipsHtml(str) {
 	$(".ajaxbox .cf").hide();
 	$(".ajaxbox").width("auto");
 	var W = $(".ajaxbox").width()+5;
-	$(".ajaxbox").css({"width":(W>550?550:(W<180?180:W))});
+	$(".ajaxbox").css({"width":(W>850?850:(W<180?180:W))});
 	$(".ajaxbox .cf").show();
 	_setTopAn();
 }
@@ -78,7 +78,15 @@ function _confirm(msg, func) {
 //提示框
 function _alert(data) {
 	window.twD = toJson(data);
-	_tipsHtml('<div class="ajaxbox b'+ (twD.err==0 ? true : false) +'"><i></i><b>'+ twD.msg +'</b><u>\u6211\u77E5\u9053\u4E86</u></div>');
+
+	if(twD.kp_error) {
+		twD.err = 1;
+		twD.msg = "<div style='width:100%;overflow:auto;'><b>" + twD.kp_error + "</b></div>";
+		_tipsHtml('<div class="ajaxbox bfalse">'+ twD.msg +'<u>\u6211\u77E5\u9053\u4E86</u></div>');
+	}else{
+		_tipsHtml('<div class="ajaxbox b'+ (twD.err==0 ? true : false) +'"><i></i><b>'+ twD.msg +'</b><u>\u6211\u77E5\u9053\u4E86</u></div>');
+	}
+
 	$(".ajaxtips u").click(function(){
 		_close();
 		if(!window.twName && twD.name != '') $("[name='"+twD.name+"']").focus();
@@ -91,7 +99,7 @@ function _submit(selector, callback) {
 	$(selector).submit(function(){
 		_postd($(this).attr("action"), $(this).serialize(), callback);
 		return false;
-	});	
+	});
 }
 
 //提交数据(加强)
@@ -169,16 +177,16 @@ $.fn.twdialog = function(options) {
 	var o = $.extend(defaults, options);
 
 	//init
-	$("body").append('<div class="twdialog"><div class="twdialog_title"><span></span><a href="javascript:;">close</a></div><div class="twdialog_content"><div></div></div><div class="twdialog_button"><input type="button" value="确定" class="but1"><input type="button" value="取消" class="but1 close"></div></div>');
+	$("body").append('<div class="twdialog"><div class="twdialog_title"><span></span><a href="javascript:;">close</a></div><div class="twdialog_content"><div></div></div><div class="twdialog_button"><input type="button" value="确定" class="but1 ok"><input type="button" value="取消" class="but1 close"></div></div>');
 
 	objd = $(".twdialog");
-	$(this).replaceAll(".twdialog_content div");	
+	$(this).replaceAll(".twdialog_content div"); //替换
 	$(".twdialog_title span").html(o.title);
 	if(o.modal) { $("body").append('<div class="twoverlay"></div>'); $(".twoverlay").css("z-index",o.zIndex-1); }
 	if(o.open) { objd.show(); }else { $(".twoverlay").hide(); }
 
 	//resizable
-	if(o.resizable) objd.append('<div class="twdialog_resizable_n"></div><div class="twdialog_resizable_e"></div><div class="twdialog_resizable_s"></div><div class="twdialog_resizable_w"></div><div class="twdialog_resizable_nw"></div><div class="twdialog_resizable_ne"></div><div class="twdialog_resizable_sw"></div><div class="twdialog_resizable_se"></div>');	
+	if(o.resizable) objd.append('<div class="twdialog_resizable_n"></div><div class="twdialog_resizable_e"></div><div class="twdialog_resizable_s"></div><div class="twdialog_resizable_w"></div><div class="twdialog_resizable_nw"></div><div class="twdialog_resizable_ne"></div><div class="twdialog_resizable_sw"></div><div class="twdialog_resizable_se"></div>');
 
 	//初始位置
 	objd.css({"width":o.width, "height":o.height, "z-index":o.zIndex});
@@ -197,14 +205,16 @@ $.fn.twdialog = function(options) {
 
 	//关闭拖动
 	$(document).mouseup(function(){
-		if(objd) { $("html,body,.twdialog").css("-moz-user-select","-moz-all"); document.onselectstart = objd[0].onselectstart = function(){return true}; }
+		if(objd) {
+			$("html,body,.twdialog").css("-moz-user-select","-moz-all"); document.onselectstart = objd[0].onselectstart = function(){return true};
+		}
 		if(tval) tval = null;
 	});
 
 	function _close() { $(".twdialog,.twoverlay").hide(); }
 	function _setH() { $(".twdialog_content").css("height", objd.height()-$(".twdialog_title").height()-$(".twdialog_button").height()-7); }
 	function _n(e) { top=e.pageY-(dy-sy); newH = dy-top+objH; if(newH>o.minH && top>=0) objd.css({"top": top, "height": newH}); _setH(); }
-	function _e(e) { left=e.pageX-(dx-sx); newW=left-sx+objW; if(newW>o.minW && e.pageX<bWidth-(objW-(dx-sx-1))) objd.css({"width": newW}); $("#dis3").html(left);}
+	function _e(e) { left=e.pageX-(dx-sx); newW=left-sx+objW; if(newW>o.minW && e.pageX<bWidth-(objW-(dx-sx-1))) objd.css({"width": newW}); }
 	function _s(e) { top=e.pageY-(dy-sy); newH=top-sy+objH; if(newH>o.minH && e.pageY<bHeight-(objH-(dy-sy-1))) objd.css({"height": newH}); _setH(); }
 	function _w(e) { left=e.pageX-(dx-sx); newW=objW-(left-sx); if(newW>o.minW && left>=0) objd.css({"left": left, "width": newW}); }
 	function getHeight(){return ($("body").height()-objd.height())/2;}
@@ -291,7 +301,7 @@ function setTabulAdder(){
 		P("#leftbtn:visible,#rightbtn:visible").hide();
 		P("#adder").offset({left: P("#box_tab ul li:last").offset().left + P("#box_tab ul li:last").width() });
 		if(ulLeft != 0 ) P("#box_tab ul").css("left", 0);
-	}	
+	}
 }
 
 //加载Tab

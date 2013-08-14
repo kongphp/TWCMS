@@ -86,7 +86,7 @@ class debug{
 			ob_clean();
 			if(R('ajax', 'R')) {
 				if(DEBUG) {
-					$kp_error = "$message File: $file [$line]\n\n".$e->getTraceAsString();
+					$kp_error = "$message File: $file [$line]<br><br>".str_replace("\n", '<br>', $e->getTraceAsString());
 				}else{
 					$len = strlen($_SERVER['DOCUMENT_ROOT']);
 					$file = substr($file, $len);
