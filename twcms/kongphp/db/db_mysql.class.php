@@ -118,7 +118,13 @@ class db_mysql implements db_interface {
 		list($table, $keyarr) = $this->key2arr($key);
 		$data += $keyarr;
 		$s = $this->arr2sql($data);
-		return $this->query("REPLACE INTO {$this->tablepre}$table SET $s", $this->wlink);
+
+		$exists = $this->get($key);
+		if(empty($exists)) {
+			return $this->query("INSERT INTO {$this->tablepre}$table SET $s", $this->wlink);
+		} else {
+			return $this->update($key, $data);
+		}
 	}
 
 	/**
@@ -157,14 +163,13 @@ class db_mysql implements db_interface {
 	public function maxid($key, $val = FALSE) {
 		list($table, $col) = explode('-', $key);
 		$maxid = $this->table_maxid($key);
-
 		if($val === FALSE) {
 			return $maxid;
-		} elseif(is_string($val) && $val{0} == '+') {
+		}elseif(is_string($val) && $val{0} == '+') {
 			$val = $maxid + intval($val);
 			$this->query("UPDATE {$this->tablepre}framework_maxid SET maxid='$val' WHERE name='$table'", $this->xlink);
 			return $val;
-		} else {
+		}else{
 			$this->query("UPDATE {$this->tablepre}framework_maxid SET maxid='$val' WHERE name='$table'", $this->xlink);
 			return $val;
 		}
@@ -175,9 +180,10 @@ class db_mysql implements db_interface {
 	 * @param string $key	键名 只能是表名+一个字段 如：'user-uid'(uid一般为主键)
 	 * @return int
 	 */
-	private function table_maxid($key) {
+	public function table_maxid($key) {
 		list($table, $col) = explode('-', $key);
 
+		$maxid = FALSE;
 		$query = $this->query("SELECT maxid FROM {$this->tablepre}framework_maxid WHERE name='$table'", $this->xlink, FALSE);
 
 		if($query) {
@@ -192,47 +198,48 @@ class db_mysql implements db_interface {
 		}else{
 			throw new Exception('framework_maxid error, mysql_error:'.mysql_error());
 		}
-		if(empty($maxid)) {
+		if($maxid === FALSE) {
 			$query = $this->query("SELECT MAX($col) FROM {$this->tablepre}$table", $this->wlink);
 			$maxid = $this->result($query, 0);
-			$this->query("REPLACE INTO {$this->tablepre}framework_maxid SET name='$table', maxid='$maxid'", $this->xlink);
+			$this->query("INSERT INTO {$this->tablepre}framework_maxid SET name='$table', maxid='$maxid'", $this->xlink);
 		}
 		return $maxid;
 	}
 
 	/**
 	 * 读取/设置 表的总行数
-	 * @param string $key	键名 可以是：count('article') 表名、count('article-aid-1') 表名+字段+值
+	 * @param string $table	表名
 	 * @param boot/int $val	设置值 有四种情况 1.不填为读取(默认) 2.基础上增加 如：'+1' 3.基础上减少 如：'-1' 4.设置指定值
 	 * @return int
 	 */
-	public function count($key, $val = FALSE) {
-		$count = $this->table_count($key);
+	public function count($table, $val = FALSE) {
+		$count = $this->table_count($table);
 		if($val === FALSE) {
 			return $count;
-		} elseif(is_string($val)) {
+		}elseif(is_string($val)) {
 			if($val{0} == '+') {
 				$val = $count + intval($val);
-				$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$key'", $this->xlink);
+				$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$table'", $this->xlink);
 				return $val;
 			}else{
 				$val = max(0, $count + intval($val));
-				$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$key'", $this->xlink);
+				$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$table'", $this->xlink);
 				return $val;
 			}
-		} else {
-			$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$key'", $this->xlink);
+		}else{
+			$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$table'", $this->xlink);
 			return $val;
 		}
 	}
 
 	/**
-	 * 读取/设置 表的总行数 (如果不存在自动创建表和设置总行数为0)
-	 * @param string $key	键名 可以是：count('article') 表名、count('article-aid-1') 表名+字段+值
+	 * 读取表的总行数 (如果不存在自动创建表和设置总行数)
+	 * @param string $table	表名
 	 * @return int
 	 */
-	private function table_count($key) {
-		$query = $this->query("SELECT count FROM {$this->tablepre}framework_count WHERE name='$key'", $this->xlink, FALSE);
+	public function table_count($table) {
+		$count = FALSE;
+		$query = $this->query("SELECT count FROM {$this->tablepre}framework_count WHERE name='$table'", $this->xlink, FALSE);
 
 		if($query) {
 			$count = $this->result($query, 0);
@@ -246,10 +253,10 @@ class db_mysql implements db_interface {
 		}else{
 			throw new Exception('framework_cout error, mysql_error:'.mysql_error());
 		}
-		if(empty($count)) {
-			$query = $this->query("SELECT COUNT(*) FROM {$this->tablepre}$key", $this->wlink);
+		if($count === FALSE) {
+			$query = $this->query("SELECT COUNT(*) FROM {$this->tablepre}$table", $this->wlink);
 			$count = $this->result($query, 0);
-			$this->query("REPLACE INTO {$this->tablepre}framework_count SET name='$key', count='$count'", $this->xlink);
+			$this->query("INSERT INTO {$this->tablepre}framework_count SET name='$table', count='$count'", $this->xlink);
 		}
 		return $count;
 	}
@@ -520,7 +527,7 @@ class db_mysql implements db_interface {
 	 * @return int
 	 */
 	public function result($query, $row) {
-		return mysql_num_rows($query) ? intval(mysql_result($query, $row)) : 0;
+		return mysql_num_rows($query) ? intval(mysql_result($query, $row)) : FALSE;
 	}
 
 	/**
