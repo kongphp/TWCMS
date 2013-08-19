@@ -59,7 +59,7 @@ DROP TABLE IF EXISTS pre_category;
 CREATE TABLE pre_category (
   cid smallint(5) unsigned NOT NULL AUTO_INCREMENT,	# 分类ID
   mid tinyint(1) unsigned NOT NULL DEFAULT '0',		# 内容模型ID
-  type tinyint(1) unsigned NOT NULL DEFAULT '0',	# 分类类型 (1为列表，2为频道，3为链接)
+  type tinyint(1) unsigned NOT NULL DEFAULT '1',	# 分类类型 (1为列表，2为频道，3为链接)
   upid int(10) NOT NULL DEFAULT '0',			# 上级ID
   name char(30) NOT NULL DEFAULT '',			# 分类名称
   alias char(50) NOT NULL DEFAULT '',			# 唯一别名 (必填，只能是英文、数字、下划线，并且不超过50个字符，用于伪静态)
@@ -90,8 +90,8 @@ CREATE TABLE pre_model (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 唯一别名表，用于伪静态 (只储存内容的别名，分类和其他别名放 kv 表)
-DROP TABLE IF EXISTS pre_unique_alias;
-CREATE TABLE pre_unique_alias (
+DROP TABLE IF EXISTS pre_only_alias;
+CREATE TABLE pre_only_alias (
   alias char(50) NOT NULL,				# 唯一别名 (只能是英文、数字、下划线)
   mid tinyint(1) unsigned NOT NULL DEFAULT '0',		# 模型ID
   id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
