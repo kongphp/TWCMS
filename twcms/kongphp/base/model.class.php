@@ -287,7 +287,7 @@ class model{
 	 * @return array
 	 */
 	public function find_fetch_key($where = array(), $order = array(), $start = 0, $limit = 0) {
-		return $this->db->cache_db_find_fetch_key($this->table, $this->pri, $where, $order, $start, $limit);
+		return $this->cache_db_find_fetch_key($this->table, $this->pri, $where, $order, $start, $limit);
 	}
 
 	/**
