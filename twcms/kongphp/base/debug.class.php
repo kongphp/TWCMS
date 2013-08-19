@@ -150,9 +150,22 @@ class debug{
 	 * 程序关闭时执行
 	 */
 	public static function shutdown_handler() {
-		if (empty($_SERVER['_exception'])) {
+		if(empty($_SERVER['_exception'])) {
 			if($e = error_get_last()) {
-				self::sys_error('[致命错误] : '.$e['message'], $e['file'], $e['line']);
+				ob_clean();
+				$message = $e['message'];
+				$file = $e['file'];
+				$line = $e['line'];
+				if(R('ajax', 'R')) {
+					if(!DEBUG) {
+						$len = strlen($_SERVER['DOCUMENT_ROOT']);
+						$file = substr($file, $len);
+					}
+					$kp_error = "[致命错误] : $message File: $file [$line]";
+					echo json_encode(array('kp_error' => $kp_error));
+				}else{
+					self::sys_error('[致命错误] : '.$message, $file, $line);
+				}
 			}
 		}
 	}
@@ -164,7 +177,6 @@ class debug{
 	 * @param int $line 错误行号
 	 */
 	public static function sys_error($message, $file, $line) {
-		ob_clean();
 		include KONG_PATH.'tpl/sys_error.php';
 	}
 
