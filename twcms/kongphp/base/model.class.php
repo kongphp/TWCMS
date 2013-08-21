@@ -41,7 +41,7 @@ class model{
 	// 避免重复链接
 	static $dbs = array();
 	static $caches = array();
-	private $unique = array();	// 唯一键数组，防止重复查询
+	private $unique = array();	// 防止重复查询
 
 	/**
 	 * 创建一次 db/cache 对象
@@ -570,8 +570,8 @@ class model{
 			return $this->db->find_fetch($table, $pri, $where, $order, $start, $limit);
 		}else{
 			$keys = $this->cache_db_find_fetch_key($table, $pri, $where, $order, $start, $limit);
+			return $this->cache_db_multi_get($keys);
 		}
-		return $this->cache_db_multi_get($keys);
 	}
 
 	/**
