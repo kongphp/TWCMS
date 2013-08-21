@@ -16,7 +16,7 @@ define('MEMORY_LIMIT_ON', function_exists('memory_get_usage'));
 if(MEMORY_LIMIT_ON) $_SERVER['_start_memory'] = memory_get_usage();
 
 define('KONG_VERSION', '1.0.0');	//框架版本
-defined('DEBUG') || define('DEBUG', true);	//调试模式
+defined('DEBUG') || define('DEBUG', 2);	//调试模式
 defined('CONFIG_PATH') || define('CONFIG_PATH', APP_PATH.'config/');	//配置目录
 defined('CONTROL_PATH') || define('CONTROL_PATH', APP_PATH.'control/');	//控制器目录
 defined('BLOCK_PATH') || define('BLOCK_PATH', APP_PATH.'block/');	//模块目录
