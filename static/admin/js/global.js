@@ -1,4 +1,3 @@
-var admSuffix = location.pathname.substr(location.pathname.lastIndexOf("/")+1);
 $(function() {
 	loadTab();
 	setTab();
@@ -304,12 +303,17 @@ function setTabulAdder(){
 	}
 }
 
-//加载Tab
+//父级加载Tab
 function loadTab() {
-	var title=$("title").html(), stopNum=location.search.indexOf("&r="), urlSearch=(stopNum==-1?location.search:location.search.substring(0,stopNum));
-	var eq = P("#box_frame iframe[src='"+admSuffix+location.search+"']").index();
+	if(!parent.twRoot) return;
+
+	var title = $("title").html();
+	var stopNum = location.search.indexOf("&r=");
+	var urlSearch = (stopNum == -1) ? location.search : location.search.substring(0, stopNum);
+	var eq = P("#box_frame iframe[src='"+location.search+"']").index();
+
 	P("#box_tab ul").width(P("#box_tab ul").width()+200);
-	P("#box_tab ul li:eq("+eq+")").attr({"url":admSuffix+urlSearch, "modkey":modKey, "ackey":acKey, "title":title, "place":place});
+	P("#box_tab ul li:eq("+eq+")").attr({"url":urlSearch, "modkey":modKey, "ackey":acKey, "title":title, "place":place});
 	P("#box_tab ul li:eq("+eq+") b").html(title);
 	P("#box_place").html(place);
 

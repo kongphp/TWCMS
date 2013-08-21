@@ -1,10 +1,9 @@
 $(window).resize(windowTab);
-var admSuffix = location.pathname.substr(location.pathname.lastIndexOf("/")+1);
-
+var twRoot = 1;
 $(function(){
 	setNav();//导航栏
 	loadMenu("my");
-	
+
 	//标签页
 	$("#adder").click(function(){addTab()});
 	$("#closeer").click(delsTab);
@@ -33,9 +32,8 @@ function setNav() {
 }
 
 //判断只加载一次标签
-function oneTab(url, isAdmSuf) {
-	url = !isAdmSuf ? url : admSuffix+url;
-	var newTabUrl = admSuffix+"?u=my-newtab.html";
+function oneTab(url) {
+	var newTabUrl = "?u=my-newtab.html";
 	if($("#box_tab ul li[url='"+url+"']").length>0) {
 		onTab($("#box_tab ul li[url='"+url+"']:first"));
 	}else if($("#box_tab ul li[url='"+newTabUrl+"']").length>0){
@@ -51,7 +49,7 @@ function oneTab(url, isAdmSuf) {
 //添加标签页
 function addTab(title, url) {
 	title = !title ? '\u65b0\u6807\u7b7e\u9875' : title;
-	url = (!url ? admSuffix+'?u=my-newtab.html' : url);
+	url = (!url ? '?u=my-newtab.html' : url);
 
 	$("#box_tab ul").width($("#box_tab ul").width()+200);
 	$("#box_tab ul li.on").removeClass("on");
@@ -118,7 +116,7 @@ function setAdder(){
 		$("#leftbtn:visible,#rightbtn:visible").hide();
 		var valLeft = $("#box_tab ul li:last").width() ? $("#box_tab ul li:last").offset().left + $("#box_tab ul li:last").width() : 167;
 		$("#adder").offset({left: valLeft });
-	}	
+	}
 }
 //==========================================================
 
@@ -172,7 +170,7 @@ function rmTab() {
 		setAdder();
 		loadMenu($("#box_tab ul li.on").attr("modkey"), "select");
 		if($("#box_tab ul li").length<1) loadMenu("my");
-	});	
+	});
 }
 
 //删除其他
@@ -226,6 +224,5 @@ function windowTab() {
 
 //解决IE下缓存问题
 function getR() {
-	return "";
-	//return "?r="+(new Date).getTime();
+	return "&r="+(new Date).getTime();
 }
