@@ -24,6 +24,7 @@ class view{
 		$this->vars[$k] = $v;
 	}
 
+	// 注意: 为安全考虑，$filename 尽量限制为 (英文 数字 _ .)
 	public function display($filename = null) {
 		$_SERVER['_tplname'] = is_null($filename) ? $_GET['control'].'_'.$_GET['action'].'.htm' : $filename;
 		extract($this->vars, EXTR_SKIP);
@@ -89,7 +90,8 @@ class view{
 	}
 
 	private function parse_inc($matches) {
-		$filename = $matches[1];
+		// 注意：在可视化设计时需要排除前缀 inc- 的模板，所以不能去掉前缀
+		$filename = 'inc-'.$matches[1];
 		$tpl_file = core::get_original_file($filename, VIEW_PATH.$this->theme.'/');
 
 		if(!$tpl_file) {
