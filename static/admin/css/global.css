@@ -143,9 +143,9 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .sort .sc li a{margin-right:8px}
 .sort .sc li span{float:right}
 .sort .sc dd{float:left}
-.sort .sc dd a{display:block;width:80px;text-align:center;margin-left:8px;padding:5px;border-radius:5px;border:1px solid #fff}
+.sort .sc dd a{display:block;width:64px;text-align:center;margin-left:8px;padding:5px;border-radius:5px;border:1px solid #fff}
 .sort .sc dd a:hover{border:1px solid #9AC4DC;background:#DEEFFB}
-.sort .sc dd a img{display:block;width:80px;margin:0 auto 4px;border-radius:5px}
+.sort .sc dd a img{display:block;width:64px;margin:0 auto 4px;border-radius:5px}
 #browser{float:none}
 
 /*分类*/
