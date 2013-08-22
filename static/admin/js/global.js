@@ -74,17 +74,24 @@ function _confirm(msg, func) {
 	$("#okA").click(function(){ _remove();setTimeout(func,0); });
 }
 
+//调试程序
+function _debug(data) {
+	var msg = "<div style='width:100%;overflow:auto;'><b>" + data.kp_error + "</b></div>";
+	_tipsHtml('<div class="ajaxbox bfalse">'+ msg +'<u>\u6211\u77E5\u9053\u4E86</u></div>');
+
+	$(".ajaxtips u").click(_close);
+}
+
 //提示框
 function _alert(data) {
 	window.twD = toJson(data);
 
 	if(twD.kp_error) {
-		twD.err = 1;
-		twD.msg = "<div style='width:100%;overflow:auto;'><b>" + twD.kp_error + "</b></div>";
-		_tipsHtml('<div class="ajaxbox bfalse">'+ twD.msg +'<u>\u6211\u77E5\u9053\u4E86</u></div>');
-	}else{
-		_tipsHtml('<div class="ajaxbox b'+ (twD.err==0 ? true : false) +'"><i></i><b>'+ twD.msg +'</b><u>\u6211\u77E5\u9053\u4E86</u></div>');
+		_debug(twD);
+		return false;
 	}
+
+	_tipsHtml('<div class="ajaxbox b'+ (twD.err==0 ? true : false) +'"><i></i><b>'+ twD.msg +'</b><u>\u6211\u77E5\u9053\u4E86</u></div>');
 
 	$(".ajaxtips u").click(function(){
 		_close();
@@ -142,6 +149,7 @@ window.twAjax = {
 	setTopAn : _setTopAn,
 	tipsHtml : _tipsHtml,
 	confirm : _confirm,
+	debug : _debug,
 	alert : _alert,
 	submit : _submit,
 	postd : _postd,
