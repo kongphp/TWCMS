@@ -264,6 +264,64 @@ $.fn.twdialog = function(options) {
 };
 })(jQuery);
 
+//加载JS
+function twLoadJs() {
+	window.twArguments = arguments;
+	twForLoadJs(0);
+}
+
+//循环加载JS
+function twForLoadJs(i) {
+	var args = window.twArguments;
+	if(typeof args[i] == 'string') {
+		var file = args[i];
+		var script = document.createElement("script");
+			script.src = file;
+
+		// callback next
+		if(i < args.length) {
+			// Attach handlers for all browsers
+			script.onload = script.onreadystatechange = function() {
+				if(!script.readyState || /loaded|complete/.test(script.readyState)) {
+					// Handle memory leak in IE
+					script.onload = script.onreadystatechange = null;
+
+					// Remove the script
+					if ( script.parentNode ) { script.parentNode.removeChild(script); }
+
+					// Dereference the script
+					script = null;
+
+					twForLoadJs(i+1);
+				}
+			};
+		}
+		document.getElementsByTagName('head')[0].appendChild(script);
+	}else if(typeof args[i] == 'function') {
+		args[i]();
+		if(i < args.length) {
+			twForLoadJs(i+1);
+		}
+	}
+}
+
+//加载CSS
+function twLoadCss(file) {
+	// 不重复加载
+	var tags = document.getElementsByTagName('link');
+	for(var i=0; i<tags.length; i++) {
+		if(tags[i].href.indexOf(file) != -1) {
+			return false;
+		}
+	}
+
+	var link = document.createElement("link");
+	link.rel = "stylesheet";
+	link.type = "text/css";
+	link.href = file;
+	document.getElementsByTagName('head')[0].appendChild(link);
+}
+
 //html转json
 function toJson(data) {
 	var json = {};
