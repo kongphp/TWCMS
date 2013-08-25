@@ -266,20 +266,19 @@ $.fn.twdialog = function(options) {
 
 //加载JS
 function twLoadJs() {
-	window.twArguments = arguments;
+	window.twJsArgs = arguments;
 	twForLoadJs(0);
 }
 
 //循环加载JS
 function twForLoadJs(i) {
-	var args = window.twArguments;
-	if(typeof args[i] == 'string') {
-		var file = args[i];
+	if(typeof twJsArgs[i] == 'string') {
+		var file = twJsArgs[i];
 		var script = document.createElement("script");
 			script.src = file;
 
 		// callback next
-		if(i < args.length) {
+		if(i < twJsArgs.length) {
 			// Attach handlers for all browsers
 			script.onload = script.onreadystatechange = function() {
 				if(!script.readyState || /loaded|complete/.test(script.readyState)) {
@@ -297,9 +296,9 @@ function twForLoadJs(i) {
 			};
 		}
 		document.getElementsByTagName('head')[0].appendChild(script);
-	}else if(typeof args[i] == 'function') {
-		args[i]();
-		if(i < args.length) {
+	}else if(typeof twJsArgs[i] == 'function') {
+		twJsArgs[i]();
+		if(i < twJsArgs.length) {
 			twForLoadJs(i+1);
 		}
 	}
