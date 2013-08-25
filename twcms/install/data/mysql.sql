@@ -59,7 +59,7 @@ DROP TABLE IF EXISTS pre_category;
 CREATE TABLE pre_category (
   cid smallint(5) unsigned NOT NULL AUTO_INCREMENT,	# 分类ID
   mid tinyint(1) unsigned NOT NULL DEFAULT '0',		# 内容模型ID
-  type tinyint(1) unsigned NOT NULL DEFAULT '1',	# 分类类型 (1为列表，2为频道，3为链接)
+  type tinyint(1) unsigned NOT NULL DEFAULT '0',	# 分类类型 (0为列表，1为频道)
   upid int(10) NOT NULL DEFAULT '0',			# 上级ID
   name char(30) NOT NULL DEFAULT '',			# 分类名称
   alias char(50) NOT NULL DEFAULT '',			# 唯一别名 (必填，只能是英文、数字、下划线，并且不超过50个字符，用于伪静态)
@@ -76,8 +76,8 @@ CREATE TABLE pre_category (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 内容模型表
-DROP TABLE IF EXISTS pre_model;
-CREATE TABLE pre_model (
+DROP TABLE IF EXISTS pre_models;
+CREATE TABLE pre_models (
   mid tinyint(1) unsigned NOT NULL AUTO_INCREMENT,	# 模型ID (正常情况，全站不应该超过255个模型)
   name char(10) NOT NULL DEFAULT '',			# 模型名称
   tablename char(20) NOT NULL DEFAULT '',		# 模型表名 (如: tw_cms_xxx)
