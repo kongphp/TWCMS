@@ -378,13 +378,13 @@ function loadTab() {
 	var eq = P("#box_frame iframe[src='"+location.search+"']").index();
 
 	P("#box_tab ul").width(P("#box_tab ul").width()+200);
-	P("#box_tab ul li:eq("+eq+")").attr({"url":urlSearch, "modkey":modKey, "ackey":acKey, "title":title, "place":place});
+	P("#box_tab ul li:eq("+eq+")").attr({"url":urlSearch, "coKey":coKey, "acKey":acKey, "title":title, "place":place});
 	P("#box_tab ul li:eq("+eq+") b").html(title);
 	P("#box_place").html(place);
 
 	parent.setUlwidth();
 	setTabulAdder();
-	parent.loadMenu(modKey, "select");
+	parent.loadMenu(coKey, "select");
 }
 
 //设置选项卡
