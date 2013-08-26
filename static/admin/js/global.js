@@ -267,49 +267,60 @@ $.fn.twdialog = function(options) {
 //加载JS
 function twLoadJs() {
 	window.twJsArgs = arguments;
-	twForLoadJs(0);
-}
 
-//循环加载JS
-function twForLoadJs(i) {
-	if(typeof twJsArgs[i] == 'string') {
-		var file = twJsArgs[i];
-		var script = document.createElement("script");
-			script.src = file;
+	//循环加载JS
+	var load = function(i) {
+		if(typeof twJsArgs[i] == 'string') {
+			var file = twJsArgs[i];
 
-		// callback next
-		if(i < twJsArgs.length) {
-			// Attach handlers for all browsers
-			script.onload = script.onreadystatechange = function() {
-				if(!script.readyState || /loaded|complete/.test(script.readyState)) {
-					// Handle memory leak in IE
-					script.onload = script.onreadystatechange = null;
-
-					// Remove the script
-					if ( script.parentNode ) { script.parentNode.removeChild(script); }
-
-					// Dereference the script
-					script = null;
-
-					twForLoadJs(i+1);
+			// 不重复加载
+			var tags = document.getElementsByTagName('script');
+			for(var j=0; j<tags.length; j++) {
+				if(tags[j].src.indexOf(file) != -1) {
+					if(i < twJsArgs.length) load(i+1);
+					return;
 				}
-			};
-		}
-		document.getElementsByTagName('head')[0].appendChild(script);
-	}else if(typeof twJsArgs[i] == 'function') {
-		twJsArgs[i]();
-		if(i < twJsArgs.length) {
-			twForLoadJs(i+1);
+			}
+
+			var script = document.createElement("script");
+				script.src = file;
+
+			// callback next
+			if(i < twJsArgs.length) {
+				// Attach handlers for all browsers
+				script.onload = script.onreadystatechange = function() {
+					if(!script.readyState || /loaded|complete/.test(script.readyState)) {
+						// Handle memory leak in IE
+						script.onload = script.onreadystatechange = null;
+
+						// Remove the script (这里不能删除，判断重复加载时需要用到)
+						//if(script.parentNode) { script.parentNode.removeChild(script); }
+
+						// Dereference the script
+						script = null;
+
+						load(i+1);
+					}
+				};
+			}
+			document.getElementsByTagName('head')[0].appendChild(script);
+		}else if(typeof twJsArgs[i] == 'function') {
+			twJsArgs[i]();
+			if(i < twJsArgs.length) {
+				load(i+1);
+			}
 		}
 	}
+
+	load(0);
 }
 
 //加载CSS
 function twLoadCss(file) {
 	// 不重复加载
 	var tags = document.getElementsByTagName('link');
-	for(var i=0; i<tags.length; i++) {
-		if(tags[i].href.indexOf(file) != -1) {
+	for(var j=0; j<tags.length; j++) {
+		if(tags[j].href.indexOf(file) != -1) {
 			return false;
 		}
 	}
