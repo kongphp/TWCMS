@@ -266,34 +266,35 @@ $.fn.twdialog = function(options) {
 
 //加载JS
 function twLoadJs() {
-	window.twJsArgs = arguments;
+	var args = arguments;
 
 	//循环加载JS
 	var load = function(i) {
-		if(typeof twJsArgs[i] == 'string') {
-			var file = twJsArgs[i];
+		if(typeof args[i] == 'string') {
+			var file = args[i];
 
 			// 不重复加载
 			var tags = document.getElementsByTagName('script');
 			for(var j=0; j<tags.length; j++) {
 				if(tags[j].src.indexOf(file) != -1) {
-					if(i < twJsArgs.length) load(i+1);
+					if(i < args.length) load(i+1);
 					return;
 				}
 			}
 
 			var script = document.createElement("script");
+				script.type = "text/javascript";
 				script.src = file;
 
 			// callback next
-			if(i < twJsArgs.length) {
+			if(i < args.length) {
 				// Attach handlers for all browsers
 				script.onload = script.onreadystatechange = function() {
 					if(!script.readyState || /loaded|complete/.test(script.readyState)) {
 						// Handle memory leak in IE
 						script.onload = script.onreadystatechange = null;
 
-						// Remove the script (这里不能删除，判断重复加载时需要用到)
+						// Remove the script (取消移除，判断重复加载时需要读 script 标签)
 						//if(script.parentNode) { script.parentNode.removeChild(script); }
 
 						// Dereference the script
@@ -304,9 +305,9 @@ function twLoadJs() {
 				};
 			}
 			document.getElementsByTagName('head')[0].appendChild(script);
-		}else if(typeof twJsArgs[i] == 'function') {
-			twJsArgs[i]();
-			if(i < twJsArgs.length) {
+		}else if(typeof args[i] == 'function') {
+			args[i]();
+			if(i < args.length) {
 				load(i+1);
 			}
 		}
