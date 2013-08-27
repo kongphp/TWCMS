@@ -6,7 +6,7 @@
 				<div class="sort">
 					<h1>常用功能</h1>
 					<dl class="sc cf" id="used">
-						{loop:$used_array $v}<dd><a href="{$v[url]}"><img src="{$C[admin_static]}{$v[imgsrc]}">{$v[name]}</a></dd>{/loop}
+						{loop:$used_array $v}<dd><a href="{$v[url]}" title="{$v[name]}"><img src="{$C[admin_static]}{$v[imgsrc]}">{$v[name]}</a></dd>{/loop}
 					</dl>
 				</div>
 				<div class="sort">
@@ -74,7 +74,7 @@
 </div>
 
 <script type="text/javascript">
-$(window).resize(function(){setHomeWidth();});
+$(window).resize(setHomeWidth);
 
 $(function() {
 	$("#used a").click(function(){
@@ -84,8 +84,26 @@ $(function() {
 	setHomeWidth();
 	getBrowser();
 
+	setStyle("img:hover", ".2s ease-in-out 0s 3", "a_s", "rotate(0deg)", "rotate(-6deg)", "rotate(0deg)", "rotate(6deg)", "rotate(0deg)");
+
 	$("body").append('{$response_info}');
 });
+
+function setStyle(name, val, func, a, b, c, d, e) {
+	var arr = ["webkit", "ms", "moz", "o"];
+	var s = s2 = "";
+	for(var v in arr) {
+		s += "@-"+arr[v]+"-keyframes "+func+"{";
+		s += "0%{-"+arr[v]+"-transform:"+a+"}";
+		s += "25%{-"+arr[v]+"-transform:"+b+"}";
+		s += "50%{-"+arr[v]+"-transform:"+c+"}";
+		s += "75%{-"+arr[v]+"-transform:"+d+"}";
+		s += "100%{-"+arr[v]+"-transform:"+e+"}";
+		s += "}";
+		s2 += "-"+arr[v]+"-animation:"+func+" "+val+";"
+	}
+	$("head").append('<style type="text/css">'+s+name+'{'+s2+'}</style>');
+}
 
 function setHomeWidth() {
 	$("#homel,#homer").width(($(".cc").width()-8)/2);
