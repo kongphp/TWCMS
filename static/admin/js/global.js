@@ -56,6 +56,7 @@ function _setTopAn(H) {
 
 //写入对话框代码
 function _tipsHtml(str) {
+	if($(".ajaxtips").length == 0) _loading();
 	$(".ajaxtips").html(str);
 	$(".ajaxbox .cf").hide();
 	$(".ajaxbox").width("auto");
@@ -67,7 +68,6 @@ function _tipsHtml(str) {
 
 //确定框
 function _confirm(msg, func) {
-	_loading();
 	_tipsHtml('<div class="ajaxbox bnote"><i></i><b>'+ msg +'</b><p class="cf"><a id="noA" class="but3">取消</a><a id="okA" class="but3">确认</a></p></div>');
 	$("#noA,#okA").attr("href","javascript:;");
 	$("#noA").click(_close);
@@ -85,11 +85,7 @@ function _debug(data) {
 //提示框
 function _alert(data) {
 	window.twD = toJson(data);
-
-	if(twD.kp_error) {
-		_debug(twD);
-		return false;
-	}
+	if(twD.kp_error) { _debug(twD); return false; }
 
 	_tipsHtml('<div class="ajaxbox b'+ (twD.err==0 ? true : false) +'"><i></i><b>'+ twD.msg +'</b><u>\u6211\u77E5\u9053\u4E86</u></div>');
 
@@ -108,7 +104,7 @@ function _submit(selector, callback) {
 	});
 }
 
-//提交数据(加强)
+//提交数据(加强版，具有加载和提示框功能)
 function _postd(url, param, callback) {
 	_loading();
 	_post(url, param, (!callback ? _alert : callback));
