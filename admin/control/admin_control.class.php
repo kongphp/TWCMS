@@ -112,11 +112,7 @@ class admin_control extends control {
 			*/
 
 			// 重新定义导航数组
-			$navs_new = array('my' => $this->_navs['my']);
-			if(isset($purviews['navs']) && is_array($purviews['navs'])) {
-				$navs_new = array_merge($navs_new, $purviews['navs']);
-			}
-			$this->_navs = $navs_new;
+			isset($purviews['navs']) && $this->_navs = $purviews['navs'];
 
 			// 判断权限，如果不在白名单中终止执行
 			$control = &$_GET['control'];
