@@ -125,15 +125,12 @@ class admin_control extends control {
 
 	// 初始化标题、位置
 	public function init_title_place() {
-		if($_GET['control'] != 'index') {
-			$url = $_GET['control'].'-'.$_GET['action'];
+		$url = $_GET['control'].'-'.$_GET['action'];
+		if(!isset($this->_navs[1][$url])) return;
 
-			if(!isset($this->_navs[1][$url])) return;
-
-			$this->_cokey = $this->_navs[1][$url]['p'];
-			$this->_title = $this->_navs[1][$url]['name'];
-			$this->_place = $this->_navs[0][$this->_cokey].' &#187; '.$this->_title;
-		}
+		$this->_cokey = $this->_navs[1][$url]['p'];
+		$this->_title = $this->_navs[1][$url]['name'];
+		$this->_place = $this->_navs[0][$this->_cokey].' &#187; '.$this->_title;
 	}
 
 	// 初始化导航数组
