@@ -33,7 +33,7 @@ function setNav() {
 
 //判断只加载一次标签
 function oneTab(url) {
-	var newTabUrl = "?u=my-newtab.html";
+	var newTabUrl = "?u=my-newtab";
 	if($("#box_tab ul li[url='"+url+"']").length>0) {
 		onTab($("#box_tab ul li[url='"+url+"']:first"));
 	}else if($("#box_tab ul li[url='"+newTabUrl+"']").length>0){
@@ -49,7 +49,7 @@ function oneTab(url) {
 //添加标签页
 function addTab(title, url) {
 	title = !title ? '\u65b0\u6807\u7b7e\u9875' : title;
-	url = (!url ? '?u=my-newtab.html' : url);
+	url = (!url ? '?u=my-newtab' : url);
 
 	$("#box_tab ul").width($("#box_tab ul").width()+200);
 	$("#box_tab ul li.on").removeClass("on");
