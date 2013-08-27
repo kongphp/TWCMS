@@ -13,11 +13,5 @@ class user_control extends admin_control {
 		$this->display();
 	}
 
-	// 用户组管理
-	public function group() {
-		// hook admin_user_control_group_end.php
-		$this->display();
-	}
-
 	//hook admin_user_control_after.php
 }
