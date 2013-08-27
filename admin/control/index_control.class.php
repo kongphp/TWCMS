@@ -9,6 +9,12 @@ defined('TWCMS_PATH') or exit;
 class index_control extends admin_control{
 	// 后台首页
 	public function index() {
+		unset($this->_navs[1]['my-newtab']);
+		foreach ($this->_navs[1] as $k => $v) {
+			$this->_navs[2][$v['p']][$k] = $v;
+		}
+		unset($this->_navs[1]);
+
 		$this->display();
 		exit;
 	}

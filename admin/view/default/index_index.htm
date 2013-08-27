@@ -12,10 +12,10 @@
 		<div class="logo"><a href="./"><img src="{$C[admin_static]}admin/img/logo.jpg" /></a></div>
 		<div class="nav">
 			<ul>
-				{loop:$_navs $arr $control}<li coKey="{$control}">
-					<b>{$arr[name]}</b>
+				{loop:$_navs[0] $name $coKey}<li coKey="{$coKey}">
+					<b>{$name}</b>
 					<dl>
-						{loop:$arr[sub] $name $url}<dd url="?u={$url}">{$name}</dd>
+						{loop:$_navs[2][$coKey] $arr $url}<dd url="?u={$url}">{$arr[name]}</dd>
 						{/loop}<dt></dt>
 					</dl>
 				</li>

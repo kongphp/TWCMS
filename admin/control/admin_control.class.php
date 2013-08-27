@@ -11,6 +11,7 @@ class admin_control extends control {
 	public $_group = array();	// 用户组
 
 	public $_navs = array();	// 导航
+	public $_cokey = '';		// 父级
 	public $_title = '';		// 标题
 	public $_place = '';		// 位置
 
@@ -64,6 +65,7 @@ class admin_control extends control {
 						$this->assign('_user', $this->_user);
 						$this->assign('_group', $this->_group);
 						$this->assign('_navs', $this->_navs);
+						$this->assign('_cokey', $this->_cokey);
 						$this->assign('_title', $this->_title);
 						$this->assign('_place', $this->_place);
 					}
@@ -127,73 +129,57 @@ class admin_control extends control {
 
 	// 初始化标题、位置
 	public function init_title_place() {
-		$control = $_GET['control'];
-		$url = $_GET['control'].'-'.$_GET['action'];
+		if($_GET['control'] != 'index') {
+			$url = $_GET['control'].'-'.$_GET['action'];
 
-		$this->_title = isset($this->_navs[$control]['sub'][$url]) ? $this->_navs[$control]['sub'][$url] : '&#26410;&#30693;';
-		$this->_place = (isset($this->_navs[$control]['name']) ? $this->_navs[$control]['name'] : '&#26410;&#30693;').' &#187; '.$this->_title;
+			if(!isset($this->_navs[1][$url])) return;
+
+			$this->_cokey = $this->_navs[1][$url]['p'];
+			$this->_title = $this->_navs[1][$url]['name'];
+			$this->_place = $this->_navs[0][$this->_cokey].' &#187; '.$this->_title;
+		}
 	}
 
 	// 初始化导航数组
 	protected function init_navigation() {
 		$this->_navs = array(
-			'my'=>array(
-				'name'=>'我的',
-				'sub'=>array(
-					'my-index'=>'后台首页',
-					'my-password'=>'修改密码',
-				)
+			array(
+				'my'=>'我的',
+				'setting'=>'设置',
+				'category'=>'分类',
+				'content'=>'内容',
+				'theme'=>'主题',
+				'plugin'=>'插件',
+				'user'=>'用户',
+				'tool'=>'工具',
 			),
-			'setting'=>array(
-				'name'=>'设置',
-				'sub'=>array(
-					'setting-index'=>'基本设置',
-					'setting-seo'=>'SEO设置',
-					'setting-link'=>'链接设置',
-					'setting-attach'=>'附件设置',
-				)
-			),
-			'category'=>array(
-				'name'=>'分类',
-				'sub'=>array(
-					'category-index'=>'分类管理',
-					'model-index'=>'模型管理',
-				)
-			),
-			'content'=>array(
-				'name'=>'内容',
-				'sub'=>array(
-					'content-index'=>'内容管理',
-					'comment-index'=>'评论管理',
-					'tag-index'=>'标签管理',
-				)
-			),
-			'theme'=>array(
-				'name'=>'主题',
-				'sub'=>array(
-					'theme-index'=>'主题设置',
-					'theme-modify'=>'主题修改',
-				)
-			),
-			'plugin'=>array(
-				'name'=>'插件',
-				'sub'=>array(
-					'plugin-index'=>'插件管理',
-				)
-			),
-			'user'=>array(
-				'name'=>'用户',
-				'sub'=>array(
-					'user-index'=>'用户管理',
-					'user_group-index'=>'用户组管理',
-				)
-			),
-			'tool'=>array(
-				'name'=>'工具',
-				'sub'=>array(
-					'tool-index'=>'清除缓存',
-					'tool-rebuild'=>'重新统计',
-				)
+			array(
+				'my-index'=>array('name'=>'后台首页', 'p'=>'my'),
+				'my-password'=>array('name'=>'修改密码', 'p'=>'my'),
+				'my-newtab'=>array('name'=>'新标签页', 'p'=>'my'),
+
+				'setting-index'=>array('name'=>'基本设置', 'p'=>'setting'),
+				'setting-seo'=>array('name'=>'SEO设置', 'p'=>'setting'),
+				'setting-link'=>array('name'=>'链接设置', 'p'=>'setting'),
+				'setting-attach'=>array('name'=>'附件设置', 'p'=>'setting'),
+
+				'category-index'=>array('name'=>'分类管理', 'p'=>'category'),
+				'models-index'=>array('name'=>'模型管理', 'p'=>'category'),
+
+				'content-index'=>array('name'=>'内容管理', 'p'=>'content'),
+				'comment-index'=>array('name'=>'评论管理', 'p'=>'content'),
+				'tag-index'=>array('name'=>'标签管理', 'p'=>'content'),
+
+				'theme-index'=>array('name'=>'主题设置', 'p'=>'theme'),
+				'theme-modify'=>array('name'=>'主题修改', 'p'=>'theme'),
+
+				'plugin-index'=>array('name'=>'插件管理', 'p'=>'plugin'),
+
+				'user-index'=>array('name'=>'用户管理', 'p'=>'user'),
+				'user_group-index'=>array('name'=>'用户组管理', 'p'=>'user'),
+
+				'tool-index'=>array('name'=>'清除缓存', 'p'=>'tool'),
+				'tool-rebuild'=>array('name'=>'重新统计', 'p'=>'tool'),
 			),
 		);
 
