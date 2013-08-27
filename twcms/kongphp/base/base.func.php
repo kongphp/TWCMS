@@ -13,7 +13,7 @@ function runmem() {
 	return MEMORY_LIMIT_ON ? get_byte(memory_get_usage() - $_SERVER['_start_memory']) : 'unknown';
 }
 
-// 获取IP
+// 安全获取IP
 function ip() {
 	if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
 		preg_match('#[\d\.]{7,15}#', $_SERVER['HTTP_X_FORWARDED_FOR'], $mat);
@@ -24,6 +24,11 @@ function ip() {
 		$ip = $_SERVER['REMOTE_ADDR'];
 	}
 	return long2ip(ip2long($ip));
+}
+
+// 返回消息JSON (注意：不要含有 " \ 等之类破坏 JSON 结构的字符)
+function E($err, $msg, $name = '') {
+	exit('{"err":'.$err.', "msg":"'.$msg.'", "name":"'.$name.'"}');
 }
 
 /**
