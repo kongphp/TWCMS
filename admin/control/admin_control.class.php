@@ -127,10 +127,10 @@ class admin_control extends control {
 
 	// 初始化标题、位置
 	public function init_title_place() {
-		$control = &$_GET['control'];
-		$action = &$_GET['action'];
+		$control = $_GET['control'];
+		$url = $_GET['control'].'-'.$_GET['action'];
 
-		$this->_title = isset($this->_navs[$control]['sub'][$action]) ? $this->_navs[$control]['sub'][$action] : '&#26410;&#30693;';
+		$this->_title = isset($this->_navs[$control]['sub'][$url]) ? $this->_navs[$control]['sub'][$url] : '&#26410;&#30693;';
 		$this->_place = (isset($this->_navs[$control]['name']) ? $this->_navs[$control]['name'] : '&#26410;&#30693;').' &#187; '.$this->_title;
 	}
 
@@ -140,59 +140,59 @@ class admin_control extends control {
 			'my'=>array(
 				'name'=>'我的',
 				'sub'=>array(
-					'index'=>'后台首页',
-					'password'=>'修改密码',
+					'my-index'=>'后台首页',
+					'my-password'=>'修改密码',
 				)
 			),
 			'setting'=>array(
 				'name'=>'设置',
 				'sub'=>array(
-					'index'=>'基本设置',
-					'seo'=>'SEO设置',
-					'link'=>'链接设置',
-					'attach'=>'附件设置',
+					'setting-index'=>'基本设置',
+					'setting-seo'=>'SEO设置',
+					'setting-link'=>'链接设置',
+					'setting-attach'=>'附件设置',
 				)
 			),
 			'category'=>array(
 				'name'=>'分类',
 				'sub'=>array(
-					'index'=>'分类管理',
-					'model'=>'模型管理',
+					'category-index'=>'分类管理',
+					'model-index'=>'模型管理',
 				)
 			),
 			'content'=>array(
 				'name'=>'内容',
 				'sub'=>array(
-					'index'=>'内容管理',
-					'comment'=>'评论管理',
-					'tag'=>'标签管理',
+					'content-index'=>'内容管理',
+					'comment-index'=>'评论管理',
+					'tag-index'=>'标签管理',
 				)
 			),
 			'theme'=>array(
 				'name'=>'主题',
 				'sub'=>array(
-					'index'=>'主题设置',
-					'modify'=>'主题修改',
+					'theme-index'=>'主题设置',
+					'theme-modify'=>'主题修改',
 				)
 			),
 			'plugin'=>array(
 				'name'=>'插件',
 				'sub'=>array(
-					'index'=>'插件管理',
+					'plugin-index'=>'插件管理',
 				)
 			),
 			'user'=>array(
 				'name'=>'用户',
 				'sub'=>array(
-					'index'=>'用户管理',
-					'group'=>'用户组管理',
+					'user-index'=>'用户管理',
+					'user_group-index'=>'用户组管理',
 				)
 			),
 			'tool'=>array(
 				'name'=>'工具',
 				'sub'=>array(
-					'index'=>'清除缓存',
-					'rebuild'=>'重新统计',
+					'tool-index'=>'清除缓存',
+					'tool-rebuild'=>'重新统计',
 				)
 			),
 		);

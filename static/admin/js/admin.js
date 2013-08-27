@@ -21,7 +21,7 @@ function setNav() {
 	$(".nav ul li").hover(
 		function(){$(this).children("b").addClass("on");$(this).children("dl").show();}, function(){$(this).children("b").removeClass("on");$(this).children("dl").hide();}
 	).click(function(){
-		loadMenu($(this).attr("control"));
+		loadMenu($(this).attr("coKey"));
 	});
 
 	$(".nav ul li dl dd").hover(
@@ -68,17 +68,17 @@ function addTab(title, url) {
 }
 
 //加载左部菜单
-function loadMenu(control, is) {
+function loadMenu(coKey, is) {
 	$(".nav ul li b.x").removeAttr("class");
-	$(".nav ul li[control='"+control+"'] b").addClass("x");
+	$(".nav ul li[coKey='"+coKey+"'] b").addClass("x");
 
-	$("#menutit").html($(".nav ul li[control='"+control+"'] b").html());
-	$("#menu").html($(".nav ul li[control='"+control+"'] dl").html());
+	$("#menutit").html($(".nav ul li[coKey='"+coKey+"'] b").html());
+	$("#menu").html($(".nav ul li[coKey='"+coKey+"'] dl").html());
 	$("#menu dt").remove();
 
 	if(is == "select") {
 		$("#menu dd.x").removeAttr("class");
-		$("#menu dd[ac='"+$("#box_tab ul li.on").attr("acKey")+"']").addClass("x");
+		$("#menu dd[url='"+$("#box_tab ul li.on").attr("url")+"']").addClass("x");
 	}else if(!$("#menu dd").is(".x")) {
 		$("#menu dd:first").addClass("x");
 		oneTab($("#menu dd:first").attr("url"));
