@@ -3,160 +3,145 @@ $(function() {
 	setTab();
 });
 
-/**
- * 通王Ajax对象
- */
-(function($){
-//加载半透明效果
-function _loading() {
-	unObj();
-	$("body").prepend('<div class="ajaxoverlay"></div><div class="ajaxtips"><div class="ajaximg"></div></div>');
-	_setTopLeft();
-}
-$(window).resize(function(){ _setTopLeft(); });
-
-//隐藏object,select
-function unObj() {
-	$("object,select").each(function(){
-		if($(this).css("visibility") != "hidden") $(this).attr("_tw_bugs_visibility_tw_", $(this).css("visibility")).css("visibility", "hidden");
-	});
-}
-
-//显示object,select
-function disObj() {
-	$("[_tw_bugs_visibility_tw_]").each(function(){
-		$(this).css("visibility", $(this).attr("_tw_bugs_visibility_tw_")).removeAttr("_tw_bugs_visibility_tw_");
-	});
-}
-
-//删除半透明框和提示框
-function _remove() {
-	disObj();
-	$(".ajaxoverlay,.ajaxtips").remove();
-}
-
-//关闭
-function _close() {
-	$(".ajaxtips").animate({top:0}, 250, _remove);
-}
-
-function getHeight(H){return ($("body").height()-$(".ajaxtips").height())/2-(H ? H : 0);}
-function getWidth(){return ($("body").width()-$(".ajaxtips").width())/2;}
-
-//设置提示框位置
-function _setTopLeft(H) {
-	$(".ajaxtips").css({"top":getHeight(H),"left":getWidth()});
-}
-
-//设置提示框动画
-function _setTopAn(H) {
-	var T = getHeight(H);
-	$(".ajaxtips").css({"top":0,"left":getWidth()}).animate({top:T+10}, 150).animate({top:T-20}, 150).animate({top:T}, 150);
-}
-
-//写入对话框代码
-function _tipsHtml(str) {
-	if($(".ajaxtips").length == 0) _loading();
-	$(".ajaxtips").html(str);
-	$(".ajaxbox .cf").hide();
-	$(".ajaxbox").width("auto");
-	var W = $(".ajaxbox").width()+5;
-	$(".ajaxbox").css({"width":(W>850?850:(W<180?180:W))});
-	$(".ajaxbox .cf").show();
-	_setTopAn();
-}
-
-//确定框
-function _confirm(msg, func) {
-	_tipsHtml('<div class="ajaxbox bnote"><i></i><b>'+ msg +'</b><p class="cf"><a id="noA" class="but3">取消</a><a id="okA" class="but3">确认</a></p></div>');
-	$("#noA,#okA").attr("href","javascript:;");
-	$("#noA").click(_close);
-	$("#okA").click(function(){ _remove();setTimeout(func,0); });
-}
-
-//调试程序
-function _debug(data) {
-	var msg = "<div style='width:100%;overflow:auto;'><b>" + data.kp_error + "</b></div>";
-	_tipsHtml('<div class="ajaxbox bfalse">'+ msg +'<u>\u6211\u77E5\u9053\u4E86</u></div>');
-
-	$(".ajaxtips u").click(_close);
-}
-
-//提示框
-function _alert(data) {
-	window.twD = toJson(data);
-	if(twD.kp_error) { _debug(twD); return false; }
-
-	_tipsHtml('<div class="ajaxbox b'+ (twD.err==0 ? true : false) +'"><i></i><b>'+ twD.msg +'</b><u>\u6211\u77E5\u9053\u4E86</u></div>');
-
-	$(".ajaxtips u").click(function(){
-		_close();
-		if(!window.twName && twD.name != '') $("[name='"+twD.name+"']").focus();
-	});
-	if(!window.twErr && twD.err==0) setTimeout(_close,1000);
-}
-
-//提交表单
-function _submit(selector, callback) {
-	$(selector).submit(function(){
-		_postd($(this).attr("action"), $(this).serialize(), callback);
-		return false;
-	});
-}
-
-//提交数据(加强版，具有加载和提示框功能)
-function _postd(url, param, callback) {
-	_loading();
-	_post(url, param, (!callback ? _alert : callback));
-}
-
-//提交数据
-function _post(url, param, callback) {
-	$.ajax({
-		type	: "POST",
-		cache	: false,
-		url		: url,
-		data	: param,
-		success	: callback,
-		error	: function(html){
-			alert("提交数据失败，代码:" +html.status+ "，请稍候再试");
-		}
-	});
-}
-
-//获取数据
-function _get(url, callback) {
-	$.ajax({
-		type	: "GET",
-		cache	: true,
-		url		: url,
-		success	: callback,
-		error	: function(html){
-			alert("获取数据失败，代码:" +html.status+ "，请稍候再试");
-		}
-	});
-}
-
+// 通王 Ajax
 window.twAjax = {
-	loading : _loading,
-	remove : _remove,
-	close : _close,
-	setTopLeft : _setTopLeft,
-	setTopAn : _setTopAn,
-	tipsHtml : _tipsHtml,
-	confirm : _confirm,
-	debug : _debug,
-	alert : _alert,
-	submit : _submit,
-	postd : _postd,
-	post : _post,
-	get : _get
-};
-})(jQuery);
+	//加载半透明效果
+	loading : function() {
+		twAjax.unObj();
+		$("body").prepend('<div class="ajaxoverlay"></div><div class="ajaxtips"><div class="ajaximg"></div></div>');
+		$(window).resize(twAjax.setTopLeft);
+		twAjax.setTopLeft();
+	},
 
-/**
- * 通王dialog
- */
+	//隐藏object,select
+	unObj : function() {
+		$("object,select").each(function(){
+			if($(this).css("visibility") != "hidden") $(this).attr("_tw_bugs_visibility_tw_", $(this).css("visibility")).css("visibility", "hidden");
+		});
+	},
+
+	//显示object,select
+	disObj : function() {
+		$("[_tw_bugs_visibility_tw_]").each(function(){
+			$(this).css("visibility", $(this).attr("_tw_bugs_visibility_tw_")).removeAttr("_tw_bugs_visibility_tw_");
+		});
+	},
+
+	//删除半透明框和提示框
+	remove : function() {
+		twAjax.disObj();
+		$(".ajaxoverlay,.ajaxtips").remove();
+	},
+
+	//关闭
+	close : function() {
+		$(".ajaxtips").animate({top:0}, 250, twAjax.remove);
+	},
+
+	//设置提示框位置
+	setTopLeft : function(H) {
+		$(".ajaxtips").css({"top":twAjax.getHeight(H), "left":twAjax.getWidth()});
+	},
+
+	getHeight : function(H) {
+		return ($("body").height()-$(".ajaxtips").height())/2-(H ? H : 0);
+	},
+
+	getWidth : function() {
+		return ($("body").width()-$(".ajaxtips").width())/2;
+	},
+
+	//设置提示框动画
+	setTopAn : function(H) {
+		var T = twAjax.getHeight(H);
+		$(".ajaxtips").css({"top":0, "left":twAjax.getWidth()}).animate({top:T+10}, 150).animate({top:T-20}, 150).animate({top:T}, 150);
+	},
+
+	//写入对话框代码
+	tipsHtml : function(str) {
+		if($(".ajaxtips").length == 0) twAjax.loading();
+		$(".ajaxtips").html(str);
+		$(".ajaxbox .cf").hide();
+		$(".ajaxbox").width("auto");
+		var W = $(".ajaxbox").width()+5;
+		$(".ajaxbox").css({"width":(W>850?850:(W<180?180:W))});
+		$(".ajaxbox .cf").show();
+		twAjax.setTopAn();
+	},
+
+	//调试程序
+	debug : function(data) {
+		var msg = "<div style='width:100%;overflow:auto;'><b>" + data.kp_error + "</b></div>";
+		twAjax.tipsHtml('<div class="ajaxbox bfalse">'+ msg +'<u>\u6211\u77E5\u9053\u4E86</u></div>');
+
+		$(".ajaxtips u").click(twAjax.close);
+	},
+
+	//提示框
+	alert : function(data) {
+		window.twData = data = toJson(data);
+		if(data.kp_error) { twAjax.debug(data); return false; }
+
+		twAjax.tipsHtml('<div class="ajaxbox b'+ (data.err==0 ? true : false) +'"><i></i><b>'+ data.msg +'</b><u>\u6211\u77E5\u9053\u4E86</u></div>');
+
+		$(".ajaxtips u").click(function(){
+			twAjax.close();
+			if(!window.twName && data.name != '') $(".ajaxtips [name='"+data.name+"']").focus();
+		});
+		if(!window.twErr && data.err==0) setTimeout(twAjax.close, 1000);
+	},
+
+	//确定框
+	confirm : function(msg, func) {
+		twAjax.tipsHtml('<div class="ajaxbox bnote"><i></i><b>'+ msg +'</b><p class="cf"><a id="noA" class="but3">取消</a><a id="okA" class="but3">确认</a></p></div>');
+		$("#noA,#okA").attr("href","javascript:;");
+		$("#noA").click(twAjax.close);
+		$("#okA").click(function(){ twAjax.remove(); func(); });
+	},
+
+	//提交表单
+	submit : function(selector, callback) {
+		$(selector).submit(function(){
+			twAjax.postd($(this).attr("action"), $(this).serialize(), callback);
+			return false;
+		});
+	},
+
+	//提交数据(加强版，具有加载和提示框功能)
+	postd : function(url, param, callback) {
+		twAjax.loading();
+		twAjax.post(url, param, (!callback ? twAjax.alert : callback));
+	},
+
+	//提交数据
+	post : function(url, param, callback) {
+		$.ajax({
+			type	: "POST",
+			cache	: false,
+			url		: url,
+			data	: param,
+			success	: callback,
+			error	: function(html){
+				alert("提交数据失败，代码:"+ html.status +"，请稍候再试");
+			}
+		});
+	},
+
+	//获取数据
+	get : function(url, callback) {
+		$.ajax({
+			type	: "GET",
+			cache	: true,
+			url		: url,
+			success	: callback,
+			error	: function(html){
+				alert("获取数据失败，代码:"+ html.status +"，请稍候再试");
+			}
+		});
+	}
+};
+
+// 通王 dialog
 $.twDialog = function(options) {
 	if(options == "open") { $(".twdialog,.twoverlay").show(); return false;
 	}else if(options == "close") { $(".twdialog,.twoverlay").hide(); return false;
