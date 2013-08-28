@@ -157,8 +157,7 @@ window.twAjax = {
 /**
  * 通王dialog
  */
-(function($){
-$.fn.twdialog = function(options) {
+$.twDialog = function(options) {
 	if(options == "open") { $(".twdialog,.twoverlay").show(); return false;
 	}else if(options == "close") { $(".twdialog,.twoverlay").hide(); return false;
 	}else if(options == "remove") { $(".twdialog,.twoverlay").remove(); return false;
@@ -180,10 +179,11 @@ $.fn.twdialog = function(options) {
 	var o = $.extend(defaults, options);
 
 	//init
-	$("body").append('<div class="twdialog"><div class="twdialog_title"><span></span><a href="javascript:;">close</a></div><div class="twdialog_content"><div></div></div><div class="twdialog_button"><input type="button" value="确定" class="but1 ok"><input type="button" value="取消" class="but1 close"></div></div>');
+	$("body").append('<div class="twdialog"><div class="twdialog_title"><span></span><a href="javascript:;">close</a></div><div class="twdialog_content"><div style="padding:8px">玩命加载中...</div></div><div class="twdialog_button"><input type="button" value="确定" class="but1 ok"><input type="button" value="取消" class="but1 close"></div></div>');
 
 	objd = $(".twdialog");
-	$(this).replaceAll(".twdialog_content div"); //替换
+	if(o.content) $(".twdialog_content").html(o.content);
+	//$("xxx").replaceAll(".twdialog_content div"); //以前的替换代码
 	$(".twdialog_title span").html(o.title);
 	if(o.modal) { $("body").append('<div class="twoverlay"></div>'); $(".twoverlay").css("z-index",o.zIndex-1); }
 	if(o.open) { objd.show(); }else { $(".twoverlay").hide(); }
@@ -258,7 +258,6 @@ $.fn.twdialog = function(options) {
 	//关闭显示
 	$(".twdialog_title a,.twdialog_button .close").click(_close);
 };
-})(jQuery);
 
 //加载JS
 function twLoadJs() {
