@@ -7,6 +7,7 @@ $(function() {
 window.twAjax = {
 	//加载半透明效果
 	loading : function() {
+		twAjax.remove();
 		twAjax.unObj();
 		$("body").prepend('<div class="ajaxoverlay"></div><div class="ajaxtips"><div class="ajaximg"></div></div>');
 		$(window).resize(twAjax.setTopLeft);
@@ -44,7 +45,7 @@ window.twAjax = {
 	},
 
 	getHeight : function(H) {
-		return ($("body").height()-$(".ajaxtips").height())/2-(H ? H : 0);
+		return ($("body").height()-$(".ajaxtips").height())/2-(typeof H == 'number' ? H : 0);
 	},
 
 	getWidth : function() {
@@ -322,6 +323,8 @@ function toJson(data) {
 		if(json.kp_error) {
 			twAjax.debug(json);
 			window.twExit = true;	// 用来终止程序执行
+		}else{
+			window.twExit = false;
 		}
 	}catch(e){
 		alert(data);
