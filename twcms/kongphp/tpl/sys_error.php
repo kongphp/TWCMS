@@ -6,7 +6,7 @@
 <style type="text/css">
 body,div,ul,li,h1{margin:0;padding:0}
 .kongcont h1,.kongcont ul,.kongcont ul li,.kongcont ul li span{font:14px/1.6 'Microsoft YaHei',Verdana,Arial,sans-serif}
-.kongcont{width:65%;margin:150px auto 0;overflow:hidden;color:#000;border-radius:5px;box-shadow:5px 5px 12px #555;background:#fff;min-width:300px}
+.kongcont{width:65%;margin:150px auto 0;overflow:hidden;color:#000;border-radius:5px;box-shadow:0 0 20px #555;background:#fff;min-width:300px}
 .kongcont h1{font-size:18px;height:26px;line-height:26px;padding:10px 3px 0;border-bottom:1px solid #dbdbdb;font-weight:700}
 .kongcont ul,.kongcont h1{width:95%;margin:0 auto;overflow:hidden}
 .kongcont ul{list-style:none;padding:3px;word-break:break-all}
