@@ -179,8 +179,8 @@ $.twDialog = function(options) {
 
 	//初始位置
 	objd.css({"width":o.width, "height":o.height, "z-index":o.zIndex});
-	if(o.top == "center") {objd.css("top",getHeight())}else{objd.css("top",o.top)}
-	if(o.left == "center") {objd.css("left",getWidth())}else{objd.css("left",o.left)}
+	if(o.top == "center") {objd.css("top",getTop())}else{objd.css("top",o.top)}
+	if(o.left == "center") {objd.css("left",getLeft())}else{objd.css("left",o.left)}
 	_setH();
 
 	//触发拖动
@@ -206,8 +206,8 @@ $.twDialog = function(options) {
 	function _e(e) { left=e.pageX-(dx-sx); newW=left-sx+objW; if(newW>o.minW && e.pageX<bWidth-(objW-(dx-sx-1))) objd.css({"width": newW}); }
 	function _s(e) { top=e.pageY-(dy-sy); newH=top-sy+objH; if(newH>o.minH && e.pageY<bHeight-(objH-(dy-sy-1))) objd.css({"height": newH}); _setH(); }
 	function _w(e) { left=e.pageX-(dx-sx); newW=objW-(left-sx); if(newW>o.minW && left>=0) objd.css({"left": left, "width": newW}); }
-	function getHeight(){return ($("body").height()-objd.height())/2;}
-	function getWidth(){return ($("body").width()-objd.width())/2;}
+	function getTop(){return Math.max(0, ($("body").height()-objd.height())/2);}
+	function getLeft(){return Math.max(0, ($("body").width()-objd.width())/2);}
 
 	//获得鼠标指针在页面中的位置
 	$(document).mousemove(function(e){
