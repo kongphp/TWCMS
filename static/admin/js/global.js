@@ -80,13 +80,13 @@ window.twAjax = {
 	//提示框
 	alert : function(data) {
 		window.twData = data = toJson(data);
-		if(data.kp_error) { twAjax.debug(data); return false; }
+		if(window.twExit) return;
 
 		twAjax.tipsHtml('<div class="ajaxbox b'+ (data.err==0 ? true : false) +'"><i></i><b>'+ data.msg +'</b><u>\u6211\u77E5\u9053\u4E86</u></div>');
 
 		$(".ajaxtips u").click(function(){
 			twAjax.close();
-			if(!window.twName && data.name != '') $(".ajaxtips [name='"+data.name+"']").focus();
+			if(!window.twName && data.name != '') $("[name='"+data.name+"']").focus();
 		});
 		if(!window.twErr && data.err==0) setTimeout(twAjax.close, 1000);
 	},
@@ -318,6 +318,11 @@ function toJson(data) {
 	var json = {};
 	try{
 		json = eval("("+data+")");
+
+		if(json.kp_error) {
+			twAjax.debug(json);
+			window.twExit = true;	// 用来终止程序执行
+		}
 	}catch(e){
 		alert(data);
 	}
