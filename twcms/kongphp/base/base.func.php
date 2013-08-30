@@ -139,7 +139,7 @@ function FW($filename, $data) {
 	// 目录不存在则创建
 	is_dir($dir) || mkdir($dir, 0755, true);
 
-	return file_put_contents($filename, $data);	// 不要使用 LOCK_EX，访问太快时会有同步问题
+	return file_put_contents($filename, $data);	// 不使用 LOCK_EX，多线程访问时会有同步问题
 }
 
 // 方便记忆 以 _ 开始的都是改造系统函数
