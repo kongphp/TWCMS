@@ -102,7 +102,6 @@ window.twAjax = {
 
 		$("body").bind("keypress", function(event){
 			var k = event.keyCode;
-			alert(k);
 			if(k == 27) {
 				twAjax.close();
 			}else if(k == 13) {
