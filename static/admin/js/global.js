@@ -30,6 +30,7 @@ window.twAjax = {
 
 	//删除半透明框和提示框
 	remove : function() {
+		$("body").unbind("keypress");
 		twAjax.disObj();
 		$(".ajaxoverlay,.ajaxtips").remove();
 	},
@@ -98,6 +99,17 @@ window.twAjax = {
 		$("#noA,#okA").attr("href","javascript:;");
 		$("#noA").click(twAjax.close);
 		$("#okA").click(function(){ twAjax.remove(); func(); });
+
+		$("body").bind("keypress", function(event){
+			var k = event.keyCode;
+			alert(k);
+			if(k == 27) {
+				twAjax.close();
+			}else if(k == 13) {
+				twAjax.remove();
+				func();
+			}
+		});
 	},
 
 	//提交表单
