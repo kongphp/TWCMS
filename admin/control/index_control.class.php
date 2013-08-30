@@ -35,7 +35,7 @@ class index_control extends admin_control{
 			}
 
 			// 防IP暴力破解
-			$ip = &$_SERVER['_ip'];
+			$ip = &$_ENV['_ip'];
 			if($user->anti_ip_brute($ip)) {
 				exit('{"name":"password", "message":"啊哦，请15分钟之后再试！"}');
 			}
@@ -50,7 +50,7 @@ class index_control extends admin_control{
 				$data = array(
 					'uid' => $users['uid'],
 					'loginip' => ip2long($ip),
-					'logindate' => $_SERVER['_time'],
+					'logindate' => $_ENV['_time'],
 					'lastip' => $users['loginip'],
 					'lastdate' => $users['logindate'],
 					'logins' => intval($users['logins'])+1,

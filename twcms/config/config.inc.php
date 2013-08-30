@@ -1,5 +1,5 @@
 <?php
-$_SERVER['_config'] = array(
+$_ENV['_config'] = array(
 	'plugin_disable' => 0,			// 禁止掉所有插件
 	'zone' => 'Asia/Shanghai',		// 时区
 	'gzip' => 1,	// 开启 GZIP 压缩

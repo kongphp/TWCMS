@@ -20,7 +20,7 @@ class runtime extends model {
 	// 读取缓存
 	public function get($k) {
 		$arr = parent::get($k);
-		return !empty($arr) && (empty($arr['expiry']) || $arr['expiry'] > $_SERVER['_time']) ? _json_decode($arr['v']) : FALSE;
+		return !empty($arr) && (empty($arr['expiry']) || $arr['expiry'] > $_ENV['_time']) ? _json_decode($arr['v']) : FALSE;
 	}
 
 	// 写入缓存
@@ -29,7 +29,7 @@ class runtime extends model {
 		$arr = array();
 		$arr['k'] = $k;
 		$arr['v'] = $s;
-		$arr['expiry'] = $life ? $_SERVER['_time'] + $life : 0;
+		$arr['expiry'] = $life ? $_ENV['_time'] + $life : 0;
 		return parent::set($k, $arr);
 	}
 

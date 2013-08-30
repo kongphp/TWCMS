@@ -16,10 +16,10 @@ class admin_control extends control {
 	public $_place = '';		// 位置
 
 	function __construct() {
-		$_SERVER['_config']['FORM_HASH'] = form_hash();
-		$this->assign('C', $_SERVER['_config']);
+		$_ENV['_config']['FORM_HASH'] = form_hash();
+		$this->assign('C', $_ENV['_config']);
 
-		$admauth = R($_SERVER['_config']['cookie_pre'].'admauth', 'R');
+		$admauth = R($_ENV['_config']['cookie_pre'].'admauth', 'R');
 
 		$err = 0;
 		if(empty($admauth)) {
@@ -49,7 +49,7 @@ class admin_control extends control {
 						$err = 1;
 					}elseif($this->_user['password'] != $password || $this->_user['username'] != $username || $this->_user['groupid'] != $groupid) {
 						$err = 1;
-					}elseif($_SERVER['_ip'] != $ip) {
+					}elseif($_ENV['_ip'] != $ip) {
 						_setcookie('admauth', '', 1);
 						$this->message(0, '您的IP已经改变，为了安全考虑，请重新登录！', '?u=index-login');
 					}else{

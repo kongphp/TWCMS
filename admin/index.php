@@ -13,4 +13,4 @@ define('CONTROL_PATH', ADM_PATH.'control/');	//控制器目录
 define('VIEW_PATH', ADM_PATH.'view/');	//视图目录
 define('KONG_PATH', APP_PATH.'kongphp/');	//框架目录
 require KONG_PATH.'kongphp.php';
-echo "\r\n<!--".number_format(microtime(1) - $_SERVER['_start_time'], 6).'-->';
+echo "\r\n<!--".number_format(microtime(1) - $_ENV['_start_time'], 6).'-->';
