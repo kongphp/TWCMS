@@ -10,10 +10,10 @@ class view{
 	private $view_diy = 0;				//DIY模板解析是否开启
 
 	public function __construct() {
-		empty($_SERVER['_setting'][APP_NAME.'_theme']) || $this->theme = $_SERVER['_setting'][APP_NAME.'_theme'];
+		empty($_ENV['_setting'][APP_NAME.'_theme']) || $this->theme = $_ENV['_setting'][APP_NAME.'_theme'];
 
-		// $_SERVER['_view_diy'] 为DIY模板解析是否开启
-		empty($_SERVER['_view_diy']) || $this->view_diy = 1;
+		// $_ENV['_view_diy'] 为DIY模板解析是否开启
+		empty($_ENV['_view_diy']) || $this->view_diy = 1;
 	}
 
 	public function assign($k, &$v) {
@@ -26,9 +26,9 @@ class view{
 
 	// 注意: 为安全考虑，$filename 尽量限制为 (英文 数字 _ .)
 	public function display($filename = null) {
-		$_SERVER['_tplname'] = is_null($filename) ? $_GET['control'].'_'.$_GET['action'].'.htm' : $filename;
+		$_ENV['_tplname'] = is_null($filename) ? $_GET['control'].'_'.$_GET['action'].'.htm' : $filename;
 		extract($this->vars, EXTR_SKIP);
-		include $this->get_tplfile($_SERVER['_tplname']);
+		include $this->get_tplfile($_ENV['_tplname']);
 	}
 
 	private function get_tplfile($filename) {

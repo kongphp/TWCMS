@@ -27,7 +27,7 @@ class debug{
 	 * @param int $errline 错误行号
 	 */
 	public static function error_handler($errno, $errstr, $errfile, $errline) {
-		if(!empty($_SERVER['_exception'])) return;
+		if(!empty($_ENV['_exception'])) return;
 		$error_type = array(
 			E_ERROR					=> '运行错误',
 			E_WARNING				=> '运行警告',
@@ -63,7 +63,7 @@ class debug{
 	 * @param int $e 异常对象
 	 */
 	public static function exception_handler($e) {
-		DEBUG && $_SERVER['_exception'] = 1;	// 只输出一次
+		DEBUG && $_ENV['_exception'] = 1;	// 只输出一次
 
 		// 第1步正确定位
 		$trace = $e->getTrace();
@@ -150,7 +150,7 @@ class debug{
 	 * 程序关闭时执行
 	 */
 	public static function shutdown_handler() {
-		if(empty($_SERVER['_exception'])) {
+		if(empty($_ENV['_exception'])) {
 			if($e = error_get_last()) {
 				ob_clean();
 				$message = $e['message'];

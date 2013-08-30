@@ -11,8 +11,8 @@ class log {
 	 * @return boot
 	 */
 	public static function write($s, $file = 'php_error.php') {
-		$time = date('Y-m-d H:i:s', $_SERVER['_time']);
-		$ip = $_SERVER['_ip'];
+		$time = date('Y-m-d H:i:s', $_ENV['_time']);
+		$ip = $_ENV['_ip'];
 		$url = self::to_str($_SERVER['REQUEST_URI']);
 		$s = self::to_str($s);
 		self::write_log('<?php exit;?>'."	$time	$ip	$url	$s	\r\n", $file);
@@ -53,8 +53,8 @@ class log {
 	 */
 	public static function trace($s) {
 		if(!DEBUG) return;
-		empty($_SERVER['_trace']) && $_SERVER['_trace'] = '';
-		$_SERVER['_trace'] .= $s.' - '.number_format(microtime(1) - $_SERVER['_start_time'], 4)."\r\n";
+		empty($_ENV['_trace']) && $_ENV['_trace'] = '';
+		$_ENV['_trace'] .= $s.' - '.number_format(microtime(1) - $_ENV['_start_time'], 4)."\r\n";
 	}
 
 	/**
@@ -62,10 +62,10 @@ class log {
 	 * @param string $file 保存文件名
 	 */
 	public static function trace_save($file = 'php_trace.php') {
-		if(empty($_SERVER['_trace'])) return;
+		if(empty($_ENV['_trace'])) return;
 		$s = "<?php exit;?>\r\n========================================================================\r\n";
-		$s .= $_SERVER['REQUEST_URI']."\r\nPOST:".print_r($_POST, 1)."\r\nSQL:".print_r($_SERVER['_sqls'], 1)."\r\n";
-		$s .= $_SERVER['_trace']."\r\n\r\n";
+		$s .= $_SERVER['REQUEST_URI']."\r\nPOST:".print_r($_POST, 1)."\r\nSQL:".print_r($_ENV['_sqls'], 1)."\r\n";
+		$s .= $_ENV['_trace']."\r\n\r\n";
 		self::write_log($s, $file);
 	}
 }

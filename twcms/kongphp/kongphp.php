@@ -9,11 +9,11 @@ defined('KONG_PATH') || die('Error Accessing');
 version_compare(PHP_VERSION, '5.2.0', '>') || die('require PHP > 5.2.0 !');
 
 // 记录开始运行时间
-$_SERVER['_start_time'] = microtime(1);
+$_ENV['_start_time'] = microtime(1);
 
 // 记录内存初始使用
 define('MEMORY_LIMIT_ON', function_exists('memory_get_usage'));
-if(MEMORY_LIMIT_ON) $_SERVER['_start_memory'] = memory_get_usage();
+if(MEMORY_LIMIT_ON) $_ENV['_start_memory'] = memory_get_usage();
 
 define('KONG_VERSION', '1.0.0');	//框架版本
 defined('DEBUG') || define('DEBUG', 2);	//调试模式

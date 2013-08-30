@@ -31,7 +31,7 @@ body,div,ul,li,h1{margin:0;padding:0}
 	<h1>基本信息</h1>
 	<ul>
 		<li><span>模型目录:</span> <?php echo MODEL_PATH;?></li>
-		<li><span>视图目录:</span> <?php echo VIEW_PATH.(isset($_SERVER['_setting'][APP_NAME.'_theme']) ? $_SERVER['_setting'][APP_NAME.'_theme'] : 'default').'/'; ?></li>
+		<li><span>视图目录:</span> <?php echo VIEW_PATH.(isset($_ENV['_setting'][APP_NAME.'_theme']) ? $_ENV['_setting'][APP_NAME.'_theme'] : 'default').'/'; ?></li>
 		<li><span>控制器:</span> <?php echo CONTROL_PATH;?><font color="red"><?php echo $_GET['control'];?>_control.class.php</font></li>
 		<li><span>日志目录:</span> <?php echo RUNTIME_PATH.'logs/';?></li>
 	</ul>
@@ -40,7 +40,7 @@ body,div,ul,li,h1{margin:0;padding:0}
 	<ul><?php echo self::arr2str(explode("\n", $tracestr), 0);?></ul>
 
 	<h1>SQL</h1>
-	<ul><?php echo self::arr2str($_SERVER['_sqls'], 1, FALSE);?></ul>
+	<ul><?php echo self::arr2str($_ENV['_sqls'], 1, FALSE);?></ul>
 
 	<h1>$_GET</h1>
 	<ul><?php echo self::arr2str($_GET);?></ul>
@@ -57,8 +57,8 @@ body,div,ul,li,h1{margin:0;padding:0}
 	<h1>其他信息</h1>
 	<ul>
 		<li><span>请求路径:</span> <?php echo $_SERVER['REQUEST_URI'];?></li>
-		<li><span>当前时间:</span> <?php echo date('Y-m-d H:i:s', $_SERVER['_time']);?></li>
-		<li><span>当前网协:</span> <?php echo $_SERVER['_ip'];?></li>
+		<li><span>当前时间:</span> <?php echo date('Y-m-d H:i:s', $_ENV['_time']);?></li>
+		<li><span>当前网协:</span> <?php echo $_ENV['_ip'];?></li>
 		<li><span>运行时间:</span> <?php echo runtime();?></li>
 		<li><span>内存开销:</span> <?php echo runmem();?></li>
 	</ul>

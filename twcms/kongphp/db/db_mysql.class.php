@@ -7,7 +7,7 @@ defined('KONG_PATH') || exit;
 class db_mysql implements db_interface {
 	private $conf;
 	public $tablepre;		// 数据表前缀
-	//public $querynum = 0;	//记录SQL执行数 (去掉原因，可通过 $_SERVER['_sqls'] 查看)
+	//public $querynum = 0;	//记录SQL执行数 (去掉原因，可通过 $_ENV['_sqls'] 查看)
 	//private $wlink;		// 写(主)数据库
 	//private $rlink;		// 读(从)数据库
 	//private $xlink;		// 分发数据库
@@ -462,7 +462,7 @@ class db_mysql implements db_interface {
 	public function query($sql, $link = NULL, $isthrow = TRUE) {
 		empty($link) && $link = $this->wlink;
 
-		if(defined('DEBUG') && DEBUG && isset($_SERVER['_sqls']) && count($_SERVER['_sqls']) < 1000) {
+		if(defined('DEBUG') && DEBUG && isset($_ENV['_sqls']) && count($_ENV['_sqls']) < 1000) {
 			$start = microtime(1);
 			$result = mysql_query($sql, $link);
 
@@ -476,7 +476,7 @@ class db_mysql implements db_interface {
 					$explain_str = ' <font color="blue">[explain type: '.$explain_arr['type'].' | rows: '.$explain_arr['rows'].']</font>';
 				}
 			}
-			$_SERVER['_sqls'][] = ' <font color="red">[time:'.number_format(microtime(1) - $start, 4).'s]</font> '.htmlspecialchars(stripslashes($sql)).$explain_str;
+			$_ENV['_sqls'][] = ' <font color="red">[time:'.number_format(microtime(1) - $start, 4).'s]</font> '.htmlspecialchars(stripslashes($sql)).$explain_str;
 		}else{
 			$result = mysql_query($sql, $link);
 		}
@@ -488,7 +488,7 @@ class db_mysql implements db_interface {
 				throw new Exception('MySQL Query Error: <b>'.str_replace($this->tablepre, '***', $sql).'</b>');
 			}
 		}
-		//$this->querynum++;	//去掉原因，可通过 $_SERVER['_sqls'] 查看
+		//$this->querynum++;	//去掉原因，可通过 $_ENV['_sqls'] 查看
 		return $result;
 	}
 

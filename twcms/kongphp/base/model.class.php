@@ -55,9 +55,9 @@ class model{
 			case 'cache':
 				return $this->cache = $this->load_db();
 			case 'db_conf':
-				return $this->db_conf = &$_SERVER['_config']['db'];
+				return $this->db_conf = &$_ENV['_config']['db'];
 			case 'cache_conf':
-				return $this->cache_conf = &$_SERVER['_config']['cache'];
+				return $this->cache_conf = &$_ENV['_config']['cache'];
 			default:
 				return $this->$var = M($var);
 		}

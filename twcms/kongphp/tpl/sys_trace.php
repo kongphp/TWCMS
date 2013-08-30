@@ -29,22 +29,22 @@
 	<div id="kong_trace_cont">
 		<ol>
 			<li><span>模型:</span> <?php echo MODEL_PATH;?></li>
-			<li><span>视图:</span> <?php echo VIEW_PATH.(isset($_SERVER['_setting'][APP_NAME.'_theme']) ? $_SERVER['_setting'][APP_NAME.'_theme'] : 'default').'/'; if(isset($_SERVER['_tplname'])) { echo '<font color="red">'.$_SERVER['_tplname'].'</font>'; } ?></li>
+			<li><span>视图:</span> <?php echo VIEW_PATH.(isset($_ENV['_setting'][APP_NAME.'_theme']) ? $_ENV['_setting'][APP_NAME.'_theme'] : 'default').'/'; if(isset($_ENV['_tplname'])) { echo '<font color="red">'.$_ENV['_tplname'].'</font>'; } ?></li>
 			<li><span>控制器:</span> <?php echo CONTROL_PATH;?><font color="red"><?php echo $_GET['control'];?>_control.class.php</font></li>
 			<li><span>日志目录:</span> <?php echo RUNTIME_PATH.'logs/';?></li>
 			<li><span>当前页面:</span> <?php echo $_SERVER['SCRIPT_FILENAME'];?></li>
-			<li><span>当前时间:</span> <?php echo date('Y-m-d H:i:s', $_SERVER['_time']);?></li>
-			<li><span>当前网协:</span> <?php echo $_SERVER['_ip'];?></li>
+			<li><span>当前时间:</span> <?php echo date('Y-m-d H:i:s', $_ENV['_time']);?></li>
+			<li><span>当前网协:</span> <?php echo $_ENV['_ip'];?></li>
 			<li><span>请求路径:</span> <?php echo $_SERVER['REQUEST_URI'];?></li>
 			<li><span>运行时间:</span> <?php echo $runtime;?></li>
 			<li><span>内存开销:</span> <?php echo runmem();?></li>
 		</ol>
-		<ol class="ktun"><?php echo self::arr2str($_SERVER['_sqls'], 1, FALSE);?></ol>
+		<ol class="ktun"><?php echo self::arr2str($_ENV['_sqls'], 1, FALSE);?></ol>
 		<ol class="ktun"><?php echo self::arr2str($_GET);?></ol>
 		<ol class="ktun" style="white-space:pre"><?php echo print_r(_htmls($_POST), 1);?></ol>
 		<ol class="ktun"><?php echo self::arr2str($_COOKIE);?></ol>
 		<ol class="ktun"><?php echo self::arr2str(get_included_files(), 1);?></ol>
-		<ol class="ktun"><?php echo self::arr2str($_SERVER['_include'], 1);?></ol>
+		<ol class="ktun"><?php echo self::arr2str($_ENV['_include'], 1);?></ol>
 	</div>
 </div>
 <script type="text/javascript">

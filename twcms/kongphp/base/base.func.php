@@ -5,12 +5,12 @@
 
 // 统计程序运行时间
 function runtime() {
-	return number_format(microtime(1) - $_SERVER['_start_time'], 6);
+	return number_format(microtime(1) - $_ENV['_start_time'], 6);
 }
 
 // 统计程序内存开销
 function runmem() {
-	return MEMORY_LIMIT_ON ? get_byte(memory_get_usage() - $_SERVER['_start_memory']) : 'unknown';
+	return MEMORY_LIMIT_ON ? get_byte(memory_get_usage() - $_ENV['_start_memory']) : 'unknown';
 }
 
 // 安全获取IP
@@ -55,8 +55,8 @@ function R($k, $var = 'G') {
  * @return mixed
  */
 function C($key, $val = null) {
-	if(is_null($val)) return isset($_SERVER['_config'][$key]) ? $_SERVER['_config'][$key] : $val;
-	return $_SERVER['_config'][$key] = $val;
+	if(is_null($val)) return isset($_ENV['_config'][$key]) ? $_ENV['_config'][$key] : $val;
+	return $_ENV['_config'][$key] = $val;
 }
 
 /**
@@ -102,8 +102,8 @@ function G($start,$end='',$dec=4) {
  */
 function M($model) {
 	$modelname = "{$model}_model.class.php";
-	if(isset($_SERVER['_models'][$modelname])) {
-		return $_SERVER['_models'][$modelname];
+	if(isset($_ENV['_models'][$modelname])) {
+		return $_ENV['_models'][$modelname];
 	}
 	$objfile = RUNTIME_PATH.APP_NAME."_model/$modelname";
 
@@ -124,7 +124,7 @@ function M($model) {
 
 	include $objfile;
 	$mod = new $model();
-	$_SERVER['_models'][$modelname] = $mod;
+	$_ENV['_models'][$modelname] = $mod;
 	return $mod;
 }
 
@@ -145,9 +145,9 @@ function FW($filename, $data) {
 // 方便记忆 以 _ 开始的都是改造系统函数
 // cookie 设置/删除
 function _setcookie($name, $value='', $expire=0, $path='', $domain='', $secure=false, $httponly=false) {
-	$name = $_SERVER['_config']['cookie_pre'].$name;
-	if(!$path) $path = $_SERVER['_config']['cookie_path'];
-	if(!$domain) $domain = $_SERVER['_config']['cookie_domain'];
+	$name = $_ENV['_config']['cookie_pre'].$name;
+	if(!$path) $path = $_ENV['_config']['cookie_path'];
+	if(!$domain) $domain = $_ENV['_config']['cookie_domain'];
 	$_COOKIE[$name] = $value;
 	return setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
 }
@@ -328,7 +328,7 @@ function str_auth($string, $operation = 'DECODE', $key = '', $expiry = 0) {
 
 // 生成 form hash
 function form_hash() {
-	return substr(md5(substr($_SERVER['_time'], 0, -5).$_SERVER['_config']['auth_key']), 16);
+	return substr(md5(substr($_ENV['_time'], 0, -5).$_ENV['_config']['auth_key']), 16);
 }
 
 // 校验 form hash

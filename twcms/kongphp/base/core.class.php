@@ -28,8 +28,8 @@ class core{
 	 * @return string
 	 */
 	public static function ob_gzip($s) {
-		$gzip = $_SERVER['_config']['gzip'];
-		$isfirst = empty($_SERVER['_isgzip']);
+		$gzip = $_ENV['_config']['gzip'];
+		$isfirst = empty($_ENV['_isgzip']);
 
 		if($gzip) {
 			if(function_exists('ini_get') && ini_get('zlib.output_compression')) {
@@ -45,7 +45,7 @@ class core{
 			header("Content-Encoding: none");
 			header("Content-Length: ".strlen($s));
 		}
-		$isfirst && $_SERVER['_isgzip'] = 1;
+		$isfirst && $_ENV['_isgzip'] = 1;
 		return $s;
 	}
 
@@ -53,14 +53,14 @@ class core{
 	 * 清空输出缓冲区
 	 */
 	public static function ob_clean() {
-		$_SERVER['_config']['gzip'] && ob_clean();
+		$_ENV['_config']['gzip'] && ob_clean();
 	}
 
 	/**
 	 * 初始化基本设置
 	 */
 	public static function init_set() {
-		date_default_timezone_set($_SERVER['_config']['zone']);	// php5.4 以后，不再支持 Etc/GMT+8 这种格式
+		date_default_timezone_set($_ENV['_config']['zone']);	// php5.4 以后，不再支持 Etc/GMT+8 这种格式
 
 		spl_autoload_register(array('core', 'autoload_handler'));	// 设置自动包含类文件方法
 
@@ -72,10 +72,10 @@ class core{
 		}
 
 		// 初始化全局变量
-		$_SERVER['_sqls'] = array();	// debug 时使用
-		$_SERVER['_include'] = array();	// autoload 时使用
-		$_SERVER['_time'] = isset($_SERVER['REQUEST_TIME']) ? $_SERVER['REQUEST_TIME'] : time();
-		$_SERVER['_ip'] = ip();
+		$_ENV['_sqls'] = array();	// debug 时使用
+		$_ENV['_include'] = array();	// autoload 时使用
+		$_ENV['_time'] = isset($_SERVER['REQUEST_TIME']) ? $_SERVER['REQUEST_TIME'] : time();
+		$_ENV['_ip'] = ip();
 
 		// 输出 header 头
 		header("Expires: 0");
@@ -100,7 +100,7 @@ class core{
 		}else{
 			throw new Exception("class $classname does not exists");
 		}
-		DEBUG && $_SERVER['_include'][] = $classname.' 类';
+		DEBUG && $_ENV['_include'][] = $classname.' 类';
 		return class_exists($classname, false);
 	}
 
@@ -108,7 +108,7 @@ class core{
 	 * 初始化 $_GET 变量 (可通过 parseurl_control.class.php 自定义解析 URl)
 	 */
 	public static function init_get() {
-		if(!empty($_SERVER['_setting'][APP_NAME.'_parseurl'])) {
+		if(!empty($_ENV['_setting'][APP_NAME.'_parseurl'])) {
 			self::parseurl_control();
 		}else{
 			// 提示：为了满足各种需求，这里搞了三种方式，可能有点乱，没办法迫不得已。
@@ -276,7 +276,7 @@ class core{
 	 * @return string 获取成功返回路径, 获取失败返回false
 	 */
 	public static function get_original_file($filename, $path) {
-		if(empty($_SERVER['_config']['plugin_disable'])) {
+		if(empty($_ENV['_config']['plugin_disable'])) {
 			$plugins = self::get_plugins();
 			if(isset($plugins['enable']) && is_array($plugins['enable'])) {
 				$plugin_enable = array_keys($plugins['enable']);
@@ -342,7 +342,7 @@ class core{
 	 * @return string
 	 */
 	public static function parse_hook($matches) {
-		if(!is_dir(PLUGIN_PATH) || !empty($_SERVER['_config']['plugin_disable'])) return '';
+		if(!is_dir(PLUGIN_PATH) || !empty($_ENV['_config']['plugin_disable'])) return '';
 		$str = '';
 
 		$plugins = core::get_plugins();
