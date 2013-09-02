@@ -9,13 +9,15 @@
 1、读取：先读cache，缓存没有时读db，并写入cache。
 2、写入：同时写入 cache 和 db。
 
-对外开放的最常用的14个方法
+对外开放的最常用的15个方法
 cache + db + model:
- 	$this->add();
+ 	$this->create();
+ 	$this->update();
+ 	$this->read();
+ 	$this->delete();
+
 	$this->get();
 	$this->set();
- 	$this->update();
- 	$this->delete();
  	$this->truncate();
  	$this->maxid();
  	$this->count();
@@ -120,11 +122,11 @@ class model{
 	// | cache + db + 模型 封装方法，所有符合标准的表结构都可以使用以下方法
 	// +---------------------------------------------------------------
 	/**
-	 * 添加一条数据
+	 * 创建一条数据
 	 * @param array $data	数据 (注意：不要包含自增字段)
 	 * @return boot
 	 */
-	public function add($data) {
+	public function create($data) {
 		// 如果没有自增字段，则不统计 count() maxid()
 		if(empty($this->maxid)) {
 			$key = $this->pri2key($data);
@@ -158,11 +160,11 @@ class model{
 	}
 
 	/**
-	 * 读取一条数据 (简化数组, 如: _get(1,2,3,4) 表示 get(array(1,2,3,4)) 最多支持4个参数)
+	 * 读取一条数据 (简化数组, 如: read(1,2,3,4) 表示 get(array(1,2,3,4)) 最多支持4个参数)
 	 * @param string $arg1-$arg4 参数1-参数4
 	 * @return array
 	 */
-	public function _get($arg1, $arg2 = FALSE, $arg3 = FALSE, $arg4 = FALSE) {
+	public function read($arg1, $arg2 = FALSE, $arg3 = FALSE, $arg4 = FALSE) {
 		$arr = ($arg2 !== FALSE) ? $this->arg2arr($arg1, $arg2, $arg3, $arg4) : (array)$arg1;
 		$this->get($arr);
 	}
@@ -215,22 +217,21 @@ class model{
 	}
 
 	/**
-	 * 删除一条数据 (简化数组, 如: _delete(1,2,3,4) 表示 delete(array(1,2,3,4)) 最多支持4个参数)
+	 * 删除一条数据 (简化数组, 如: delete(1,2,3,4) 表示 del(array(1,2,3,4)) 最多支持4个参数)
 	 * @param string $arg1-$arg4 参数1-参数4
 	 * @return array
 	 */
-	public function _delete($arg1, $arg2 = FALSE, $arg3 = FALSE, $arg4 = FALSE) {
+	public function delete($arg1, $arg2 = FALSE, $arg3 = FALSE, $arg4 = FALSE) {
 		$arr = ($arg2 !== FALSE) ? $this->arg2arr($arg1, $arg2, $arg3, $arg4) : (array)$arg1;
-		$this->delete($arr);
+		$this->del($arr);
 	}
 
 	/**
 	 * 删除一条数据
 	 * @param string $arr	键名数组
-	 * @param int $arg2-$arg4 参数2-参数4
 	 * @return bool
 	 */
-	public function delete($arr) {
+	public function del($arr) {
 		$key = $this->arr2key($arr);
 		$ret = $this->cache_db_delete($key);
 		if($ret) {
