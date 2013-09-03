@@ -136,8 +136,7 @@ class db_mysql implements db_interface {
 	public function update($key, $data) {
 		list($table, $keyarr, $keystr) = $this->key2arr($key);
 		$s = $this->arr2sql($data);
-		$this->query("UPDATE {$this->tablepre}$table SET $s WHERE $keystr", $this->wlink);
-		return mysql_affected_rows($this->wlink);
+		return $this->query("UPDATE {$this->tablepre}$table SET $s WHERE $keystr", $this->wlink);
 	}
 
 	/**
@@ -147,8 +146,7 @@ class db_mysql implements db_interface {
 	 */
 	public function delete($key) {
 		list($table, $keyarr, $keystr) = $this->key2arr($key);
-		$this->query("DELETE FROM {$this->tablepre}$table WHERE $keystr", $this->wlink);
-		return mysql_affected_rows($this->wlink);
+		return $this->query("DELETE FROM {$this->tablepre}$table WHERE $keystr", $this->wlink);
 	}
 
 	/**
