@@ -130,13 +130,13 @@ class model{
 		// 如果没有自增字段，则不统计 count() maxid()
 		if(empty($this->maxid)) {
 			$key = $this->pri2key($data);
-			return $this->set($key, $data);
+			return $this->cache_db_set($key, $data);
 		}else{
 			// 注意：因为考虑了多种情况，更换顺序或简化代码会造成问题
 			$data[$this->maxid] = $this->maxid('+1');
 			$key = $this->pri2key($data);
 			$this->count('+1');
-			if($this->set($key, $data)) {
+			if($this->cache_db_set($key, $data)) {
 				return $data[$this->maxid];
 			}else{
 				$this->maxid('-1');
@@ -148,13 +148,19 @@ class model{
 
 	/**
 	 * 写入一条数据
-	 * @param string $arr	键名数组
+	 * @param array $key	键名数组
 	 * @param array $data	数据
 	 * @param int  $life	缓存时间 (默认为永久)
 	 * @return bool
 	 */
-	public function set($arr, $data, $life = 0) {
-		$key = $this->arr2key($arr);
+	/*
+		此接口中的 $key 参数格式不同于 cache, db 中的 set()
+		例子：
+		$this->user->set(1, array('username'=>'2b', 'password'=>'123'));
+		$this->user->set(array(1, 2), array('username'=>'2b', 'password'=>'123'));
+	*/
+	public function set($key, $data, $life = 0) {
+		$key = $this->arr2key($key);
 		$this->unique[$key] = $data;
 		return $this->cache_db_set($key, $data, $life);
 	}
@@ -377,7 +383,7 @@ class model{
 	}
 
 	/**
-	 * $this->pri 转 key
+	 * 主键 转 key
 	 * @param array $arr	数组 (关联数组)
 	 * @return string 返回标准KEY
 	 */
