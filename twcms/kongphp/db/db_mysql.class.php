@@ -65,7 +65,7 @@ class db_mysql implements db_interface {
 	// 	out: array('uid'=>2, 'username'=>'two')
 	public function get($key) {
 		list($table, $keyarr, $keystr) = $this->key2arr($key);
-		$query = $this->query("SELECT * FROM {$this->tablepre}$table WHERE $keystr", $this->rlink);
+		$query = $this->query("SELECT * FROM {$this->tablepre}$table WHERE $keystr LIMIT 1", $this->rlink);
 		return mysql_fetch_assoc($query);
 	}
 
@@ -136,7 +136,7 @@ class db_mysql implements db_interface {
 	public function update($key, $data) {
 		list($table, $keyarr, $keystr) = $this->key2arr($key);
 		$s = $this->arr2sql($data);
-		return $this->query("UPDATE {$this->tablepre}$table SET $s WHERE $keystr", $this->wlink);
+		return $this->query("UPDATE {$this->tablepre}$table SET $s WHERE $keystr LIMIT 1", $this->wlink);
 	}
 
 	/**
@@ -146,7 +146,7 @@ class db_mysql implements db_interface {
 	 */
 	public function delete($key) {
 		list($table, $keyarr, $keystr) = $this->key2arr($key);
-		return $this->query("DELETE FROM {$this->tablepre}$table WHERE $keystr", $this->wlink);
+		return $this->query("DELETE FROM {$this->tablepre}$table WHERE $keystr LIMIT 1", $this->wlink);
 	}
 
 	/**
@@ -165,10 +165,10 @@ class db_mysql implements db_interface {
 			return $maxid;
 		}elseif(is_string($val) && $val{0} == '+') {
 			$val = $maxid + intval($val);
-			$this->query("UPDATE {$this->tablepre}framework_maxid SET maxid='$val' WHERE name='$table'", $this->xlink);
+			$this->query("UPDATE {$this->tablepre}framework_maxid SET maxid='$val' WHERE name='$table' LIMIT 1", $this->xlink);
 			return $val;
 		}else{
-			$this->query("UPDATE {$this->tablepre}framework_maxid SET maxid='$val' WHERE name='$table'", $this->xlink);
+			$this->query("UPDATE {$this->tablepre}framework_maxid SET maxid='$val' WHERE name='$table' LIMIT 1", $this->xlink);
 			return $val;
 		}
 	}
@@ -182,7 +182,7 @@ class db_mysql implements db_interface {
 		list($table, $col) = explode('-', $key);
 
 		$maxid = FALSE;
-		$query = $this->query("SELECT maxid FROM {$this->tablepre}framework_maxid WHERE name='$table'", $this->xlink, FALSE);
+		$query = $this->query("SELECT maxid FROM {$this->tablepre}framework_maxid WHERE name='$table' LIMIT 1", $this->xlink, FALSE);
 
 		if($query) {
 			$maxid = $this->result($query, 0);
@@ -217,15 +217,15 @@ class db_mysql implements db_interface {
 		}elseif(is_string($val)) {
 			if($val{0} == '+') {
 				$val = $count + intval($val);
-				$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$table'", $this->xlink);
+				$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$table' LIMIT 1", $this->xlink);
 				return $val;
 			}else{
 				$val = max(0, $count + intval($val));
-				$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$table'", $this->xlink);
+				$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$table' LIMIT 1", $this->xlink);
 				return $val;
 			}
 		}else{
-			$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$table'", $this->xlink);
+			$this->query("UPDATE {$this->tablepre}framework_count SET count='$val' WHERE name='$table' LIMIT 1", $this->xlink);
 			return $val;
 		}
 	}
@@ -237,7 +237,7 @@ class db_mysql implements db_interface {
 	 */
 	public function table_count($table) {
 		$count = FALSE;
-		$query = $this->query("SELECT count FROM {$this->tablepre}framework_count WHERE name='$table'", $this->xlink, FALSE);
+		$query = $this->query("SELECT count FROM {$this->tablepre}framework_count WHERE name='$table' LIMIT 1", $this->xlink, FALSE);
 
 		if($query) {
 			$count = $this->result($query, 0);
