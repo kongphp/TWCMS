@@ -172,7 +172,7 @@ class model{
 	 */
 	public function read($arg1, $arg2 = FALSE, $arg3 = FALSE, $arg4 = FALSE) {
 		$arr = ($arg2 !== FALSE) ? $this->arg2arr($arg1, $arg2, $arg3, $arg4) : (array)$arg1;
-		$this->get($arr);
+		return $this->get($arr);
 	}
 
 	/**
@@ -229,7 +229,7 @@ class model{
 	 */
 	public function delete($arg1, $arg2 = FALSE, $arg3 = FALSE, $arg4 = FALSE) {
 		$arr = ($arg2 !== FALSE) ? $this->arg2arr($arg1, $arg2, $arg3, $arg4) : (array)$arg1;
-		$this->del($arr);
+		return $this->del($arr);
 	}
 
 	/**
@@ -370,7 +370,7 @@ class model{
 	 * @return boot	返回ID
 	 */
 	public function index_create($index) {
-		$this->db->index_create($this->table, $index);
+		return $this->db->index_create($this->table, $index);
 	}
 
 	/**
@@ -379,7 +379,7 @@ class model{
 	 * @return boot	返回ID
 	 */
 	public function index_drop($index) {
-		$this->db->index_drop($this->table, $index);
+		return $this->db->index_drop($this->table, $index);
 	}
 
 	/**
