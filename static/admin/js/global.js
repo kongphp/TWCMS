@@ -42,6 +42,7 @@ window.twAjax = {
 
 	//设置提示框位置
 	setTopLeft : function(H) {
+		if($(".ajaxtips").length == 0) return;
 		$(".ajaxtips").css({"top":twAjax.getHeight(H), "left":twAjax.getWidth()});
 	},
 
@@ -247,6 +248,7 @@ $.twDialog = function(options) {
 	});
 
 	$(window).resize(function() {
+		if($(".twdialog").length == 0) return;
 		var p=$(".twdialog").position(), obj=$(".twdialog"), objW=obj.width(), objH=obj.height(), bodyW=$("body").width(), bodyH=$("body").height();
 		if(p.left+objW+2 > bodyW) obj.css("left", Math.max(bodyW-objW-2, 0));
 		if(p.top+objH+2 > bodyH) obj.css("top", Math.max(bodyH-objH-2, 0));
