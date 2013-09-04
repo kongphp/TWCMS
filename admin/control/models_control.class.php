@@ -11,7 +11,16 @@ class models_control extends admin_control {
 	public function index() {
 
 		// hook admin_models_control_index_end.php
+
 		$this->display();
+	}
+
+	// 根据 mid 获取 JSON 数据
+	public function get_json() {
+		$mid = intval(R('mid', 'P'));
+		$data = $this->models->get($mid);
+		echo json_encode($data);
+		exit;
 	}
 
 	//hook admin_models_control_after.php
