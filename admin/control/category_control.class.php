@@ -89,6 +89,11 @@ class category_control extends admin_control {
 					E(1, '写入分类数据表出错');
 				}
 
+				// 删除以前的单页数据
+				if($data['mid'] == 1 && $post['mid'] > 1) {
+					$this->cms_page->delete($post['cid']);
+				}
+
 				// 单页时
 				if($post['mid'] == 1) {
 					$data = array('content' => R('page_content', 'P'));
