@@ -160,7 +160,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .cat_t_4,.cat_c_4{width:9%;float:right!important}
 .cat_c_1{position:relative}
 .cat_c_1 .more_but{position:absolute;right:8px;top:8px;width:160px}
-.cat_c_1 .mtype{background:#3A87AD;padding:2px 4px 4px;_padding:4px 4px 2px;margin-right:5px;font-weight:bold;color:#fff;white-space:nowrap;border-radius:3px;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25)}
+.cat_c_1 .mtype{background:#3A87AD;padding:3px 4px;_padding:4px 4px 2px;margin-right:5px;font-weight:bold;color:#fff;white-space:nowrap;border-radius:3px;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25)}
 .cat_c_1 .type1{background:#999}
 .cat_c_1 .c_name,.cat_c_2 .c_alias{width:95%;line-height:36px;overflow:hidden;word-wrap:break-word}
 .cat_c_3 input{_margin-top:4px}
