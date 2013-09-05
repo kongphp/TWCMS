@@ -84,6 +84,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 	.ajaxbox .cf{padding:5px 10px 0}
 	.ajaxbox .cf .but3{float:right;margin-right:8px;padding:0 20px}
 	.ajaxbox .cf .but1{float:right;margin-right:8px}
+
 /*page*/
 .page{margin-left:8px}
 .page a,.page a:visited,.page b{border-radius:3px;display:inline;float:left;margin:0 5px 5px 0;padding:0 5px;height:20px;line-height:20px;font-family:Tahoma;font-size:12px;white-space:nowrap;border:1px solid #D1E5EC;background:#EEF7FC;color:#333}
@@ -149,18 +150,20 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 #browser{float:none}
 
 /*分类*/
-.cat{margin-left:10px}
-.cat .alr{background:url(../img/liney.png) repeat-y}
-.cat .alr .row{background:url(../img/linex.png) 0 25px no-repeat;padding-left:15px}
-.cat .alr .row .ac{position:relative;left:0;top:8px;line-height:28px;height:28px;border-radius:5px;padding:4px 6px}
-.cat .alr .row .ac input{}
-.cat .alr .row .ac .is{width:9px;height:9px;overflow:hidden;position:absolute;top:13px;left:-19px;background:#fff url(../img/ico.png) no-repeat}
-.cat .alr .row .ac .btm{background-position:0 -9px}
-.cat .alr .row .ac .info,.oper{float:left}
-.cat .end{background:url(../img/liney.png) 0 -13px no-repeat}
-.pre{margin-left:20px}
-
-#cadd{display:none}
+.category dl{width:100%;overflow:hidden;border-bottom:1px solid #B4DBF2}
+.category dl dd{overflow:hidden;float:left;height:36px;line-height:36px}
+.category .cat_tit{background:#E3F1F4}
+.category .cat_tit dd{font-weight:bold}
+.cat_t_1,.cat_c_1{width:60%}
+.cat_t_2,.cat_c_2{width:20%}
+.cat_t_3,.cat_c_3{width:10%}
+.cat_t_4,.cat_c_4{width:9%;float:right!important}
+.cat_c_1{position:relative}
+.cat_c_1 .more_but{position:absolute;right:8px;top:8px;width:160px}
+.cat_c_1 .mtype{background:#3A87AD;padding:2px 4px 4px;_padding:4px 4px 2px;margin-right:5px;font-weight:bold;color:#fff;white-space:nowrap;border-radius:3px;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25)}
+.cat_c_1 .type1{background:#999}
+.cat_c_1 .c_name,.cat_c_2 .c_alias{width:95%;line-height:36px;overflow:hidden;word-wrap:break-word}
+.cat_c_3 input{_margin-top:4px}
 
 /*内容*/
 .cont_show{float:right;width:82%;height:100%;position:relative;border-left:1px solid #9AC4DC}
