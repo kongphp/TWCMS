@@ -69,7 +69,7 @@ img{border:0}
 	#box_frame iframe{position:absolute;top:0px;left:0;right:0;bottom:0;width:100%;height:100%}
 
 /*ie6*/
-.acp{_width: expression((documentElement.clientWidth < 980) ? "980px" : "auto" )}
+.acp{_width: expression((documentElement.clientWidth < 980) ? "980px" : "auto")}
 .unber,.unber .left,.unber .right{_height:expression(document.body.offsetHeight-30)}
 .unber .right,#box_frame{_width:expression(document.body.offsetWidth-150)}
 #box_tab{_width:expression(document.body.offsetWidth-230)}

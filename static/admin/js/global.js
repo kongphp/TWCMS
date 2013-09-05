@@ -30,7 +30,7 @@ window.twAjax = {
 
 	//删除半透明框和提示框
 	remove : function() {
-		$("body").unbind("keypress");
+		$("body").off("keypress");
 		twAjax.disObj();
 		$(".ajaxoverlay,.ajaxtips").remove();
 	},
@@ -101,7 +101,7 @@ window.twAjax = {
 		$("#noA").click(twAjax.close);
 		$("#okA").click(function(){ twAjax.remove(); func(); });
 
-		$("body").bind("keypress", function(event){
+		$("body").on("keypress", function(event){
 			var k = event.keyCode;
 			if(k == 27) {
 				twAjax.close();
@@ -158,7 +158,7 @@ window.twAjax = {
 $.twDialog = function(options) {
 	if(options == "open") { $(".twdialog,.twoverlay").show(); return false;
 	}else if(options == "close") { $(".twdialog,.twoverlay").hide(); return false;
-	}else if(options == "remove") { $(".twdialog,.twoverlay").remove(); return false;
+	}else if(options == "remove") { $(".twdialog,.twoverlay").remove(); $(window).off("resize", resize_position); return false;
 	}else if($(".twdialog").length) { alert("已存在一个对话框了，不允许再创建!"); return false; }
 	var objd, tval, dx, dy, sx, sy, objH, objW, bWidth, bHeight, left, top, maxLeft, maxTop, newH, newW;
 	var defaults = {
@@ -247,12 +247,12 @@ $.twDialog = function(options) {
 		}
 	});
 
-	$(window).resize(function() {
-		if($(".twdialog").length == 0) return;
+	var resize_position = function() {
 		var p=$(".twdialog").position(), obj=$(".twdialog"), objW=obj.width(), objH=obj.height(), bodyW=$("body").width(), bodyH=$("body").height();
 		if(p.left+objW+2 > bodyW) obj.css("left", Math.max(bodyW-objW-2, 0));
 		if(p.top+objH+2 > bodyH) obj.css("top", Math.max(bodyH-objH-2, 0));
-	});
+	}
+	$(window).on("resize", resize_position);
 
 	//关闭显示
 	$(".twdialog_title a,.twdialog_button .close").click(_close);
