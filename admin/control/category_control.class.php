@@ -110,7 +110,7 @@ class category_control extends admin_control {
 	}
 
 	// 删除分类
-	function del() {
+	public function del() {
 		$cid = intval(R('cid', 'P'));
 
 		$data = $this->category->read($cid);
@@ -129,6 +129,20 @@ class category_control extends admin_control {
 		}
 
 		E(0, '删除完成');
+	}
+
+	// 修改分类排序
+	public function edit_orderby() {
+		if(!empty($_POST)) {
+			$post['cid'] = intval(R('cid', 'P'));
+			$post['orderby'] = intval(R('orderby', 'P'));
+
+			if(!$this->category->update($post)) {
+				E(1, '修改分类排序出错');
+			}else{
+				E(0, '修改分类排序成功');
+			}
+		}
 	}
 
 	// 读取上级分类
