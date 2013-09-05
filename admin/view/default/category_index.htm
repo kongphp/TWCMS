@@ -1,7 +1,359 @@
 {inc:header.htm}
 <div class="m">
+	<div class="head">
+		<dl>
+			<input id="add" type="button" value="增加分类" class="but1" />
+			<dd class="on">分类管理</dd>
+		</dl>
+	</div>
 
+	<div class="p c2">
+		<div class="cc" id="category_content">
+			{inc:category_content.htm}
+		</div>
+	</div>
 </div>
+
+<script id="set_dialog" type="text/html" _mid="2" _type="0" _upid="0">
+	<form method="post" action="?u=category-set-ajax-1">
+		<input name="cid" type="hidden" />
+		<table class="tb" style="margin:5px 0">
+			<tr>
+				<th><div style="width:96px">分类模型</div></th>
+				<td>
+					{loop:$mod_arr $v $k}<label><input class="mr3" name="mid" type="radio" value="{$k}">{$v}</label>{/loop}
+				</td>
+			</tr>
+			<tr>
+				<th>分类类型</th>
+				<td>
+					<label title="可发表内容，下级不可建分类"><input class="mr3" name="type" type="radio" value="0">列表</label>
+					<label title="不可发表内容，下级可建分类"><input class="mr3" name="type" type="radio" value="1">频道</label>
+				</td>
+			</tr>
+			<tr>
+				<th>所属频道</th>
+				<td><select name="upid" id="upid"><option value="0">无</option></select></td>
+			</tr>
+			<tr>
+				<th><font color="red">*</font> 分类名称</th>
+				<td><input name="name" type="text" class="inp w4" /></td>
+			</tr>
+			<tr>
+				<th><font color="red">*</font> 分类别名</th>
+				<td><input name="alias" type="text" class="inp w4" /></td>
+			</tr>
+			<tr>
+				<th>分类描述</th>
+				<td><input name="intro" type="text" class="inp w4" /></td>
+			</tr>
+			<tr style="display:none">
+				<th>单页内容</th>
+				<td><textarea id="page_content" name="page_content" class="inp w3 w4"></textarea></td>
+			</tr>
+			<tr>
+				<th>排列顺序</th>
+				<td><input name="orderby" value="0" type="number" class="inp wnum" /></td>
+			</tr>
+
+			<tr><td colspan="2"><div class="tb_t">SEO设置</div></td></tr>
+			<tr>
+				<th>SEO标题</th>
+				<td><input class="inp w4" type="text" name="seo_title" /></td>
+			</tr>
+			<tr>
+				<th>SEO关键字</th>
+				<td><input class="inp w4" type="text" name="seo_keywords" /></td>
+			</tr>
+			<tr>
+				<th>SEO描述</th>
+				<td><input class="inp w4" type="text" name="seo_description" /></td>
+			</tr>
+
+			<tr><td colspan="2"><div class="tb_t">模板设置</div></td></tr>
+			<tr>
+				<th>分类模板</th>
+				<td><input class="inp w4" type="text" name="cate_tpl" /></td>
+			</tr>
+			<tr>
+				<th>内容模板</th>
+				<td><input class="inp w4" type="text" name="show_tpl" /></td>
+			</tr>
+		</table>
+	</form>
+</script>
+
+<script type="text/javascript">
+var models = {$models};
+load_event(); // 加载事件
+
+// 编辑器接口
+var editor_api = {
+	// 单页内容
+	page_content : {
+		obj : {},
+		get : function() {},
+		set : function(s) {},
+		focus : function() {}
+	}
+}
+
+// 默认无编辑器
+function editor_init(){
+	editor_api = {
+		// 单页内容
+		page_content : {
+			obj : $('#page_content'),
+			get : function() {
+				return this.obj.val();
+			},
+			set : function(s) {
+				return this.obj.val(s);
+			},
+			focus : function() {
+				return this.obj.focus();
+			}
+		}
+	}
+}
+
+// 添加分类
+$("#add").click(function(){
+	if($(this).val() == "增加分类") {
+		$(this).val("关闭窗口");
+
+		// 加载会话框
+		load_dialog();
+		$(".twdialog_title span").html("增加分类");
+
+		// 初始化表单
+		var mid = $("#set_dialog").attr("_mid");
+		var type = $("#set_dialog").attr("_type");
+		var upid = $("#set_dialog").attr("_upid");
+
+		$(".twdialog [name='mid']").val([mid]);
+		$(".twdialog [name='type']").val([type]);
+		setFormVal(mid, type);
+
+		// 加载所属频道
+		loadCategoryUpid(mid, upid);
+	}else{
+		remove_dialog();
+	}
+});
+
+// 鼠标放上去事件
+function load_event() {
+	$(".cat_col").hover(
+		function(){
+			$(this).css("background","#FFB");
+
+			if($(".more_but").length < 1) {
+				var cid = $(this).attr("cid");
+				var mid = $(this).attr("mid");
+
+				var s = '<div class="more_but">';
+				s += '<a class="but2" href="javascript:edit('+cid+');">编辑</a>';
+				s += '<a class="but2" href="javascript:del('+cid+');">删除</a>';
+				s += '<a class="but2" href="../index.php?cate-list-mid-'+mid+'-cid-'+cid+'" target="_blank">查看</a>';
+				s += '</div>';
+
+				$(this).find(".cat_c_1").append(s);
+				$(this).find(".c_name").width($(this).find(".cat_c_1").width() - 160);
+			}
+		},
+		function(){
+			$(this).removeAttr("style");
+			$(this).find(".c_name").removeAttr("style");
+			$(".more_but").remove();
+		}
+	);
+
+	// 快速修改排序
+	$(".cat_c_3 [name='orderby']").focusin(function() {
+		$(this).attr("v", $(this).val());
+	}).focusout(function() {
+		var orderby = $(this).val();
+		var old_orderby = $(this).attr("v");
+		if(orderby == old_orderby) return;
+		var cid = $(this).parent().parent().attr("cid");
+		twAjax.post("?u=category-edit_orderby-ajax-1", {cid:cid, orderby:orderby}, function(data){
+			var data = toJson(data);
+			if(window.twExit) return;
+			if(data.err==0) getAllCate();
+		});
+	});
+}
+
+// 加载编辑器 (增加或编辑时使用)
+function load_dialog() {
+	$.twDialog("remove");
+	$.twDialog({content:$("#set_dialog").html(), resizable:true, open:true, modal:false, width:900, height:440, minW:700});
+
+	// 增加关闭窗口事件
+	$(".twdialog_title a,.twdialog_button .close").click(remove_dialog);
+
+	// 改变分类模型
+	$(".twdialog [name='mid']").change(function(){
+		var mid = $(this).val();
+		setFormVal(mid, $(".twdialog").attr("type"));
+
+		// 加载所属频道
+		loadCategoryUpid(mid);
+	});
+
+	// 改变分类类型
+	$(".twdialog [name='type']").change(function(){
+		setFormVal($(".twdialog").attr("mid"), $(this).val());
+	});
+
+	// 触发提交 (添加 & 编辑)
+	$(".twdialog_button .ok").click(function(){ $(".twdialog form").submit(); });
+
+	// 拦截表单提交
+	twAjax.submit(".twdialog form", function(data){
+		twAjax.alert(data);
+		if(window.twData.err==0) {
+			// 增加时记录状态
+			var cid = $(".twdialog [name='cid']").val();
+			if(!cid) {
+				var fields = $(".twdialog [name='mid'], .twdialog [name='type'], .twdialog [name='upid']").serializeArray();
+				$.each(fields, function(i, field) {
+					if(field.name == "mid") {
+						$("#set_dialog").attr("_mid", field.value);
+					}else if(field.name == "type") {
+						$("#set_dialog").attr("_type", field.value);
+					}else if(field.name == "upid") {
+						$("#set_dialog").attr("_upid", field.value);
+					}
+				});
+			}
+
+			remove_dialog();
+			getAllCate();
+		}
+	});
+}
+
+// 移除编辑器
+function remove_dialog() {
+	$.twDialog("remove");
+	$("#add").val("增加分类");
+}
+
+// 设置表单内的值
+function setFormVal(mid, type) {
+	$(".twdialog").attr("mid", mid);
+	$(".twdialog").attr("type", type);
+
+	if(mid == 1) {
+		$(".twdialog table tr:eq(1)").hide();
+		$("#page_content").parent().parent().show();
+		$(".twdialog [name='show_tpl']").parent().parent().hide();
+
+		// 单页时把类型设置为 0
+		$(".twdialog [name='type']").val([0]);
+		$(".twdialog").attr("type", 0);
+		$("#upid").parent().prev("th").html("上级分类");
+
+		editor_init();
+	}else{
+		$(".twdialog table tr:eq(1)").show();
+		$("#page_content").parent().parent().hide();
+		$(".twdialog [name='show_tpl']").parent().parent().show();
+		$("#upid").parent().prev("th").html("所属频道");
+	}
+	$(".twdialog [name='cate_tpl']").parent().prev("th").html(mid == 1 ? "单页模板" : (type == 1 ? "频道模板" : "分类模板"));
+
+	// 默认模板设置
+	var edit_mid = $(".twdialog").attr("edit_mid");
+	var edit_type = $(".twdialog").attr("edit_type");
+	if(!!edit_mid && edit_mid == mid && edit_type == type) {
+		$(".twdialog [name='cate_tpl']").val($(".twdialog [name='cate_tpl']").attr("v"));
+		$(".twdialog [name='show_tpl']").val($(".twdialog [name='show_tpl']").attr("v"));
+	}else{
+		var k = "models-mid-"+mid;
+		$(".twdialog [name='cate_tpl']").val(mid != 1 && type == 1 ? models[k]["index_tpl"] : models[k]["cate_tpl"]);
+		$(".twdialog [name='show_tpl']").val(models[k]["show_tpl"]);
+	}
+}
+
+// 编辑分类
+function edit(cid) {
+	twAjax.postd("?u=category-get_category_json-ajax-1", {cid:cid}, function(data){
+		data = toJson(data);
+		if(window.twEixt) return;
+		twAjax.remove();
+
+		// 加载会话框
+		load_dialog();
+		$(".twdialog_title span").html("编辑分类");
+
+		// 遍历设置表单值
+		for(var v in data) {
+			$(".twdialog [name='"+v+"']").val([data[v]]);
+		}
+
+		// 如果分类已发布了内容就不允许改变模型和类型
+		if(data.count > 0) {
+			$(".twdialog [name='mid']").each(function() {
+				if($(this).val() != data.mid) {
+					$(this).attr("disabled", "disabled");
+				}
+			});
+
+			$(".twdialog [name='type']").each(function() {
+				if($(this).val() != data.type) {
+					$(this).attr("disabled", "disabled");
+				}
+			});
+		}
+
+		// 记录模板设置
+		$(".twdialog [name='cate_tpl']").attr("v", data.cate_tpl);
+		$(".twdialog [name='show_tpl']").attr("v", data.show_tpl);
+
+		// 设置表单内的值
+		$(".twdialog").attr("edit_mid", data.mid);
+		$(".twdialog").attr("edit_type", data.type);
+		setFormVal(data.mid, data.type);
+
+		// 加载所属频道
+		loadCategoryUpid(data.mid, data.upid, data.cid);
+	});
+}
+
+// 删除分类
+function del(cid) {
+	twAjax.confirm("删除不可恢复，确定删除？", function(){
+		twAjax.postd("?u=category-del-ajax-1", {cid:cid}, function(data){
+			twAjax.alert(data);
+			if(window.twData.err==0) $(".category dl[cid='"+cid+"']").remove();
+		});
+	});
+}
+
+// 加载所属频道
+function loadCategoryUpid(mid, upid, noid) {
+	twAjax.get("?u=category-get_category_upid-ajax-1-mid-"+mid+"-upid-"+Math.max(0, upid)+"-noid-"+Math.max(0, noid)+"&r="+time(), function(data){
+		data = toJson(data);
+		if(window.twEixt) return;
+		$("#upid").html(data.upid);
+	});
+}
+
+// 获取所有分类列表
+function getAllCate() {
+	setTimeout(function() {
+		twAjax.get("?u=category-get_category_content&r="+time(), function(html){
+			$("#category_content").html(html);
+			load_event();
+		});
+	}, 500);
+}
+</script>
+
+{hook:admin_category_index_end.htm}
 
 </body>
 </html>

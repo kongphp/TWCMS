@@ -26,10 +26,10 @@ class category extends model {
 		}elseif(!isset($post['upid'])) {
 			$name = 'upid';
 			$msg = '请选择所属频道';
-		}elseif(empty($post['name'])) {
+		}elseif(strlen($post['name']) < 1) {
 			$name = 'name';
 			$msg = '请填写分类名称';
-		}elseif(empty($post['alias'])) {
+		}elseif(strlen($post['alias']) < 1) {
 			$name = 'alias';
 			$msg = '请填写分类别名';
 		}elseif(strlen($post['alias']) > 50) {
@@ -169,7 +169,7 @@ class category extends model {
 	public function get_category_upid($mid, $upid = 0, $noid = 0) {
 		$category_arr = $this->get_category();
 
-		$s = '<option value="0">顶级分类</option>';
+		$s = '<option value="0">无</option>';
 		if(isset($category_arr[$mid])) {
 			foreach($category_arr[$mid] as $v) {
 				// 不显示列表的分类
