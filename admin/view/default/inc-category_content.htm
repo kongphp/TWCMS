@@ -12,22 +12,20 @@
 	<dl class="cat_col" cid="{$v[cid]}" mid="{$v[mid]}">
 		<dd class="cat_c_1">
 			<div class="c_name" title="{$v[name]}">
-			{php}
-				echo str_repeat("　", $v['pre']);
-				if($v['mid'] == 1) {
-					echo '<span class="mtype">单页</span>';
-				}elseif($v['type'] == 1) {
-					echo '<span class="mtype type1">频道</span>';
-				}else{
-					echo '<span class="mtype">列表</span>';
-				}
-			{/php}
-			{$v[name]}
+				{php} echo str_repeat("　", $v['pre']);{/php}
+				{if:$v[mid] == 1}
+					<span class="mtype">单页</span>
+				{elseif:$v[type] == 1}
+					<span class="mtype type1">频道</span>
+				{else}
+					<span class="mtype">列表</span>
+				{/if}
+				{$v[name]}
 			</div>
 		</dd>
 		<dd class="cat_c_2"><div class="c_alias" title="{$v['alias']}">{$v['alias']}</div></dd>
 		<dd class="cat_c_3"><input name="orderby" value="{$v[orderby]}" type="number" class="inp wnum"></dd>
-		<dd class="cat_c_4">{php} if($v['mid'] != 1 && $v['type'] != 1) echo $v['count'];{/php}</dd>
+		<dd class="cat_c_4">{if:$v[mid] != 1 && $v[type] != 1}{$v[count]}{/if}</dd>
 	</dl>
 	{/loop}
 </div>
