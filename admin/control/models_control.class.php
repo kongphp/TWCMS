@@ -10,7 +10,7 @@ class models_control extends admin_control {
 	// 模型管理
 	public function index() {
 
-		// hook admin_models_control_index_end.php
+		// hook admin_models_control_index_after.php
 
 		$this->display();
 	}
@@ -23,5 +23,5 @@ class models_control extends admin_control {
 		exit;
 	}
 
-	//hook admin_models_control_after.php
+	// hook admin_models_control_after.php
 }

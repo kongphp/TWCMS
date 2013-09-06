@@ -44,19 +44,19 @@ class my_control extends admin_control {
 		$this->assign('stat', $stat);
 		$this->assign('response_info', $response_info);
 
-		// hook admin_my_control_index_end.php
+		// hook admin_my_control_index_after.php
 		$this->display();
 	}
 
 	// 新标签页
 	public function newtab() {
-		// hook admin_my_control_newtab_end.php
+		// hook admin_my_control_newtab_after.php
 		$this->display();
 	}
 
 	// 修改密码
 	public function password() {
-		// hook admin_my_control_password_end.php
+		// hook admin_my_control_password_after.php
 		$this->display();
 	}
 
@@ -69,7 +69,7 @@ class my_control extends admin_control {
 			array('name'=>'分类管理', 'url'=>'?u=category-index', 'imgsrc'=>'admin/ico/04.jpg'),
 		);
 
-		//hook admin_my_control_get_used_end.php
+		// hook admin_my_control_get_used_after.php
 		return $arr;
 	}
 
@@ -102,5 +102,5 @@ class my_control extends admin_control {
 		return $s;
 	}
 
-	//hook admin_my_control_after.php
+	// hook admin_my_control_after.php
 }

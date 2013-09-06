@@ -102,5 +102,5 @@ class setting_control extends admin_control {
 		}
 	}
 
-	//hook admin_setting_control_after.php
+	// hook admin_setting_control_after.php
 }

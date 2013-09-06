@@ -82,5 +82,5 @@ class index_control extends admin_control{
 		exit('<html><body><script>top.location="?u=index-login"</script></body></html>');
 	}
 
-	//hook admin_index_control_after.php
+	// hook admin_index_control_after.php
 }

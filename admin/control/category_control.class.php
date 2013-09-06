@@ -18,7 +18,7 @@ class category_control extends admin_control {
 		$models = json_encode($this->models->get_models());
 		$this->assign('models', $models);
 
-		// hook admin_category_control_index_end.php
+		// hook admin_category_control_index_after.php
 
 		$this->display();
 	}
@@ -178,5 +178,5 @@ class category_control extends admin_control {
 		exit;
 	}
 
-	//hook admin_category_control_after.php
+	// hook admin_category_control_after.php
 }

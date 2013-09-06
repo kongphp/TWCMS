@@ -10,9 +10,9 @@ class user_group_control extends admin_control {
 	// 用户组管理
 	public function index() {
 
-		// hook admin_user_group_control_index_end.php
+		// hook admin_user_group_control_index_after.php
 		$this->display();
 	}
 
-	//hook admin_user_group_control_after.php
+	// hook admin_user_group_control_after.php
 }

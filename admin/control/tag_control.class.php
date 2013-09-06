@@ -10,9 +10,9 @@ class tag_control extends admin_control {
 	// 标签管理
 	public function index() {
 
-		// hook admin_tag_control_index_end.php
+		// hook admin_tag_control_index_after.php
 		$this->display();
 	}
 
-	//hook admin_tag_control_after.php
+	// hook admin_tag_control_after.php
 }
