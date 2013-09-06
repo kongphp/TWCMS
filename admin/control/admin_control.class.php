@@ -84,7 +84,7 @@ class admin_control extends control {
 			exit('<html><body><script>top.location="?u=index-login"</script></body></html>');
 		}
 
-		// hook admin_admin_control_check_after.php
+		// hook admin_admin_control_construct_after.php
 	}
 
 
@@ -176,7 +176,7 @@ class admin_control extends control {
 			),
 		);
 
-		// hook admin_admin_control_get_navigation_after.php
+		// hook admin_admin_control_init_navigation_after.php
 	}
 
 	// hook admin_admin_control_after.php
