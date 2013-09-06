@@ -79,6 +79,9 @@
 				<th>内容模板</th>
 				<td><input class="inp w4" type="text" name="show_tpl" /></td>
 			</tr>
+
+			{hook:admin_category_index_set_dialog_after.htm}
+
 		</table>
 	</form>
 </script>
@@ -354,7 +357,7 @@ function getAllCate() {
 }
 </script>
 
-{hook:admin_category_index_end.htm}
+{hook:admin_category_index_after.htm}
 
 </body>
 </html>
