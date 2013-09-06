@@ -72,7 +72,7 @@
 
 			<tr><td colspan="2"><div class="tb_t">模板设置</div></td></tr>
 			<tr>
-				<th>分类模板</th>
+				<th>列表模板</th>
 				<td><input class="inp w4" type="text" name="cate_tpl" /></td>
 			</tr>
 			<tr>
@@ -267,7 +267,7 @@ function setFormVal(mid, type) {
 		$(".twdialog [name='show_tpl']").parent().parent().show();
 		$("#upid").parent().prev("th").html("所属频道");
 	}
-	$(".twdialog [name='cate_tpl']").parent().prev("th").html(mid == 1 ? "单页模板" : (type == 1 ? "频道模板" : "分类模板"));
+	$(".twdialog [name='cate_tpl']").parent().prev("th").html(mid == 1 ? "单页模板" : (type == 1 ? "频道模板" : "列表模板"));
 
 	// 默认模板设置
 	var edit_mid = $(".twdialog").attr("edit_mid");
