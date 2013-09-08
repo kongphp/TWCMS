@@ -335,3 +335,34 @@ function form_hash() {
 function form_submit() {
 	return R('FORM_HASH', 'P') == form_hash();
 }
+
+/**
+ * 分页函数
+ * @param int $page 当前页
+ * @param int $maxpage 最大页
+ * @param string $url 完整路径
+ * @param int $offset 偏移数
+ * @param array $lang 上下页数组
+ * @return string
+ */
+function pages($page, $maxpage, $url, $offset = 5, $lang = array('&#171;', '&#187;')) {
+	if($maxpage < 2) return '';
+	$pnum = $offset*2;
+	$ismore = $maxpage > $pnum;
+	$s = '';
+	if($page > 1) $s .= '<a href="'.sprintf($url, $page-1).'">'.$lang[0].'</a>';
+	if($ismore) {
+		$i_end = min($maxpage, max($pnum, $page+$offset)) - 1;
+		$i = max(2, $i_end-$pnum+2);
+	}else{
+		$i_end = min($maxpage, $pnum)-1;
+		$i = 2;
+	}
+	$s .= $page == 1 ? '<b>1</b>' : '<a href="'.sprintf($url, 1).'">1'.($ismore && $i > 2 ? ' ...' : '').'</a>';
+	for($i; $i<=$i_end; $i++){
+		$s .= $page == $i ? '<b>'.$i.'</b>' : '<a href="'.sprintf($url, $i).'">'.$i.'</a>';
+	}
+	$s .= $page == $maxpage ? '<b>'.$maxpage.'</b>' : '<a href="'.sprintf($url, $maxpage).'">'.($ismore && $i_end < $maxpage-1 ? '... ' : '').$maxpage.'</a>';
+	if($page < $maxpage) $s .= '<a href="'.sprintf($url, $page+1).'">'.$lang[1].'</a>';
+	return $s;
+}
