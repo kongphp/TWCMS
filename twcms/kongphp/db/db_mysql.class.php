@@ -544,26 +544,32 @@ class db_mysql implements db_interface {
 	 * 将数组转换为 where 语句
 	 * @param array $arr 数组
 	 * @return string
-	 * in: array('id'=> array('>'=>'10', '<'=>'200')
+	 * in: array('id'=> array('>'=>'10', '<'=>'200'))
 	 * out: WHERE id>'10' AND id<'200'
 	 */
 	private function arr2where($arr) {
 		$s = '';
 		if(!empty($arr)) {
 			$s .= ' WHERE ';
+			if(empty($arr['_logic'])) {
+				$logic = 'AND';
+			}else{
+				$logic = 'OR';
+				unset($arr['_logic']);
+			}
 			foreach($arr as $key=>$val) {
 				if(is_array($val)) {
 					foreach($val as $k=>$v) {
 						$v = addslashes($v);
 						$k == 'LIKE' && ($k = ' LIKE ') && $v = "%$v%";
-						$s .= "$key$k'$v' AND ";
+						$s .= "$key$k'$v' $logic ";
 					}
 				}else{
 					$val = addslashes($val);
-					$s .= "$key = '$val' AND ";
+					$s .= "$key = '$val' $logic ";
 				}
 			}
-			$s = substr($s, 0, -5);
+			$s = substr($s, 0, -4);
 		}
 		return $s;
 	}
