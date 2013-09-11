@@ -1,0 +1,15 @@
+<?php
+/**
+ * (C)2012-2013 twcms.cn TongWang Inc.
+ * Author: wuzhaohuan <kongphp@gmail.com>
+ */
+
+defined('TWCMS_PATH') or exit;
+
+class cms_content extends model {
+	function __construct() {
+		$this->table = '';			// 表名 (可以是 cms_article、cms_product、cms_photo 等)
+		$this->pri = array('id');	// 主键
+		$this->maxid = 'id';		// 自增字段
+	}
+}
