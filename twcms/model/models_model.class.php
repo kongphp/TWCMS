@@ -37,4 +37,18 @@ class models extends model {
 		}
 		return $this->data['mod_arr'] = $arr;
 	}
+
+	// 获取所有模型的表名
+	public function get_tablename() {
+		if(isset($this->data['tablename'])) {
+			return $this->data['tablename'];
+		}
+
+		$models_arr = $this->get_models();
+		$arr = array();
+		foreach ($models_arr as $v) {
+			$arr[$v['mid']] = $v['tablename'];
+		}
+		return $this->data['tablename'] = $arr;
+	}
 }
