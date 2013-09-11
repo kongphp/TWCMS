@@ -6,12 +6,10 @@
 
 defined('TWCMS_PATH') or exit;
 
-class index_control extends control{
+class error404_control extends control{
 	public function index() {
-		// hook index_control_index_before.php
+		// hook error404_control_index_before.php
 
-		$this->display('index.htm');
+		$this->display();
 	}
-
-	// hook index_control_after.php
 }

@@ -6,12 +6,9 @@
 
 defined('TWCMS_PATH') or exit;
 
-class index_control extends control{
+class parseurl_control{
 	public function index() {
-		// hook index_control_index_before.php
+		// hook parseurl_control_index_before.php
 
-		$this->display('index.htm');
 	}
-
-	// hook index_control_after.php
 }
