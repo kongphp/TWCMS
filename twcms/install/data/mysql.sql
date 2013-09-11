@@ -153,14 +153,17 @@ CREATE TABLE pre_cms_article_views (
   KEY views (views)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 文章最后评论表，排序使用，用来减小主表索引 (有评论时才写入)
-DROP TABLE IF EXISTS pre_cms_article_lastcomment;
-CREATE TABLE pre_cms_article_lastcomment (
+# 文章评论排序表，用来减小主表索引 (有评论时才写入)
+DROP TABLE IF EXISTS pre_cms_article_comment_sort;
+CREATE TABLE pre_cms_article_comment_sort (
   id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
   cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
+  comments int(10) unsigned NOT NULL DEFAULT '0', # 评论数
   lastdate int(10) unsigned NOT NULL DEFAULT '0',	# 回复时间
   PRIMARY KEY  (id),
-  KEY cid (cid,lastdate),
+  KEY cid_comments (cid,comments),
+  KEY comments (comments),
+  KEY cid_lastdate (cid,lastdate),
   KEY lastdate (lastdate)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
