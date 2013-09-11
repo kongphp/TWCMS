@@ -158,7 +158,7 @@ DROP TABLE IF EXISTS pre_cms_article_comment_sort;
 CREATE TABLE pre_cms_article_comment_sort (
   id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
   cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
-  comments int(10) unsigned NOT NULL DEFAULT '0', # 评论数
+  comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
   lastdate int(10) unsigned NOT NULL DEFAULT '0',	# 回复时间
   PRIMARY KEY  (id),
   KEY cid_comments (cid,comments),
@@ -170,7 +170,7 @@ CREATE TABLE pre_cms_article_comment_sort (
 # 文章评论表
 DROP TABLE IF EXISTS pre_cms_article_comment;
 CREATE TABLE pre_cms_article_comment (
-  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID (为负时不显示到前台,表未审核)
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID (审核机制考虑单独设计一张表)
   commentid int(10) unsigned NOT NULL AUTO_INCREMENT,	# 评论ID
   uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
   author char(30) NOT NULL DEFAULT '',			# 作者，可能不等于 username
@@ -195,6 +195,101 @@ CREATE TABLE pre_cms_article_tag (
 # 文章标签数据表
 DROP TABLE IF EXISTS pre_cms_article_tag_data;
 CREATE TABLE pre_cms_article_tag_data (
+  tagid int(10) unsigned NOT NULL,			# tagID
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
+  PRIMARY KEY  (tagid,id)				# 排序要用id
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+# 产品表 (可根据 id 范围分区)
+DROP TABLE IF EXISTS pre_cms_product;
+CREATE TABLE pre_cms_product (
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID (审核/定时发布等考虑单独设计一张表)
+  id int(10) unsigned NOT NULL AUTO_INCREMENT,		# 内容ID
+  title char(80) NOT NULL DEFAULT '',			# 标题
+  color char(6) NOT NULL DEFAULT '',			# 标题颜色
+  alias char(50) NOT NULL DEFAULT '',			# 英文别名 (用于伪静态)
+  tags varchar(80) NOT NULL DEFAULT '',			# tags内容 (,号分割)
+  intro varchar(255) NOT NULL DEFAULT '',		# 内容介绍
+  pic varchar(255) NOT NULL DEFAULT '',			# 图片地址
+  uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
+  author varchar(20) NOT NULL DEFAULT '',		# 作者
+  source varchar(150) NOT NULL DEFAULT '',		# 来源
+  dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
+  lasttime int(10) unsigned NOT NULL DEFAULT '0',	# 更新时间
+  ip int(10) NOT NULL DEFAULT '0',			# IP
+  type tinyint(1) unsigned NOT NULL DEFAULT '0',	# 类型 (0为正常 1为链接)
+  iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
+  comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
+  seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
+  seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取tags)
+  seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
+  PRIMARY KEY  (id),
+  KEY cid_id (cid,id),
+  KEY cid_dateline (cid,dateline)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+# 产品数据表 (大内容字段表，可根据 id 范围分区)
+DROP TABLE IF EXISTS pre_cms_product_data;
+CREATE TABLE pre_cms_product_data (
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
+  images mediumtext NOT NULL,				# 图集 (json储存)
+  content mediumtext NOT NULL,				# 内容
+  PRIMARY KEY  (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+# 产品查看数表，用来分离主表的写压力
+DROP TABLE IF EXISTS pre_cms_product_views;
+CREATE TABLE pre_cms_product_views (
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
+  views int(10) unsigned NOT NULL DEFAULT '0',		# 查看次数
+  PRIMARY KEY  (id),
+  KEY cid (cid,views),
+  KEY views (views)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+# 产品评论排序表，用来减小主表索引 (有评论时才写入)
+DROP TABLE IF EXISTS pre_cms_product_comment_sort;
+CREATE TABLE pre_cms_product_comment_sort (
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
+  comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
+  lastdate int(10) unsigned NOT NULL DEFAULT '0',	# 回复时间
+  PRIMARY KEY  (id),
+  KEY cid_comments (cid,comments),
+  KEY comments (comments),
+  KEY cid_lastdate (cid,lastdate),
+  KEY lastdate (lastdate)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+# 产品评论表
+DROP TABLE IF EXISTS pre_cms_product_comment;
+CREATE TABLE pre_cms_product_comment (
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID (审核机制考虑单独设计一张表)
+  commentid int(10) unsigned NOT NULL AUTO_INCREMENT,	# 评论ID
+  uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
+  author char(30) NOT NULL DEFAULT '',			# 作者，可能不等于 username
+  content text NOT NULL,				# 评论内容
+  ip int(10) NOT NULL DEFAULT '0',			# IP
+  dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
+  PRIMARY KEY  (id,commentid),
+  KEY ip (ip,id)	# 用来做防灌水插件
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+# 产品标签表
+DROP TABLE IF EXISTS pre_cms_product_tag;
+CREATE TABLE pre_cms_product_tag (
+  tagid int(10) unsigned NOT NULL AUTO_INCREMENT,	# tagID
+  name char(10) NOT NULL DEFAULT '',			# tag名称
+  count int(10) unsigned NOT NULL DEFAULT '0',		# tag数量
+  content text NOT NULL,				# tag内容
+  PRIMARY KEY  (tagid),
+  UNIQUE KEY name (name)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+# 产品标签数据表
+DROP TABLE IF EXISTS pre_cms_product_tag_data;
+CREATE TABLE pre_cms_product_tag_data (
   tagid int(10) unsigned NOT NULL,			# tagID
   id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
   PRIMARY KEY  (tagid,id)				# 排序要用id
