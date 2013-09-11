@@ -148,17 +148,20 @@ class category extends model {
 		$mod_arr = $this->models->get_mod_arr();
 
 		$s = '<select name="cid" id="cid">';
-		$s .= '<option value="0">全部内容</option>';
-		foreach($category_arr as $mid => $arr) {
-			// 不显示单页
-			if($mid == 1) continue;
+		if(empty($category_arr)) {
+			$s .= '<option value="0">没有分类</option>';
+		}else{
+			foreach($category_arr as $mid => $arr) {
+				// 不显示单页
+				if($mid == 1) continue;
 
-			$s .= '<option disabled="disabled" style="background:#999;color:#fff">'.$mod_arr[$mid].'分类</option>';
-			foreach ($arr as $v) {
-				$disabled = $v['type'] == 1 ? ' disabled="disabled"' : '';
-				$s .= '<option value="'.$v['cid'].'"'.($v['type'] == 0 && $v['cid'] == $cid ? ' selected="selected"' : '').$disabled.'>';
-				$s .= str_repeat("　", $v['pre']);
-				$s .= '|─'.$v['name'].($v['type'] == 1 ? '[频道]' : '').'</option>';
+				$s .= '<option mid="'.$mid.'" value="0">'.$mod_arr[$mid].'</option>';
+				foreach ($arr as $v) {
+					$disabled = $v['type'] == 1 ? ' disabled="disabled"' : '';
+					$s .= '<option mid="'.$mid.'" value="'.$v['cid'].'"'.($v['type'] == 0 && $v['cid'] == $cid ? ' selected="selected"' : '').$disabled.'>';
+					$s .= str_repeat("　", $v['pre']);
+					$s .= '|─'.$v['name'].($v['type'] == 1 ? '[频道]' : '').'</option>';
+				}
 			}
 		}
 		$s .= '</select>';
@@ -194,5 +197,17 @@ class category extends model {
 		}
 
 		return $s;
+	}
+
+	// 获取指定分类的 mid (如果 cid 为空，则读第一个分类的 mid)
+	public function get_mid_by_cid($cid) {
+		if($cid) {
+			$arr = $this->category->read($cid);
+		}else{
+			$arr = $this->category->get_category();
+			$arr = current($arr);
+			$arr = current($arr);
+		}
+		return $arr['mid'];
 	}
 }
