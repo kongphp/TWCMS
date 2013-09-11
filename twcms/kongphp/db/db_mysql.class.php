@@ -551,25 +551,19 @@ class db_mysql implements db_interface {
 		$s = '';
 		if(!empty($arr)) {
 			$s .= ' WHERE ';
-			if(empty($arr['_logic'])) {
-				$logic = 'AND';
-			}else{
-				$logic = 'OR';
-				unset($arr['_logic']);
-			}
 			foreach($arr as $key=>$val) {
 				if(is_array($val)) {
 					foreach($val as $k=>$v) {
 						$v = addslashes($v);
 						$k == 'LIKE' && ($k = ' LIKE ') && $v = "%$v%";
-						$s .= "$key$k'$v' $logic ";
+						$s .= "$key$k'$v' AND ";
 					}
 				}else{
 					$val = addslashes($val);
-					$s .= "$key = '$val' $logic ";
+					$s .= "$key = '$val' AND ";
 				}
 			}
-			$s = substr($s, 0, -4);
+			$s = substr($s, 0, -5);
 		}
 		return $s;
 	}
