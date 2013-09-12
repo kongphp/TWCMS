@@ -35,6 +35,8 @@ class setting_control extends admin_control {
 			// hook admin_setting_control_index_post_after.php
 
 			$this->kv->save_changed();
+			$this->runtime->delete('cfg');
+
 			exit('{"err":0, "msg":"修改成功"}');
 		}
 	}
@@ -61,6 +63,8 @@ class setting_control extends admin_control {
 			// hook admin_setting_control_seo_post_after.php
 
 			$this->kv->save_changed();
+			$this->runtime->delete('cfg');
+
 			exit('{"err":0, "msg":"修改成功"}');
 		}
 	}
@@ -98,6 +102,8 @@ class setting_control extends admin_control {
 			// hook admin_setting_control_attach_post_after.php
 
 			$this->kv->save_changed();
+			$this->runtime->delete('cfg');
+
 			exit('{"err":0, "msg":"修改成功"}');
 		}
 	}
