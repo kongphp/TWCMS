@@ -210,4 +210,19 @@ class category extends model {
 		}
 		return $arr['mid'];
 	}
+
+	// 获取分类当前位置
+	public function get_place($cid, $path = '') {
+		$p = array();
+		$r = 0;
+		$category_arr = $this->category->get_category();
+		foreach($category_arr as $arr) {
+			foreach($arr as $v) {
+				if($v['pre'] == 1) $r++;
+				$p[$r][] = array('name'=> $v['name'], 'url'=> $path.'index.php?cate-index-cid-'.$v['cid'].$_ENV['_config']['url_suffix']);
+				if($v['cid'] == $cid) return $p[$r];
+			}
+		}
+	}
+
 }
