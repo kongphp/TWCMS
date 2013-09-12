@@ -24,10 +24,10 @@ class models extends model {
 		return $this->data['models'] = $this->find_fetch();
 	}
 
-	// 获取所有模型的小数组
-	public function get_mod_arr() {
-		if(isset($this->data['mod_arr'])) {
-			return $this->data['mod_arr'];
+	// 获取所有模型的名称
+	public function get_name() {
+		if(isset($this->data['name'])) {
+			return $this->data['name'];
 		}
 
 		$models_arr = $this->get_models();
@@ -35,7 +35,7 @@ class models extends model {
 		foreach ($models_arr as $v) {
 			$arr[$v['mid']] = $v['name'];
 		}
-		return $this->data['mod_arr'] = $arr;
+		return $this->data['name'] = $arr;
 	}
 
 	// 获取所有模型的表名

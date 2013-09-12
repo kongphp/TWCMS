@@ -9,8 +9,8 @@ defined('TWCMS_PATH') or exit;
 class category_control extends admin_control {
 	// 分类管理
 	public function index() {
-		$mod_arr = $this->models->get_mod_arr();
-		$this->assign('mod_arr', $mod_arr);
+		$mod_name = $this->models->get_name();
+		$this->assign('mod_name', $mod_name);
 
 		$category_arr = $this->category->get_category();
 		$this->assign('category_arr', $category_arr);
@@ -168,10 +168,10 @@ class category_control extends admin_control {
 
 	// 读取分类 (JSON)
 	public function get_category_content() {
-		$mod_arr = $this->models->get_mod_arr();
+		$mod_name = $this->models->get_name();
 		$category_arr = $this->category->get_category();
 
-		$this->assign('mod_arr', $mod_arr);
+		$this->assign('mod_name', $mod_name);
 		$this->assign('category_arr', $category_arr);
 
 		$this->display('inc-category_content.htm');

@@ -145,7 +145,7 @@ class category extends model {
 	// 获取所有分类 (内容发布时使用)
 	public function get_category_cid($cid = 0) {
 		$category_arr = $this->get_category();
-		$mod_arr = $this->models->get_mod_arr();
+		$mod_name = $this->models->get_name();
 
 		$s = '<select name="cid" id="cid">';
 		if(empty($category_arr)) {
@@ -155,7 +155,7 @@ class category extends model {
 				// 不显示单页
 				if($mid == 1) continue;
 
-				$s .= '<option mid="'.$mid.'" value="0">'.$mod_arr[$mid].'</option>';
+				$s .= '<option mid="'.$mid.'" value="0">'.$mod_name[$mid].'</option>';
 				foreach ($arr as $v) {
 					$disabled = $v['type'] == 1 ? ' disabled="disabled"' : '';
 					$s .= '<option mid="'.$mid.'" value="'.$v['cid'].'"'.($v['type'] == 0 && $v['cid'] == $cid ? ' selected="selected"' : '').$disabled.'>';
