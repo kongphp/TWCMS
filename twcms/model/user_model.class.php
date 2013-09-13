@@ -32,7 +32,7 @@ class user extends model {
 			return '用户名中不能含有<>！';
 		}
 
-		// hook usre_model_check_username_after.php
+		// hook usre_check_username_after.php
 		return '';
 	}
 
@@ -82,6 +82,6 @@ class user extends model {
 		$user['lastdate'] = empty($user['lastdate']) ? '0000-00-00 00:00' : date('Y-m-d H:i', $user['lastdate']);
 		$user['lastip'] = long2ip($user['lastip']);
 
-		// hook usre_model_format_after.php
+		// hook usre_format_after.php
 	}
 }
