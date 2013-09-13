@@ -202,9 +202,9 @@ class category extends model {
 	// 获取指定分类的 mid (如果 cid 为空，则读第一个分类的 mid)
 	public function get_mid_by_cid($cid) {
 		if($cid) {
-			$arr = $this->category->read($cid);
+			$arr = $this->read($cid);
 		}else{
-			$arr = $this->category->get_category();
+			$arr = $this->get_category();
 			$arr = current($arr);
 			$arr = current($arr);
 		}
@@ -215,7 +215,7 @@ class category extends model {
 	public function get_place($cid, $path = '') {
 		$p = array();
 		$r = 0;
-		$category_arr = $this->category->get_category();
+		$category_arr = $this->get_category();
 		foreach($category_arr as $arr) {
 			foreach($arr as $v) {
 				if($v['pre'] == 1) $r++;
@@ -225,4 +225,26 @@ class category extends model {
 		}
 	}
 
+	// 获取分类缓存合并数组
+	public function get_cache($cid) {
+		$k = 'cate_'.$cid;
+		if(isset($this->data[$k])) return $this->data[$k];
+
+		$arr = $this->runtime->xget($k);
+		if(empty($arr)) {
+			$arr = $this->update_cache($cid);
+		}
+		$this->data[$k] = $arr;
+		return $arr;
+	}
+
+	// 更新分类缓存合并数组
+	public function update_cache($cid) {
+		$k = 'cate_'.$cid;
+		$arr = $this->read($cid);
+		$cfg = $this->runtime->xget();
+		$arr['place'] = $this->get_place($cid, $cfg['webdir']);
+		$this->runtime->set($k, $arr);
+		return $arr;
+	}
 }
