@@ -14,7 +14,7 @@ class kv extends model {
 		$this->table = 'kv';		// 表名
 		$this->pri = array('k');	// 主键
 
-		// hook kv_construct_after.php
+		// hook kv_model_construct_after.php
 	}
 
 	// 读取缓存

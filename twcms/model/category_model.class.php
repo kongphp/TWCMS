@@ -245,7 +245,7 @@ class category extends model {
 		$cfg = $this->runtime->xget();
 		$arr['place'] = $this->get_place($cid, $cfg['webdir']);
 
-		// hook category_update_cache_after.php
+		// hook category_model_update_cache_after.php
 
 		$this->runtime->set($k, $arr);
 		return $arr;

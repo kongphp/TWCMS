@@ -14,7 +14,7 @@ class runtime extends model {
 		$this->table = 'runtime';	// 表名
 		$this->pri = array('k');	// 主键
 
-		// hook runtime_construct_after.php
+		// hook runtime_model_construct_after.php
 	}
 
 	// 读取缓存
