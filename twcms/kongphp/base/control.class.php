@@ -45,7 +45,6 @@ class control{
 			throw new Exception('控制器没有找到：'.get_class($this).'->'.$method.'('.(empty($args) ? '' : var_export($args, 1)).')');
 		}else{
 			core::error404();
-			exit;
 		}
 	}
 }

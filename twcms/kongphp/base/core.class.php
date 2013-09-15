@@ -198,7 +198,6 @@ class core{
 				throw new Exception("访问的 URL 不正确，$controlname 文件不存在");
 			}else{
 				self::error404();
-				return;
 			}
 		}
 
@@ -230,6 +229,7 @@ class core{
 		include $objfile;
 		$obj = new error404_control();
 		$obj->index();
+		exit();
 	}
 
 	/**

@@ -15,10 +15,7 @@ class show_control extends control{
 
 		$_GET['cid'] = (int)R('cid');
 		$this->_var = $this->category->get_cache($_GET['cid']);
-		if(empty($this->_var)) {
-			core::error404();
-			return;
-		}
+		empty($this->_var) && core::error404();
 
 		$this->_cfg = $this->runtime->xget();
 
