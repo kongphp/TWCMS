@@ -252,4 +252,9 @@ class category extends model {
 		$this->runtime->set($k, $arr);
 		return $arr;
 	}
+
+	// 删除分类缓存合并数组
+	public function delete_cache($cid) {
+		return $this->delete('cate_'.$cid);
+	}
 }

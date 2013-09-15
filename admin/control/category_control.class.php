@@ -101,6 +101,8 @@ class category_control extends admin_control {
 						E(1, '写入单页数据表出错');
 					}
 				}
+
+				$this->category->delete_cache($post['cid']);
 			}
 
 			if(empty($msg)) {
