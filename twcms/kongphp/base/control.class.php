@@ -40,11 +40,10 @@ class control{
 	}
 
 	public function __call($method, $args) {
-		$controlname = get_class($this);
 		if(DEBUG) {
-			throw new Exception('控制器没有找到：'.$controlname.'->'.$method.'('.(empty($args) ? '' : var_export($args, 1)).')');
+			throw new Exception('控制器没有找到：'.get_class($this).'->'.$method.'('.(empty($args) ? '' : var_export($args, 1)).')');
 		}else{
-			core::error404($controlname);
+			core::error404();
 		}
 	}
 }

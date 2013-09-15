@@ -195,7 +195,7 @@ class core{
 			if($controlfile) {
 				self::parse_all($controlfile, $objfile, "写入 control 编译文件 $controlname 失败");
 			}else{
-				self::error404($controlname);
+				self::error404();
 				return;
 			}
 		}
@@ -208,9 +208,8 @@ class core{
 
 	/**
 	 * 执行错误404控制器
-	 * @param string $controlname 不存在的控制器文件名
 	 */
-	public static function error404($controlname) {
+	public static function error404() {
 		log::write('404错误，访问的 URL 不存在', 'php_error404.php');
 
 		$errorname = 'error404_control.class.php';
@@ -220,7 +219,7 @@ class core{
 			$errorfile = self::get_original_file($errorname, CONTROL_PATH);
 
 			if(!$errorfile) {
-				throw new Exception("控制器加载失败，$controlname 文件不存在");
+				throw new Exception("控制器加载失败，$errorname 文件不存在");
 			}
 
 			self::parse_all($errorfile, $objfile, "写入 control 编译文件 $errorname 失败");
