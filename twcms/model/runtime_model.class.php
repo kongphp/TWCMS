@@ -43,7 +43,7 @@ class runtime extends model {
 				$this->data[$key] += array(
 					'tpl' => $this->data[$key]['webdir'].APP_NAME.'/view/'.$_ENV['_setting'][APP_NAME.'_theme'].'/',
 					'weburl' => 'http://'.$this->data[$key]['webdomain'].$this->data[$key]['webdir'],
-					'midarr'=>$this->models->get_tablename(),
+					'table_arr'=>$this->models->get_tablename(),
 				);
 
 				$this->set('cfg', $this->data[$key]);

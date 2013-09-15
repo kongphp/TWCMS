@@ -243,7 +243,8 @@ class category extends model {
 		$k = 'cate_'.$cid;
 		$arr = $this->read($cid);
 		$cfg = $this->runtime->xget();
-		$arr['place'] = $this->get_place($cid, $cfg['webdir']);
+		$arr['place'] = $this->get_place($cid, $cfg['webdir']);	// 分类当前位置
+		$arr['table'] = $cfg['table_arr'][$arr['mid']];	// 分类模型表名
 
 		// hook category_model_update_cache_after.php
 
