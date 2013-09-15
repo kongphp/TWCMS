@@ -169,7 +169,7 @@ class core{
 
 			if(!$controlfile) {
 				$_GET['control'] = 'parseurl';
-				throw new Exception("解析 URL 出错，$controlname 文件不存在");
+				throw new Exception("访问的 URL 不正确，$controlname 文件不存在");
 			}
 
 			self::parse_all($controlfile, $objfile, "写入 control 编译文件 $controlname 失败");
@@ -194,6 +194,8 @@ class core{
 			$controlfile = self::get_original_file($controlname, CONTROL_PATH);
 			if($controlfile) {
 				self::parse_all($controlfile, $objfile, "写入 control 编译文件 $controlname 失败");
+			}elseif(DEBUG > 0) {
+				throw new Exception("访问的 URL 不正确，$controlname 文件不存在");
 			}else{
 				self::error404();
 				return;
