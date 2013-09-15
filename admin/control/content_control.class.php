@@ -107,6 +107,12 @@ class content_control extends admin_control {
 				E(1, '写入内容查看数表出错');
 			}
 
+			// 更新相关分类
+			$data = $this->category->get($cid);
+			$data['count']++;
+			$this->category->update($data);
+			$this->category->update_cache($cid);
+
 			E(0, '发表成功');
 		}
 

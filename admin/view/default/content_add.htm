@@ -91,16 +91,22 @@
 	</div>
 </div>
 <script type="text/javascript">
+/*
 twAjax.submit("form:first", function(data){
 	twAjax.alert(data);
 	if(window.twData.err==0) {
-		var temp = $("#cid").val();
+		//var temp = $("#cid").val();
 		//$("form:first")[0].reset(); //重置表单
 		//editor_api.content.set("");
 		//$("#cid").val(temp);
 	}
 });
+*/
 
+$("form:first").submit(function(){
+	twAjax.post($(this).attr("action"), $(this).serialize());
+	return false;
+});
 
 // 编辑器接口
 var editor_api = {
