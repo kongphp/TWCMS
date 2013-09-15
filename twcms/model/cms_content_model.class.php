@@ -12,4 +12,15 @@ class cms_content extends model {
 		$this->pri = array('id');	// 主键
 		$this->maxid = 'id';		// 自增字段
 	}
+
+	// 格式化后显示给用户
+	public function format(&$v, $titlenum = 80, $intronum = 200, $dateformat = 'Y-m-d H:i:s') {
+		$v['subject'] = utf8::cutstr_cn($v['title'], $titlenum);
+		$v['intro'] = utf8::cutstr_cn($v['intro'], $intronum);
+		$v['date'] = date($dateformat, $v['dateline']);
+		$v['url'] = '?cate-index-cid-'.$v['cid'].'-id-'.$v['id'].$_ENV['_config']['url_suffix'];
+		empty($v['pic']) && $v['pic'] = $_ENV['_config']['front_static'].'img/nopic.gif';
+
+		// hook category_model_format_after.php
+	}
 }
