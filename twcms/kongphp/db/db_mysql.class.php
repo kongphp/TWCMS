@@ -455,6 +455,7 @@ class db_mysql implements db_interface {
 		if(defined('DEBUG') && DEBUG && isset($_ENV['_sqls']) && count($_ENV['_sqls']) < 1000) {
 			$start = microtime(1);
 			$result = mysql_query($sql, $link);
+			$runtime = number_format(microtime(1) - $start, 4);
 
 			// explain 分析 select 语句
 			$explain_str = '';
@@ -466,7 +467,7 @@ class db_mysql implements db_interface {
 					$explain_str = ' <font color="blue">[explain type: '.$explain_arr['type'].' | rows: '.$explain_arr['rows'].']</font>';
 				}
 			}
-			$_ENV['_sqls'][] = ' <font color="red">[time:'.number_format(microtime(1) - $start, 4).'s]</font> '.htmlspecialchars(stripslashes($sql)).$explain_str;
+			$_ENV['_sqls'][] = ' <font color="red">[time:'.$runtime.'s]</font> '.htmlspecialchars(stripslashes($sql)).$explain_str;
 		}else{
 			$result = mysql_query($sql, $link);
 		}
