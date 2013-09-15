@@ -20,6 +20,8 @@ class index_control extends control{
 		$this->assign('tw', $this->_cfg);
 		$this->assign('_var', $this->_var);
 
+		$GLOBALS['run'] = &$this;
+
 		// hook index_control_index_after.php
 
 		$this->display('index.htm');

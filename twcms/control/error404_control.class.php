@@ -23,6 +23,8 @@ class error404_control extends control{
 		$this->assign('tw', $this->_cfg);
 		$this->assign('_var', $this->_var);
 
+		$GLOBALS['run'] = &$this;
+
 		// hook error404_control_index_after.php
 
 		$this->display('404.htm');
