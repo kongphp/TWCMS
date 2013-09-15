@@ -28,7 +28,7 @@ function kp_block_global_cate($conf) {
 	$total = $run->_var['count'];
 	$maxpage = max(1, ceil($total/$pagenum));
 	$page = min($maxpage, max(1, intval(R('page'))));
-	$pages = pages($page, $maxpage, '?cate-index-cid-'.$run->_var['cid'].'-page-%d'.$_ENV['_config']['url_suffix']);
+	$pages = pages($page, $maxpage, 'index.php?cate--cid-'.$run->_var['cid'].'-page-%d'.$_ENV['_config']['url_suffix']);
 
 	// 读取内容列表
 	$where = $run->_var['cid'] ? array('cid' => $run->_var['cid']) : array();

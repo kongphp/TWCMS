@@ -219,7 +219,7 @@ class category extends model {
 		foreach($category_arr as $arr) {
 			foreach($arr as $v) {
 				if($v['pre'] == 1) $r++;
-				$p[$r][] = array('name'=> $v['name'], 'url'=> $path.'index.php?cate-index-cid-'.$v['cid'].$_ENV['_config']['url_suffix']);
+				$p[$r][] = array('name'=> $v['name'], 'url'=> $path.'index.php?cate--cid-'.$v['cid'].$_ENV['_config']['url_suffix']);
 				if($v['cid'] == $cid) return $p[$r];
 			}
 		}
