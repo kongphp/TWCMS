@@ -7,14 +7,19 @@
 defined('TWCMS_PATH') or exit;
 
 class cate_control extends control{
-	public $_cfg = array();	// 全站设置参数
-	public $_var = array();	// 当前分类参数
+	public $_cfg = array();	// 全站参数
+	public $_var = array();	// 分类页参数
 
 	public function index() {
 		// hook cate_control_index_before.php
 
 		$_GET['cid'] = (int)R('cid');
 		$this->_var = $this->category->get_cache($_GET['cid']);
+		if(empty($this->_var)) {
+			core::error404();
+			return;
+		}
+
 		$this->_cfg = $this->runtime->xget();
 
 		// SEO 相关

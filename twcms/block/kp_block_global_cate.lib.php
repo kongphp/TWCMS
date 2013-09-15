@@ -23,7 +23,7 @@ function kp_block_global_cate($conf) {
 	$orderway = isset($conf['orderway']) && $conf['orderway'] == 1 ? 1 : -1;
 
 	// 排除单页模型
-	if($run->_var['mid'] == 1) return false;
+	if($run->_var['mid'] == 1) return FALSE;
 
 	// 初始模型表名
 	$run->cms_content->table = 'cms_'.$run->_var['table'];

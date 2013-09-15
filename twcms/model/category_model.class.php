@@ -242,6 +242,8 @@ class category extends model {
 	public function update_cache($cid) {
 		$k = 'cate_'.$cid;
 		$arr = $this->read($cid);
+		if(empty($arr)) return FALSE;
+
 		$cfg = $this->runtime->xget();
 		$arr['place'] = $this->get_place($cid, $cfg['webdir']);	// 分类当前位置
 		$arr['topcid'] = $arr['place'][0]['cid'];	// 顶级分类CID
