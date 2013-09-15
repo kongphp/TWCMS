@@ -7,21 +7,29 @@
 defined('TWCMS_PATH') or exit;
 
 class cate_control extends control{
+	public $_cfg = array();	// 全站设置参数
+	public $_var = array();	// 当前分类参数
+
 	public function index() {
 		// hook cate_control_index_before.php
 
 		$_GET['cid'] = (int)R('cid');
-		$cfg = $this->runtime->xget();
-		$cate_arr = $this->category->get_cache($_GET['cid']);
-		$cfg['titles'] = $cate_arr['name'].(empty($cate_arr['seo_title']) ? '' : '/'.$cate_arr['seo_title']);
-		$cfg['place'] = &$cate_arr['place'];
-		!empty($cate_arr['seo_keywords']) && $cfg['seo_keywords'] = $cate_arr['seo_keywords'];
-		!empty($cate_arr['seo_description']) && $cfg['seo_description'] =  $cate_arr['seo_description'];
+		$this->_var = $this->category->get_cache($_GET['cid']);
+		$this->_cfg = $this->runtime->xget();
 
-		$this->assign('tw', $cfg);
-		$this->assign('cate_arr', $cate_arr);
+		// SEO 相关
+		$this->_cfg['titles'] = $this->_var['name'].(empty($this->_var['seo_title']) ? '' : '/'.$this->_var['seo_title']);
+		!empty($this->_var['seo_keywords']) && $this->_cfg['seo_keywords'] = $this->_var['seo_keywords'];
+		!empty($this->_var['seo_description']) && $this->_cfg['seo_description'] =  $this->_var['seo_description'];
 
-		$this->display($cate_arr['cate_tpl']);
+		$this->assign('tw', $this->_cfg);
+		$this->assign('_var', $this->_var);
+
+		$GLOBALS['run'] = &$this;
+
+		// hook cate_control_index_after.php
+
+		$this->display($this->_var['cate_tpl']);
 	}
 
 	// hook cate_control_after.php
