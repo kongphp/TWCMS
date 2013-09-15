@@ -40,10 +40,12 @@ class control{
 	}
 
 	public function __call($method, $args) {
+		// DEBUG关闭时，为防止泄漏敏感信息，用404错误代替
 		if(DEBUG) {
 			throw new Exception('控制器没有找到：'.get_class($this).'->'.$method.'('.(empty($args) ? '' : var_export($args, 1)).')');
 		}else{
 			core::error404();
+			exit;
 		}
 	}
 }
