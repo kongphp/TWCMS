@@ -131,7 +131,7 @@ class view{
 		$before = $after = '';
 		//公共块移到模板解析代码头部
 		if(substr($func, 0, 7) == 'global_') {
-			$this->head_arr[$func] = '$global_data = '.$func_str;
+			$this->head_arr[$func] = '$gdata = '.$func_str;
 		//非公共块保持原位置
 		}else{
 			$before .= '<?php $data = '.$func_str.' ?>';
