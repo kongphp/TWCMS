@@ -22,6 +22,9 @@ function kp_block_global_cate($conf) {
 	$orderby = isset($conf['orderby']) && in_array($conf['orderby'], array('id', 'dateline')) ? $conf['orderby'] : 'id';
 	$orderway = isset($conf['orderway']) && $conf['orderway'] == 1 ? 1 : -1;
 
+	// 排除单页模型
+	if($run->_var['mid'] == 1) return false;
+
 	// 初始模型表名
 	$run->cms_content->table = 'cms_'.$run->_var['table'];
 
