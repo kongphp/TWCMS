@@ -219,7 +219,7 @@ class category extends model {
 		foreach($category_arr as $arr) {
 			foreach($arr as $v) {
 				if($v['pre'] == 1) $r++;
-				$p[$r][] = array('name'=> $v['name'], 'url'=> $path.'index.php?cate--cid-'.$v['cid'].$_ENV['_config']['url_suffix']);
+				$p[$r][] = array('cid'=> $v['cid'], 'name'=> $v['name'], 'url'=> $path.'index.php?cate--cid-'.$v['cid'].$_ENV['_config']['url_suffix']);
 				if($v['cid'] == $cid) return $p[$r];
 			}
 		}
@@ -244,6 +244,7 @@ class category extends model {
 		$arr = $this->read($cid);
 		$cfg = $this->runtime->xget();
 		$arr['place'] = $this->get_place($cid, $cfg['webdir']);	// 分类当前位置
+		$arr['topcid'] = $arr['place'][0]['cid'];	// 顶级分类CID
 		$arr['table'] = $cfg['table_arr'][$arr['mid']];	// 分类模型表名
 
 		// hook category_model_update_cache_after.php
