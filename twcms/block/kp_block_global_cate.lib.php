@@ -18,8 +18,8 @@ function kp_block_global_cate($conf) {
 	// hook kp_block_global_cate_before.php
 
 	$pagenum = empty($conf['pagenum']) ? 20 : max(1, (int)$conf['pagenum']);
-	$titlenum = empty($conf['titlenum']) ? 80 : (int)$conf['titlenum'];
-	$intronum = empty($conf['intronum']) ? 200 : (int)$conf['intronum'];
+	$titlenum = isset($conf['titlenum']) ? (int)$conf['titlenum'] : 0;
+	$intronum = isset($conf['intronum']) ? (int)$conf['intronum'] : 0;
 	$dateformat = empty($conf['dateformat']) ? 'Y-m-d H:i:s' : $conf['dateformat'];
 	$orderby = isset($conf['orderby']) && in_array($conf['orderby'], array('id', 'dateline')) ? $conf['orderby'] : 'id';
 	$orderway = isset($conf['orderway']) && $conf['orderway'] == 1 ? 1 : -1;
@@ -39,7 +39,7 @@ function kp_block_global_cate($conf) {
 	$where = $run->_var['cid'] ? array('cid' => $run->_var['cid']) : array();
 	$list_arr = $run->cms_content->find_fetch($where, array($orderby => $orderway), ($page-1)*$pagenum, $pagenum);
 	foreach($list_arr as &$v) {
-		$run->cms_content->format($v, $titlenum, $intronum, $dateformat);
+		$run->cms_content->format($v, $dateformat, $titlenum, $intronum);
 	}
 
 	// hook kp_block_global_cate_after.php

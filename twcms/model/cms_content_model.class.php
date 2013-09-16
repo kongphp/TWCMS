@@ -18,9 +18,10 @@ class cms_content extends model {
 		if(empty($v)) return FALSE;
 
 		$v['date'] = date($dateformat, $v['dateline']);
-		$titlenum && $v['subject'] = utf8::cutstr_cn($v['title'], $titlenum);
-		$intronum && $v['intro'] = utf8::cutstr_cn($v['intro'], $intronum);
+		$v['subject'] = $titlenum ? utf8::cutstr_cn($v['title'], $titlenum) : $v['title'];
 		$v['url'] = 'index.php?show--cid-'.$v['cid'].'-id-'.$v['id'].C('url_suffix');
+
+		$intronum && $v['intro'] = utf8::cutstr_cn($v['intro'], $intronum);
 		empty($v['pic']) && $v['pic'] = $_ENV['_config']['front_static'].'img/nopic.gif';
 
 		// hook category_model_format_after.php
