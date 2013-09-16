@@ -15,6 +15,8 @@ defined('KONG_PATH') || exit;
 function kp_block_global_cate($conf) {
 	global $run;
 
+	// hook kp_block_global_cate_before.php
+
 	$pagenum = empty($conf['pagenum']) ? 20 : max(1, (int)$conf['pagenum']);
 	$titlenum = empty($conf['titlenum']) ? 80 : (int)$conf['titlenum'];
 	$intronum = empty($conf['intronum']) ? 200 : (int)$conf['intronum'];
@@ -39,6 +41,8 @@ function kp_block_global_cate($conf) {
 	foreach($list_arr as &$v) {
 		$run->cms_content->format($v, $titlenum, $intronum, $dateformat);
 	}
+
+	// hook kp_block_global_cate_after.php
 
 	return array('total'=> $total, 'pages'=> $pages, 'list'=> $list_arr);
 }

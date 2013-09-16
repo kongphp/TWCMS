@@ -11,7 +11,7 @@ defined('KONG_PATH') || exit;
 function kp_block_global_show($conf) {
 	global $run, $_show;
 
-	// hook kp_block_global_showbefore.php
+	// hook kp_block_global_show_before.php
 
 	$dateformat = empty($conf['dateformat']) ? 'Y-m-d H:i:s' : $conf['dateformat'];
 	$show_prev_next = isset($conf['show_prev_next']) && (int)$conf['show_prev_next'] ? true : false;
@@ -40,7 +40,7 @@ function kp_block_global_show($conf) {
 		$run->cms_content->format($_show['next'], $dateformat);
 	}
 
-	// hook kp_block_global_showafter.php
+	// hook kp_block_global_show_after.php
 
 	return $_show;
 }
