@@ -14,15 +14,29 @@ class show_control extends control{
 		// hook cate_control_index_before.php
 
 		$_GET['cid'] = (int)R('cid');
+		$_GET['id'] = (int)R('id');
 		$this->_var = $this->category->get_cache($_GET['cid']);
 		empty($this->_var) && core::error404();
 
 		$this->_cfg = $this->runtime->xget();
 
+		// 初始模型表名
+		$this->cms_content->table = 'cms_'.$this->_var['table'];
+
+		// 读取内容
+		$_show = $this->cms_content->read($_GET['id']);
+		empty($_show) && core::error404();
+
+		// SEO 相关
+		$this->_cfg['titles'] = $_show['title'].(empty($_show['seo_title']) ? '' : '/'.$_show['seo_title']);
+		!empty($_show['seo_keywords']) && $this->_cfg['seo_keywords'] = $_show['seo_keywords'];
+		!empty($_show['seo_description']) && $this->_cfg['seo_description'] =  $_show['seo_description'];
+
 		$this->assign('tw', $this->_cfg);
 		$this->assign('_var', $this->_var);
 
 		$GLOBALS['run'] = &$this;
+		$GLOBALS['_show'] = &$_show;
 
 		// hook show_control_index_after.php
 
