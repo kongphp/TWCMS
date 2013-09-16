@@ -13,12 +13,14 @@ class cms_content extends model {
 		$this->maxid = 'id';		// 自增字段
 	}
 
-	// 格式化后显示给用户
-	public function format(&$v, $titlenum = 80, $intronum = 200, $dateformat = 'Y-m-d H:i:s') {
-		$v['subject'] = utf8::cutstr_cn($v['title'], $titlenum);
-		$v['intro'] = utf8::cutstr_cn($v['intro'], $intronum);
+	// 格式化内容数组
+	public function format(&$v, $dateformat = 'Y-m-d H:i:s', $titlenum = 0, $intronum = 0) {
+		if(empty($v)) return FALSE;
+
 		$v['date'] = date($dateformat, $v['dateline']);
-		$v['url'] = 'index.php?show--cid-'.$v['cid'].'-id-'.$v['id'].$_ENV['_config']['url_suffix'];
+		$titlenum && $v['subject'] = utf8::cutstr_cn($v['title'], $titlenum);
+		$intronum && $v['intro'] = utf8::cutstr_cn($v['intro'], $intronum);
+		$v['url'] = 'index.php?show--cid-'.$v['cid'].'-id-'.$v['id'].C('url_suffix');
 		empty($v['pic']) && $v['pic'] = $_ENV['_config']['front_static'].'img/nopic.gif';
 
 		// hook category_model_format_after.php
