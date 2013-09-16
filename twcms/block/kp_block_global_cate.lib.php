@@ -1,5 +1,4 @@
 <?php
-
 defined('KONG_PATH') || exit;
 
 /**
@@ -27,13 +26,14 @@ function kp_block_global_cate($conf) {
 	// 排除单页模型
 	if($run->_var['mid'] == 1) return FALSE;
 
-	// 初始模型表名
-	$run->cms_content->table = 'cms_'.$run->_var['table'];
-
+	// 分页相关
 	$total = $run->_var['count'];
 	$maxpage = max(1, ceil($total/$pagenum));
 	$page = min($maxpage, max(1, intval(R('page'))));
-	$pages = pages($page, $maxpage, 'index.php?cate--cid-'.$run->_var['cid'].'-page-%d'.$_ENV['_config']['url_suffix']);
+	$pages = pages($page, $maxpage, 'index.php?cate--cid-'.$run->_var['cid'].'-page-%d'.C('url_suffix'));
+
+	// 初始模型表名
+	$run->cms_content->table = 'cms_'.$run->_var['table'];
 
 	// 读取内容列表
 	$where = $run->_var['cid'] ? array('cid' => $run->_var['cid']) : array();

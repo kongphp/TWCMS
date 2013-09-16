@@ -1,5 +1,4 @@
 <?php
-
 defined('KONG_PATH') || exit;
 
 /**
