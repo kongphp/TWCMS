@@ -35,6 +35,9 @@ $(".int").focusin(function() {
 	if($(this).val().length==0) $(this).parent().children("label").show();
 });
 $("form:first").submit(function(){
+	$("#btn").attr("disabled", "disabled").addClass("on").val("登录中...");
+	setTimeout(function() { $("#btn").removeAttr("disabled").removeAttr("class").val("登录"); }, 2000);
+
 	$.post($(this).attr("action"), $(this).serialize(), function(data){
 		data = toJson(data);
 		$(".tips").remove();
