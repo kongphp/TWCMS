@@ -198,8 +198,8 @@ $.twDialog = function(options) {
 	//触发拖动
 	$(".twdialog_title,.twdialog_resizable_n,.twdialog_resizable_e,.twdialog_resizable_s,.twdialog_resizable_w,.twdialog_resizable_nw,.twdialog_resizable_ne,.twdialog_resizable_sw,.twdialog_resizable_se").mousedown(function(e){
 		objd = $(this).parent();
+		$("html,body,.twdialog").css("user-select","none");
 		document.onselectstart = objd[0].onselectstart = function(){return false};
-		$("html,body,.twdialog").css("-moz-user-select","none");
 		if(!tval) tval = $(this).attr("class");
 		dx=e.pageX,dy=e.pageY,sx=objd.position().left,sy=objd.position().top,objH=objd.height(),objW=objd.width(),bWidth=$("body").width(),bHeight=$("body").height();
 	});
@@ -207,7 +207,8 @@ $.twDialog = function(options) {
 	//关闭拖动
 	$(document).mouseup(function(){
 		if(objd) {
-			$("html,body,.twdialog").css("-moz-user-select","-moz-all"); document.onselectstart = objd[0].onselectstart = function(){return true};
+			$("html,body,.twdialog").css("user-select","auto");
+			document.onselectstart = objd[0].onselectstart = function(){return true};
 		}
 		if(tval) tval = null;
 	});
