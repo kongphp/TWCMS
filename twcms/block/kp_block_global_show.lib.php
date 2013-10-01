@@ -31,11 +31,13 @@ function kp_block_global_show($conf) {
 	// 显示上下翻页 (大数据站点建议关闭)
 	if($show_prev_next) {
 		// 上一页
-		$_show['prev'] = current($run->cms_content->find_fetch(array('cid' => $run->_var['cid'], 'id'=>array('<'=> $id)), array('id'=>-1), 0 , 1));
+		$_show['prev'] = $run->cms_content->find_fetch(array('cid' => $run->_var['cid'], 'id'=>array('<'=> $id)), array('id'=>-1), 0 , 1);
+		$_show['prev'] = current($_show['prev']);
 		$run->cms_content->format($_show['prev'], $dateformat);
 
 		// 下一页
-		$_show['next'] = current($run->cms_content->find_fetch(array('cid' => $run->_var['cid'], 'id'=>array('>'=> $id)), array('id'=>1), 0 , 1));
+		$_show['next'] = $run->cms_content->find_fetch(array('cid' => $run->_var['cid'], 'id'=>array('>'=> $id)), array('id'=>1), 0 , 1);
+		$_show['next'] = current($_show['next']);
 		$run->cms_content->format($_show['next'], $dateformat);
 	}
 
