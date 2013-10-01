@@ -24,7 +24,7 @@ class cate_control extends control{
 		!empty($this->_var['seo_keywords']) && $this->_cfg['seo_keywords'] = $this->_var['seo_keywords'];
 		!empty($this->_var['seo_description']) && $this->_cfg['seo_description'] =  $this->_var['seo_description'];
 
-		$this->assign('tw_cfg', $this->_cfg);
+		$this->assign('tw', $this->_cfg);
 		$this->assign('tw_var', $this->_var);
 
 		$GLOBALS['run'] = &$this;
