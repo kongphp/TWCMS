@@ -547,6 +547,7 @@ class db_mysql implements db_interface {
 	 * @return string
 	 * in: array('id'=> array('>'=>'10', '<'=>'200'))
 	 * out: WHERE id>'10' AND id<'200'
+	 * 支持: '>=', '<=', '>', '<', 'LIKE', 'IN' (为考虑多种数据库兼容和性能问题，其他表达式不要使用，如：!= 可能导致全表扫描)
 	 */
 	private function arr2where($arr) {
 		$s = '';
@@ -555,13 +556,27 @@ class db_mysql implements db_interface {
 			foreach($arr as $key=>$val) {
 				if(is_array($val)) {
 					foreach($val as $k=>$v) {
-						$v = addslashes($v);
-						$k == 'LIKE' && ($k = ' LIKE ') && $v = "%$v%";
-						$s .= "$key$k'$v' AND ";
+						if(is_array($v)) {
+							if($k === 'IN') {
+								foreach($v as $i) {
+									$i = intval($i);
+									$s .= "$key=$i OR "; // 走索引时，OR 比 IN 快
+								}
+								$s = substr($s, 0, -4);
+								$s .= " AND ";
+							}
+						}else{
+							$v = addslashes($v);
+							if($k === 'LIKE') {
+								$s .= "$key LIKE '%$v%' AND ";
+							}else{
+								$s .= "$key$k'$v' AND ";
+							}
+						}
 					}
 				}else{
 					$val = addslashes($val);
-					$s .= "$key = '$val' AND ";
+					$s .= "$key='$val' AND ";
 				}
 			}
 			$s = substr($s, 0, -5);
