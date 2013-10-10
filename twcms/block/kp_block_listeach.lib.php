@@ -46,8 +46,10 @@ function kp_block_listeach($conf) {
 			$ret[$_cid]['cate_name'] = $cate_arr['name'];
 			$ret[$_cid]['cate_url'] = 'index.php?cate--cid-'.$_cid.C('url_suffix');
 
+			if(!$cids) continue;
+
 			// 读取分类列表
-			if(is_array($cids) && $cids) {
+			if(is_array($cids)) {
 				$where = array('cid' => array("IN" => $cids));
 			}else{
 				$where = array('cid' => $_cid);
