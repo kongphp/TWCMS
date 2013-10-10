@@ -83,31 +83,39 @@ class category extends model {
 		return FALSE;
 	}
 
+	// 从数据库获取分类
+	public function get_category_db() {
+		if(isset($this->data['category_db'])) {
+			return $this->data['category_db'];
+		}
+
+		$arr = array();
+		$tmp = $this->find_fetch(array(), array('orderby'=>1));
+		foreach($tmp as $v) {
+			$arr[$v['cid']] = $v;
+		}
+		return $this->data['category_db'] = $arr;
+	}
+
 	// 获取分类 (树状结构)
 	public function get_category_tree() {
 		if(isset($this->data['category_tree'])) {
 			return $this->data['category_tree'];
 		}
 
-		$tmp = $this->find_fetch(array(), array('orderby'=>1));
-
-		// 重建数组
-		$data = array();
-		foreach($tmp as $v) {
-			$data[$v['cid']] = $v;
-		}
+		$this->data['category_tree'] = array();
+		$tmp = $this->get_category_db();
 
 		// 格式化为树状结构 (会舍弃不合格的结构)
-		// foreach($data as $v) {
-		// 	$data[$v['upid']]['son'][$v['cid']] = &$data[$v['cid']];
+		// foreach($tmp as $v) {
+		// 	$tmp[$v['upid']]['son'][$v['cid']] = &$tmp[$v['cid']];
 		// }
-		// $this->data['category_tree'] = $data[0]['son'];
+		// $this->data['category_tree'] = isset($tmp['0']['son']) ? $tmp['0']['son'] : array();
 
 		// 格式化为树状结构 (不会舍弃不合格的结构)
-		$this->data['category_tree'] = array();
-		foreach($data as $v) {
-			if(isset($data[$v['upid']])) $data[$v['upid']]['son'][] = &$data[$v['cid']];
-			else $this->data['category_tree'][] = &$data[$v['cid']];
+		foreach($tmp as $v) {
+			if(isset($tmp[$v['upid']])) $tmp[$v['upid']]['son'][] = &$tmp[$v['cid']];
+			else $this->data['category_tree'][] = &$tmp[$v['cid']];
 		}
 
 		return $this->data['category_tree'];
@@ -124,22 +132,69 @@ class category extends model {
 	}
 
 	// 递归转换为二维数组
-	function to_array($arr, $pre = 1) {
-		static $arr2 = array();
+	public function to_array($data, $pre = 1) {
+		static $arr = array();
 
-		foreach($arr as $k => $v) {
+		foreach($data as $k => $v) {
 			$v['pre'] = $pre;
 			if(isset($v['son'])) {
-				$son_arr = $v['son'];
-				unset($v['son']);
-				$arr2[$v['mid']][] = $v;
-				self::to_array($son_arr, $pre+1);
+				$arr[$v['mid']][] = $v;
+				self::to_array($v['son'], $pre+1);
 			}else{
-				$arr2[$v['mid']][] = $v;
+				$arr[$v['mid']][] = $v;
 			}
 		}
 
-		return $arr2;
+		return $arr;
+	}
+
+	// 通过获取 upid 的下级 cid ($subcate 表示是否读取多级，默认否，因为影响性能)
+	public function get_cids_by_upid($upid, $mid, $subcate = FALSE) {
+		$arr = array();
+		$tmp = $this->get_category_db();
+		if($upid != 0 && !isset($tmp[$upid])) return FALSE;
+
+		if($subcate) {
+			foreach($tmp as $v) {
+				$tmp[$v['upid']]['son'][$v['cid']] = &$tmp[$v['cid']];
+			}
+			if(isset($tmp[$upid]['son'])) {
+				foreach($tmp[$upid]['son'] as $k => $v) {
+					if(isset($v['son'])) {
+						$arr[$k] = self::recursion_cid($v['son'], $mid);
+					}else{
+						if($v['mid'] == $mid && $v['type'] == 0) {
+							$arr[$k] = 0;
+						}
+					}
+				}
+			}
+		}else{
+			foreach($tmp as $v) {
+				if($v['upid'] == $upid && $v['mid'] == $mid && $v['type'] == 0) {
+					$arr[$v['cid']] = 0;
+				}
+			}
+		}
+
+		return $arr;
+	}
+
+	// 递归获取下级分类全部 cid
+	public function recursion_cid(&$data, &$mid) {
+		static $arr = array();
+
+		foreach($data as $k => $v) {
+			if(isset($v['son'])) {
+				self::recursion_cid($v['son'], $mid);
+			}else{
+				if($v['mid'] == $mid && $v['type'] == 0) {
+					$arr[] = $v['cid'];
+				}
+			}
+		}
+
+		return $arr;
 	}
 
 	// 获取所有分类 (内容发布时使用)
@@ -214,15 +269,18 @@ class category extends model {
 	// 获取分类当前位置
 	public function get_place($cid, $path = '') {
 		$p = array();
-		$r = 0;
-		$category_arr = $this->get_category();
-		foreach($category_arr as $arr) {
-			foreach($arr as $v) {
-				if($v['pre'] == 1) $r++;
-				$p[$r][] = array('cid'=> $v['cid'], 'name'=> $v['name'], 'url'=> $path.'index.php?cate--cid-'.$v['cid'].$_ENV['_config']['url_suffix']);
-				if($v['cid'] == $cid) return $p[$r];
-			}
+		$tmp = $this->get_category_db();
+
+		while(isset($tmp[$cid]) && $v = &$tmp[$cid]) {
+			array_unshift($p, array(
+				'cid'=> $v['cid'],
+				'name'=> $v['name'],
+				'url'=> $path.'index.php?cate--cid-'.$v['cid'].$_ENV['_config']['url_suffix']
+			));
+			$cid = $v['upid'];
 		}
+
+		return $p;
 	}
 
 	// 获取分类缓存合并数组
