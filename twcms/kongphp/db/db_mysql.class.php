@@ -547,23 +547,23 @@ class db_mysql implements db_interface {
 	 * @return string
 	 * in: array('id'=> array('>'=>'10', '<'=>'200'))
 	 * out: WHERE id>'10' AND id<'200'
-	 * 支持: '>=', '<=', '>', '<', 'LIKE', 'IN' (为考虑多种数据库兼容和性能问题，其他表达式不要使用，如：!= 可能导致全表扫描)
+	 * 支持: '>=', '<=', '>', '<', 'LIKE', 'IN' (尽量少用，能不用则不用。'LIKE' 会导致全表扫描，大数据时不要使用)
+	 * 注意1: 为考虑多种数据库兼容和性能问题，其他表达式不要使用，如：!= 会导致全表扫描
+	 * 注意2: 高性能准则要让SQL走索引，保证查询至少达到range级别
 	 */
 	private function arr2where($arr) {
 		$s = '';
 		if(!empty($arr)) {
-			$s .= ' WHERE ';
 			foreach($arr as $key=>$val) {
 				if(is_array($val)) {
 					foreach($val as $k=>$v) {
 						if(is_array($v)) {
-							if($k === 'IN') {
+							if($k === 'IN' && $v) {
 								foreach($v as $i) {
-									$i = intval($i);
-									$s .= "$key=$i OR "; // 走索引时，OR 比 IN 快
+									$i = addslashes($i);
+									$s .= "$key='$i' OR "; // 走索引时，OR 比 IN 快
 								}
-								$s = substr($s, 0, -4);
-								$s .= " AND ";
+								$s .= substr($s, 0, -4).' AND ';
 							}
 						}else{
 							$v = addslashes($v);
@@ -579,7 +579,7 @@ class db_mysql implements db_interface {
 					$s .= "$key='$val' AND ";
 				}
 			}
-			$s = substr($s, 0, -5);
+			$s && $s = ' WHERE '.substr($s, 0, -5);
 		}
 		return $s;
 	}
