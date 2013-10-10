@@ -5,7 +5,7 @@ defined('KONG_PATH') || exit;
  * 遍历内容列表模块
  * @param int cid 分类ID 如果不填：自动识别
  * @param int mid 模型ID 默认：文章模型(2)
- * @param int subcate 是否读取多级子分类 可选值：否(0),是(1) 默认：0
+ * @param int subindex 是否读取下级的频道分类 可选值：否(0),是(1) 默认：0 (读取频道分类对性能有一定影响)
  * @param string dateformat 时间格式
  * @param int titlenum 标题长度
  * @param int intronum 简介长度
@@ -21,7 +21,7 @@ function kp_block_listeach($conf) {
 
 	$cid = isset($conf['cid']) ? intval($conf['cid']) : (isset($_GET['cid']) ? intval($_GET['cid']) : 0);
 	$mid = _int($conf, 'mid', 2);
-	$subcate = _int($conf, 'subcate');
+	$subindex = _int($conf, 'subindex');
 	$dateformat = empty($conf['dateformat']) ? 'Y-m-d H:i:s' : $conf['dateformat'];
 	$titlenum = _int($conf, 'titlenum');
 	$intronum = _int($conf, 'intronum');
@@ -37,7 +37,7 @@ function kp_block_listeach($conf) {
 	$run->cms_content->table = 'cms_'.$table;
 
 	// 读取内容列表
-	$cid_arr = $run->category->get_cids_by_upid($cid, $mid, $subcate);
+	$cid_arr = $run->category->get_cids_by_upid($cid, $mid, $subindex);
 	$ret = array();
 	if($cid_arr) {
 		foreach($cid_arr as $_cid => $cids) {

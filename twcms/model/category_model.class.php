@@ -148,13 +148,13 @@ class category extends model {
 		return $arr;
 	}
 
-	// 通过获取 upid 的下级 cid ($subcate 表示是否读取多级，默认否，因为影响性能)
-	public function get_cids_by_upid($upid, $mid, $subcate = FALSE) {
+	// 通过获取 upid 的下级 cid ($subindex 是否递归读取下级频道分类)
+	public function get_cids_by_upid($upid, $mid, $subindex = FALSE) {
 		$arr = array();
 		$tmp = $this->get_category_db();
 		if($upid != 0 && !isset($tmp[$upid])) return FALSE;
 
-		if($subcate) {
+		if($subindex) {
 			foreach($tmp as $v) {
 				$tmp[$v['upid']]['son'][$v['cid']] = &$tmp[$v['cid']];
 			}
