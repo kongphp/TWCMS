@@ -563,7 +563,7 @@ class db_mysql implements db_interface {
 									$i = addslashes($i);
 									$s .= "$key='$i' OR "; // 走索引时，OR 比 IN 快
 								}
-								$s .= substr($s, 0, -4).' AND ';
+								$s = substr($s, 0, -4).' AND ';
 							}
 						}else{
 							$v = addslashes($v);
