@@ -13,7 +13,7 @@
 		{loop:$arr $v}
 		<dl class="cat_col" cid="{$v[cid]}" mid="{$v[mid]}">
 			<dd class="cat_c_1">
-				<div class="c_name" title="{$v[name]}">
+				<div class="c_name" title="编号(cid): {$v[cid]}&#10;分类名称: {$v[name]}">
 					　{php} echo str_repeat("　　", $v['pre']-1);{/php}
 					{if:$v[mid] == 1}
 						<span class="mtype">单页</span>
