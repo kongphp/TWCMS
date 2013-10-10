@@ -77,6 +77,18 @@ class core{
 		$_ENV['_time'] = isset($_SERVER['REQUEST_TIME']) ? $_SERVER['REQUEST_TIME'] : time();
 		$_ENV['_ip'] = ip();
 
+		// 某些IIS环境 fix
+		if(!isset($_SERVER['REQUEST_URI'])) {
+			if(isset($_SERVER['HTTP_X_REWRITE_URL'])) {
+				$_SERVER['REQUEST_URI'] = &$_SERVER['HTTP_X_REWRITE_URL'];
+			}else{
+				$_SERVER['REQUEST_URI'] = '';
+				$_SERVER['REQUEST_URI'] .= $_SERVER['REQUEST_URI'];
+				$_SERVER['REQUEST_URI'] .= isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : '';
+				$_SERVER['REQUEST_URI'] .= empty($_SERVER['QUERY_STRING']) ? '' : '?'.$_SERVER['QUERY_STRING'];
+			}
+		}
+
 		// 输出 header 头
 		header("Expires: 0");
 		header("Cache-Control: private, post-check=0, pre-check=0, max-age=0");
