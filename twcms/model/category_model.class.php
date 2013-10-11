@@ -155,23 +155,26 @@ class category extends model {
 		if($upid != 0 && !isset($tmp[$upid])) return FALSE;
 
 		if($subindex) {
-			foreach($tmp as $v) {
-				$tmp[$v['upid']]['son'][$v['cid']] = &$tmp[$v['cid']];
+			foreach($tmp as $k => $v) {
+				if($v['mid'] == $mid) {
+					$tmp[$v['upid']]['son'][$v['cid']] = &$tmp[$v['cid']];
+				}else{
+					unset($tmp[$k]);
+				}
 			}
+
 			if(isset($tmp[$upid]['son'])) {
 				foreach($tmp[$upid]['son'] as $k => $v) {
-					if($v['mid'] == $mid) {
-						if($v['type'] == 1) {
-							$arr[$k] = isset($v['son']) ? self::recursion_cid($v['son'], $mid) : array();
-						}elseif($v['type'] == 0) {
-							$arr[$k] = 1;
-						}
+					if($v['type'] == 1) {
+						$arr[$k] = isset($v['son']) ? self::recursion_cid($v['son']) : array();
+					}elseif($v['type'] == 0) {
+						$arr[$k] = 1;
 					}
 				}
 			}
 		}else{
 			foreach($tmp as $v) {
-				if($v['upid'] == $upid && $v['mid'] == $mid && $v['type'] == 0) {
+				if($v['upid'] == $upid && $v['type'] == 0) {
 					$arr[$v['cid']] = 1;
 				}
 			}
@@ -181,14 +184,14 @@ class category extends model {
 	}
 
 	// 递归获取下级分类全部 cid
-	public function recursion_cid(&$data, &$mid) {
+	public function recursion_cid(&$data) {
 		$arr = array();
 		foreach($data as $k => $v) {
 			if(isset($v['son'])) {
-				$arr2 = self::recursion_cid($v['son'], $mid);
+				$arr2 = self::recursion_cid($v['son']);
 				$arr = array_merge($arr, $arr2);
 			}else{
-				if($v['mid'] == $mid && $v['type'] == 0) {
+				if($v['type'] == 0) {
 					$arr[] = $v['cid'];
 				}
 			}
