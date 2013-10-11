@@ -36,8 +36,7 @@ function kp_block_global_cate($conf) {
 	$run->cms_content->table = 'cms_'.$run->_var['table'];
 
 	// 读取内容列表
-	$where = $run->_var['cid'] ? array('cid' => $run->_var['cid']) : array();
-	$list_arr = $run->cms_content->find_fetch($where, array($orderby => $orderway), ($page-1)*$pagenum, $pagenum);
+	$list_arr = $run->cms_content->find_fetch(array('cid' => $run->_var['cid']), array($orderby => $orderway), ($page-1)*$pagenum, $pagenum);
 	foreach($list_arr as &$v) {
 		$run->cms_content->format($v, $dateformat, $titlenum, $intronum);
 	}
