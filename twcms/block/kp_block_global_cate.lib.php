@@ -2,7 +2,7 @@
 defined('KONG_PATH') || exit;
 
 /**
- * 分类列表/频道模块
+ * 分类列表/频道模块 (不推荐频道分类使用此模块，影响性能)
  * @param int pagenum 每页显示条数
  * @param int titlenum 标题长度
  * @param int intronum 简介长度
@@ -26,17 +26,31 @@ function kp_block_global_cate($conf) {
 	// 排除单页模型
 	if($run->_var['mid'] == 1) return FALSE;
 
+	$cid = &$run->_var['cid'];
+
+	if(!empty($run->_var['son_cids']) && is_array($run->_var['son_cids'])) {
+		// 影响数据库性能
+		$where = array('cid' => array("IN" => $run->_var['son_cids']));
+		$total = 0;
+		foreach($run->_var['son_cids'] as $v) {
+			$cate_arr = $run->category->get_cache($v);
+			$total += $cate_arr['count'];
+		}
+	}else{
+		$where = array('cid' => $cid);
+		$total = &$run->_var['count'];
+	}
+
 	// 分页相关
-	$total = $run->_var['count'];
 	$maxpage = max(1, ceil($total/$pagenum));
 	$page = min($maxpage, max(1, intval(R('page'))));
-	$pages = pages($page, $maxpage, 'index.php?cate--cid-'.$run->_var['cid'].'-page-%d'.C('url_suffix'));
+	$pages = pages($page, $maxpage, 'index.php?cate--cid-'.$cid.'-page-%d'.C('url_suffix'));
 
 	// 初始模型表名
 	$run->cms_content->table = 'cms_'.$run->_var['table'];
 
 	// 读取内容列表
-	$list_arr = $run->cms_content->find_fetch(array('cid' => $run->_var['cid']), array($orderby => $orderway), ($page-1)*$pagenum, $pagenum);
+	$list_arr = $run->cms_content->find_fetch($where, array($orderby => $orderway), ($page-1)*$pagenum, $pagenum);
 	foreach($list_arr as &$v) {
 		$run->cms_content->format($v, $dateformat, $titlenum, $intronum);
 	}

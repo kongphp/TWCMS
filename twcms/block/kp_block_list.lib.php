@@ -3,7 +3,7 @@ defined('KONG_PATH') || exit;
 
 /**
  * 内容列表模块
- * @param int cid 分类ID 如果不填：自动识别 (不推荐读取频道分类，影响性能)
+ * @param int cid 分类ID 如果不填：自动识别 (不推荐用于读取频道分类，影响性能)
  * @param int mid 模型ID (当cid为0时，设置mid才能生效，否则程序自动识别)
  * @param string dateformat 时间格式
  * @param int titlenum 标题长度
