@@ -198,7 +198,7 @@ class category extends model {
 				$arr = array_merge($arr, $arr2);
 			}else{
 				if($v['type'] == 0) {
-					$arr[] = $v['cid'];
+					$arr[] = intval($v['cid']);
 				}
 			}
 		}

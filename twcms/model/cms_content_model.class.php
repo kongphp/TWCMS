@@ -15,6 +15,7 @@ class cms_content extends model {
 
 	// 格式化内容数组
 	public function format(&$v, $dateformat = 'Y-m-d H:i:s', $titlenum = 0, $intronum = 0) {
+		// hook category_model_format_before.php
 		if(empty($v)) return FALSE;
 
 		$v['date'] = date($dateformat, $v['dateline']);

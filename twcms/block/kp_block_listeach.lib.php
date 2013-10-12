@@ -19,7 +19,7 @@ function kp_block_listeach($conf) {
 	// hook kp_block_listeach_before.php
 
 	$cid = isset($conf['cid']) ? intval($conf['cid']) : (isset($_GET['cid']) ? intval($_GET['cid']) : 0);
-	$mid = _int($conf, 'mid');
+	$mid = _int($conf, 'mid', 2);
 	$dateformat = empty($conf['dateformat']) ? 'Y-m-d H:i:s' : $conf['dateformat'];
 	$titlenum = _int($conf, 'titlenum');
 	$intronum = _int($conf, 'intronum');
@@ -62,9 +62,7 @@ function kp_block_listeach($conf) {
 
 		$ret[$_cid]['list'] = $run->cms_content->find_fetch($where, array($orderby => $orderway), 0, $limit);
 		foreach($ret[$_cid]['list'] as &$v) {
-			// hook kp_block_listeach_list_before.php
 			$run->cms_content->format($v, $dateformat, $titlenum, $intronum);
-			// hook kp_block_listeach_list_after.php
 		}
 	}
 

@@ -3,8 +3,8 @@ defined('KONG_PATH') || exit;
 
 /**
  * 内容列表模块
- * @param int mid 模型ID
- * @param int cid 分类ID
+ * @param int cid 分类ID 如果不填：自动识别 (不推荐读取频道分类，影响性能)
+ * @param int mid 模型ID (当cid为0时，设置mid才能生效，否则程序自动识别)
  * @param string dateformat 时间格式
  * @param int titlenum 标题长度
  * @param int intronum 简介长度
@@ -19,9 +19,8 @@ function kp_block_list($conf) {
 
 	// hook kp_block_list_before.php
 
-	$mid = _int($conf, 'mid');
-	$cid = _int($conf, 'cid');
-
+	$cid = isset($conf['cid']) ? intval($conf['cid']) : (isset($_GET['cid']) ? intval($_GET['cid']) : 0);
+	$mid = _int($conf, 'mid', 2);
 	$dateformat = empty($conf['dateformat']) ? 'Y-m-d H:i:s' : $conf['dateformat'];
 	$titlenum = _int($conf, 'titlenum');
 	$intronum = _int($conf, 'intronum');
@@ -30,28 +29,44 @@ function kp_block_list($conf) {
 	$start = _int($conf, 'start');
 	$limit = _int($conf, 'limit', 10);
 
-	$table_arr = &$run->_cfg['table_arr'];
-	unset($table_arr[1]); // 排除单页
-	$table = isset($table_arr[$mid]) ? $table_arr[$mid] : $table_arr[2];
+	// 读取分类内容
+	if($cid == 0) {
+		$cate_name = 'No Title';
+		$cate_url = 'javascript:;';
+
+		$table_arr = &$run->_cfg['table_arr'];
+		unset($table_arr[1]); // 排除单页
+		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : $table_arr[2];
+
+		$where = array();
+	}else{
+		$cate_arr = $run->category->get_cache($cid);
+		$cate_name = $cate_arr['name'];
+		$cate_url = 'index.php?cate--cid-'.$cid.C('url_suffix');
+		$table = &$cate_arr['table'];
+
+		if(!empty($cate_arr['son_cids']) && is_array($cate_arr['son_cids'])) {
+			$cids = array();
+			foreach($cate_arr['son_cids'] as $k => $v) {
+				if(is_array($v)) {
+					$v && $cids = array_merge($cids, $v);
+				}else{
+					$cids[] = $k;
+				}
+			}
+			$where = array('cid' => array("IN" => $cids)); // 影响数据库性能
+		}else{
+			$where = array('cid' => $cid);
+		}
+	}
 
 	// 初始模型表名
 	$run->cms_content->table = 'cms_'.$table;
 
 	// 读取内容列表
-	$where = $cid ? array('cid' => $cid) : array();
 	$list_arr = $run->cms_content->find_fetch($where, array($orderby => $orderway), $start, $limit);
 	foreach($list_arr as &$v) {
 		$run->cms_content->format($v, $dateformat, $titlenum, $intronum);
-	}
-
-	// 读取分类内容
-	!empty($cid) && $cate_arr = $run->category->get_cache($cid);
-	if(empty($cate_arr)) {
-		$cate_name = 'No Title';
-		$cate_url = 'javascript:;';
-	}else{
-		$cate_name = $cate_arr['name'];
-		$cate_url = 'index.php?cate--cid-'.$cid.C('url_suffix');
 	}
 
 	// hook kp_block_list_after.php
