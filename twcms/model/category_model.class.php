@@ -317,7 +317,17 @@ class category extends model {
 
 		// 如果为频道，获取频道分类下级CID
 		if($arr['type'] == 1) {
-			$arr['son_cids'] = $this->get_cids_by_upid($cid, $arr['mid']);
+			$arr['son_list'] = $this->get_cids_by_upid($cid, $arr['mid']);
+			$arr['son_cids'] = array();
+			if(!empty($arr['son_list'])) {
+				foreach($arr['son_list'] as $c => $v) {
+					if(is_array($v)) {
+						$v && $arr['son_cids'] = array_merge($arr['son_cids'], $v);
+					}else{
+						$arr['son_cids'][] = $c;
+					}
+				}
+			}
 		}
 
 		// hook category_model_update_cache_after.php

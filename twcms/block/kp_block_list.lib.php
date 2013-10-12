@@ -46,15 +46,7 @@ function kp_block_list($conf) {
 		$table = &$cate_arr['table'];
 
 		if(!empty($cate_arr['son_cids']) && is_array($cate_arr['son_cids'])) {
-			$cids = array();
-			foreach($cate_arr['son_cids'] as $k => $v) {
-				if(is_array($v)) {
-					$v && $cids = array_merge($cids, $v);
-				}else{
-					$cids[] = $k;
-				}
-			}
-			$where = array('cid' => array("IN" => $cids)); // 影响数据库性能
+			$where = array('cid' => array("IN" => $cate_arr['son_cids'])); // 影响数据库性能
 		}else{
 			$where = array('cid' => $cid);
 		}
