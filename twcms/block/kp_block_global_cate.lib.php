@@ -32,9 +32,10 @@ function kp_block_global_cate($conf) {
 		// 影响数据库性能
 		$where = array('cid' => array("IN" => $run->_var['son_cids']));
 		$total = 0;
+		$cate_arr = array();
 		foreach($run->_var['son_cids'] as $v) {
-			$cate_arr = $run->category->get_cache($v);
-			$total += $cate_arr['count'];
+			$cate_arr[$v] = $run->category->get_cache($v);
+			$total += $cate_arr[$v]['count'];
 		}
 	}else{
 		$where = array('cid' => $cid);
@@ -53,6 +54,10 @@ function kp_block_global_cate($conf) {
 	$list_arr = $run->cms_content->list_arr($where, $orderby, $orderway, ($page-1)*$pagenum, $pagenum, $total);
 	foreach($list_arr as &$v) {
 		$run->cms_content->format($v, $dateformat, $titlenum, $intronum);
+		if(isset($cate_arr)) {
+			$v['cate_name'] = $cate_arr[$v['cid']]['name'];
+			$v['cate_url'] = 'index.php?cate--cid-'.$v['cid'].C('url_suffix');
+		}
 	}
 
 	// hook kp_block_global_cate_after.php
