@@ -148,34 +148,40 @@ class category extends model {
 		return $arr;
 	}
 
-	// 通过获取 upid 的下级 cid ($subindex 是否递归读取下级频道分类)
-	public function get_cids_by_upid($upid, $mid, $subindex = FALSE) {
+	// 获取模型下级所有列表分类的cid
+	public function get_cids_by_mid($mid) {
+		$k = 'cids_by_mid_'.$mid;
+		if(isset($this->data[$k])) return $this->data[$k];
+
+		$arr = $this->runtime->xget($k);
+		if(empty($arr)) {
+			$arr = $this->get_cids_by_upid(0, $mid);
+			$this->runtime->set($k, $arr);
+		}
+		$this->data[$k] = $arr;
+		return $arr;
+	}
+
+	// 获取频道分类下级列表分类的cid
+	public function get_cids_by_upid($upid, $mid) {
 		$arr = array();
 		$tmp = $this->get_category_db();
 		if($upid != 0 && !isset($tmp[$upid])) return FALSE;
 
-		if($subindex) {
-			foreach($tmp as $k => $v) {
-				if($v['mid'] == $mid) {
-					$tmp[$v['upid']]['son'][$v['cid']] = &$tmp[$v['cid']];
-				}else{
-					unset($tmp[$k]);
-				}
+		foreach($tmp as $k => $v) {
+			if($v['mid'] == $mid) {
+				$tmp[$v['upid']]['son'][$v['cid']] = &$tmp[$v['cid']];
+			}else{
+				unset($tmp[$k]);
 			}
+		}
 
-			if(isset($tmp[$upid]['son'])) {
-				foreach($tmp[$upid]['son'] as $k => $v) {
-					if($v['type'] == 1) {
-						$arr[$k] = isset($v['son']) ? self::recursion_cid($v['son']) : array();
-					}elseif($v['type'] == 0) {
-						$arr[$k] = 1;
-					}
-				}
-			}
-		}else{
-			foreach($tmp as $v) {
-				if($v['upid'] == $upid && $v['type'] == 0) {
-					$arr[$v['cid']] = 1;
+		if(isset($tmp[$upid]['son'])) {
+			foreach($tmp[$upid]['son'] as $k => $v) {
+				if($v['type'] == 1) {
+					$arr[$k] = isset($v['son']) ? self::recursion_cid($v['son']) : array();
+				}elseif($v['type'] == 0) {
+					$arr[$k] = 1;
 				}
 			}
 		}
@@ -308,6 +314,11 @@ class category extends model {
 		$arr['place'] = $this->get_place($cid, $cfg['webdir']);	// 分类当前位置
 		$arr['topcid'] = $arr['place'][0]['cid'];	// 顶级分类CID
 		$arr['table'] = $cfg['table_arr'][$arr['mid']];	// 分类模型表名
+
+		// 如果为频道，获取频道分类下级CID
+		if($arr['type'] == 1) {
+			$arr['son_cids'] = $this->get_cids_by_upid($cid, $arr['mid']);
+		}
 
 		// hook category_model_update_cache_after.php
 
