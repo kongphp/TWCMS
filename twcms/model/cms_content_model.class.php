@@ -27,4 +27,21 @@ class cms_content extends model {
 
 		// hook category_model_format_after.php
 	}
+
+	// 获取内容列表
+	public function list_arr($where, $orderby, $orderway, $start, $limit, $total) {
+		// 优化大数据量翻页
+		if($start > 1000 && $total > 2000 && $start > $total/2) {
+			$orderway = -$orderway;
+			$newstart = $total-$start-$limit;
+			if($newstart < 0) {
+				$limit += $newstart;
+				$newstart = 0;
+			}
+			$list_arr = $this->find_fetch($where, array($orderby => $orderway), $newstart, $limit);
+			return array_reverse($list_arr, TRUE);
+		}else{
+			return $this->find_fetch($where, array($orderby => $orderway), $start, $limit);
+		}
+	}
 }

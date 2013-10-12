@@ -49,17 +49,8 @@ function kp_block_global_cate($conf) {
 	// 初始模型表名
 	$run->cms_content->table = 'cms_'.$run->_var['table'];
 
-	// 读取内容列表 (优化大数据量翻页)
-	if($total > 10000 && $page > $maxpage/2) {
-		$orderway = -$orderway;
-		$newpage = -($page-$maxpage-1);
-		$page >= $maxpage && $pagenum = $total%$pagenum;
-		$list_arr = $run->cms_content->find_fetch($where, array($orderby => $orderway), ($newpage-1)*$pagenum, $pagenum);
-		arsort($list_arr);
-	}else{
-		$list_arr = $run->cms_content->find_fetch($where, array($orderby => $orderway), ($page-1)*$pagenum, $pagenum);
-	}
-
+	// 获取内容列表
+	$list_arr = $run->cms_content->list_arr($where, $orderby, $orderway, ($page-1)*$pagenum, $pagenum, $total);
 	foreach($list_arr as &$v) {
 		$run->cms_content->format($v, $dateformat, $titlenum, $intronum);
 	}
