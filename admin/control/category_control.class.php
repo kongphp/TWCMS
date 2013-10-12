@@ -101,10 +101,10 @@ class category_control extends admin_control {
 						E(1, '写入单页数据表出错');
 					}
 				}
-
-				// 删除分类缓存
-				$this->category->delete_cache();
 			}
+
+			// 删除分类缓存
+			$this->category->delete_cache();
 
 			if(empty($msg)) {
 				E(0, '保存成功');
@@ -130,6 +130,9 @@ class category_control extends admin_control {
 		if($data['mid'] == 1 && !$this->cms_page->delete($cid)) {
 			E(1, '操作单页表时出错');
 		}
+
+		// 删除分类缓存
+		$this->category->delete_cache();
 
 		E(0, '删除完成');
 	}
