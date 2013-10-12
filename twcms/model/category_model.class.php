@@ -150,7 +150,7 @@ class category extends model {
 
 	// 获取模型下级所有列表分类的cid
 	public function get_cids_by_mid($mid) {
-		$k = 'cids_by_mid_'.$mid;
+		$k = 'cate_by_mid_'.$mid;
 		if(isset($this->data[$k])) return $this->data[$k];
 
 		$arr = $this->runtime->xget($k);
@@ -336,8 +336,14 @@ class category extends model {
 		return $arr;
 	}
 
-	// 删除分类缓存合并数组
-	public function delete_cache($cid) {
-		return $this->runtime->delete('cate_'.$cid);
+	// 删除所有分类缓存 (最多读取2000条，如果缓存太大，需要手工清除缓存)
+	public function delete_cache() {
+		$key_arr = $this->runtime->find_fetch_key(array(), array(), 0, 2000);
+		foreach ($key_arr as $v) {
+			if(substr($v, 10, 5) == 'cate_') {
+				$this->runtime->delete(substr($v, 10));
+			}
+		}
+		return TRUE;
 	}
 }

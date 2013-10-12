@@ -102,7 +102,8 @@ class category_control extends admin_control {
 					}
 				}
 
-				$this->category->delete_cache($post['cid']);
+				// 删除分类缓存
+				$this->category->delete_cache();
 			}
 
 			if(empty($msg)) {
