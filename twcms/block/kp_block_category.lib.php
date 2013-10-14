@@ -2,8 +2,8 @@
 defined('KONG_PATH') || exit;
 
 /**
- * 分类展示模块
- * @param string type 显示类型    同级(sibling)、子级(child)、父级(parent)、顶级(top)
+ * 相关分类展示模块
+ * @param string type 显示类型   同级(sibling)、子级(child)、父级(parent)、顶级(top)
  * @param int mid 模型ID (默认自动识别)
  * @return array
  */
