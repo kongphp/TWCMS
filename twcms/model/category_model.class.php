@@ -89,11 +89,16 @@ class category extends model {
 			return $this->data['category_db'];
 		}
 
+		// hook category_model_get_category_db_before.php
+
 		$arr = array();
 		$tmp = $this->find_fetch(array(), array('orderby'=>1));
 		foreach($tmp as $v) {
 			$arr[$v['cid']] = $v;
 		}
+
+		// hook category_model_get_category_db_after.php
+
 		return $this->data['category_db'] = $arr;
 	}
 
@@ -107,16 +112,16 @@ class category extends model {
 		$tmp = $this->get_category_db();
 
 		// 格式化为树状结构 (会舍弃不合格的结构)
-		// foreach($tmp as $v) {
-		// 	$tmp[$v['upid']]['son'][$v['cid']] = &$tmp[$v['cid']];
-		// }
-		// $this->data['category_tree'] = isset($tmp['0']['son']) ? $tmp['0']['son'] : array();
+		foreach($tmp as $v) {
+			$tmp[$v['upid']]['son'][$v['cid']] = &$tmp[$v['cid']];
+		}
+		$this->data['category_tree'] = isset($tmp['0']['son']) ? $tmp['0']['son'] : array();
 
 		// 格式化为树状结构 (不会舍弃不合格的结构)
-		foreach($tmp as $v) {
-			if(isset($tmp[$v['upid']])) $tmp[$v['upid']]['son'][] = &$tmp[$v['cid']];
-			else $this->data['category_tree'][] = &$tmp[$v['cid']];
-		}
+		// foreach($tmp as $v) {
+		// 	if(isset($tmp[$v['upid']])) $tmp[$v['upid']]['son'][] = &$tmp[$v['cid']];
+		// 	else $this->data['category_tree'][] = &$tmp[$v['cid']];
+		// }
 
 		return $this->data['category_tree'];
 	}
