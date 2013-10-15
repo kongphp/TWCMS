@@ -123,12 +123,11 @@ class view{
 		unset($m);
 		$func_str = 'kp_block_'.$func.'('.var_export($config_arr, 1).');';
 
-		//-----------定义转换后的前后代码-----------
+		//-----------定义转换后的首尾代码-----------
 		$before = $after = '';
 		//公共块移到模板解析代码头部
 		if(substr($func, 0, 7) == 'global_') {
 			$this->head_arr[$func] = '$gdata = '.$func_str;
-		//非公共块保持原位置
 		}else{
 			$before .= '<?php $data = '.$func_str.' ?>';
 			$after .= '<?php unset($data); ?>';
