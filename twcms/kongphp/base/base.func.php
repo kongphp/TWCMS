@@ -181,6 +181,36 @@ function _int(&$c, $k, $v = 0) {
 	}
 }
 
+// 列出文件和目录
+function _scandir($dir) {
+	if(function_exists('scandir')) return scandir($dir);	// 有些服务器禁用了scandir
+	$dh = opendir($dir);
+	$arr = array();
+	while($file = readdir($dh)) {
+		if($file == '.' || $file == '..') continue;
+		$arr[] = $file;
+	}
+	closedir($dh);
+	return $arr;
+}
+
+// 递归删除目录
+function _rmdir($dir, $keepdir = 0) {
+	if(!is_dir($dir) || $dir == '/' || $dir == '../') return FALSE;	// 避免意外删除整站数据
+	$files = _scandir($dir);
+	foreach($files as $file) {
+		if($file == '.' || $file == '..') continue;
+		$filepath = $dir.'/'.$file;
+		if(!is_dir($filepath)) {
+			unlink($filepath);
+		}else{
+			_rmdir($filepath);
+		}
+	}
+	if(!$keepdir) rmdir($dir);
+	return TRUE;
+}
+
 /**
  * 产生随机字符串
  * @param int	$length	输出长度
