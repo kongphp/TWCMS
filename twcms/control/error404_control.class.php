@@ -27,6 +27,7 @@ class error404_control extends control{
 
 		// hook error404_control_index_after.php
 
+		$_ENV['_theme'] = &$this->_cfg['theme'];
 		$this->display('404.htm');
 	}
 }

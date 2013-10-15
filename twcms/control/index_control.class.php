@@ -24,6 +24,7 @@ class index_control extends control{
 
 		// hook index_control_index_after.php
 
+		$_ENV['_theme'] = &$this->_cfg['theme'];
 		$this->display('index.htm');
 	}
 

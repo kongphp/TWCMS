@@ -40,6 +40,7 @@ class show_control extends control{
 
 		// hook show_control_index_after.php
 
+		$_ENV['_theme'] = &$this->_cfg['theme'];
 		$this->display($this->_var['show_tpl']);
 	}
 
