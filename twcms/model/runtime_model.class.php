@@ -38,15 +38,16 @@ class runtime extends model {
 		if(!isset($this->data[$key])) {
 			$this->data[$key] = $this->get($key);
 			if($key == 'cfg' && empty($this->data[$key])) {
-				$this->data[$key] = (array)$this->kv->get('cfg');
+				$cfg = (array)$this->kv->get('cfg');
 
-				$this->data[$key] += array(
-					'tpl' => $this->data[$key]['webdir'].APP_NAME.'/view/'.$_ENV['_setting'][APP_NAME.'_theme'].'/',
-					'webroot' => 'http://'.$this->data[$key]['webdomain'],
-					'weburl' => 'http://'.$this->data[$key]['webdomain'].$this->data[$key]['webdir'],
-					'table_arr'=>$this->models->get_tablename(),
-				);
+				empty($cfg['theme']) && $cfg['theme'] = 'default';
 
+				$cfg['tpl'] = $cfg['webdir'].APP_NAME.'/view/'.$cfg['theme'].'/';
+				$cfg['webroot'] = 'http://'.$cfg['webdomain'];
+				$cfg['weburl'] = 'http://'.$cfg['webdomain'].$cfg['webdir'];
+				$cfg['table_arr'] = $this->models->get_tablename();
+
+				$this->data[$key] = &$cfg;
 				$this->set('cfg', $this->data[$key]);
 			}
 		}
