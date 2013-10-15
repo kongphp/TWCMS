@@ -57,7 +57,7 @@ class view{
 		//第2步 解析模板hook
 		$s = preg_replace_callback('#\{hook\:([\w\.]+)\}#', 'core::parse_hook', $s);
 
-		//第3步 解析php代码 (是否支持模板中的PHP代码 1 为支持 0 为不支持)
+		//第3步 解析php代码
 		$s = preg_replace('#(?:\<\?.*?\?\>|\<\?.*)#s', '', $s);	//清理掉PHP语法(目的统一规范)
 		$s = preg_replace('#\{php\}(.*?)\{\/php\}#s', '<?php \\1 ?>', $s);
 		//$s = preg_replace('#\{php\}.*?\{\/php\}#s', '', $s);	//特殊需求，不想让模板支持PHP代码
