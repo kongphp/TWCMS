@@ -1,7 +1,74 @@
 {inc:header.htm}
+
 <div class="m">
+	<div class="head">
+		<dl>
+			<dd class="on">主题设置</dd>
+			<dd>在线获取</dd>
+		</dl>
+	</div>
 
+	<div class="p c2">
+		<div class="cc">
+			{if:!$themes}
+				<div class="sky warning bnote"><i></i><b>暂无主题</b></div>
+			{else}
+				{loop:$themes $v $k}
+				{php} $enable = ($k == $theme); {/php}
+				<div class="thm{if:$enable} thmon{/if}">
+					<div class="to">
+						<p class="tu" style="background:url(../twcms/view/{$k}/show.jpg)"></p>
+						<p class="full"><b>版本号：{$v[version]}</b><b>更新于：{$v[update]}</b>{$v[brief]}</p>
+					</div>
+					<h1>{$v[name]}({$k})</h1>
+					<p class="author">作者: <a target="_blank" href="{$v[authorurl]}">{$v[author]}</a></p>
+					<p class="gsm" theme="{$k}">
+						{if:$enable}<b>当前使用</b>{else}<a class="del">删除</a><a class="enable">启用</a>{/if}
+					</p>
+				</div>
+				{/loop}
+			{/if}
+		</div>
+		<div class="cc un"><div class="sky warning bnote"><i></i><b>近期开放！</b></div></div>
+	</div>
 </div>
+<script type="text/javascript">
+$(".gsm>a").attr("href","javascript:;");
 
+$(".thm").hover(function(){
+	$(this).addClass("thm_x");
+}, function(){
+	$(this).removeClass("thm_x");
+});
+
+$(".thm>.to").hover(function(){
+	$(this).children(".tu").hide();
+	$(this).children(".full").show();
+},function(){
+	$(this).children(".tu").show();
+	$(this).children(".full").hide();
+});
+
+//启用
+$(".gsm>a[class='enable']").click(function(){
+	twAjax.postd("?u=theme-enable-ajax-1", {"theme" : $(this).parent().attr("theme")}, function(data){
+		twAjax.alert(data);
+		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+	});
+});
+
+//删除
+$(".gsm>a[class='del']").click(function(){
+	var theme = $(this).parent().attr("theme");
+	twAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+$(this).parent().parent().children("h1").html()+"</font>”？", function(){
+		twAjax.postd("?u=theme-delete-ajax-1", {"theme" : theme}, function(data){
+			window.twErr = true;
+			twAjax.alert(data);
+			$(".ajaxtips u").click(function(){window.location.reload();});
+			if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+		});
+	});
+});
+</script>
 </body>
 </html>
