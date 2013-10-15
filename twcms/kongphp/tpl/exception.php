@@ -31,7 +31,7 @@ body,div,ul,li,h1{margin:0;padding:0}
 	<h1>基本信息</h1>
 	<ul>
 		<li><span>模型目录:</span> <?php echo MODEL_PATH;?></li>
-		<li><span>视图目录:</span> <?php echo VIEW_PATH.(isset($_ENV['_setting'][APP_NAME.'_theme']) ? $_ENV['_setting'][APP_NAME.'_theme'] : 'default').'/'; ?></li>
+		<li><span>视图目录:</span> <?php echo VIEW_PATH.(isset($_ENV['_theme']) ? $_ENV['_theme'] : 'default').'/'; ?></li>
 		<li><span>控制器:</span> <?php echo CONTROL_PATH;?><font color="red"><?php echo $_GET['control'];?>_control.class.php</font></li>
 		<li><span>日志目录:</span> <?php echo RUNTIME_PATH.'logs/';?></li>
 	</ul>

@@ -5,15 +5,11 @@
 
 class view{
 	private $vars = array();			//模板变量集合
-	private $theme = 'default';			//主题目录
 	private $head_arr = array();		//模板头部代码数组
-	private $view_diy = 0;				//DIY模板解析是否开启
 
 	public function __construct() {
-		empty($_ENV['_setting'][APP_NAME.'_theme']) || $this->theme = $_ENV['_setting'][APP_NAME.'_theme'];
-
-		// $_ENV['_view_diy'] 为DIY模板解析是否开启
-		empty($_ENV['_view_diy']) || $this->view_diy = 1;
+		$_ENV['_theme'] = 'default';	//主题目录
+		$_ENV['_view_diy'] = FALSE;		//DIY模板解析是否开启
 	}
 
 	public function assign($k, &$v) {
@@ -32,11 +28,11 @@ class view{
 	}
 
 	private function get_tplfile($filename) {
-		$view_dir = APP_NAME.($this->view_diy ? '_view_diy' : '_view').'/';
-		$php_file = RUNTIME_PATH.$view_dir.$this->theme.','.$filename.'.php';
+		$view_dir = APP_NAME.($_ENV['_view_diy'] ? '_view_diy' : '_view').'/';
+		$php_file = RUNTIME_PATH.$view_dir.$_ENV['_theme'].','.$filename.'.php';
 
 		if(!is_file($php_file) || DEBUG) {
-			$tpl_file = core::get_original_file($filename, VIEW_PATH.$this->theme.'/');
+			$tpl_file = core::get_original_file($filename, VIEW_PATH.$_ENV['_theme'].'/');
 
 			if(!$tpl_file) {
 				throw new Exception("模板文件 $filename 不存在");
@@ -92,7 +88,7 @@ class view{
 	private function parse_inc($matches) {
 		// 注意：在可视化设计时需要排除前缀 inc- 的模板，所以不能去掉前缀
 		$filename = 'inc-'.$matches[1];
-		$tpl_file = core::get_original_file($filename, VIEW_PATH.$this->theme.'/');
+		$tpl_file = core::get_original_file($filename, VIEW_PATH.$_ENV['_theme'].'/');
 
 		if(!$tpl_file) {
 			throw new Exception("模板文件 $filename 不存在");
@@ -138,7 +134,7 @@ class view{
 			$after .= '<?php unset($data); ?>';
 		}
 		//DIY模板时才能用到
-		if($this->view_diy) {
+		if($_ENV['_view_diy']) {
 			$this->kp_block_id++;
 			$before .= '<span kp_block_diy="before" kp_block_id="'.$this->kp_block_id.'"></span>';
 			$after .= '<span kp_block_diy="after" kp_block_id="'.$this->kp_block_id.'"></span>';

@@ -29,7 +29,7 @@
 	<div id="kong_trace_cont">
 		<ol>
 			<li><span>模型:</span> <?php echo MODEL_PATH;?></li>
-			<li><span>视图:</span> <?php echo VIEW_PATH.(isset($_ENV['_setting'][APP_NAME.'_theme']) ? $_ENV['_setting'][APP_NAME.'_theme'] : 'default').'/'; if(isset($_ENV['_tplname'])) { echo '<font color="red">'.$_ENV['_tplname'].'</font>'; } ?></li>
+			<li><span>视图:</span> <?php echo VIEW_PATH.(isset($_ENV['_theme']) ? $_ENV['_theme'] : 'default').'/'; if(isset($_ENV['_tplname'])) { echo '<font color="red">'.$_ENV['_tplname'].'</font>'; } ?></li>
 			<li><span>控制器:</span> <?php echo CONTROL_PATH;?><font color="red"><?php echo $_GET['control'];?>_control.class.php</font></li>
 			<li><span>日志目录:</span> <?php echo RUNTIME_PATH.'logs/';?></li>
 			<li><span>当前页面:</span> <?php echo $_SERVER['SCRIPT_FILENAME'];?></li>

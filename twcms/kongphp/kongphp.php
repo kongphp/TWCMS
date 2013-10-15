@@ -27,7 +27,6 @@ defined('RUNTIME_PATH') || define('RUNTIME_PATH', APP_PATH.'runtime/');	//运行
 
 if(DEBUG) {
 	include CONFIG_PATH.'config.inc.php';
-	include CONFIG_PATH.'setting.inc.php';
 	include KONG_PATH.'base/base.func.php';
 	include KONG_PATH.'base/core.class.php';
 	include KONG_PATH.'base/debug.class.php';
@@ -43,7 +42,6 @@ if(DEBUG) {
 	$runfile = RUNTIME_PATH.'_runtime.php';
 	if(!is_file($runfile)) {
 		$s  = trim(php_strip_whitespace(CONFIG_PATH.'config.inc.php'), "<?ph>\r\n");
-		$s .= trim(php_strip_whitespace(CONFIG_PATH.'setting.inc.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/base.func.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/core.class.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/debug.class.php'), "<?ph>\r\n");

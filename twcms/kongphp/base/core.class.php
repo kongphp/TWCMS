@@ -120,7 +120,7 @@ class core{
 	 * 初始化 $_GET 变量 (可通过 parseurl_control.class.php 自定义解析 URl)
 	 */
 	public static function init_get() {
-		if(!empty($_ENV['_setting'][APP_NAME.'_parseurl'])) {
+		if(!empty($_ENV['_config'][APP_NAME.'_parseurl'])) {
 			self::parseurl_control();
 		}else{
 			// 提示：为了满足各种需求，这里搞了三种方式，可能有点乱，没办法迫不得已。
