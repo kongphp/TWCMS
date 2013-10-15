@@ -163,7 +163,7 @@ class admin_control extends control {
 				'comment-index'=>array('name'=>'评论管理', 'p'=>'content'),
 				'tag-index'=>array('name'=>'标签管理', 'p'=>'content'),
 
-				'theme-index'=>array('name'=>'主题设置', 'p'=>'theme'),
+				'theme-index'=>array('name'=>'主题管理', 'p'=>'theme'),
 
 				'plugin-index'=>array('name'=>'插件管理', 'p'=>'plugin'),
 
