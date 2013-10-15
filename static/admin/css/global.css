@@ -92,10 +92,10 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .page .m,.page b{border:1px solid #97C3DE!important;background:#EEF7FC!important;color:red!important}
 
 /*主题设置*/
-.thm{display:inline;float:left;overflow:hidden;width:234px;padding:5px;margin:0 8px 8px 0;border:1px solid #CEE5F0;background:#F4F9FB;border-radius:4px}
+.thm{display:inline;float:left;overflow:hidden;width:234px;padding:5px;margin:8px 8px 0 0;border:1px solid #CEE5F0;background:#F4F9FB;border-radius:4px}
 .thm_x{border:1px solid #9AC4DC;background:#E5F0F6}
 .thm .to{width:234px;height:162px;overflow:hidden;padding-bottom:4px;margin-bottom:2px;border-bottom:1px dotted #BCD8E8}
-.thm .tu img{width:234px;height:162px;border-radius:4px}
+.thm .tu{width:234px;height:162px;border-radius:4px}
 .thm .full{display:none;width:230px;height:158px;line-height:1.5;padding:2px;overflow:auto}
 .thm .full b{display:block;padding-bottom:5px}
 .thm h1,.thm .author,.thm .gsm{height:20px;line-height:20px;overflow:hidden}
