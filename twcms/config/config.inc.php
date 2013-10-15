@@ -5,6 +5,8 @@ $_ENV['_config'] = array(
 	'gzip' => 1,	// 开启 GZIP 压缩
 	'auth_key' => '9dcf4553f11bb174c6f17623712d9d62',	// 加密KEY
 
+	'twcms_parseurl' => 0,			// 是否开启前台伪静态
+
 	'cookie_pre' => 'tw_',
 	'cookie_path' => '/',
 	'cookie_domain' => '',
