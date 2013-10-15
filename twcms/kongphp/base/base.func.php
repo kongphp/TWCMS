@@ -171,9 +171,14 @@ function _array_multisort(&$data, $c_1, $c_2 = true, $a_1 = 1, $a_2 = 1) {
 	return $data;
 }
 
-# 返回安全整数
+// 返回安全整数
 function _int(&$c, $k, $v = 0) {
-	return isset($c[$k]) && ($int = intval($c[$k])) ? $int : $v;
+	if(isset($c[$k])) {
+		$i = intval($c[$k]);
+		return $i ? $i : $v;
+	}else{
+		return $v;
+	}
 }
 
 /**
