@@ -164,7 +164,6 @@ class admin_control extends control {
 				'tag-index'=>array('name'=>'标签管理', 'p'=>'content'),
 
 				'theme-index'=>array('name'=>'主题设置', 'p'=>'theme'),
-				'theme-modify'=>array('name'=>'主题修改', 'p'=>'theme'),
 
 				'plugin-index'=>array('name'=>'插件管理', 'p'=>'plugin'),
 
