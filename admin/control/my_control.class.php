@@ -65,7 +65,7 @@ class my_control extends admin_control {
 		$arr = array(
 			array('name'=>'发布内容', 'url'=>'?u=content-add', 'imgsrc'=>'admin/ico/01.jpg'),
 			array('name'=>'内容管理', 'url'=>'?u=content-index', 'imgsrc'=>'admin/ico/02.jpg'),
-			array('name'=>'评论管理', 'url'=>'?u=content-comment', 'imgsrc'=>'admin/ico/03.jpg'),
+			array('name'=>'评论管理', 'url'=>'?u=comment-index', 'imgsrc'=>'admin/ico/03.jpg'),
 			array('name'=>'分类管理', 'url'=>'?u=category-index', 'imgsrc'=>'admin/ico/04.jpg'),
 		);
 
