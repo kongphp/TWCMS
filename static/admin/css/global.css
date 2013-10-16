@@ -38,7 +38,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .but1,.but2,.sele1{display:inline;float:left;margin-left:8px}
 .but1{width:68px;height:22px;cursor:pointer;line-height:22px;color:#fff;font-weight:700;border:0;background:url(../img/bg.gif) -132px -92px no-repeat}
 .but1:hover{background-position:-132px -114px}
-.but2,.but3{height:20px;line-height:20px;padding:0 8px;border:1px solid #94C5E5;background:url(../img/bg_x.gif) 0 -122px repeat-x}
+.but2,.but3{height:20px;line-height:18px;padding:0 8px;border:1px solid #94C5E5;background:url(../img/bg_x.gif) 0 -122px repeat-x}
 .but2:hover,.but3:hover{background-position:0 -145px;border:1px solid #fdcd99}
 .but3{display:inline-block}
 
@@ -98,8 +98,10 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .thm .tu{width:234px;height:162px;border-radius:4px}
 .thm .full{display:none;width:230px;height:158px;line-height:1.5;padding:2px;overflow:auto}
 .thm .full b{display:block;padding-bottom:5px}
-.thm h1,.thm .author,.thm .gsm{height:20px;line-height:20px;overflow:hidden}
-.thm .gsm .del{float:right;color:red}
+.thm h1,.thm .author,.thm .gsm{height:22px;line-height:22px;overflow:hidden}
+.thm .gsm{padding:3px 0 0}
+.thm .gsm .but2{margin:0 8px 0 0}
+.thm .gsm .del{color:red}
 .thmon{border:1px solid #CD0A0A;background:#FEF1EC}
 
 .thme .left{float:left;width:190px}

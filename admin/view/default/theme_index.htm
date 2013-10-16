@@ -23,7 +23,7 @@
 					<h1>{$v[name]}({$k})</h1>
 					<p class="author">作者: <a target="_blank" href="{$v[authorurl]}">{$v[author]}</a></p>
 					<p class="gsm" theme="{$k}">
-						{if:$enable}<b>当前使用</b>{else}<a class="del">删除</a><a class="enable">启用</a>{/if}
+						{if:$enable}<b>当前使用</b>{else}<a class="enable but2">启用</a><a class="del but2">删除</a>{/if}
 					</p>
 				</div>
 				{/loop}
@@ -41,7 +41,7 @@ $(".thm").hover(function(){
 	$(this).removeClass("thm_x");
 });
 
-$(".thm>.to").hover(function(){
+$(".to").hover(function(){
 	$(this).children(".tu").hide();
 	$(this).children(".full").show();
 },function(){
@@ -50,7 +50,7 @@ $(".thm>.to").hover(function(){
 });
 
 //启用
-$(".gsm>a[class='enable']").click(function(){
+$(".enable").click(function(){
 	twAjax.postd("?u=theme-enable-ajax-1", {"theme" : $(this).parent().attr("theme")}, function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
@@ -58,7 +58,7 @@ $(".gsm>a[class='enable']").click(function(){
 });
 
 //删除
-$(".gsm>a[class='del']").click(function(){
+$(".del").click(function(){
 	var theme = $(this).parent().attr("theme");
 	twAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+$(this).parent().parent().children("h1").html()+"</font>”？", function(){
 		twAjax.postd("?u=theme-delete-ajax-1", {"theme" : theme}, function(data){
