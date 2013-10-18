@@ -77,12 +77,12 @@ class plugin_control extends admin_control {
 	}
 
 	// 检查是否为合法的插件名
-	private function check_plugin($plugin) {
-		if(empty($plugin)) {
+	private function check_plugin($dir) {
+		if(empty($dir)) {
 			E(1, '插件目录名不能为空！');
-		}elseif(preg_match('/\W/', $plugin)) {
+		}elseif(preg_match('/\W/', $dir)) {
 			E(1, '插件目录名不正确！');
-		}elseif(!is_dir(PLUGIN_PATH.$plugin)) {
+		}elseif(!is_dir(PLUGIN_PATH.$dir)) {
 			E(1, '插件目录名不存在！');
 		}
 	}
