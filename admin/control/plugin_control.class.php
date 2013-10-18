@@ -17,7 +17,7 @@ class plugin_control extends admin_control {
 		$this->display();
 	}
 
-	// 启用插件
+	// 插件启用
 	public function enable() {
 		$dir = R('dir', 'P');
 		$this->check_plugin($dir);
@@ -34,7 +34,7 @@ class plugin_control extends admin_control {
 		}
 	}
 
-	// 停用插件
+	// 插件停用
 	public function disabled() {
 		$dir = R('dir', 'P');
 		$this->check_plugin($dir);
@@ -51,7 +51,7 @@ class plugin_control extends admin_control {
 		}
 	}
 
-	// 删除插件
+	// 插件删除
 	public function delete() {
 		$dir = R('dir', 'P');
 		$this->check_plugin($dir);
@@ -73,6 +73,19 @@ class plugin_control extends admin_control {
 			}
 		}else{
 			E(1, '启用的插件不允许删除！');
+		}
+	}
+
+	// 插件设置
+	public function setting() {
+		$dir = R('dir');
+		$this->check_plugin($dir);
+		$this->assign('dir', $dir);
+		$setting = PLUGIN_PATH.$dir.'/setting.php';
+		if(is_file($setting)) {
+			include $setting;
+		}else{
+			echo 'setting.php 文件不存在！';
 		}
 	}
 
