@@ -1,7 +1,121 @@
 {inc:header.htm}
+
 <div class="m">
+	<div class="head">
+		<dl>
+			<dd class="on">{$_title}</dd>
+			<dd>在线获取</dd>
+		</dl>
+	</div>
+	<div class="p c2">
+		<div class="cc" id="plugin">
+			{loop:$plugins[enable] $v $k}
+				<div class="plu cf">
+					<div class="plu_l">
+						<p class="plu_ico"></p>
+					</div>
+					<div class="plu_c">
+						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
+						<p class="plu_bottom" plugin="{$k}">
+							<a class="but2 disabled">停用</a>
+							<a class="but2" href="">设置</a>
+						</p>
+					</div>
+					<div class="plu_r">
+						<p class="plu_cont plu_i">{$v[brief]}</p>
+						<p class="plu_bottom"><b>版本号：{$v[version]}</b> <b>作者: <a href="{$v[authorurl]}" target="_blank">{$v[author]}</a></b> <b>最近更新：{$v[update]}</b></p>
+					</div>
+				</div>
+			{/loop}
 
+			{loop:$plugins[not_install] $v $k}
+				<div class="plu cf">
+					<div class="plu_l">
+						<p class="plu_ico"></p>
+					</div>
+					<div class="plu_c">
+						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
+						<p class="plu_bottom" plugin="{$k}">
+							<a class="but2 install">安装</a>
+							<a class="but2 delete">删除</a>
+						</p>
+					</div>
+					<div class="plu_r">
+						<p class="plu_cont plu_i">{$v[brief]}</p>
+						<p class="plu_bottom"><b>版本号：{$v[version]}</b> <b>作者: <a href="{$v[authorurl]}" target="_blank">{$v[author]}</a></b> <b>最近更新：{$v[update]}</b></p>
+					</div>
+				</div>
+			{/loop}
+
+			{loop:$plugins[disable] $v $k}
+				<div class="plu cf">
+					<div class="plu_l">
+						<p class="plu_ico"></p>
+					</div>
+					<div class="plu_c">
+						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
+						<p class="plu_bottom" plugin="{$k}">
+							<a class="but2 enable">启用</a>
+							<a class="but2 delete">删除</a>
+						</p>
+					</div>
+					<div class="plu_r">
+						<p class="plu_cont plu_i">{$v[brief]}</p>
+						<p class="plu_bottom"><b>版本号：{$v[version]}</b> <b>作者: <a href="{$v[authorurl]}" target="_blank">{$v[author]}</a></b> <b>最近更新：{$v[update]}</b></p>
+					</div>
+				</div>
+			{/loop}
+		</div>
+		<div class="cc un"><div class="sky warning bnote"><i></i><b>近期开放！</b></div></div>
+	</div>
 </div>
+<script type="text/javascript">
+getPlurWidth();
+$(window).resize(getPlurWidth);
+$("#plugin .plu_c .plu_bottom a").each(function() {
+	if(!this.href) this.href = "javascript:;";
+});
 
+//停用
+$(".disabled").click(function(){
+	twAjax.postd("?u=plugin-disabled-ajax-1", {"plugin" : $(this).parent().attr("plugin")}, function(data){
+		twAjax.alert(data);
+		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+	});
+});
+
+//启用
+$(".enable").click(function(){
+	twAjax.postd("?u=plugin-enable-ajax-1", {"plugin" : $(this).parent().attr("plugin")}, function(data){
+		twAjax.alert(data);
+		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+	});
+});
+
+//安装
+$(".install").click(function(){
+	twAjax.postd("?u=plugin-install-ajax-1", {"plugin" : $(this).parent().attr("plugin")}, function(data){
+		twAjax.alert(data);
+		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+	});
+});
+
+//删除
+$(".delete").click(function(){
+	var plugin = $(this).parent().attr("plugin");
+	twAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+$(this).parent().parent().children(".plu_b").html()+"</font>”？", function(){
+		twAjax.postd("?u=plugin-delete-ajax-1", {"plugin" : plugin}, function(data){
+			window.twErr = true;
+			twAjax.alert(data);
+			$(".ajaxtips u").click(function(){window.location.reload();});
+			if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+		});
+	});
+});
+
+function getPlurWidth() {
+	$(".plu_r").width($(".plu:first").width() - $(".plu_l:first").outerWidth(true) - $(".plu_c:first").outerWidth(true) - 15);
+}
+</script>
 </body>
 </html>
