@@ -30,7 +30,7 @@ img{border:0}
 .top .uinfo p a{color:#fff}
 .top .uinfo p a:hover{color:#BD0A01}
 .top .uinfo .ilk{display:inline;float:left;margin:4px 10px 0;height:24px}
-.top .uinfo .ilk a{display:block;overflow:hidden;width:67px;height:22px;text-indent:-999px;background:url(../img/a.gif) no-repeat}
+.top .uinfo .ilk a{display:block;overflow:hidden;width:75px;height:22px;text-indent:-999px;background:url(../img/a.gif) no-repeat}
 
 .unber{position:absolute;top:30px;bottom:0;width:100%}
 .unber .left{position:absolute;top:0;bottom:0;left:0;width:150px;background:url(../img/left_bg.jpg) #fff repeat-y right}
@@ -39,7 +39,7 @@ img{border:0}
 	#menu dd{cursor:pointer;line-height:22px;padding:0 8px;margin-top:2px;border:1px solid #fff;background:#fff;border-radius:3px}
 	#menu dd.on{border:1px solid #FCEFA1;background:#FCFAF1}
 	#menu dd.x{border:1px solid #83AADA;background:#E5F3FF}
-	.copyright{position:absolute;left:5px;bottom:0;width:135px;height:30px;border-top: 1px dashed #CCC;z-index:10;padding-top:3px;font-family:Tahoma;font-size:11px;-webkit-text-size-adjust:none}
+	.copyright{position:absolute;left:5px;bottom:0;width:135px;height:30px;border-top: 1px dashed #CCC;z-index:10;padding-top:3px;font-family:Tahoma}
 
 
 .unber .right{position:absolute;top:0;right:0;bottom:0;left:150px}
