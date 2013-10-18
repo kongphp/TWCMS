@@ -19,78 +19,82 @@ class plugin_control extends admin_control {
 
 	// 启用插件
 	public function enable() {
-		$plugin = R('plugin', 'P');
-		if($plugin) {
-			if(preg_match('/\W/', $plugin)) {
-				E(1, '插件目录名不正确！');
+		$dir = R('dir', 'P');
+		$this->check_plugin($dir);
+		$plugins = $this->get_plugin_config();
+		if(isset($plugins[$dir])) {
+			$plugins[$dir]['enable'] = 1;
+			if($this->set_plugin_config($plugins)) {
+				E(0, '启用完成！');
 			}else{
-				$plu_file = CONFIG_PATH.'plugin.inc.php';
-				$plugins = is_file($plu_file) ? (array)include($plu_file) : array();
-				if(isset($plugins[$plugin])) {
-					$plugins[$plugin]['enable'] = 1;
-					if(file_put_contents($plu_file, "<?php\nreturn ".var_export($plugins, TRUE).";\n?>")) {
-						E(0, '启用完成！');
-					}else{
-						E(1, '写入文件失败！');
-					}
-				}else{
-					E(1, '启用出错，插件未安装！');
-				}
+				E(1, '写入文件失败！');
 			}
+		}else{
+			E(1, '启用出错，插件未安装！');
 		}
 	}
 
 	// 停用插件
 	public function disabled() {
-		$plugin = R('plugin', 'P');
-		if($plugin) {
-			if(preg_match('/\W/', $plugin)) {
-				E(1, '插件目录名不正确！');
+		$dir = R('dir', 'P');
+		$this->check_plugin($dir);
+		$plugins = $this->get_plugin_config();
+		if(isset($plugins[$dir])) {
+			$plugins[$dir]['enable'] = 0;
+			if($this->set_plugin_config($plugins)) {
+				E(0, '停用完成！');
 			}else{
-				$plu_file = CONFIG_PATH.'plugin.inc.php';
-				$plugins = is_file($plu_file) ? (array)include($plu_file) : array();
-				if(isset($plugins[$plugin])) {
-					$plugins[$plugin]['enable'] = 0;
-					if(file_put_contents($plu_file, "<?php\nreturn ".var_export($plugins, TRUE).";\n?>")) {
-						E(0, '停用完成！');
-					}else{
-						E(1, '写入文件失败！');
-					}
-				}else{
-					E(1, '停用出错，插件未安装！');
-				}
+				E(1, '写入文件失败！');
 			}
+		}else{
+			E(1, '停用出错，插件未安装！');
 		}
 	}
 
 	// 删除插件
 	public function delete() {
-		$plugin = R('plugin', 'P');
-		if($plugin) {
-			if(preg_match('/\W/', $plugin)) {
-				E(1, '插件目录名不正确！');
-			}else{
-				$plu_file = CONFIG_PATH.'plugin.inc.php';
-				$plugins = is_file($plu_file) ? (array)include($plu_file) : array();
+		$dir = R('dir', 'P');
+		$this->check_plugin($dir);
 
-				// 只允许删除停用或未安装的插件
-				if(empty($plugins[$plugin]['enable'])) {
-					if(_rmdir(PLUGIN_PATH.$plugin)) {
-						if(isset($plugins[$plugin])) {
-							unset($plugins[$plugin]);
-							if(!file_put_contents($plu_file, "<?php\nreturn ".var_export($plugins, TRUE).";\n?>")) {
-								E(1, '写入文件失败！');
-							}
-						}
-						E(0, '删除完成！');
-					}else{
-						E(1, '删除出错！');
+		$plugins = $this->get_plugin_config();
+
+		// 只允许删除停用或未安装的插件
+		if(empty($plugins[$dir]['enable'])) {
+			if(_rmdir(PLUGIN_PATH.$dir)) {
+				if(isset($plugins[$dir])) {
+					unset($plugins[$dir]);
+					if($this->set_plugin_config($plugins)) {
+						E(1, '写入文件失败！');
 					}
-				}else{
-					E(1, '启用的插件不允许删除！');
 				}
+				E(0, '删除完成！');
+			}else{
+				E(1, '删除出错！');
 			}
+		}else{
+			E(1, '启用的插件不允许删除！');
 		}
+	}
+
+	// 检查是否为合法的插件名
+	private function check_plugin($plugin) {
+		if(empty($plugin)) {
+			E(1, '插件目录名不能为空！');
+		}elseif(preg_match('/\W/', $plugin)) {
+			E(1, '插件目录名不正确！');
+		}elseif(!is_dir(PLUGIN_PATH.$plugin)) {
+			E(1, '插件目录名不存在！');
+		}
+	}
+
+	// 获取插件配置信息
+	private function get_plugin_config() {
+		return is_file(CONFIG_PATH.'plugin.inc.php') ? (array)include(CONFIG_PATH.'plugin.inc.php') : array();
+	}
+
+	// 设置插件配置信息
+	private function set_plugin_config($plugins) {
+		return file_put_contents(CONFIG_PATH.'plugin.inc.php', "<?php\nreturn ".var_export($plugins, TRUE).";\n?>");
 	}
 
 	// hook admin_plugin_control_after.php

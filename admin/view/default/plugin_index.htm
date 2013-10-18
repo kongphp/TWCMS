@@ -16,7 +16,7 @@
 					</div>
 					<div class="plu_c">
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
-						<p class="plu_bottom" plugin="{$k}">
+						<p class="plu_bottom" dir="{$k}">
 							<a class="but2 disabled">停用</a>
 							<a class="but2" href="">设置</a>
 						</p>
@@ -35,7 +35,7 @@
 					</div>
 					<div class="plu_c">
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
-						<p class="plu_bottom" plugin="{$k}">
+						<p class="plu_bottom" dir="{$k}">
 							<a class="but2 install">安装</a>
 							<a class="but2 delete">删除</a>
 						</p>
@@ -54,7 +54,7 @@
 					</div>
 					<div class="plu_c">
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
-						<p class="plu_bottom" plugin="{$k}">
+						<p class="plu_bottom" dir="{$k}">
 							<a class="but2 enable">启用</a>
 							<a class="but2 delete">删除</a>
 						</p>
@@ -78,7 +78,7 @@ $("#plugin .plu_c .plu_bottom a").each(function() {
 
 //停用
 $(".disabled").click(function(){
-	twAjax.postd("?u=plugin-disabled-ajax-1", {"plugin" : $(this).parent().attr("plugin")}, function(data){
+	twAjax.postd("?u=plugin-disabled-ajax-1", {"dir" : $(this).parent().attr("dir")}, function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
 	});
@@ -86,7 +86,7 @@ $(".disabled").click(function(){
 
 //启用
 $(".enable").click(function(){
-	twAjax.postd("?u=plugin-enable-ajax-1", {"plugin" : $(this).parent().attr("plugin")}, function(data){
+	twAjax.postd("?u=plugin-enable-ajax-1", {"dir" : $(this).parent().attr("dir")}, function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
 	});
@@ -94,7 +94,7 @@ $(".enable").click(function(){
 
 //安装
 $(".install").click(function(){
-	twAjax.postd("?u=plugin-install-ajax-1", {"plugin" : $(this).parent().attr("plugin")}, function(data){
+	twAjax.postd("?u=plugin-install-ajax-1", {"dir" : $(this).parent().attr("dir")}, function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
 	});
@@ -102,9 +102,9 @@ $(".install").click(function(){
 
 //删除
 $(".delete").click(function(){
-	var plugin = $(this).parent().attr("plugin");
+	var dir = $(this).parent().attr("dir");
 	twAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+$(this).parent().parent().children(".plu_b").html()+"</font>”？", function(){
-		twAjax.postd("?u=plugin-delete-ajax-1", {"plugin" : plugin}, function(data){
+		twAjax.postd("?u=plugin-delete-ajax-1", {"dir" : dir}, function(data){
 			window.twErr = true;
 			twAjax.alert(data);
 			$(".ajaxtips u").click(function(){window.location.reload();});
