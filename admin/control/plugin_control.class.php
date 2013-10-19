@@ -69,7 +69,7 @@ class plugin_control extends admin_control {
 			if(_rmdir(PLUGIN_PATH.$dir)) {
 				if(isset($plugins[$dir])) {
 					unset($plugins[$dir]);
-					if($this->set_plugin_config($plugins)) {
+					if(!$this->set_plugin_config($plugins)) {
 						E(1, '写入文件失败！');
 					}
 				}
@@ -97,9 +97,8 @@ class plugin_control extends admin_control {
 
 	// 插件安装
 	public function install() {
-		$dir = R('dir');
+		$dir = R('dir', 'P');
 		$this->check_plugin($dir);
-		$this->assign('dir', $dir);
 
 		$plugins = $this->get_plugin_config();
 
