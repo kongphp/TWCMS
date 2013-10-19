@@ -60,6 +60,12 @@ class plugin_control extends admin_control {
 
 		// 只允许删除停用或未安装的插件
 		if(empty($plugins[$dir]['enable'])) {
+			// 检测有 uninstall.php文件，则执行卸载
+			$uninstall = PLUGIN_PATH.$dir.'/uninstall.php';
+			if(is_file($uninstall)) {
+				include $uninstall;
+			}
+
 			if(_rmdir(PLUGIN_PATH.$dir)) {
 				if(isset($plugins[$dir])) {
 					unset($plugins[$dir]);
@@ -102,9 +108,9 @@ class plugin_control extends admin_control {
 		}
 
 		// 检测有 install.php文件，则执行安装
-		$setting = PLUGIN_PATH.$dir.'/install.php';
-		if(is_file($setting)) {
-			include $setting;
+		$install = PLUGIN_PATH.$dir.'/install.php';
+		if(is_file($install)) {
+			include $install;
 		}
 
 		$plugins[$dir] = array('enable' => 0);
