@@ -89,6 +89,33 @@ class plugin_control extends admin_control {
 		}
 	}
 
+	// 插件安装
+	public function install() {
+		$dir = R('dir');
+		$this->check_plugin($dir);
+		$this->assign('dir', $dir);
+
+		$plugins = $this->get_plugin_config();
+
+		if(isset($plugins[$dir])) {
+			E(1, '插件已经安装过！');
+		}
+
+		// 检测有 install.php文件，则执行安装
+		$setting = PLUGIN_PATH.$dir.'/install.php';
+		if(is_file($setting)) {
+			include $setting;
+		}
+
+		$plugins[$dir] = array('enable' => 0);
+
+		if($this->set_plugin_config($plugins)) {
+			E(0, '安装完成！');
+		}else{
+			E(1, '写入文件失败！');
+		}
+	}
+
 	// 检查是否为合法的插件名
 	private function check_plugin($dir) {
 		if(empty($dir)) {
