@@ -18,7 +18,7 @@ class kp_zip {
 		return TRUE;
 	}
 
-	// 压缩  $filePath 可是是目录，也或以是文件
+	// 压缩  $filePath 目录或文件
 	public static function zip($filePath, $zipFile) {
 		$zip = new php_zip();
 		if(is_dir($filePath)) {

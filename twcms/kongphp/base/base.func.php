@@ -340,6 +340,14 @@ function form_submit() {
 	return R('FORM_HASH', 'P') == form_hash();
 }
 
+// 远程抓取数据
+function fetch_url($url, $timeout = 30) {
+	$opts = array ('http'=>array('method'=>'GET', 'timeout'=>$timeout));
+	$context = stream_context_create($opts);
+	$html = file_get_contents($url, false, $context);
+	return $html;
+}
+
 /**
  * 分页函数
  * @param int $page 当前页
