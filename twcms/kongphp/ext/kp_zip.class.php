@@ -3,22 +3,38 @@
 // | Copyright (C) 2013 wuzhaohuan <kongphp@gmail.com> All rights reserved.
 // +------------------------------------------------------------------------------
 
-// 压缩
-class zip {
+class kp_zip {
+	// 解压
+	public static function unzip($zipFile, $toDir) {
+		$unzip = new php_unzip();
+		foreach($unzip->ReadFile($zipFile) as $row) {
+			$file = $toDir.'/'.$row['Path'].'/'.$row['Name'];
+			$parentDir = dirname($file);
+			!is_dir($parentDir) && mkdir($parentDir, 0777, TRUE);
+			if(file_put_contents($file, $row['Data']) !== FALSE) {
+				touch($file, $row['Time'], $row['Time']);
+			}
+		}
+		return TRUE;
+	}
+
+	// 压缩  $filePath 可是是目录，也或以是文件
+	public static function zip($filePath, $zipFile) {
+		$zip = new php_zip();
+		if(is_dir($filePath)) {
+			$zip->addDir($filePath);
+		}else{
+			$zip->addFile(file_get_contents($filePath), basename($filePath), filemtime($filePath));
+		}
+		return file_put_contents($zipFile, $zip->file());
+	}
+}
+
+class php_zip {
 	var $datasec      = array();
 	var $ctrl_dir     = array();
 	var $eof_ctrl_dir = "\x50\x4b\x05\x06\x00\x00\x00\x00";
 	var $old_offset   = 0;
-	var $pathDir;
-
-	function zipFile($fileName, $zipFileName, $filetype='dir') {
-		if($filetype == 'dir') {
-			$this->addDir($fileName);
-		}else{
-			$this->addFile(f_read($fileName), basename($fileName), filemtime($fileName));
-		}
-		return f_write($zipFileName, $this->file());
-	}
 
 	function unix2DosTime($unixtime = 0) {
 		$timearray = ($unixtime == 0) ? getdate() : getdate($unixtime);
@@ -34,6 +50,23 @@ class zip {
 
 		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) |
 				($timearray['hours'] << 11) | ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
+	}
+
+	function addDir($dir) {
+		static $rootDir;
+
+		if(empty($rootDir)) $rootDir = $dir.'/';
+		$dh = opendir($dir);
+		while(($file = readdir($dh)) !== FALSE) {
+			if($file == '.' || $file == '..') continue;
+			$fullpath = $dir.'/'.$file;
+			if(is_dir($fullpath)) {
+				$this->addDir($fullpath);
+			}else{
+				$this->addFile(file_get_contents($fullpath), str_replace($rootDir, '', $fullpath), filemtime($fullpath));
+			}
+		}
+		closedir($dh);
 	}
 
 	function addFile($data, $name, $time = 0) {
@@ -92,24 +125,6 @@ class zip {
 		$this -> ctrl_dir[] = $cdrec;
 	}
 
-	function addDir($dir, $one=true) {
-		if($one) $this->pathDir = $dir.D;
-		if(is_dir($dir)) {
-			$dh = opendir($dir);
-			while(($file=readdir($dh)) !== false) {
-				if($file != '.' && $file != '..') {
-					$fullpath = $dir.D.$file;
-					if(is_dir($fullpath)) {
-						$this->addDir($fullpath, false);
-					}else{
-						$this->addFile(f_read($fullpath), str_replace($this->pathDir, '', $fullpath), filemtime($fullpath));
-					}
-				}
-			}
-			closedir($dh);
-		}
-	}
-
 	function file() {
 		$data    = implode('', $this -> datasec);
 		$ctrldir = implode('', $this -> ctrl_dir);
@@ -126,26 +141,12 @@ class zip {
 	}
 }
 
-// 解压
-class unzip {
+class php_unzip {
 	var $Comment = '';
 	var $Entries = array();
 	var $Name = '';
 	var $Size = 0;
 	var $Time = 0;
-
-	function unZipFile($fileName, $toDir) {
-		foreach($this->ReadFile($fileName) as $row) {
-			$file = $toDir.D.$row->Path.D.$row->Name;
-			if(_mkdir(dirname($file))) {
-				if(f_write($file, $row->Data) === false) return false;
-				touch($file, $row->Time, $row->Time);
-			}else{
-				return false;
-			}
-		}
-		return true;
-	}
 
 	function Count() {
 		return count($this->Entries);
