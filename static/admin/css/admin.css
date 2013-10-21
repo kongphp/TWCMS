@@ -66,7 +66,7 @@ img{border:0}
 	#box_place{position:absolute;top:31px;left:0;right:0;height:25px;padding:5px 0 0 25px;background:url(../img/ico1.gif) 8px 8px no-repeat}
 
 	#box_frame{position:absolute;top:57px;left:0;right:0;bottom:0}
-	#box_frame iframe{position:absolute;top:0px;left:0;right:0;bottom:0;width:100%;height:100%}
+	#box_frame iframe{position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%}
 
 /*ie6*/
 .acp{_width: expression((documentElement.clientWidth < 980) ? "980px" : "auto")}

@@ -66,7 +66,9 @@
 				</div>
 			{/loop}
 		</div>
-		<div class="cc un"><div class="sky warning bnote"><i></i><b>近期开放！</b></div></div>
+		<div class="cc un" style="padding:0">
+			<iframe id="tw_iframe" src="about:blank" url="http://www.twcms.cn/app/?go=plugin" frameborder="0" scrolling="yes"></iframe>
+		</div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -74,6 +76,20 @@ getPlurWidth();
 $(window).resize(getPlurWidth);
 $("#plugin .plu_c .plu_bottom a").each(function() {
 	if(!this.href) this.href = "javascript:;";
+});
+
+// 在线获取
+var isIE6 = window.VBArray && !window.XMLHttpRequest;
+$(".head dd:eq(1)").one("click", function() {
+	var url = $("#tw_iframe").attr("url");
+	alert(url);
+	$("#tw_iframe").attr("src", url);
+
+	if(isIE6) {
+		var ie6Fix = function() { $("#tw_iframe").height($("body").height() - 31).width($("body").width()); }
+		ie6Fix();
+		$(window).resize(ie6Fix);
+	}
 });
 
 //停用
@@ -114,6 +130,7 @@ $(".delete").click(function(){
 });
 
 function getPlurWidth() {
+	if($("#plugin:visible").length == 0) return;
 	$(".plu_r").width($(".plu:first").width() - $(".plu_l:first").outerWidth(true) - $(".plu_c:first").outerWidth(true) - 15);
 }
 </script>
