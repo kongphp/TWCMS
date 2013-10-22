@@ -9,6 +9,10 @@
 	</div>
 	<div class="p c2">
 		<div class="cc" id="plugin">
+			{if:empty($plugins[enable]) && empty($plugins[disable]) && empty($plugins[not_install])}
+				<div class="sky warning bnote" style="margin-top:8px"><i></i><b>暂无插件</b></div>
+			{else}
+
 			{loop:$plugins[enable] $v $k}
 				<div class="plu cf">
 					<div class="plu_l">
@@ -65,9 +69,11 @@
 					</div>
 				</div>
 			{/loop}
+
+			{/if}
 		</div>
-		<div class="cc un" style="padding:0">
-			<iframe id="tw_iframe" src="about:blank" url="http://www.twcms.cn/app/?go=plugin" frameborder="0" scrolling="yes"></iframe>
+		<div class="cc un" id="twcms_app">
+			<div class="sky warning bnote"><i></i><b id="loading">玩命加载中...</b></div>
 		</div>
 	</div>
 </div>
@@ -76,20 +82,6 @@ getPlurWidth();
 $(window).resize(getPlurWidth);
 $("#plugin .plu_c .plu_bottom a").each(function() {
 	if(!this.href) this.href = "javascript:;";
-});
-
-// 在线获取
-var isIE6 = window.VBArray && !window.XMLHttpRequest;
-$(".head dd:eq(1)").one("click", function() {
-	var url = $("#tw_iframe").attr("url");
-	alert(url);
-	$("#tw_iframe").attr("src", url);
-
-	if(isIE6) {
-		var ie6Fix = function() { $("#tw_iframe").height($("body").height() - 31).width($("body").width()); }
-		ie6Fix();
-		$(window).resize(ie6Fix);
-	}
 });
 
 //停用
@@ -127,6 +119,19 @@ $(".delete").click(function(){
 			if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
 		});
 	});
+});
+
+//加载效果
+var dot = '';
+setInterval(function(){
+	dot += '.';
+	if(dot.length > 6) dot = '.';
+	$("#loading").html('玩命加载中'+dot);
+}, 200);
+
+// 在线获取
+$(".head dd:eq(1)").one("click", function() {
+	$.getScript("http://www.twcms.cn/app/?go=plugin");
 });
 
 function getPlurWidth() {
