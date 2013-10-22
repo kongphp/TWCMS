@@ -29,7 +29,9 @@
 				{/loop}
 			{/if}
 		</div>
-		<div class="cc un"><div class="sky warning bnote"><i></i><b>近期开放！</b></div></div>
+		<div class="cc un" id="twcms_app">
+			<div class="sky warning bnote"><i></i><b id="loading">玩命加载中...</b></div>
+		</div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -68,6 +70,19 @@ $(".del").click(function(){
 			if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
 		});
 	});
+});
+
+//加载效果
+var dot = '';
+setInterval(function(){
+	dot += '.';
+	if(dot.length > 6) dot = '.';
+	$("#loading").html('玩命加载中'+dot);
+}, 200);
+
+// 在线获取
+$(".head dd:eq(1)").one("click", function() {
+	$.getScript("http://www.twcms.cn/app/?go=theme");
 });
 </script>
 </body>
