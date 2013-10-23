@@ -34,31 +34,62 @@ class theme_control extends admin_control {
 	// 启用主题
 	public function enable() {
 		$theme = R('theme', 'P');
-		if($theme) {
-			if(preg_match('/\W/', $theme)) {
-				E(1, '主题目录名不正确！');
-			}else{
-				$this->kv->xset('theme', $theme, 'cfg');
-				$this->kv->save_changed();
-				$this->runtime->delete('cfg');
-				E(0, '启用成功！');
-			}
-		}
+		$this->check_theme($theme);
+
+		$this->kv->xset('theme', $theme, 'cfg');
+		$this->kv->save_changed();
+		$this->runtime->delete('cfg');
+		E(0, '启用成功！');
 	}
 
 	// 删除主题
 	public function delete() {
 		$theme = R('theme', 'P');
-		if($theme) {
-			if(preg_match('/\W/', $theme)) {
-				E(1, '主题目录名不正确！');
-			}else{
-				if(_rmdir(APP_PATH.'view/'.$theme)) {
-					E(0, '删除完成！');
-				}else{
-					E(1, '删除出错！');
-				}
-			}
+		$this->check_theme($theme);
+
+		if(_rmdir(APP_PATH.'view/'.$theme)) {
+			E(0, '删除完成！');
+		}else{
+			E(1, '删除出错！');
+		}
+	}
+
+	// 在线安装插件
+	public function install_theme() {
+		$dir = R('dir');
+
+		if(function_exists('set_time_limit')) {
+			set_time_limit(600); // 10分钟
+			$timeout = 300;
+		}else{
+			$timeout = 20;
+		}
+
+		$url = 'http://www.twcms.cn/app/download.php?theme='.$dir;
+		$s = fetch_url($url, $timeout);
+		if(empty($s) || substr($s, 0, 2) != 'PK') {
+			$s = '下载主题失败!';
+		}else{
+			$view_dir = APP_PATH.'view/';
+			$zipfile = $view_dir.$dir.'.zip';
+			file_put_contents($zipfile, $s);
+			kp_zip::unzip($zipfile, $view_dir.$dir);
+			unlink($zipfile);
+			$s = '下载并解压完成!';
+		}
+
+		echo '$(".ajaxtips b").html("'.$s.'");';
+		exit;
+	}
+
+	// 检查是否为合法的主题名
+	private function check_theme($dir) {
+		if(empty($dir)) {
+			E(1, '主题目录名不能为空！');
+		}elseif(preg_match('/\W/', $dir)) {
+			E(1, '主题目录名不正确！');
+		}elseif(!is_dir(APP_PATH.'view/'.$dir)) {
+			E(1, '主题目录名不存在！');
 		}
 	}
 

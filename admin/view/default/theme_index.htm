@@ -30,60 +30,83 @@
 			{/if}
 		</div>
 		<div class="cc un" id="twcms_app">
-			<div class="sky warning bnote"><i></i><b id="loading">玩命加载中...</b></div>
+			<div class="sky warning bnote"><i></i><b>玩命加载中<font id="loading">...</font></b></div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
-$(".gsm>a").attr("href","javascript:;");
+function load() {
+	$(".gsm>a").attr("href","javascript:;");
 
-$(".thm").hover(function(){
-	$(this).addClass("thm_x");
-}, function(){
-	$(this).removeClass("thm_x");
-});
-
-$(".to").hover(function(){
-	$(this).children(".tu").hide();
-	$(this).children(".full").show();
-},function(){
-	$(this).children(".tu").show();
-	$(this).children(".full").hide();
-});
-
-//启用
-$(".enable").click(function(){
-	twAjax.postd("?u=theme-enable-ajax-1", {"theme" : $(this).parent().attr("theme")}, function(data){
-		twAjax.alert(data);
-		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+	$(".thm").off("hover").hover(function(){
+		$(this).addClass("thm_x");
+	}, function(){
+		$(this).removeClass("thm_x");
 	});
-});
 
-//删除
-$(".del").click(function(){
-	var theme = $(this).parent().attr("theme");
-	twAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+$(this).parent().parent().children("h1").html()+"</font>”？", function(){
-		twAjax.postd("?u=theme-delete-ajax-1", {"theme" : theme}, function(data){
-			window.twErr = true;
-			twAjax.alert(data);
-			$(".ajaxtips u").click(function(){window.location.reload();});
-			if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+	$(".to").off("hover").hover(function(){
+		$(this).children(".tu").hide();
+		$(this).children(".full").show();
+	},function(){
+		$(this).children(".tu").show();
+		$(this).children(".full").hide();
+	});
+	//启用
+	$(".enable").off("click").click(function(){ enable($(this).parent().attr("theme")); });
+
+	//删除
+	$(".del").off("click").click(function(){
+		var theme = $(this).parent().attr("theme");
+		twAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+$(this).parent().parent().children("h1").html()+"</font>”？", function(){
+			twAjax.postd("?u=theme-delete-ajax-1", {"theme" : theme}, function(data){
+				window.twErr = true;
+				twAjax.alert(data);
+				$(".ajaxtips u").click(function(){window.location.reload();});
+				if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+			});
 		});
 	});
-});
+}
 
-//加载效果
-var dot = '';
-setInterval(function(){
-	dot += '.';
-	if(dot.length > 6) dot = '.';
-	$("#loading").html('玩命加载中'+dot);
-}, 200);
+load();
 
 // 在线获取
 $(".head dd:eq(1)").one("click", function() {
+	loading();
 	$.getScript("http://www.twcms.cn/app/?go=theme");
 });
+
+// 在线安装
+function install_theme(dir) {
+	twAjax.confirm("玩命下载 <font color='red'>"+dir+"</font> 中<font id='loading'>......</font>", function(){});
+	loading();
+	$("#okA").remove();
+
+	$.getScript("?u=theme-install_theme-dir-" + dir, function(){
+		clearInterval(int);
+		$("#noA").after('<a id="install_enable" class="but3" href="javascript:;">启用</a>');
+		$("#install_enable").click(function() { enable(dir); });
+	});
+}
+
+//加载效果
+var int;
+function loading() {
+	var dot = '';
+	int = setInterval(function(){
+		dot += '.';
+		if(dot.length > 6) dot = '.';
+		$("#loading").html(dot);
+	}, 50);
+}
+
+// 启用
+function enable(theme) {
+	twAjax.postd("?u=theme-enable-ajax-1", {"theme" : theme}, function(data){
+		twAjax.alert(data);
+		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+	});
+}
 </script>
 </body>
 </html>
