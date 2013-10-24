@@ -58,10 +58,10 @@ class theme_control extends admin_control {
 	public function install_theme() {
 		$dir = R('dir');
 
-		if(empty($dir)) $this->install_error('主题目录名不能为空！');
-		if(preg_match('/\W/', $dir)) $this->install_error('主题目录名不正确！');
+		if(empty($dir)) $this->install_tips('主题目录名不能为空！');
+		if(preg_match('/\W/', $dir)) $this->install_tips('主题目录名不正确！');
 		$install_dir = APP_PATH.'view/'.$dir;
-		if(is_dir($install_dir)) $this->install_error('主题已经安装过！');
+		if(is_dir($install_dir)) $this->install_tips('此主题已经安装过了！');
 
 		if(function_exists('set_time_limit')) {
 			set_time_limit(600); // 10分钟
@@ -74,28 +74,28 @@ class theme_control extends admin_control {
 		try{
 			$s = fetch_url($url, $timeout);
 		}catch(Exception $e) {
-			$this->install_error('下载主题出错！');
+			$this->install_tips('下载主题出错！');
 		}
 		if(empty($s) || substr($s, 0, 2) != 'PK') {
-			$this->install_error('下载主题失败!');
+			$this->install_tips('下载主题失败!');
 		}
 		$zipfile = $install_dir.'.zip';
 		try{
 			file_put_contents($zipfile, $s);
 		}catch(Exception $e) {
-			$this->install_error('主题写入出错，写入权限不对？');
+			$this->install_tips('主题写入出错，写入权限不对？');
 		}
 		try{
 			kp_zip::unzip($zipfile, $install_dir);
 		}catch(Exception $e) {
-			$this->install_error('解压主题文件出错！');
+			$this->install_tips('解压主题文件出错！');
 		}
 		unlink($zipfile);
-		$this->install_error('下载并解压完成！', 0);
+		$this->install_tips('下载并解压完成！', 0);
 	}
 
-	// 在线安装错误
-	private function install_error($s, $err = 1) {
+	// 在线安装提示
+	private function install_tips($s, $err = 1) {
 		echo '$(".ajaxtips b").html("'.$s.'");';
 		echo 'var err = '.$err.';';
 		exit;
