@@ -58,27 +58,38 @@ class theme_control extends admin_control {
 	public function install_theme() {
 		$dir = R('dir');
 
-		if(function_exists('set_time_limit')) {
-			set_time_limit(600); // 10分钟
-			$timeout = 300;
+		$theme_dir = APP_PATH.'view/'.$dir;
+		$err = 1;
+		if(empty($dir)) {
+			$s = '主题目录名不能为空！';
+		}elseif(preg_match('/\W/', $dir)) {
+			$s = '主题目录名不正确！';
+		}elseif(is_dir($theme_dir)) {
+			$s = '主题已经安装过！';
 		}else{
-			$timeout = 20;
-		}
+			if(function_exists('set_time_limit')) {
+				set_time_limit(600); // 10分钟
+				$timeout = 300;
+			}else{
+				$timeout = 20;
+			}
 
-		$url = 'http://www.twcms.cn/app/download.php?theme='.$dir;
-		$s = fetch_url($url, $timeout);
-		if(empty($s) || substr($s, 0, 2) != 'PK') {
-			$s = '下载主题失败!';
-		}else{
-			$view_dir = APP_PATH.'view/';
-			$zipfile = $view_dir.$dir.'.zip';
-			file_put_contents($zipfile, $s);
-			kp_zip::unzip($zipfile, $view_dir.$dir);
-			unlink($zipfile);
-			$s = '下载并解压完成!';
+			$url = 'http://www.twcms.cn/app/download.php?theme='.$dir;
+			$s = fetch_url($url, $timeout);
+			if(empty($s) || substr($s, 0, 2) != 'PK') {
+				$s = '下载主题失败!';
+			}else{
+				$zipfile = $theme_dir.'.zip';
+				file_put_contents($zipfile, $s);
+				kp_zip::unzip($zipfile, $theme_dir);
+				unlink($zipfile);
+				$s = '下载并解压完成!';
+				$err = 0;
+			}
 		}
 
 		echo '$(".ajaxtips b").html("'.$s.'");';
+		echo 'var err = '.$err.';';
 		exit;
 	}
 

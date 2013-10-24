@@ -84,8 +84,10 @@ function install_theme(dir) {
 
 	$.getScript("?u=theme-install_theme-dir-" + dir, function(){
 		clearInterval(int);
-		$("#noA").after('<a id="install_enable" class="but3" href="javascript:;">启用</a>');
-		$("#install_enable").click(function() { enable(dir); });
+		if(!err) {
+			$("#noA").after('<a id="install_enable" class="but3" href="javascript:;">启用</a>');
+			$("#install_enable").click(function() { enable(dir); });
+		}
 	});
 }
 
