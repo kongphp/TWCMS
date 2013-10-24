@@ -82,6 +82,45 @@ class plugin_control extends admin_control {
 		}
 	}
 
+	// 在线安装插件
+	public function install_plugin() {
+		$dir = R('dir');
+
+		$install_dir = PLUGIN_PATH.$dir;
+		$err = 1;
+		if(empty($dir)) {
+			$s = '插件目录名不能为空！';
+		}elseif(preg_match('/\W/', $dir)) {
+			$s = '插件目录名不正确！';
+		}elseif(is_dir($install_dir)) {
+			$s = '插件已经安装过！';
+		}else{
+			if(function_exists('set_time_limit')) {
+				set_time_limit(600); // 10分钟
+				$timeout = 300;
+			}else{
+				$timeout = 20;
+			}
+
+			$url = 'http://www.twcms.cn/app/download.php?plugin='.$dir;
+			$s = fetch_url($url, $timeout);
+			if(empty($s) || substr($s, 0, 2) != 'PK') {
+				$s = '下载插件失败!';
+			}else{
+				$zipfile = $install_dir.'.zip';
+				file_put_contents($zipfile, $s);
+				kp_zip::unzip($zipfile, $install_dir);
+				unlink($zipfile);
+				$s = '下载并解压完成!';
+				$err = 0;
+			}
+		}
+
+		echo '$(".ajaxtips b").html("'.$s.'");';
+		echo 'var err = '.$err.';';
+		exit;
+	}
+
 	// 插件设置
 	public function setting() {
 		$dir = R('dir');
