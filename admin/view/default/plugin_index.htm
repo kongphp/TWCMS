@@ -152,10 +152,9 @@ function install_plugin(dir) {
 	});
 }
 
-//设置插件展示宽度
+//设置插件展示宽度 PS: CSS3 时代的到来就可以不使用这么笨的方法了
 function setPlurWidth() {
-	if($("#plugin:visible").length == 0) return;
-	$(".plu_r").width($(".plu:first").width() - $(".plu_l:first").outerWidth(true) - $(".plu_c:first").outerWidth(true) - 15);
+	$(".plu_r").width($(".plu:visible").width() - $(".plu_l:visible").outerWidth(true) - $(".plu_c:visible").outerWidth(true) - 15);
 }
 
 //启用
