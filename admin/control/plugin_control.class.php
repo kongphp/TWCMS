@@ -82,54 +82,6 @@ class plugin_control extends admin_control {
 		}
 	}
 
-	// 在线安装插件
-	public function install_plugin() {
-		$dir = R('dir');
-
-		if(empty($dir)) $this->install_tips('插件目录名不能为空！');
-		if(preg_match('/\W/', $dir)) $this->install_tips('插件目录名不正确！');
-		$install_dir = PLUGIN_PATH.$dir;
-		if(is_dir($install_dir)) $this->install_tips('此插件已经安装过了！');
-
-		if(function_exists('set_time_limit')) {
-			set_time_limit(600); // 10分钟
-			$timeout = 300;
-		}else{
-			$timeout = 20;
-		}
-
-		$url = 'http://www.twcms.cn/app/download.php?plugin='.$dir;
-		try{
-			$s = fetch_url($url, $timeout);
-		}catch(Exception $e) {
-			$this->install_tips('下载插件出错！');
-		}
-		if(empty($s) || substr($s, 0, 2) != 'PK') {
-			$this->install_tips('下载插件失败!');
-		}
-
-		$zipfile = $install_dir.'.zip';
-		try{
-			file_put_contents($zipfile, $s);
-		}catch(Exception $e) {
-			$this->install_tips('插件写入出错，写入权限不对？');
-		}
-		try{
-			kp_zip::unzip($zipfile, $install_dir);
-		}catch(Exception $e) {
-			$this->install_tips('解压插件文件出错！');
-		}
-		unlink($zipfile);
-		$this->install_tips('下载并解压完成！', 0);
-	}
-
-	// 在线安装提示
-	private function install_tips($s, $err = 1) {
-		echo '$(".ajaxtips b").html("'.$s.'");';
-		echo 'var err = '.$err.';';
-		exit;
-	}
-
 	// 插件设置
 	public function setting() {
 		$dir = R('dir');
@@ -167,6 +119,64 @@ class plugin_control extends admin_control {
 		}else{
 			E(1, '写入文件失败！');
 		}
+	}
+
+	// 在线安装插件
+	public function install_plugin() {
+		$dir = R('dir');
+
+		if(empty($dir)) $this->install_tips('插件目录名不能为空！');
+		if(preg_match('/\W/', $dir)) $this->install_tips('插件目录名不正确！');
+		$install_dir = PLUGIN_PATH.$dir;
+		if(is_dir($install_dir)) $this->install_tips('插件目录已存在，已安装过？');
+
+		if(function_exists('set_time_limit')) {
+			set_time_limit(600); // 10分钟
+			$timeout = 300;
+		}else{
+			$timeout = 20;
+		}
+
+		$url = 'http://www.twcms.cn/app/download.php?plugin='.$dir;
+		try{
+			$s = fetch_url($url, $timeout);
+		}catch(Exception $e) {
+			$this->install_tips('下载插件出错！');
+		}
+		if(empty($s) || substr($s, 0, 2) != 'PK') {
+			$this->install_tips('下载插件失败!');
+		}
+
+		$zipfile = $install_dir.'.zip';
+		try{
+			file_put_contents($zipfile, $s);
+		}catch(Exception $e) {
+			$this->install_tips('插件写入出错，写入权限不对？');
+		}
+		try{
+			kp_zip::unzip($zipfile, $install_dir);
+		}catch(Exception $e) {
+			$this->install_tips('解压插件文件出错！');
+		}
+		unlink($zipfile);
+
+		// ======  开始安装 ======
+		// 检测有 install.php文件，则执行安装
+		$install = PLUGIN_PATH.$dir.'/install.php';
+		if(is_file($install)) include $install;
+
+		$plugins = $this->get_plugin_config();
+		$plugins[$dir] = array('enable' => 0);
+		if(!$this->set_plugin_config($plugins)) $this->install_tips('写入配置文件失败！');
+
+		$this->install_tips('下载并安装完成！', 0);
+	}
+
+	// 在线安装提示
+	private function install_tips($s, $err = 1) {
+		echo '$(".ajaxtips b").html("'.$s.'");';
+		echo 'var err = '.$err.';';
+		exit;
 	}
 
 	// 检查是否为合法的插件名
