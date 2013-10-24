@@ -70,13 +70,13 @@ function load() {
 
 load();
 
-// 在线获取
+//在线获取
 $(".head dd:eq(1)").one("click", function() {
 	loading();
 	$.getScript("http://www.twcms.cn/app/?go=theme");
 });
 
-// 在线安装
+//在线安装
 function install_theme(dir) {
 	twAjax.confirm("玩命下载 <font color='red'>"+dir+"</font> 中<font id='loading'>......</font>", function(){});
 	loading();
@@ -88,6 +88,8 @@ function install_theme(dir) {
 			$("#noA").after('<a id="install_enable" class="but3" href="javascript:;">启用</a>');
 			$("#install_enable").click(function() { enable(dir); });
 		}
+		//只要在线安装过都重新加载一下
+		$(".head dd:eq(0)").click(function(){ window.location.reload(); });
 	});
 }
 
