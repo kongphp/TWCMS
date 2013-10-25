@@ -12,8 +12,10 @@ class plugin_control extends admin_control {
 		$plugins = core::get_plugins();
 
 		// 检查是否有设置功能
-		foreach($plugins['enable'] as $dir => &$v) {
-			is_file(PLUGIN_PATH.$dir.'/setting.php') && $v['is_setting'] = 1;
+		if($plugins['enable']) {
+			foreach($plugins['enable'] as $dir => &$v) {
+				is_file(PLUGIN_PATH.$dir.'/setting.php') && $v['is_setting'] = 1;
+			}
 		}
 
 		$this->assign('plugins', $plugins);
@@ -36,6 +38,7 @@ class plugin_control extends admin_control {
 
 		$plugins[$dir]['enable'] = 1;
 		if($this->set_plugin_config($plugins)) {
+			$this->clear_cache();
 			E(0, '启用完成！');
 		}else{
 			E(1, '写入文件失败！');
@@ -47,15 +50,14 @@ class plugin_control extends admin_control {
 		$dir = R('dir', 'P');
 		$this->check_plugin($dir);
 		$plugins = $this->get_plugin_config();
-		if(isset($plugins[$dir])) {
-			$plugins[$dir]['enable'] = 0;
-			if($this->set_plugin_config($plugins)) {
-				E(0, '停用完成！');
-			}else{
-				E(1, '写入文件失败！');
-			}
+		isset($plugins[$dir]) || E(1, '停用出错，插件未安装！');
+
+		$plugins[$dir]['enable'] = 0;
+		if($this->set_plugin_config($plugins)) {
+			$this->clear_cache();
+			E(0, '停用完成！');
 		}else{
-			E(1, '停用出错，插件未安装！');
+			E(1, '写入文件失败！');
 		}
 	}
 
@@ -110,9 +112,10 @@ class plugin_control extends admin_control {
 
 		$plugins = $this->get_plugin_config();
 
-		if(isset($plugins[$dir])) {
-			E(1, '插件已经安装过！');
-		}
+		isset($plugins[$dir]) && E(1, '插件已经安装过！');
+
+		$cms_version = $this->get_version($dir);
+		$cms_version && version_compare($cms_version, C('version'), '>') && E(1, '无法安装，最低版本要求：TWCMS '.$cms_version);
 
 		// 检测有 install.php文件，则执行安装
 		$install = PLUGIN_PATH.$dir.'/install.php';
@@ -169,6 +172,9 @@ class plugin_control extends admin_control {
 		unlink($zipfile);
 
 		// ======  开始安装 ======
+		$cms_version = $this->get_version($dir);
+		$cms_version && version_compare($cms_version, C('version'), '>') && $this->install_tips('无法安装，最低版本要求：TWCMS '.$cms_version);
+
 		// 检测有 install.php文件，则执行安装
 		$install = PLUGIN_PATH.$dir.'/install.php';
 		if(is_file($install)) include $install;
@@ -198,6 +204,12 @@ class plugin_control extends admin_control {
 		}
 	}
 
+	// 检查版本
+	private function get_version($dir) {
+		$cfg = is_file(PLUGIN_PATH.$dir.'/conf.php') ? (array)include(PLUGIN_PATH.$dir.'/conf.php') : array();
+		return isset($cfg['cms_version']) ? $cfg['cms_version'] : 0;
+	}
+
 	// 获取插件配置信息
 	private function get_plugin_config() {
 		return is_file(CONFIG_PATH.'plugin.inc.php') ? (array)include(CONFIG_PATH.'plugin.inc.php') : array();
@@ -206,5 +218,16 @@ class plugin_control extends admin_control {
 	// 设置插件配置信息
 	private function set_plugin_config($plugins) {
 		return file_put_contents(CONFIG_PATH.'plugin.inc.php', "<?php\nreturn ".var_export($plugins, TRUE).";\n?>");
+	}
+
+	// 清除缓存
+	private function clear_cache() {
+		$this->runtime->truncate();
+
+		try{ unlink(RUNTIME_PATH.'_runtime.php'); }catch(Exception $e) {}
+		$tpmdir = array('_control', '_model', '_view');
+		foreach($tpmdir as $dir) _rmdir(RUNTIME_PATH.APP_NAME.$dir);
+		foreach($tpmdir as $dir) _rmdir(RUNTIME_PATH.F_APP_NAME.$dir);
+		return TRUE;
 	}
 }
