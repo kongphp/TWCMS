@@ -15,7 +15,6 @@ class plugin_control extends admin_control {
 		foreach($plugins['enable'] as $dir => &$v) {
 			if(is_file(PLUGIN_PATH.$dir.'/setting.php')) {
 				$v['is_setting'] = 1;
-				var_dump($v);
 			}
 		}
 
