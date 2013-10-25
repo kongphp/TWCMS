@@ -42,7 +42,6 @@ class runtime extends model {
 
 				empty($cfg['theme']) && $cfg['theme'] = 'default';
 
-
 				$cfg['tpl'] = $cfg['webdir'].(defined('F_APP_NAME') ? F_APP_NAME : APP_NAME).'/view/'.$cfg['theme'].'/';
 				$cfg['webroot'] = 'http://'.$cfg['webdomain'];
 				$cfg['weburl'] = 'http://'.$cfg['webdomain'].$cfg['webdir'];

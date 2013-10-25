@@ -10,6 +10,7 @@ define('F_APP_NAME', 'twcms');	//前台APP名称
 define('ADM_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');	//后台目录
 define('TWCMS_PATH', dirname(ADM_PATH).'/');	//TWCMS目录
 define('APP_PATH', TWCMS_PATH.F_APP_NAME.'/');	//APP目录
+define('RUNTIME_MODEL', APP_PATH.'runtime/'.F_APP_NAME.'_model/');	//模型缓存目录
 define('CONTROL_PATH', ADM_PATH.'control/');	//控制器目录
 define('VIEW_PATH', ADM_PATH.'view/');	//视图目录
 define('KONG_PATH', APP_PATH.'kongphp/');	//框架目录
