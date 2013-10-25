@@ -27,8 +27,9 @@ defined('RUNTIME_PATH') || define('RUNTIME_PATH', APP_PATH.'runtime/');	//运行
 defined('RUNTIME_MODEL') || define('RUNTIME_MODEL', RUNTIME_PATH.APP_NAME.'_model/');	//模型缓存目录
 defined('RUNTIME_CONTROL') || define('RUNTIME_CONTROL', RUNTIME_PATH.APP_NAME.'_control/');	//控制器缓存目录
 
+include CONFIG_PATH.'config.inc.php';
+
 if(DEBUG) {
-	include CONFIG_PATH.'config.inc.php';
 	include KONG_PATH.'base/base.func.php';
 	include KONG_PATH.'base/core.class.php';
 	include KONG_PATH.'base/debug.class.php';
@@ -43,8 +44,7 @@ if(DEBUG) {
 }else{
 	$runfile = RUNTIME_PATH.'_runtime.php';
 	if(!is_file($runfile)) {
-		$s  = trim(php_strip_whitespace(CONFIG_PATH.'config.inc.php'), "<?ph>\r\n");
-		$s .= trim(php_strip_whitespace(KONG_PATH.'base/base.func.php'), "<?ph>\r\n");
+		$s  = trim(php_strip_whitespace(KONG_PATH.'base/base.func.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/core.class.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/debug.class.php'), "<?ph>\r\n");
 		$s .= trim(php_strip_whitespace(KONG_PATH.'base/log.class.php'), "<?ph>\r\n");
