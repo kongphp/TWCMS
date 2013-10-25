@@ -39,6 +39,7 @@ class theme_control extends admin_control {
 		$this->kv->xset('theme', $theme, 'cfg');
 		$this->kv->save_changed();
 		$this->runtime->delete('cfg');
+		$this->clear_cache();
 		E(0, '启用成功！');
 	}
 

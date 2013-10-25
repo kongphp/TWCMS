@@ -219,15 +219,4 @@ class plugin_control extends admin_control {
 	private function set_plugin_config($plugins) {
 		return file_put_contents(CONFIG_PATH.'plugin.inc.php', "<?php\nreturn ".var_export($plugins, TRUE).";\n?>");
 	}
-
-	// 清除缓存
-	private function clear_cache() {
-		$this->runtime->truncate();
-
-		try{ unlink(RUNTIME_PATH.'_runtime.php'); }catch(Exception $e) {}
-		$tpmdir = array('_control', '_model', '_view');
-		foreach($tpmdir as $dir) _rmdir(RUNTIME_PATH.APP_NAME.$dir);
-		foreach($tpmdir as $dir) _rmdir(RUNTIME_PATH.F_APP_NAME.$dir);
-		return TRUE;
-	}
 }

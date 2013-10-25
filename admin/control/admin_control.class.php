@@ -132,6 +132,17 @@ class admin_control extends control {
 		$this->_place = $this->_navs[0][$this->_cokey].' &#187; '.$this->_title;
 	}
 
+	// 清除缓存
+	public function clear_cache() {
+		$this->runtime->truncate();
+
+		try{ unlink(RUNTIME_PATH.'_runtime.php'); }catch(Exception $e) {}
+		$tpmdir = array('_control', '_model', '_view');
+		foreach($tpmdir as $dir) _rmdir(RUNTIME_PATH.APP_NAME.$dir);
+		foreach($tpmdir as $dir) _rmdir(RUNTIME_PATH.F_APP_NAME.$dir);
+		return TRUE;
+	}
+
 	// 初始化导航数组
 	protected function init_navigation() {
 		$this->_navs = array(
