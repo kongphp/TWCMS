@@ -10,6 +10,15 @@ class plugin_control extends admin_control {
 	// 插件管理
 	public function index() {
 		$plugins = core::get_plugins();
+
+		// 检查是否有设置功能
+		foreach($plugins['enable'] as $dir => &$v) {
+			if(is_file(PLUGIN_PATH.$dir.'/setting.php')) {
+				$v['is_setting'] = 1;
+				var_dump($v);
+			}
+		}
+
 		$this->assign('plugins', $plugins);
 		$this->display();
 	}
