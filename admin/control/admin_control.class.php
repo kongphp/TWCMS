@@ -87,7 +87,6 @@ class admin_control extends control {
 		// hook admin_admin_control_construct_after.php
 	}
 
-
 	// 检查是不是管理员
 	protected function check_isadmin() {
 		if($this->_group['groupid'] != 1) {
