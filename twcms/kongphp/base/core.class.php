@@ -330,7 +330,6 @@ class core{
 			$cfg = is_file(PLUGIN_PATH.$dir.'/conf.php') ? (array)include(PLUGIN_PATH.$dir.'/conf.php') : array();
 
 			$cfg['rank'] = isset($cfg['rank']) ? $cfg['rank'] : 100;
-			$cfg['pluginid'] = isset($plugin_arr[$dir]['pluginid']) ? $plugin_arr[$dir]['pluginid'] : 0;
 
 			if(empty($plugin_arr[$dir])) {
 				$plugins['not_install'][$dir] = $cfg;
