@@ -20,7 +20,7 @@
 					</div>
 					<div class="plu_c">
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
-						<p class="plu_bottom" dir="{$k}">
+						<p class="plu_bottom" plugin="{$k}">
 							<a class="but2 disabled">停用</a>
 							{if:isset($v['is_setting'])}<a class="but2" href="?u=plugin-setting-dir-{$k}">设置</a>{/if}
 						</p>
@@ -39,7 +39,7 @@
 					</div>
 					<div class="plu_c">
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
-						<p class="plu_bottom" dir="{$k}">
+						<p class="plu_bottom" plugin="{$k}">
 							<a class="but2 enable">启用</a>
 							<a class="but2 delete">删除</a>
 						</p>
@@ -58,7 +58,7 @@
 					</div>
 					<div class="plu_c">
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
-						<p class="plu_bottom" dir="{$k}">
+						<p class="plu_bottom" plugin="{$k}">
 							<a class="but2 install">安装</a>
 							<a class="but2 delete">删除</a>
 						</p>
@@ -86,7 +86,7 @@ $("#plugin .plu_c .plu_bottom a").each(function() {
 
 //停用
 $(".disabled").click(function(){
-	twAjax.postd("?u=plugin-disabled-ajax-1", {"dir" : $(this).parent().attr("dir")}, function(data){
+	twAjax.postd("?u=plugin-disabled-ajax-1", {"dir" : $(this).parent().attr("plugin")}, function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
 	});
@@ -94,12 +94,12 @@ $(".disabled").click(function(){
 
 //启用
 $(".enable").click(function(){
-	enable($(this).parent().attr("dir"));
+	enable($(this).parent().attr("plugin"));
 });
 
 //安装
 $(".install").click(function(){
-	twAjax.postd("?u=plugin-install-ajax-1", {"dir" : $(this).parent().attr("dir")}, function(data){
+	twAjax.postd("?u=plugin-install-ajax-1", {"dir" : $(this).parent().attr("plugin")}, function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
 	});
@@ -107,7 +107,7 @@ $(".install").click(function(){
 
 //删除
 $(".delete").click(function(){
-	var dir = $(this).parent().attr("dir");
+	var dir = $(this).parent().attr("plugin");
 	twAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+$(this).parent().parent().children(".plu_b").html()+"</font>”？", function(){
 		twAjax.postd("?u=plugin-delete-ajax-1", {"dir" : dir}, function(data){
 			window.twErr = true;
