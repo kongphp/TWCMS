@@ -202,12 +202,12 @@ function _rmdir($dir, $keepdir = 0) {
 		if($file == '.' || $file == '..') continue;
 		$filepath = $dir.'/'.$file;
 		if(!is_dir($filepath)) {
-			unlink($filepath);
+			try{unlink($filepath);}catch(Exception $e){}
 		}else{
 			_rmdir($filepath);
 		}
 	}
-	if(!$keepdir) rmdir($dir);
+	if(!$keepdir) try{rmdir($dir);}catch(Exception $e){}
 	return TRUE;
 }
 
