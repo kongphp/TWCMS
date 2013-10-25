@@ -18,6 +18,7 @@ class admin_control extends control {
 	function __construct() {
 		$_ENV['_config']['FORM_HASH'] = form_hash();
 		$this->assign('C', $_ENV['_config']);
+		$this->assign_value('core', F_APP_NAME);
 
 		$admauth = R($_ENV['_config']['cookie_pre'].'admauth', 'R');
 

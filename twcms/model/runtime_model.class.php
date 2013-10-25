@@ -42,7 +42,7 @@ class runtime extends model {
 
 				empty($cfg['theme']) && $cfg['theme'] = 'default';
 
-				$cfg['tpl'] = $cfg['webdir'].'twcms/view/'.$cfg['theme'].'/';
+				$cfg['tpl'] = $cfg['webdir'].F_APP_NAME.'/view/'.$cfg['theme'].'/';
 				$cfg['webroot'] = 'http://'.$cfg['webdomain'];
 				$cfg['weburl'] = 'http://'.$cfg['webdomain'].$cfg['webdir'];
 				$cfg['table_arr'] = $this->models->get_tablename();
