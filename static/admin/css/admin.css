@@ -39,8 +39,7 @@ img{border:0}
 	#menu dd{cursor:pointer;line-height:22px;padding:0 8px;margin-top:2px;border:1px solid #fff;background:#fff;border-radius:3px}
 	#menu dd.on{border:1px solid #FCEFA1;background:#FCFAF1}
 	#menu dd.x{border:1px solid #83AADA;background:#E5F3FF}
-	.copyright{position:absolute;left:5px;bottom:0;width:135px;height:30px;border-top: 1px dashed #CCC;z-index:10;padding-top:3px;font-family:Tahoma}
-
+	.copyright{position:absolute;left:2px;bottom:0;width:140px;height:32px;_height:30px;border-top:1px dashed #CCC;z-index:10;padding-top:3px;white-space:nowrap}
 
 .unber .right{position:absolute;top:0;right:0;bottom:0;left:150px}
 	#closeer{z-index:9;position:absolute;top:8px;right:0;width:25px;height:22px;background:url(../img/bg.gif) -36px -55px no-repeat;cursor:pointer}
