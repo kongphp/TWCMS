@@ -11,9 +11,6 @@ class plugin_control extends admin_control {
 	public function index() {
 		$plugins = core::get_plugins();
 		$this->assign('plugins', $plugins);
-
-		// hook admin_plugin_control_index_after.php
-
 		$this->display();
 	}
 
@@ -204,6 +201,4 @@ class plugin_control extends admin_control {
 	private function set_plugin_config($plugins) {
 		return file_put_contents(CONFIG_PATH.'plugin.inc.php', "<?php\nreturn ".var_export($plugins, TRUE).";\n?>");
 	}
-
-	// hook admin_plugin_control_after.php
 }
