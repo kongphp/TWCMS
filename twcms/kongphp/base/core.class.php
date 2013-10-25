@@ -174,7 +174,7 @@ class core{
 	 */
 	public static function parseurl_control() {
 		$controlname = 'parseurl_control.class.php';
-		$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
+		$objfile = RUNTIME_CONTROL.$controlname;
 
 		if(DEBUG || !is_file($objfile)) {
 			$controlfile = self::get_original_file($controlname, CONTROL_PATH);
@@ -199,7 +199,7 @@ class core{
 		$control = &$_GET['control'];
 		$action = &$_GET['action'];
 		$controlname = "{$control}_control.class.php";
-		$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
+		$objfile = RUNTIME_CONTROL.$controlname;
 
 		// 如果缓存文件不存在，则搜索原始文件，并编译后，写入缓存文件
 		if(DEBUG || !is_file($objfile)) {
@@ -226,7 +226,7 @@ class core{
 		log::write('404错误，访问的 URL 不存在', 'php_error404.php');
 
 		$errorname = 'error404_control.class.php';
-		$objfile = RUNTIME_PATH.APP_NAME."_control/$errorname";
+		$objfile = RUNTIME_CONTROL.$errorname;
 
 		if(DEBUG || !is_file($objfile)) {
 			$errorfile = self::get_original_file($errorname, CONTROL_PATH);
@@ -270,9 +270,9 @@ class core{
 				$controlname = $m[1].'.class.php';
 				$realfile = CONTROL_PATH.$controlname;
 				if(is_file($realfile)) {
-					$objfile = RUNTIME_PATH.APP_NAME."_control/$controlname";
+					$objfile = RUNTIME_CONTROL.$controlname;
 					self::parse_all($realfile, $objfile, "写入继承的类的编译文件 $controlname 失败");
-					$s = str_replace_once($m[0], 'include RUNTIME_PATH.APP_NAME.\'_control/'.$controlname."'; ".$m[0], $s);
+					$s = str_replace_once($m[0], 'include RUNTIME_CONTROL.\''.$controlname."'; ".$m[0], $s);
 				}else{
 					throw new Exception("您继承的类文件 $controlname 不存在");
 				}
