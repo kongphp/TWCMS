@@ -13,9 +13,7 @@ class plugin_control extends admin_control {
 
 		// 检查是否有设置功能
 		foreach($plugins['enable'] as $dir => &$v) {
-			if(is_file(PLUGIN_PATH.$dir.'/setting.php')) {
-				$v['is_setting'] = 1;
-			}
+			is_file(PLUGIN_PATH.$dir.'/setting.php') && $v['is_setting'] = 1;
 		}
 
 		$this->assign('plugins', $plugins);
