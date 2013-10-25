@@ -104,29 +104,16 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .thm .gsm .del{color:#BC0B0B}
 .thmon{border:1px solid #CD0A0A;background:#FEF1EC}
 
-.thme .left{float:left;width:190px}
-.thme .right{display:inline;float:left;width:600px;margin-left:8px}
-.thme .right .CodeMirror{border:1px solid #ccc}
-.thme .right .thrbot{margin-top:9px}
-.thme #save{margin:0}
-.thme .thtop{height:28px;line-height:26px;overflow:hidden}
-.thme .thtop b{float:left;display:inline}
-.thme .thmb{width:100%;overflow:hidden}
-.thme .thmb #tpl{overflow:auto;cursor:pointer}
-.thme .thmb #tpl li{line-height:24px;border-radius:5px;padding:0 5px}
-.thme .thmb #tpl li:hover{background:#EEE8AA}
-.thme .thmb #tpl li.on{background:#CBE3F2;color:red}
-
 /*插件*/
 #plugin{padding-top:0}
 .plu{border:1px solid #CEE5F0;background:#F4F9FB;border-radius:5px;padding:5px;margin-top:8px;transition:all .8s}
 .plu:hover{border:1px solid #F0AD4E;background:#FFEDCE;box-shadow:-2px 2px 20px rgba(0, 0, 0, 0.25)}
-.plu .plu_ico{width:64px;height:64px;background:url(../img/plugin.jpg);border-radius:5px;transition:all 1s}
+.plu .plu_ico{width:64px;height:64px;background:url(img/plugin.jpg);border-radius:5px;transition:all 1s}
 .plu:hover .plu_ico{border-radius:15px;box-shadow:0 0 20px rgba(0, 0, 0, 0.25)}
 .plu .plu_l,.plu .plu_c,.plu .plu_r{float:left;_display:inline;word-wrap:break-word}
 .plu .plu_c{margin-left:10px;width:200px}
-.plu .plu_r{margin-left:10px;width:500px}
-.plu .plu_r b{padding-right:10px;font-weight:400}
+.plu .plu_r{margin-left:10px;width:600px}
+.plu .plu_r b{padding-right:10px;font-weight:400;display:block;float:left;height:22px;line-height:22px}
 .plu_cont{height:38px;line-height:18px;overflow:hidden}
 .plu_b{font-weight:bold}
 .plu_i{color:#555}
