@@ -22,15 +22,20 @@ class plugin_control extends admin_control {
 		$dir = R('dir', 'P');
 		$this->check_plugin($dir);
 		$plugins = $this->get_plugin_config();
-		if(isset($plugins[$dir])) {
-			$plugins[$dir]['enable'] = 1;
-			if($this->set_plugin_config($plugins)) {
-				E(0, '启用完成！');
-			}else{
-				E(1, '写入文件失败！');
+		isset($plugins[$dir]) || E(1, '启用出错，插件未安装！');
+
+		// 如果是编辑器插件，卸载其他编辑器插件
+		if(substr($dir, 0, 7) == 'editor_') {
+			foreach($plugins as $k => $v) {
+				substr($k, 0, 7) == 'editor_' && $plugins[$k]['enable'] = 0;
 			}
+		}
+
+		$plugins[$dir]['enable'] = 1;
+		if($this->set_plugin_config($plugins)) {
+			E(0, '启用完成！');
 		}else{
-			E(1, '启用出错，插件未安装！');
+			E(1, '写入文件失败！');
 		}
 	}
 
