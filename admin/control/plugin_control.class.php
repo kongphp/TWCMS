@@ -73,7 +73,7 @@ class plugin_control extends admin_control {
 
 		// 只允许删除停用或未安装的插件
 		if(empty($plugins[$dir]['enable'])) {
-			// 检测有 uninstall.php文件，则执行卸载
+			// 检测有 uninstall.php 文件，则执行卸载
 			$uninstall = PLUGIN_PATH.$dir.'/uninstall.php';
 			if(is_file($uninstall)) {
 				include $uninstall;
@@ -114,25 +114,19 @@ class plugin_control extends admin_control {
 		$this->check_plugin($dir);
 
 		$plugins = $this->get_plugin_config();
-
 		isset($plugins[$dir]) && E(1, '插件已经安装过！');
 
 		$cms_version = $this->get_version($dir);
 		$cms_version && version_compare($cms_version, C('version'), '>') && E(1, '无法安装，最低版本要求：TWCMS '.$cms_version);
 
-		// 检测有 install.php文件，则执行安装
+		// 检测有 install.php 文件，则执行安装
 		$install = PLUGIN_PATH.$dir.'/install.php';
-		if(is_file($install)) {
-			include $install;
-		}
+		if(is_file($install)) include $install;
 
 		$plugins[$dir] = array('enable' => 0);
+		if(!$this->set_plugin_config($plugins)) E(1, '写入文件失败！');
 
-		if($this->set_plugin_config($plugins)) {
-			E(0, '安装完成！');
-		}else{
-			E(1, '写入文件失败！');
-		}
+		E(0, '安装完成！');
 	}
 
 	// 在线安装插件
@@ -157,7 +151,7 @@ class plugin_control extends admin_control {
 		$cms_version = $this->get_version($dir);
 		$cms_version && version_compare($cms_version, C('version'), '>') && $this->install_tips('无法安装，最低版本要求：TWCMS '.$cms_version);
 
-		// 检测有 install.php文件，则执行安装
+		// 检测有 install.php 文件，则执行安装
 		$install = PLUGIN_PATH.$dir.'/install.php';
 		if(is_file($install)) include $install;
 
