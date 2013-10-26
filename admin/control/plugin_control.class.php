@@ -11,10 +11,13 @@ class plugin_control extends admin_control {
 	public function index() {
 		$plugins = core::get_plugins();
 
-		// 检查是否有设置功能
-		if($plugins['enable']) {
-			foreach($plugins['enable'] as $dir => &$v) {
-				is_file(PLUGIN_PATH.$dir.'/setting.php') && $v['is_setting'] = 1;
+		// 检查是否有图标和设置功能
+		foreach($plugins as &$arr) {
+			if(isset($arr) && is_array($arr)) {
+				foreach($arr as $dir => &$v) {
+					is_file(PLUGIN_PATH.$dir.'/show.jpg') && $v['is_show'] = 1;
+					is_file(PLUGIN_PATH.$dir.'/setting.php') && $v['is_setting'] = 1;
+				}
 			}
 		}
 
