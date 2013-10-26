@@ -144,29 +144,8 @@ class plugin_control extends admin_control {
 		$install_dir = PLUGIN_PATH.$dir;
 		if(is_dir($install_dir)) $this->install_tips('插件目录已存在，已安装过？');
 
-		if(function_exists('set_time_limit')) {
-			set_time_limit(600); // 10分钟
-			$timeout = 300;
-		}else{
-			$timeout = 20;
-		}
-
-		$url = 'http://www.twcms.cn/app/download.php?plugin='.$dir;
-		try{
-			$s = fetch_url($url, $timeout);
-		}catch(Exception $e) {
-			$this->install_tips('下载插件出错！');
-		}
-		if(empty($s) || substr($s, 0, 2) != 'PK') {
-			$this->install_tips('下载插件失败!');
-		}
-
+		$this->download($dir);
 		$zipfile = $install_dir.'.zip';
-		try{
-			file_put_contents($zipfile, $s);
-		}catch(Exception $e) {
-			$this->install_tips('插件写入出错，写入权限不对？');
-		}
 		try{
 			kp_zip::unzip($zipfile, $install_dir);
 		}catch(Exception $e) {
@@ -187,6 +166,68 @@ class plugin_control extends admin_control {
 		if(!$this->set_plugin_config($plugins)) $this->install_tips('写入配置文件失败！');
 
 		$this->install_tips('下载并安装完成！', 0);
+	}
+
+	// 在线升级插件
+	public function upgrade() {
+		$dir = R('dir');
+
+		if(empty($dir)) $this->install_tips('插件目录名不能为空！');
+		if(preg_match('/\W/', $dir)) $this->install_tips('插件目录名不正确！');
+
+		// 1. 下载插件
+		$this->download($dir, TRUE);
+
+		// 2. 删除旧版插件
+		$install_dir = PLUGIN_PATH.$dir;
+		_rmdir($install_dir);
+
+		// 3. 解压新版插件
+		$zipfile = $install_dir.'.zip';
+		try{
+			kp_zip::unzip($zipfile, $install_dir);
+		}catch(Exception $e) {
+			$this->install_tips('解压插件文件出错！');
+		}
+
+		// 4. 删除安装包
+		unlink($zipfile);
+
+		// 5. 判断是否已安装
+		$plugins = $this->get_plugin_config();
+		if(isset($plugins[$dir])) {
+			// 检测有 upgrade.php 文件，则执行升级
+			$upgrade = PLUGIN_PATH.$dir.'/upgrade.php';
+			if(is_file($upgrade)) include $upgrade;
+		}
+
+		// 6. 清除缓存
+		$this->clear_cache();
+
+		$this->install_tips('下载并升级完成！', 0);
+	}
+
+	// 在线下载插件
+	private function download($dir, $is_upgrade = FALSE) {
+		if(function_exists('set_time_limit')) {
+			set_time_limit(600); // 10分钟
+			$timeout = 300;
+		}else{
+			$timeout = 20;
+		}
+
+		$url = 'http://www.twcms.cn/app/download.php?plugin='.$dir.($is_upgrade ? '&upgrade=1' : '');
+		try{
+			$s = fetch_url($url, $timeout);
+			if(empty($s) || substr($s, 0, 2) != 'PK') throw new Exception();
+		}catch(Exception $e) {
+			$this->install_tips('下载插件失败!');
+		}
+		try{
+			file_put_contents(PLUGIN_PATH.$dir.'.zip', $s);
+		}catch(Exception $e) {
+			$this->install_tips('插件写入出错，写入权限不对？');
+		}
 	}
 
 	// 在线安装提示
