@@ -10,12 +10,12 @@ class debug{
 	public static function init() {
 		if(DEBUG) {
 			error_reporting(E_ALL | E_STRICT);
-			register_shutdown_function(array('debug', 'shutdown_handler'));	//程序关闭时执行
+			register_shutdown_function(array('debug', 'shutdown_handler'));	// 程序关闭时执行
 		}else{
 			error_reporting(0);	// 关闭错误输出
 		}
 		function_exists('ini_set') && ini_set('display_errors', 'On');
-		set_error_handler(array('debug', 'error_handler'));	//设置错误处理方法
+		set_error_handler(array('debug', 'error_handler'));	// 设置错误处理方法
 		set_exception_handler(array('debug', 'exception_handler'));	// 设置异常处理方法
 	}
 
