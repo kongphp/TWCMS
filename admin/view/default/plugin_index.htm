@@ -40,7 +40,11 @@
 					<div class="plu_c">
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
 						<p class="plu_bottom" plugin="{$k}">
+							{if:isset($v['is_setting']) && !empty($v['setting_ok'])}
+							<a class="but2" href="?u=plugin-setting-dir-{$k}">设置</a>
+							{else}
 							<a class="but2 enable">启用</a>
+							{/if}
 							<a class="but2 delete">删除</a>
 						</p>
 					</div>
