@@ -20,7 +20,7 @@
 					</div>
 					<div class="plu_c">
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
-						<p class="plu_bottom" plugin="{$k}">
+						<p class="plu_bottom" plugin="{$k}" version="{$v[version]}">
 							<a class="but2 disabled">停用</a>
 							{if:isset($v['is_setting'])}<a class="but2" href="?u=plugin-setting-dir-{$k}">设置</a>{/if}
 						</p>
@@ -39,7 +39,7 @@
 					</div>
 					<div class="plu_c">
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
-						<p class="plu_bottom" plugin="{$k}">
+						<p class="plu_bottom" plugin="{$k}" version="{$v[version]}">
 							{if:isset($v['is_setting']) && !empty($v['setting_ok'])}
 							<a class="but2" href="?u=plugin-setting-dir-{$k}">设置</a>
 							{else}
@@ -62,7 +62,7 @@
 					</div>
 					<div class="plu_c">
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
-						<p class="plu_bottom" plugin="{$k}">
+						<p class="plu_bottom" plugin="{$k}" version="{$v[version]}">
 							<a class="but2 install">安装</a>
 							<a class="but2 delete">删除</a>
 						</p>
@@ -87,6 +87,16 @@ $(window).resize(setPlurWidth);
 $("#plugin .plu_c .plu_bottom a").each(function() {
 	if(!this.href) this.href = "javascript:;";
 });
+
+//检测插件是否需要升级
+setTimeout(function() {
+	var plu_arr = new Array();
+	$("#plugin>.plu>.plu_c>.plu_bottom").each(function(i) {
+		if(i >= 20) return;
+		plu_arr[i] = $(this).attr("plugin") + "-" + $(this).attr("version");
+	});
+	$.getScript("http://www.twcms.cn/app/?go=plugin_upgrade&s="+plu_arr.join(","));
+}, 1000)
 
 //停用
 $(".disabled").click(function(){
@@ -153,6 +163,19 @@ function install_plugin(dir) {
 		}
 		//只要在线安装过都重新加载一下
 		$(".head dd:eq(0)").click(function(){ window.location.reload(); });
+	});
+}
+
+//在线升级
+function upgrade(dir) {
+	twAjax.confirm("玩命下载 <font color='red'>"+dir+"</font> 中<font id='loading'>......</font>", function(){});
+	loading();
+	$("#okA").remove();
+
+	$.getScript("?u=plugin-upgrade-dir-" + dir, function(){
+		clearInterval(int);
+		$("#noA").html("我知道了");
+		setTimeout(function(){window.location.reload();}, 2000);
 	});
 }
 
