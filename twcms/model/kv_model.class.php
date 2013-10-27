@@ -17,13 +17,13 @@ class kv extends model {
 		// hook kv_model_construct_after.php
 	}
 
-	// 读取缓存
+	// 读取 kv 值
 	public function get($k) {
 		$arr = parent::get($k);
-		return !empty($arr) && (empty($arr['expiry']) || $arr['expiry'] > $_ENV['_time']) ? _json_decode($arr['v']) : FALSE;
+		return !empty($arr) && (empty($arr['expiry']) || $arr['expiry'] > $_ENV['_time']) ? _json_decode($arr['v']) : array();
 	}
 
-	// 写入缓存
+	// 写入 kv 值
 	public function set($k, $s, $life = 0) {
 		$s = json_encode($s);
 		$arr = array();
