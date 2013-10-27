@@ -186,7 +186,7 @@ class admin_control extends control {
 			),
 		);
 
-		// hook admin_admin_control_init_navigation_after.php
+		// hook admin_admin_control_init_nav_after.php
 	}
 
 	// hook admin_admin_control_after.php
