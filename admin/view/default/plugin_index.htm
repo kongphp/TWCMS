@@ -22,7 +22,7 @@
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
 						<p class="plu_bottom" plugin="{$k}" version="{$v[version]}">
 							<a class="but2 disabled">停用</a>
-							{if:isset($v['is_setting'])}<a class="but2" href="?u=plugin-setting-dir-{$k}">设置</a>{/if}
+							{if:isset($v['is_setting'])}<a class="but2" href="javascript:parent.oneTab('?u=plugin-setting-dir-{$k}', true);">设置</a>{/if}
 						</p>
 					</div>
 					<div class="plu_r">
@@ -41,7 +41,7 @@
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
 						<p class="plu_bottom" plugin="{$k}" version="{$v[version]}">
 							{if:isset($v['is_setting']) && !empty($v['setting_ok'])}
-							<a class="but2" href="?u=plugin-setting-dir-{$k}">设置</a>
+							<a class="but2" href="javascript:parent.oneTab('?u=plugin-setting-dir-{$k}', true);">设置</a>
 							{else}
 							<a class="but2 enable">启用</a>
 							{/if}
