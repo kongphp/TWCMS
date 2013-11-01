@@ -282,7 +282,7 @@ class core{
 	}
 
 	/**
-	 * 创建模型中的数据库操作对象 (Model 的缩写)
+	 * 创建模型中的数据库操作对象
 	 * @param	string	$model	类名或表名
 	 * @return	object	数据库连接对象
 	 */
