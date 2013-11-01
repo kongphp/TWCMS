@@ -168,7 +168,6 @@ class admin_control extends control {
 				'setting-attach'=>array('name'=>'附件设置', 'p'=>'setting'),
 
 				'category-index'=>array('name'=>'分类管理', 'p'=>'category'),
-				'models-index'=>array('name'=>'模型管理', 'p'=>'category'),
 
 				'content-index'=>array('name'=>'内容管理', 'p'=>'content'),
 				'comment-index'=>array('name'=>'评论管理', 'p'=>'content'),
