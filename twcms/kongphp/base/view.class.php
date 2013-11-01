@@ -35,7 +35,7 @@ class view{
 			$tpl_file = core::get_original_file($filename, VIEW_PATH.$_ENV['_theme'].'/');
 
 			if(!$tpl_file) {
-				throw new Exception("模板文件 $filename 不存在");
+				throw new Exception('模板文件 '.$_ENV['_theme'].'/'.$filename.' 不存在');
 			}
 
 			if(FW($php_file, $this->tpl_parse($tpl_file)) === false) {
@@ -91,7 +91,7 @@ class view{
 		$tpl_file = core::get_original_file($filename, VIEW_PATH.$_ENV['_theme'].'/');
 
 		if(!$tpl_file) {
-			throw new Exception("模板文件 $filename 不存在");
+			throw new Exception('模板文件 '.$_ENV['_theme'].'/'.$filename.' 不存在');
 		}
 
 		return file_get_contents($tpl_file);
