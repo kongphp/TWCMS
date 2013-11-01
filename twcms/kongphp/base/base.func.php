@@ -60,39 +60,6 @@ function C($key, $val = null) {
 }
 
 /**
- * 创建模型中的数据库操作对象 (Model 的缩写)
- * @param	string	$model	类名或表名
- * @return	object	数据库连接对象
- */
-function M($model) {
-	$modelname = "{$model}_model.class.php";
-	if(isset($_ENV['_models'][$modelname])) {
-		return $_ENV['_models'][$modelname];
-	}
-	$objfile = RUNTIME_MODEL.$modelname;
-
-	// 如果缓存文件不存在，则搜索原始文件，并编译后，写入缓存文件
-	if(DEBUG || !is_file($objfile)) {
-		$modelfile = core::get_original_file($modelname, MODEL_PATH);
-
-		if(!$modelfile) {
-			throw new Exception("模型 $modelname 文件不存在");
-		}
-
-		$s = file_get_contents($modelfile);
-		$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
-		if(!FW($objfile, $s)) {
-			throw new Exception("写入 model 编译文件 $modelname 失败");
-		}
-	}
-
-	include $objfile;
-	$mod = new $model();
-	$_ENV['_models'][$modelname] = $mod;
-	return $mod;
-}
-
-/**
  * 具有递归自动创建文件夹和写入文件数据的功能 (File Write 的缩写)
  * @param string filename 要被写入数据的文件名
  * @param string $data 要写入的数据

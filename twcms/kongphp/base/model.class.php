@@ -61,7 +61,7 @@ class model{
 			case 'cache_conf':
 				return $this->cache_conf = &$_ENV['_config']['cache'];
 			default:
-				return $this->$var = M($var);
+				return $this->$var = core::model($var);
 		}
 	}
 

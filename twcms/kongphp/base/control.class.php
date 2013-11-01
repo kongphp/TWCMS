@@ -11,7 +11,7 @@ class control{
 			$db = 'db_'.$_ENV['_config']['db']['type'];
 			return $this->db = new $db($_ENV['_config']['db']);	// 给开发者调试时使用，不建议在控制器中操作 DB
 		}else{
-			return $this->$var = M($var);
+			return $this->$var = core::model($var);
 		}
 	}
 
