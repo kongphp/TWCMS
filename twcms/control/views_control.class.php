@@ -17,7 +17,7 @@ class views_control extends control{
 		$mviews = &$this->models->cms_content_views;
 		$mviews->table = 'cms_'.$_var['table'].'_views';
 		$v = $mviews->get($id);
-		echo 'document.write("'.$v['views'].'");';
+		echo 'var views='.$v['views'].';';
 		$v['views']++;
 		$mviews->update($v);
 		exit;
