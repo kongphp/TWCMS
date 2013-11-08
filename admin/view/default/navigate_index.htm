@@ -1,0 +1,385 @@
+{inc:header.htm}
+<style type="text/css">
+#nav_cont{position:relative}
+#nav_cont .list{margin-top:5px}
+#nav_cont .list ul{padding:2px;border:1px solid #C2D5E3;border-radius:5px;background:#ECF2F5;cursor:move}
+#nav_cont .list ul li{height:32px;line-height:32px;padding:6px 0 0 6px}
+#nav_cont .list ul li .inp{width:85%;vertical-align:top}
+#nav_cont .list ul:hover{background:#FFFFBB}
+.nav_l{float:left;width:25%}
+.nav_c{float:left;width:55%}
+.nav_r{float:left;width:15%}
+.nav_bottom{margin-top:10px}
+.nav_bottom .but1{margin:0}
+.outnav_tit{background:#E3F1F4;height:36px;line-height:36px;font-weight:bold;border-bottom:1px solid #B4DBF2}
+.case_type{padding:8px}
+.case_type a{display:inline;float:left;height:30px;line-height:30px;width:50px;background:#90CEF2;margin-right:5px;color:#fff;font-size:14px;text-align:center;border-radius:5px}
+.case_type a:hover{background:#0D6EA7}
+.case_type a.on{background:#0B6092}
+.nav_rank_2{margin-left:50px}
+</style>
+
+<div class="m">
+	<div class="head">
+		<dl>
+			<input id="add" type="button" value="增加" class="but1">
+			<dd class="on">{$_title}</dd>
+		</dl>
+	</div>
+
+	<div class="p c2">
+		<div class="cc">
+			{if:empty($nav_arr)}<div class="sky warning bnote"><i></i><b>暂无数据</b></div>{/if}
+			<div id="nav_cont">
+				{inc:navigate_content.htm}
+			</div>
+		</div>
+	</div>
+</div>
+
+<script id="add_link" type="text/html">
+	<div class="case_type cf">
+		<a href="javascript:set_type(0);" class="on">分类</a>
+		<a href="javascript:set_type(1);">链接</a>
+	</div>
+
+	{loop:$category_arr $arr $mid}
+	<div class="category">
+		<dl class="cat_tit">
+			<dd class="cat_t_1">　{php} echo $mod_name[$mid];{/php}分类</dd>
+		</dl>
+
+		{loop:$arr $v}
+		<dl class="cat_col" cid="{$v[cid]}" mid="{$v[mid]}">
+			<dd class="cat_c_1">
+				<div class="c_name" title="编号(cid): {$v[cid]}&#10;分类名称: {$v[name]}">
+					　{php} echo str_repeat("　　", $v['pre']-1);{/php}
+					<label><input type="checkbox" value="{$v[cid]}"> {$v[name]}</label>
+				</div>
+			</dd>
+		</dl>
+		{/loop}
+	</div>
+	{/loop}
+
+	<div id="outnav" style="display:none">
+		<div class="outnav_tit">　外部链接</div>
+		<table class="tb">
+			<tr>
+				<th>名称</th>
+				<td><input name="name" type="text" class="inp w1" /></td>
+			</tr>
+			<tr>
+				<th>链接</th>
+				<td><input name="url" type="text" value="http://" class="inp w1" /></td>
+			</tr>
+			<tr>
+				<th>新窗口打开</th>
+				<td><input name="target" type="checkbox" checked="checked"></td>
+			</tr>
+		</table>
+	</div>
+</script>
+
+<script type="text/javascript">
+//拖拽插件
+$.fn.kpdragsort = function(options) {
+	var container = this;
+
+	$(container).children(".list").off("mousedown").mousedown(function(e) {
+		if(e.which != 1 || $(e.target).is("input, textarea, a") || window.kp_only) return; // 排除非左击和其他元素
+		e.preventDefault(); // 阻止选中文本
+
+		var x = e.pageX;
+		var y = e.pageY;
+		var _this = $(this); // 点击选中块
+		var w = _this.width();
+		var h = _this.height();
+		var w2 = w/2;
+		var h2 = h/2;
+		var p = _this.position();
+		var left = p.left;
+		var top = p.top;
+		var sTop = $(".p:first").scrollTop();
+		window.kp_only = true;
+
+		// 运输二级导航
+		if(!_this.is(".nav_rank_2")) {
+			var i = _this.index(".list");
+			var iObj = $("#nav_cont>.list");
+			for(++i; i<iObj.length; i++) {
+				if(!iObj.eq(i).is(".nav_rank_2")) break;
+				iObj.eq(i).appendTo(_this.children(".nav_transport"));
+			}
+		}
+
+		// 添加虚线框
+		_this.before('<div id="kp_widget_holder"></div>');
+		var wid = $("#kp_widget_holder");
+		wid.css({"border":"2px dashed #ccc", "height":_this.height()-4, "margin":_this.css("margin")});
+
+		// 保持原来的宽高
+		_this.css({"width":w, "height":h, "position":"absolute", opacity: 0.8, "z-index": 999, "left":left, "top":top});
+
+		// 绑定mousemove事件
+		$(document).mousemove(function(e) {
+			e.preventDefault();
+
+			// 移动选中块
+			var l = left + e.pageX - x;
+			var t = top + ($(".p:first").scrollTop() - sTop) + e.pageY - y;
+			_this.css({"left":l, "top":t});
+
+			// 二级导航
+			var widPrevFun = function() {
+				var prev = wid.prev();
+				if(prev.is(_this)) return prev.prev();
+				return prev;
+			}
+
+			var widNextFun = function() {
+				var next = wid.next();
+				if(next.is(_this)) return next.next();
+				return next;
+			}
+
+			var rankOneFun = function() {
+				_this.attr("_rank", 1);
+				wid.css({"margin-left":0});
+				window.twoNav = 1;
+			}
+
+			var rankTwoFun = function() {
+				_this.attr("_rank", 2);
+				wid.css({"margin-left":50});
+				window.twoNav = 2;
+			}
+
+			// 当拖拽到第一个时变成一级 或 有下级时只能为一级
+			var widPrev = widPrevFun();
+			if(!widPrev.is(".list") || _this.find(".nav_transport>.list").length > 0) {
+				rankOneFun();
+			}else{
+				// 二级如果是最后一个时可以拖拽为一级
+				var winNext = widNextFun();
+				if(!winNext.is(".nav_rank_2")) {
+					if(left < l-50) {
+						rankTwoFun();
+					}else if(left > l) {
+						rankOneFun();
+					}
+				}else{
+					// 如果上一个对象是二级，那它直接为二级
+					if(widPrev.is(".nav_rank_2")) {
+						rankTwoFun();
+					}else{
+						// 如果下一个对象为二级，说明他有下级，那不能被代替
+						if(winNext.is(".nav_rank_2")) {
+							rankTwoFun();
+						}else{
+							if(left < l-50) {
+								rankTwoFun();
+							}else if(left > l) {
+								rankOneFun();
+							}
+						}
+					}
+				}
+			}
+
+			// 选中块的中心坐标
+			var ml = l+w2;
+			var mt = t+h2;
+
+			// 遍历所有块的坐标
+			$(container).children(".list").not(_this).each(function(i) {
+				var obj = $(this);
+				var p = obj.position();
+				var a1 = p.left;
+				var a2 = p.left + obj.width();
+				var a3 = p.top;
+				var a4 = p.top + obj.height();
+
+				// 移动虚线框
+				if(a1 < ml && ml < a2 && a3 < mt && mt < a4) {
+					if(!obj.next("#kp_widget_holder").length) {
+						wid.insertAfter(this);
+					}else{
+						wid.insertBefore(this);
+					}
+				}
+			});
+		});
+
+		// 绑定mouseup事件
+		var _mouseup = function() {
+			$(document).off('mouseup').off('mousemove');
+
+			// 拖拽回位，并删除虚线框
+			var p = wid.position();
+
+			if(window.twoNav) {
+				if(window.twoNav === 2) {
+					p.left = p.left + 50;
+					_this.addClass("nav_rank_2");
+				}else{
+					_this.removeClass("nav_rank_2");
+				}
+			}
+
+			_this.animate({"left":p.left, "top":p.top}, 100, function() {
+				_this.removeAttr("style");
+				wid.replaceWith(_this);
+
+				// 运输结束
+				_this.find(".nav_transport>.list").insertAfter(_this);
+
+				window.kp_only = null;
+				if(parent) parent.document.onmouseup = null;
+
+				check_sort();
+			});
+		};
+		$(document).mouseup(_mouseup);
+		if(parent) parent.document.onmouseup = _mouseup;
+	});
+}
+$("#nav_cont").kpdragsort();
+window.keys = get_navi();
+
+//添加分类
+$("#add").click(function(){
+	window.setType = 0;
+	window.addHeight = Math.max(450, $("body").height()-30);
+	$.twDialog({content:$("#add_link").html(), resizable:true, open:true, modal:true, width:600, height:addHeight, minW:700});
+
+	//关闭
+	$(".twdialog_title a,.twdialog_button .close").click(function(){ $.twDialog("remove"); });
+
+	//提交
+	$(".twdialog_button .ok").click(function(){
+		if(window.setType == 0) {
+			//添加分类
+			var cate = [];
+			$(".category input[type='checkbox']").each(function(i) {
+				if(this.checked) {
+					cate[i] = [$(this).parent().text(), $(this).val()];
+				}
+			});
+			twAjax.postd("?u=navigate-add_cate-ajax-1", {"cate":cate}, function(data){
+				twAjax.alert(data);
+				nav_reload();
+			});
+		}else{
+			//添加链接
+			var name = $("#outnav input[name='name']").val();
+			var url = $("#outnav input[name='url']").val();
+			var target = $("#outnav input[name='target']")[0].checked ? 1 : 0;
+			twAjax.postd("?u=navigate-add_link-ajax-1", {"name":name, "url":url, "target":target}, function(data){
+				twAjax.alert(data);
+				nav_reload();
+			});
+		}
+	});
+});
+
+//删除
+function nav_del(obj) {
+	var o = $(obj).parent().parent().parent();
+	var name = o.find(".name").val();
+	var key = o.attr("_key");
+	var s_end = (!o.is(".nav_rank_2") && o.next().is(".nav_rank_2")) ? "及下级导航" : "";
+	twAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+name+"</font>”" + s_end +"？", function(){
+		twAjax.postd("?u=navigate-del-ajax-1", {"key":key}, function(data){
+			twAjax.alert(data);
+			nav_reload();
+		});
+	});
+}
+
+//重新加载
+function nav_reload() {
+	if(window.twData.err==0) {
+		$.twDialog("remove");
+		setTimeout(function() {
+			twAjax.get("?u=navigate-get_navigate_content&r="+time(), function(html){
+				$(".sky").remove();
+				$("#nav_cont").html(html);
+				$("#nav_cont").kpdragsort();
+				window.keys = get_navi();
+			});
+		}, 500);
+	}
+}
+
+//内容改变
+function nav_change() {
+	if(!$("#nav_change").length) $(".head>dl").append('<input id="nav_change" onclick="nav_save()" type="button" value="保存修改" class="but1" />');
+}
+
+//保存修改
+function nav_save() {
+	twAjax.postd("?u=navigate-nav_save-ajax-1", {"navi":get_navi()}, function(data){
+		twAjax.alert(data);
+		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+	});
+}
+
+//获取所有数据
+function get_navi() {
+	var navi = [];
+	$("#nav_cont>.list").each(function(i) {
+		var cid = $(this).attr("_cid");
+		var name = $(this).find(".name").val();
+		var url = $(this).find(".url").val();
+		var target = $(this).find("input[type='checkbox']")[0].checked ? 1 : 0;
+		var rank = $(this).attr("_rank");
+		navi[i] = [cid, name, url, target, rank];
+	});
+	return navi;
+}
+
+//检查排序是否已修改
+function check_sort() {
+	var len = $("#nav_cont>.list").length;
+	for(var i = 0; i < len; i++) {
+		var obj = $("#nav_cont>.list").eq(i);
+		var cid = obj.attr("_cid");
+		var name = obj.find(".name").val();
+		var url = obj.find(".url").val();
+		var target = obj.find("input[type='checkbox']")[0].checked ? 1 : 0;
+		var rank = obj.attr("_rank");
+
+		try{
+			var keys = window.keys;
+			if(keys[i][0] !== cid || keys[i][1] !== name || keys[i][2] !== url || keys[i][3] !== target || keys[i][4] !== rank) {
+				nav_change();
+				return;
+			}
+		}catch(e){}
+	}
+	if($("#nav_change").length) $("#nav_change").remove();
+}
+
+// 选择类型
+function set_type(type) {
+	var h;
+	if(type == 0) {
+		$("#outnav").hide();
+		$(".category").show();
+		h = window.addHeight;
+		window.setType = 0;
+	}else{
+		$(".category").hide();
+		$("#outnav").show();
+		h = 270;
+		window.setType = 1;
+	}
+	$(".twdialog").css("height", h);
+	$(".twdialog_content").css("height", h-64);
+	$(".case_type>a").removeAttr("class");
+	$(".case_type>a").eq(type).addClass("on");
+}
+</script>
+</body>
+</html>

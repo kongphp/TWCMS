@@ -1,0 +1,37 @@
+	{loop:$nav_arr $v $k}
+		<div class="list" _cid="{$v[cid]}" _rank="1" _key="{$k}">
+			<ul class="cf">
+				<li class="nav_l">
+					<input type="text" class="inp name" onfocus="nav_change()" onblur="check_sort()" value="{$v[name]}">
+					<input type="checkbox" name="target" onchange="check_sort()"{if:isset($v['target']) && $v['target'] == '_blank'} checked="checked"{/if} title="新窗口打开">
+				</li>
+				<li class="nav_c">
+					{if:empty($v[cid])}<input type="text" class="inp url" onfocus="nav_change()" onblur="check_sort()" value="{$v[url]}">{/if}
+				</li>
+				<li class="nav_r">
+					<a class="but2" target="_blank" href="{if:empty($v[cid])}{$v[url]}{else}../index.php?cate--cid-{$v[cid]}{/if}">查看</a>
+					<a class="but2" onclick="nav_del(this)" href="javascript:;">删除</a>
+				</li>
+			</ul>
+			<div class="nav_transport"></div>
+		</div>
+
+		{loop:$v[son] $v2 $k2}
+		<div class="list nav_rank_2" _cid="{$v2[cid]}" _rank="2" _key="{$k}-{$k2}">
+			<ul class="cf">
+				<li class="nav_l">
+					<input type="text" class="inp name" onfocus="nav_change()" onblur="check_sort()" value="{$v2[name]}">
+					<input type="checkbox" name="target" onchange="check_sort()"{if:isset($v2['target']) && $v2['target'] == '_blank'} checked="checked"{/if} title="新窗口打开">
+				</li>
+				<li class="nav_c">
+					{if:empty($v2[cid])}<input type="text" class="inp url" onfocus="nav_change()" onblur="check_sort()" value="{$v2[url]}">{/if}
+				</li>
+				<li class="nav_r">
+					<a class="but2" target="_blank" href="{if:empty($v2[cid])}{$v2[url]}{else}../index.php?cate--cid-{$v2[cid]}{/if}" cid="{$v2[cid]}">查看</a>
+					<a class="but2" onclick="nav_del(this)" href="javascript:;">删除</a>
+				</li>
+			</ul>
+			<div class="nav_transport"></div>
+		</div>
+		{/loop}
+	{/loop}
