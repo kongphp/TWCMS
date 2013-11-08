@@ -131,6 +131,18 @@ class category_control extends admin_control {
 			E(1, '操作单页表时出错');
 		}
 
+		// 删除导航中的分类
+		$navigate = $this->kv->xget('navigate');
+		foreach($navigate as $k=>$v) {
+			if($v['cid'] == $cid) unset($navigate[$k]);
+			if(isset($v['son'])) {
+				foreach($v['son'] as $k2=>$v2) {
+					if($v2['cid'] == $cid) unset($navigate[$k]['son'][$k2]);
+				}
+			}
+		}
+		$this->kv->set('navigate', $navigate);
+
 		// 删除分类缓存
 		$this->category->delete_cache();
 
