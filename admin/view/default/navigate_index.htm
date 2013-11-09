@@ -14,9 +14,11 @@
 .outnav_tit{background:#E3F1F4;height:36px;line-height:36px;font-weight:bold;border-bottom:1px solid #B4DBF2}
 .case_type{padding:8px}
 .case_type a{display:inline;float:left;height:30px;line-height:30px;width:50px;background:#90CEF2;margin-right:5px;color:#fff;font-size:14px;text-align:center;border-radius:5px}
+.case_type a:visited{color:#fff}
 .case_type a:hover{background:#0D6EA7}
 .case_type a.on{background:#0B6092}
 .nav_rank_2{margin-left:50px}
+.twdialog_content{_overflow-x:hidden}
 </style>
 
 <div class="m">
@@ -251,8 +253,8 @@ window.keys = get_navi();
 //添加分类
 $("#add").click(function(){
 	window.setType = 0;
-	window.addHeight = Math.max(450, $("body").height()-30);
-	$.twDialog({content:$("#add_link").html(), resizable:true, open:true, modal:true, width:600, height:addHeight, minW:700});
+	window.addHeight = Math.max(350, $("body").height()-30);
+	$.twDialog({content:$("#add_link").html(), resizable:true, open:true, modal:true, width:600, height:addHeight, minW:500});
 
 	//关闭
 	$(".twdialog_title a,.twdialog_button .close").click(function(){ $.twDialog("remove"); });
@@ -373,7 +375,7 @@ function set_type(type) {
 	}else{
 		$(".category").hide();
 		$("#outnav").show();
-		h = 270;
+		h = 275;
 		window.setType = 1;
 	}
 	$(".twdialog").css("height", h);
