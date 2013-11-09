@@ -66,6 +66,9 @@ class category extends model {
 		}elseif($post['mid'] != $data['mid'] && $data['count'] > 0) {
 			$name = 'mid';
 			$msg = '分类中有内容，不允许修改分类模型，请先清空分类内容';
+		}elseif($data['type'] == 1 && $this->find_fetch_key(array('upid' => $data['cid']), array(), 0, 1)) {
+			$name = 'mid';
+			$msg = '分类有下级分类，不允许修改分类模型和类型';
 		}elseif($post['type'] != $data['type'] && $data['count'] > 0) {
 			$name = 'type';
 			$msg = '分类中有内容，不允许修改分类属性，请先清空分类内容';

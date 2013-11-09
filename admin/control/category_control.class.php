@@ -180,6 +180,12 @@ class category_control extends admin_control {
 			$data2 = $this->cms_page->get($cid);
 			if($data2) $data['page_content'] = $data2['content'];
 		}
+
+		// 为频道时，检测是否有下级分类
+		if($data['type'] == 1 && $this->category->find_fetch_key(array('upid' => $data['cid']), array(), 0, 1)) {
+			$data['son_cate'] = 1;
+		}
+
 		echo json_encode($data);
 		exit;
 	}

@@ -298,8 +298,8 @@ function edit(cid) {
 			$(".twdialog [name='"+v+"']").val([data[v]]);
 		}
 
-		// 如果分类已发布了内容就不允许改变模型和类型
-		if(data.count > 0) {
+		// 如果分类已发布了内容或有下级分类就不允许改变模型和类型
+		if(data.count > 0 || data.son_cate) {
 			$(".twdialog [name='mid']").each(function() {
 				if($(this).val() != data.mid) {
 					$(this).attr("disabled", "disabled");
