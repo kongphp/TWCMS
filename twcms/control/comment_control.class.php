@@ -36,6 +36,7 @@ class comment_control extends control{
 		$this->assign('tw_var', $this->_var);
 
 		$GLOBALS['run'] = &$this;
+		$GLOBALS['_show'] = &$_show;
 
 		// hook comment_control_index_after.php
 
