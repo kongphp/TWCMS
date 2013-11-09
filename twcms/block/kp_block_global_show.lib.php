@@ -26,6 +26,7 @@ function kp_block_global_show($conf) {
 
 	// 合并大数据字段
 	$id = R('id');	// 前面已经转过整数了，没安全问题
+	$_show['comment_url'] = 'index.php?comment--cid-'.$run->_var['cid'].'-id-'.$id.C('url_suffix');
 	$_show += $run->cms_content_data->read($id);
 
 	// 显示上下翻页 (大数据站点建议关闭)
