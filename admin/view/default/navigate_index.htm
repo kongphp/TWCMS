@@ -1,23 +1,29 @@
 {inc:header.htm}
 <style type="text/css">
 #nav_cont{position:relative}
-#nav_cont .list{margin-top:5px}
-#nav_cont .list ul{padding:2px;border:1px solid #C2D5E3;border-radius:5px;background:#ECF2F5;cursor:move}
-#nav_cont .list ul li{height:32px;line-height:32px;padding:6px 0 0 6px}
-#nav_cont .list ul li .inp{width:85%;vertical-align:top}
+#nav_cont .list,#kp_widget_holder{padding:2px}
+#nav_cont .list ul{padding:4px;background:#ECF2F5;border:1px solid #C2D5E3;border-radius:5px;cursor:move}
+#nav_cont .list ul li{height:26px;line-height:26px;padding:2px 0 2px 2px}
 #nav_cont .list ul:hover{background:#FFFFBB}
-.nav_l{float:left;width:25%}
-.nav_c{float:left;width:55%}
-.nav_r{float:left;width:15%}
-.nav_bottom{margin-top:10px}
-.nav_bottom .but1{margin:0}
+.nav_l{float:left;width:150px}
+.nav_l input{float:left;vertical-align:top}
+.nav_l .inp{width:108px}
+.nav_l .check_box{cursor:pointer;margin:6px 0 0 5px}
+.nav_c{float:left;width:50%}
+.nav_c .inp{width:90%}
+.nav_r{float:right;width:120px}
+.nav_r .but2{float:right;margin:3px 8px 0 0}
+.nav_r .del,.nav_r .del:visited{color:#BC0B0B}
+.nav_rank_2{margin-left:50px}
+.nav_transport{display:none}
+
+/*对话框*/
 .outnav_tit{background:#E3F1F4;height:36px;line-height:36px;font-weight:bold;border-bottom:1px solid #B4DBF2}
 .case_type{padding:8px}
 .case_type a{display:inline;float:left;height:30px;line-height:30px;width:50px;background:#90CEF2;margin-right:5px;color:#fff;font-size:14px;text-align:center;border-radius:5px}
 .case_type a:visited{color:#fff}
 .case_type a:hover{background:#0D6EA7}
 .case_type a.on{background:#0B6092}
-.nav_rank_2{margin-left:50px}
 .twdialog_content{_overflow-x:hidden}
 </style>
 
@@ -45,24 +51,26 @@
 		<a href="javascript:set_type(1);">链接</a>
 	</div>
 
-	{loop:$category_arr $arr $mid}
-	<div class="category">
-		<dl class="cat_tit">
-			<dd class="cat_t_1">　{php} echo $mod_name[$mid];{/php}分类</dd>
-		</dl>
+	<div id="category">
+		{loop:$category_arr $arr $mid}
+		<div class="category">
+			<dl class="cat_tit">
+				<dd class="cat_t_1">　{php} echo $mod_name[$mid];{/php}分类</dd>
+			</dl>
 
-		{loop:$arr $v}
-		<dl class="cat_col" cid="{$v[cid]}" mid="{$v[mid]}">
-			<dd class="cat_c_1">
-				<div class="c_name" title="编号(cid): {$v[cid]}&#10;分类名称: {$v[name]}">
-					　{php} echo str_repeat("　　", $v['pre']-1);{/php}
-					<label><input type="checkbox" value="{$v[cid]}"> {$v[name]}</label>
-				</div>
-			</dd>
-		</dl>
+			{loop:$arr $v}
+			<dl class="cat_col" cid="{$v[cid]}" mid="{$v[mid]}">
+				<dd class="cat_c_1">
+					<div class="c_name" title="编号(cid): {$v[cid]}&#10;分类名称: {$v[name]}">
+						　{php} echo str_repeat("　　", $v['pre']-1);{/php}
+						<label><input type="checkbox" value="{$v[cid]}"> {$v[name]}</label>
+					</div>
+				</dd>
+			</dl>
+			{/loop}
+		</div>
 		{/loop}
 	</div>
-	{/loop}
 
 	<div id="outnav" style="display:none">
 		<div class="outnav_tit">　外部链接</div>
@@ -110,16 +118,18 @@ $.fn.kpdragsort = function(options) {
 		if(!_this.is(".nav_rank_2")) {
 			var i = _this.index(".list");
 			var iObj = $("#nav_cont>.list");
+			var iSon = _this.children(".nav_transport");
 			for(++i; i<iObj.length; i++) {
 				if(!iObj.eq(i).is(".nav_rank_2")) break;
-				iObj.eq(i).appendTo(_this.children(".nav_transport"));
+				iObj.eq(i).appendTo(iSon);
 			}
+			if(iSon.children().length) iSon.show();
 		}
 
 		// 添加虚线框
-		_this.before('<div id="kp_widget_holder"></div>');
+		_this.after('<div id="kp_widget_holder"></div>');
 		var wid = $("#kp_widget_holder");
-		wid.css({"border":"2px dashed #ccc", "height":_this.height()-4, "margin":_this.css("margin")});
+		wid.css({"border":"2px dashed #ccc", "height":_this.height()-4, "margin-left":_this.css("margin-left")});
 
 		// 保持原来的宽高
 		_this.css({"width":w, "height":h, "position":"absolute", opacity: 0.8, "z-index": 999, "left":left, "top":top});
@@ -235,20 +245,19 @@ $.fn.kpdragsort = function(options) {
 				wid.replaceWith(_this);
 
 				// 运输结束
+				_this.children(".nav_transport").removeAttr("style");
 				_this.find(".nav_transport>.list").insertAfter(_this);
 
 				window.kp_only = null;
 				if(parent) parent.document.onmouseup = null;
 
-				check_sort();
+				check_change();
 			});
 		};
 		$(document).mouseup(_mouseup);
 		if(parent) parent.document.onmouseup = _mouseup;
 	});
 }
-$("#nav_cont").kpdragsort();
-window.keys = get_navi();
 
 //添加分类
 $("#add").click(function(){
@@ -308,11 +317,18 @@ function nav_reload() {
 			twAjax.get("?u=navigate-get_navigate_content&r="+time(), function(html){
 				$(".sky").remove();
 				$("#nav_cont").html(html);
-				$("#nav_cont").kpdragsort();
-				window.keys = get_navi();
+				init_load();
 			});
 		}, 500);
 	}
+}
+
+//初始加载
+function init_load() {
+	$("#nav_cont").kpdragsort();
+	window.keys = get_navi();
+	$("input[type='checkbox']").change(check_change);
+	$("input[type='text']").focusin(nav_change).focusout(check_change);
 }
 
 //内容改变
@@ -324,7 +340,7 @@ function nav_change() {
 function nav_save() {
 	twAjax.postd("?u=navigate-nav_save-ajax-1", {"navi":get_navi()}, function(data){
 		twAjax.alert(data);
-		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+		if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
 	});
 }
 
@@ -342,8 +358,8 @@ function get_navi() {
 	return navi;
 }
 
-//检查排序是否已修改
-function check_sort() {
+//检查参数是否改变
+function check_change() {
 	var len = $("#nav_cont>.list").length;
 	for(var i = 0; i < len; i++) {
 		var obj = $("#nav_cont>.list").eq(i);
@@ -369,11 +385,11 @@ function set_type(type) {
 	var h;
 	if(type == 0) {
 		$("#outnav").hide();
-		$(".category").show();
+		$("#category").show();
 		h = window.addHeight;
 		window.setType = 0;
 	}else{
-		$(".category").hide();
+		$("#category").hide();
 		$("#outnav").show();
 		h = 275;
 		window.setType = 1;
@@ -383,6 +399,8 @@ function set_type(type) {
 	$(".case_type>a").removeAttr("class");
 	$(".case_type>a").eq(type).addClass("on");
 }
+
+init_load();
 </script>
 </body>
 </html>

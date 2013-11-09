@@ -44,8 +44,8 @@ class navigate_control extends admin_control {
 			$i = 0;
 			foreach($navi as $v) {
 				$cid = intval($v[0]);
-				$name = htmlspecialchars($v[1]);
-				$url = $cid ? $cid : htmlspecialchars($v[2]);
+				$name = htmlspecialchars(trim($v[1]));
+				$url = $cid ? $cid : htmlspecialchars(trim($v[2]));
 				$target = $v[3] ? '_blank' : '_self';
 				$rank = intval($v[4]);
 				if($rank > 1) {
@@ -71,7 +71,7 @@ class navigate_control extends admin_control {
 			$nav_arr = $this->kv->xget('navigate');
 			foreach($cate as $arr) {
 				if(isset($arr[0]) && isset($arr[1])) {
-					$nav_arr[] = array('cid'=>intval($arr[1]), 'name'=>htmlspecialchars($arr[0]), 'url'=>'', 'target'=>'_self');
+					$nav_arr[] = array('cid'=>intval($arr[1]), 'name'=>htmlspecialchars(trim($arr[0])), 'url'=>'', 'target'=>'_self');
 				}
 			}
 			$this->kv->set('navigate', $nav_arr);
@@ -84,8 +84,8 @@ class navigate_control extends admin_control {
 
 	// 添加链接
 	public function add_link() {
-		$name = htmlspecialchars(R('name', 'P'));
-		$url = htmlspecialchars(R('url', 'P'));
+		$name = htmlspecialchars(trim(R('name', 'P')));
+		$url = htmlspecialchars(trim(R('url', 'P')));
 		$target = (int) R('target', 'P');
 
 		!$name && E(1, '名称不能为空！', 'name');
