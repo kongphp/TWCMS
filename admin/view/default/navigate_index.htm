@@ -143,7 +143,6 @@ $.fn.kpdragsort = function(options) {
 			var t = top + ($(".p:first").scrollTop() - sTop) + e.pageY - y;
 			_this.css({"left":l, "top":t});
 
-			// 二级导航
 			var widPrevFun = function() {
 				var prev = wid.prev();
 				if(prev.is(_this)) return prev.prev();

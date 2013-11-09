@@ -40,7 +40,7 @@ class navigate_control extends admin_control {
 		$navi = R('navi', 'P');
 
 		if(!empty($navi) && is_array($navi)) {
-			$arr = array();
+			$nav_arr = array();
 			$i = 0;
 			foreach($navi as $v) {
 				$cid = intval($v[0]);
@@ -49,13 +49,13 @@ class navigate_control extends admin_control {
 				$target = $v[3] ? '_blank' : '_self';
 				$rank = intval($v[4]);
 				if($rank > 1) {
-					$arr[$i]['son'][] = array('cid'=>$cid, 'name'=>$name, 'url'=>$url, 'target'=>$target);
+					$nav_arr[$i]['son'][] = array('cid'=>$cid, 'name'=>$name, 'url'=>$url, 'target'=>$target);
 				}else{
 					$i++;
-					$arr[$i] = array('cid'=>$cid, 'name'=>$name, 'url'=>$url, 'target'=>$target);
+					$nav_arr[$i] = array('cid'=>$cid, 'name'=>$name, 'url'=>$url, 'target'=>$target);
 				}
 			}
-			$this->kv->set('navigate', $arr);
+			$this->kv->set('navigate', $nav_arr);
 		}else{
 			E(1, '非法提交！');
 		}
@@ -102,16 +102,16 @@ class navigate_control extends admin_control {
 	public function del() {
 		$key = R('key', 'P');
 
-		$arr = $this->kv->xget('navigate');
+		$nav_arr = $this->kv->xget('navigate');
 		if(is_numeric($key)) {
-			unset($arr[$key]);
+			unset($nav_arr[$key]);
 		}else{
 			$k = explode('-', $key);
 			$k1 = intval($k[0]);
 			$k2 = intval($k[1]);
-			if(isset($arr[$k1]['son'][$k2])) unset($arr[$k1]['son'][$k2]);
+			if(isset($nav_arr[$k1]['son'][$k2])) unset($nav_arr[$k1]['son'][$k2]);
 		}
-		$this->kv->set('navigate', $arr);
+		$this->kv->set('navigate', $nav_arr);
 
 		E(0, '删除完成！');
 	}
