@@ -29,8 +29,8 @@ class show_control extends control{
 
 		// SEO 相关
 		$this->_cfg['titles'] = $_show['title'].(empty($_show['seo_title']) ? '' : '/'.$_show['seo_title']);
-		!empty($_show['seo_keywords']) && $this->_cfg['seo_keywords'] = $_show['seo_keywords'];
-		!empty($_show['seo_description']) && $this->_cfg['seo_description'] =  $_show['seo_description'];
+		$this->_cfg['seo_keywords'] = empty($_show['seo_keywords']) ? $_show['title'] : $_show['seo_keywords'];
+		$this->_cfg['seo_description'] = empty($_show['seo_description']) ? $_show['intro']: $_show['seo_description'];
 
 		$this->assign('tw', $this->_cfg);
 		$this->assign('tw_var', $this->_var);
