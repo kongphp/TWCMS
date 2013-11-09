@@ -9,8 +9,8 @@
 					{if:empty($v[cid])}<input type="text" class="inp url" value="{$v[url]}">{/if}
 				</li>
 				<li class="nav_r">
-					<a class="but2" target="_blank" href="{if:empty($v[cid])}{$v[url]}{else}../index.php?cate--cid-{$v[cid]}{/if}">查看</a>
 					<a class="but2 del" onclick="nav_del(this)" href="javascript:;">删除</a>
+					<a class="but2" target="_blank" href="{if:empty($v[cid])}{$v[url]}{else}../index.php?cate--cid-{$v[cid]}{/if}">查看</a>
 				</li>
 			</ul>
 			<div class="nav_transport"></div>
@@ -27,8 +27,8 @@
 					{if:empty($v2[cid])}<input type="text" class="inp url" value="{$v2[url]}">{/if}
 				</li>
 				<li class="nav_r">
-					<a class="but2" target="_blank" href="{if:empty($v2[cid])}{$v2[url]}{else}../index.php?cate--cid-{$v2[cid]}{/if}" cid="{$v2[cid]}">查看</a>
 					<a class="but2 del" onclick="nav_del(this)" href="javascript:;">删除</a>
+					<a class="but2" target="_blank" href="{if:empty($v2[cid])}{$v2[url]}{else}../index.php?cate--cid-{$v2[cid]}{/if}" cid="{$v2[cid]}">查看</a>
 				</li>
 			</ul>
 			<div class="nav_transport"></div>
