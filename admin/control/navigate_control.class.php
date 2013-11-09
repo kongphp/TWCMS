@@ -60,7 +60,7 @@ class navigate_control extends admin_control {
 			E(1, '非法提交！');
 		}
 
-		E(0, '修改排序完成！');
+		E(0, '保存修改完成！');
 	}
 
 	// 添加分类
