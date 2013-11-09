@@ -11,7 +11,7 @@ class show_control extends control{
 	public $_var = array();	// 内容页参数
 
 	public function index() {
-		// hook cate_control_index_before.php
+		// hook show_control_index_before.php
 
 		$_GET['cid'] = (int)R('cid');
 		$_GET['id'] = (int)R('id');
