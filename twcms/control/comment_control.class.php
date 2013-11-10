@@ -44,5 +44,59 @@ class comment_control extends control{
 		$this->display('comment.htm');
 	}
 
+	// 发表评论
+	public function post() {
+		$cid = (int) R('cid', 'P');
+		$id = (int) R('id', 'P');
+		$content = htmlspecialchars(trim(R('content', 'P')));
+		$author = htmlspecialchars(trim(R('author', 'P')));
+
+		if(empty($cid) || empty($id)) E(1, '参数不完整！');
+		empty($content) && E(1, '评论内容不能为空！');
+		empty($author) && E(1, '昵称不能为空！');
+
+		// hook comment_control_post_before.php
+
+		$cates = $this->category->get_cache($cid);
+		empty($cates) && E(1, '分类ID不正确！');
+
+		$this->cms_content->table = 'cms_'.$cates['table'];
+		$data = $this->cms_content->read($id);
+
+		$data['iscomment'] && E(1, '不允许发表评论！');
+
+		$this->cms_content_comment->table = 'cms_'.$cates['table'].'_comment';
+		$maxid = $this->cms_content_comment->create(array(
+			'id' => $id,
+			'uid' => 0,
+			'author' => $author,
+			'content' => $content,
+			'ip' => ip2long(ip()),
+			'dateline' => $_ENV['_time'],
+		));
+		if(!$maxid) {
+			E(1, '写入评论表出错！');
+		}
+
+		$data['comments']++;
+		if(!$this->cms_content->set($id, $data)) {
+			E(1, '写入内容表出错！');
+		}
+
+		$this->cms_content_comment_sort->table = 'cms_'.$cates['table'].'_comment_sort';
+		$ret = $this->cms_content_comment_sort->set($id, array(
+			'cid' => $cid,
+			'comments' => $data['comments'],
+			'lastdate' => $_ENV['_time'],
+		));
+		if(!$ret) {
+			E(1, '写入评论排序表出错！');
+		}
+
+		// hook comment_control_post_after.php
+
+		E(0, '发表评论成功！');
+	}
+
 	// hook comment_control_after.php
 }
