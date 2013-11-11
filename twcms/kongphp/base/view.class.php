@@ -118,7 +118,7 @@ class view{
 		$config_arr = array();
 		preg_match_all('#([a-zA-Z_]\w*)="(.*?)" #', $config.' ', $m);
 		foreach($m[2] as $k=>$v) {
-			if(!empty($v)) $config_arr[strtolower($m[1][$k])] = addslashes($v);
+			if(isset($v)) $config_arr[strtolower($m[1][$k])] = addslashes($v);
 		}
 		unset($m);
 		$func_str = 'kp_block_'.$func.'('.var_export($config_arr, 1).');';
