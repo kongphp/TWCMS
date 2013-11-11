@@ -13,6 +13,17 @@ class cms_content_comment extends model {
 		$this->maxid = 'commentid';		// 自增字段
 	}
 
+	// 格式化评论数组
+	public function format(&$v, $dateformat = 'Y-m-d H:i:s', $humandate = TRUE) {
+		// hook cms_content_comment_model_format_before.php
+
+		if(empty($v)) return FALSE;
+
+		$v['date'] = $humandate ? human_date($v['dateline'], $dateformat) : date($dateformat, $v['dateline']);
+
+		// hook cms_content_comment_model_format_after.php
+	}
+
 	// 获取评论列表
 	public function list_arr($where, $orderway, $start, $limit, $total) {
 		// 优化大数据量翻页
