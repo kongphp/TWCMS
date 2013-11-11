@@ -15,7 +15,8 @@ class cms_content extends model {
 
 	// 格式化内容数组
 	public function format(&$v, $dateformat = 'Y-m-d H:i:s', $titlenum = 0, $intronum = 0) {
-		// hook category_model_format_before.php
+		// hook cms_content_model_format_before.php
+
 		if(empty($v)) return FALSE;
 
 		$v['date'] = date($dateformat, $v['dateline']);
@@ -25,7 +26,7 @@ class cms_content extends model {
 		$intronum && $v['intro'] = utf8::cutstr_cn($v['intro'], $intronum);
 		empty($v['pic']) && $v['pic'] = $_ENV['_config']['front_static'].'img/nopic.gif';
 
-		// hook category_model_format_after.php
+		// hook cms_content_model_format_after.php
 	}
 
 	// 获取内容列表
