@@ -216,6 +216,24 @@ function get_byte($byte) {
 	}
 }
 
+// 转换为人性化时间
+function human_date($dateline, $dateformat = 'Y-m-d H:i:s') {
+	$second = $_ENV['_time'] - $dateline;
+	if($second > 31536000) {
+		return date($dateformat, $dateline);
+	}elseif($second > 2592000) {
+		return ceil($second / 2592000).'月前';
+	}elseif($second > 86400) {
+		return ceil($second / 86400).'天前';
+	}elseif($second > 3600) {
+		return ceil($second / 3600).'小时前';
+	}elseif($second > 60) {
+		return ceil($second / 60).'分钟前';
+	}else{
+		return $second.'秒前';
+	}
+}
+
 // 获取下级所有目录名 （严格限制目录名只能是 数字 字母 _）
 function get_dirs($path, $fullpath = false) {
 	$arr = array();
