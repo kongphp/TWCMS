@@ -52,6 +52,7 @@ class comment_control extends control{
 		$id = (int) R('id', 'P');
 		$content = htmlspecialchars(trim(R('content', 'P')));
 		$author = htmlspecialchars(trim(R('author', 'P')));
+		$ip = ip2long(ip());
 
 		if(empty($cid) || empty($id)) E(1, '参数不完整！');
 		empty($content) && E(1, '评论内容不能为空！');
@@ -73,7 +74,7 @@ class comment_control extends control{
 			'uid' => 0,
 			'author' => $author,
 			'content' => $content,
-			'ip' => ip2long(ip()),
+			'ip' => $ip,
 			'dateline' => $_ENV['_time'],
 		));
 		if(!$maxid) {
