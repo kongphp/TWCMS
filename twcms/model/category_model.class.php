@@ -63,27 +63,35 @@ class category extends model {
 		if($post['cid'] == $post['upid']) {
 			$name = 'upid';
 			$msg = '所属频道不能修改为自己';	// 暂时不考虑 upid 不能为自己的下级分类或非频道分类
-		}elseif($post['mid'] != $data['mid'] && $data['count'] > 0) {
+		}elseif($data['count'] > 0 && $post['mid'] != $data['mid']) {
 			$name = 'mid';
 			$msg = '分类中有内容，不允许修改分类模型，请先清空分类内容';
-		}elseif($data['type'] == 1 && $this->find_fetch_key(array('upid' => $data['cid']), array(), 0, 1)) {
-			$name = 'mid';
-			$msg = '分类有下级分类，不允许修改分类模型和类型';
-		}elseif($post['type'] != $data['type'] && $data['count'] > 0) {
+		}elseif($data['count'] > 0 && $post['type'] != $data['type']) {
 			$name = 'type';
 			$msg = '分类中有内容，不允许修改分类属性，请先清空分类内容';
+		}elseif($data['type'] == 1 && $post['mid'] != $data['mid'] && $this->check_is_son($data['cid'])) {
+			$name = 'mid';
+			$msg = '分类有下级分类，不允许修改分类模型';
+		}elseif($data['type'] == 1 && $post['type'] != $data['type'] && $this->check_is_son($data['cid'])) {
+			$name = 'type';
+			$msg = '分类有下级分类，不允许修改分类类型';
 		}
 		return empty($msg) ? FALSE : array('name' => $name, 'msg' => $msg);
 	}
 
 	// 检查是否符合删除条件
 	public function check_is_del($data) {
-		if($data['type'] == 1 && $this->find_fetch_key(array('upid' => $data['cid']), array(), 0, 1)) {
+		if($data['type'] == 1 && $this->check_is_son($data['cid'])) {
 			return '分类有下级分类，请先删除下级分类';
 		}elseif($data['count'] > 0) {
 			return '分类中有内容，请先删除内容';
 		}
 		return FALSE;
+	}
+
+	// 检查是否有下级分类
+	public function check_is_son($upid) {
+		return $this->find_fetch_key(array('upid' => $upid), array(), 0, 1) ? TRUE : FALSE;
 	}
 
 	// 从数据库获取分类
