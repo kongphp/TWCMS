@@ -46,6 +46,8 @@ class comment_control extends control{
 
 	// 发表评论
 	public function post() {
+		// hook comment_control_post_before.php
+
 		$cid = (int) R('cid', 'P');
 		$id = (int) R('id', 'P');
 		$content = htmlspecialchars(trim(R('content', 'P')));
@@ -55,8 +57,6 @@ class comment_control extends control{
 		empty($content) && E(1, '评论内容不能为空！');
 		empty($author) && E(1, '昵称不能为空！');
 
-		// hook comment_control_post_before.php
-
 		$cates = $this->category->get_cache($cid);
 		empty($cates) && E(1, '分类ID不正确！');
 
@@ -64,6 +64,8 @@ class comment_control extends control{
 		$data = $this->cms_content->read($id);
 
 		$data['iscomment'] && E(1, '不允许发表评论！');
+
+		// hook comment_control_post_create_before.php
 
 		$this->cms_content_comment->table = 'cms_'.$cates['table'].'_comment';
 		$maxid = $this->cms_content_comment->create(array(
