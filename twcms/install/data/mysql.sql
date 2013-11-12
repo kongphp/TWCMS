@@ -178,7 +178,7 @@ CREATE TABLE pre_cms_article_comment (
   ip int(10) NOT NULL DEFAULT '0',			# IP
   dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
   PRIMARY KEY  (id,commentid),
-  KEY ip (ip,id)	# 用来做防灌水插件
+  KEY ip (ip,commentid)	# 用来做防灌水插件
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 文章标签表
@@ -273,7 +273,7 @@ CREATE TABLE pre_cms_product_comment (
   ip int(10) NOT NULL DEFAULT '0',			# IP
   dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
   PRIMARY KEY  (id,commentid),
-  KEY ip (ip,id)	# 用来做防灌水插件
+  KEY ip (ip,commentid)	# 用来做防灌水插件
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 产品标签表
@@ -368,7 +368,7 @@ CREATE TABLE pre_cms_photo_comment (
   ip int(10) NOT NULL DEFAULT '0',			# IP
   dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
   PRIMARY KEY  (id,commentid),
-  KEY ip (ip,id)	# 用来做防灌水插件
+  KEY ip (ip,commentid)	# 用来做防灌水插件
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 图片标签表
