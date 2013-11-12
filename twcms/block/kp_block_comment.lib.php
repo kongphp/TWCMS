@@ -4,7 +4,7 @@ defined('KONG_PATH') || exit;
 /**
  * 评论模块 (内容页使用)
  * @param int pagenum 每页显示条数
- * @param int firstnum 首次显示条数
+ * @param int firstnum 首次显示条数 (有利于SEO)
  * @param string dateformat 时间格式
  * @param int humandate 人性化时间显示 默认开启 (开启: 1 关闭: 0)
  * @param int orderway 降序(-1),升序(1)
@@ -37,8 +37,9 @@ function kp_block_comment($conf) {
 	$commentid = $end_arr['commentid'];
 	$orderway = max(0, $orderway);
 	$next_url = $run->_cfg['webdir']."index.php?comment-json-cid-$cid-id-$id-commentid-$commentid-orderway-$orderway-pagenum-$pagenum-ajax-1";
+	$isnext = count($list_arr) < $firstnum ? 0 : 1;
 
 	// hook kp_block_comment_after.php
 
-	return array('list_arr' => $list_arr, 'next_url' => $next_url);
+	return array('list_arr' => $list_arr, 'next_url' => $next_url, 'isnext' => $isnext);
 }

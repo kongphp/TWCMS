@@ -106,8 +106,8 @@ class comment_control extends control{
 		$id = (int)R('id');
 
 		$commentid = (int)R('commentid');
-		$pagenum = empty($_GET['pagenum']) ? 20 : max(1, (int)$_GET['pagenum']);
 		$orderway = isset($_GET['orderway']) && $_GET['orderway'] == 1 ? 1 : -1;
+		$pagenum = empty($_GET['pagenum']) ? 20 : max(1, (int)$_GET['pagenum']);
 		$dateformat = empty($_GET['dateformat']) ? 'Y-m-d H:i:s' : $_GET['dateformat'];
 		$humandate = isset($_GET['humandate']) ? ($_GET['humandate'] == 1 ? TRUE : FALSE) : TRUE;
 
@@ -127,11 +127,12 @@ class comment_control extends control{
 			$ret['list_arr'][$v['commentid']] = $v;
 		}
 
-		$end_arr = end($ret['list_arr']);
+		$end_arr = end($list_arr);
 		$commentid = $end_arr['commentid'];
 		$orderway = max(0, $orderway);
 		$_cfg = $this->runtime->xget();
 		$ret['next_url'] = $_cfg['webdir']."index.php?comment-json-cid-$cid-id-$id-commentid-$commentid-orderway-$orderway-pagenum-$pagenum-ajax-1";
+		$ret['isnext'] = count($list_arr) < $pagenum ? 0 : 1;
 
 		echo json_encode($ret);
 		exit;
