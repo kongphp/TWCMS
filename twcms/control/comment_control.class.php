@@ -111,29 +111,28 @@ class comment_control extends control{
 		$dateformat = empty($_GET['dateformat']) ? 'Y-m-d H:i:s' : base64_decode($_GET['dateformat']);
 		$humandate = isset($_GET['humandate']) ? ($_GET['humandate'] == 1 ? 1 : 0) : 1;
 
-		if(empty($cid) || empty($id) || empty($commentid)) E(0, '参数不完整！');
+		if(empty($cid) || empty($id) || empty($commentid)) $this->message(0, '参数不完整！');
 
 		$cates = $this->category->get_cache($cid);
-		empty($cates) && E(1, '分类ID不正确！');
+		empty($cates) && $this->message(0, '分类ID不正确！');
 
 		// 获取评论列表
 		$key = $orderway == 1 ? '>' : '<';
 		$where = array('id' => $id, 'commentid' => array($key => $commentid));
 		$this->cms_content_comment->table = 'cms_'.$cates['table'].'_comment';
 		$ret = array();
-		$list_arr = $this->cms_content_comment->find_fetch($where, array('commentid' => $orderway), 0, $pagenum);
-		foreach($list_arr as &$v) {
+		$ret['list_arr'] = $this->cms_content_comment->find_fetch($where, array('commentid' => $orderway), 0, $pagenum);
+		foreach($ret['list_arr'] as &$v) {
 			$this->cms_content_comment->format($v, $dateformat, $humandate);
-			$ret['list_arr'][$v['commentid']] = $v;
 		}
 
-		$end_arr = end($list_arr);
+		$end_arr = end($ret['list_arr']);
 		$commentid = $end_arr['commentid'];
 		$orderway = max(0, $orderway);
 		$dateformat = base64_encode($dateformat);
 		$_cfg = $this->runtime->xget();
 		$ret['next_url'] = $_cfg['webdir']."index.php?comment-json-cid-$cid-id-$id-commentid-$commentid-orderway-$orderway-pagenum-$pagenum-dateformat-$dateformat-humandate-$humandate-ajax-1";
-		$ret['isnext'] = count($list_arr) < $pagenum ? 0 : 1;
+		$ret['isnext'] = count($ret['list_arr']) < $pagenum ? 0 : 1;
 
 		echo json_encode($ret);
 		exit;
