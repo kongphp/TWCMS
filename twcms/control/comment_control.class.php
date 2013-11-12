@@ -108,8 +108,8 @@ class comment_control extends control{
 		$commentid = (int)R('commentid');
 		$orderway = isset($_GET['orderway']) && $_GET['orderway'] == 1 ? 1 : -1;
 		$pagenum = empty($_GET['pagenum']) ? 20 : max(1, (int)$_GET['pagenum']);
-		$dateformat = empty($_GET['dateformat']) ? 'Y-m-d H:i:s' : $_GET['dateformat'];
-		$humandate = isset($_GET['humandate']) ? ($_GET['humandate'] == 1 ? TRUE : FALSE) : TRUE;
+		$dateformat = empty($_GET['dateformat']) ? 'Y-m-d H:i:s' : base64_decode($_GET['dateformat']);
+		$humandate = isset($_GET['humandate']) ? ($_GET['humandate'] == 1 ? 1 : 0) : 1;
 
 		if(empty($cid) || empty($id) || empty($commentid)) E(0, '参数不完整！');
 
@@ -130,8 +130,9 @@ class comment_control extends control{
 		$end_arr = end($list_arr);
 		$commentid = $end_arr['commentid'];
 		$orderway = max(0, $orderway);
+		$dateformat = base64_encode($dateformat);
 		$_cfg = $this->runtime->xget();
-		$ret['next_url'] = $_cfg['webdir']."index.php?comment-json-cid-$cid-id-$id-commentid-$commentid-orderway-$orderway-pagenum-$pagenum-ajax-1";
+		$ret['next_url'] = $_cfg['webdir']."index.php?comment-json-cid-$cid-id-$id-commentid-$commentid-orderway-$orderway-pagenum-$pagenum-dateformat-$dateformat-humandate-$humandate-ajax-1";
 		$ret['isnext'] = count($list_arr) < $pagenum ? 0 : 1;
 
 		echo json_encode($ret);

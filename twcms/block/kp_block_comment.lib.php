@@ -18,7 +18,7 @@ function kp_block_comment($conf) {
 	$pagenum = empty($conf['pagenum']) ? 20 : max(1, (int)$conf['pagenum']);
 	$firstnum = empty($conf['firstnum']) ? $pagenum : max(1, (int)$conf['firstnum']);
 	$dateformat = empty($conf['dateformat']) ? 'Y-m-d H:i:s' : $conf['dateformat'];
-	$humandate = isset($conf['humandate']) ? ($conf['humandate'] == 1 ? TRUE : FALSE) : TRUE;
+	$humandate = isset($conf['humandate']) ? ($conf['humandate'] == 1 ? 1 : 0) : 1;
 	$orderway = isset($conf['orderway']) && $conf['orderway'] == 1 ? 1 : -1;
 
 	$cid = R('cid');	// 前面已经转过整数了，没安全问题
@@ -36,7 +36,8 @@ function kp_block_comment($conf) {
 	$end_arr = end($list_arr);
 	$commentid = $end_arr['commentid'];
 	$orderway = max(0, $orderway);
-	$next_url = $run->_cfg['webdir']."index.php?comment-json-cid-$cid-id-$id-commentid-$commentid-orderway-$orderway-pagenum-$pagenum-ajax-1";
+	$dateformat = base64_encode($dateformat);
+	$next_url = $run->_cfg['webdir']."index.php?comment-json-cid-$cid-id-$id-commentid-$commentid-orderway-$orderway-pagenum-$pagenum-dateformat-$dateformat-humandate-$humandate-ajax-1";
 	$isnext = count($list_arr) < $firstnum ? 0 : 1;
 
 	// hook kp_block_comment_after.php
