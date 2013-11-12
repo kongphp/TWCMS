@@ -55,8 +55,10 @@ class comment_control extends control{
 		$ip = ip2long(ip());
 
 		if(empty($cid) || empty($id)) $this->message(0, '参数不完整！');
-		empty($content) && $this->message(0, '评论内容不能为空！');
 		empty($author) && $this->message(0, '昵称不能为空！');
+		strlen($author)>20 && $this->message(0, '昵称太长了！');
+		empty($content) && $this->message(0, '评论内容不能为空！');
+		strlen($content)>3000 && $this->message(0, '评论内容太长了！');
 
 		$cates = $this->category->get_cache($cid);
 		empty($cates) && $this->message(0, '分类ID不正确！');
