@@ -11,7 +11,7 @@ defined('KONG_PATH') || exit;
  * @return array
  */
 function kp_block_comment($conf) {
-	global $run;
+	global $run, $_show;
 
 	// hook kp_block_comment_before.php
 
@@ -26,6 +26,9 @@ function kp_block_comment($conf) {
 
 	// 排除单页模型
 	if($run->_var['mid'] == 1) return FALSE;
+
+	// 如果无评论则不继续执行
+	if(empty($_show['comments'])) return FALSE;
 
 	// 获取评论列表
 	$run->cms_content_comment->table = 'cms_'.$run->_var['table'].'_comment';
