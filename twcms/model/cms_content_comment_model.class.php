@@ -20,6 +20,8 @@ class cms_content_comment extends model {
 		if(empty($v)) return FALSE;
 
 		$v['date'] = $humandate ? human_date($v['dateline'], $dateformat) : date($dateformat, $v['dateline']);
+		$v['ip'] = long2ip($v['ip']);
+		$v['ip'] = substr($v['ip'], 0, strrpos($v['ip'], '.')).'.*';
 
 		// hook cms_content_comment_model_format_after.php
 	}
