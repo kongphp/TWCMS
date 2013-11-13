@@ -2,7 +2,7 @@
 defined('KONG_PATH') || exit;
 
 /**
- * 内容列表排行模块
+ * 内容列表排行模块 (排行功能比较消耗资源，故暂时不增加 一周内、一月内 评论/点击排行功能，有此需求的用户二次开发吧)
  * @param int cid 分类ID 如果不填，为自动识别；如果cid为0时，为整个模型
  * @param int mid 模型ID (当cid为0时，设置mid才能生效，否则程序自动识别)
  * @param string dateformat 时间格式
