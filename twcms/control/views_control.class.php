@@ -16,10 +16,12 @@ class views_control extends control{
 
 		$mviews = &$this->models->cms_content_views;
 		$mviews->table = 'cms_'.$_var['table'].'_views';
-		$v = $mviews->get($id);
-		echo 'var views='.$v['views'].';';
-		$v['views']++;
-		$mviews->update($v);
+
+		$data = $mviews->get($id);
+		if(!$data) $data = array('id'=>$id, 'cid'=>$cid, 'views'=>0);
+		$data['views']++;
+		echo 'var views='.$data['views'].';';
+		$mviews->set($id, $data);
 		exit;
 	}
 }
