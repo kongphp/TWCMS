@@ -37,8 +37,8 @@ function kp_block_global_comment($conf) {
 	$run->cms_content_comment->table = 'cms_'.$run->_var['table'].'_comment';
 
 	// 获取评论列表
-	$_show['list_arr'] = $run->cms_content_comment->list_arr(array('id' => $id), $orderway, ($page-1)*$pagenum, $pagenum, $total);
-	foreach($_show['list_arr'] as &$v) {
+	$_show['list'] = $run->cms_content_comment->list_arr(array('id' => $id), $orderway, ($page-1)*$pagenum, $pagenum, $total);
+	foreach($_show['list'] as &$v) {
 		$run->cms_content_comment->format($v, $dateformat, $humandate);
 	}
 	$_show['content_url'] = 'index.php?show--cid-'.$run->_var['cid'].'-id-'.$id.C('url_suffix');

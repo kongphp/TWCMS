@@ -45,5 +45,5 @@ function kp_block_comment($conf) {
 
 	// hook kp_block_comment_after.php
 
-	return array('list_arr' => $list_arr, 'next_url' => $next_url, 'isnext' => $isnext);
+	return array('list' => $list_arr, 'next_url' => $next_url, 'isnext' => $isnext);
 }
