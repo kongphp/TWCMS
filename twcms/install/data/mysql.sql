@@ -167,17 +167,18 @@ CREATE TABLE pre_cms_article_comment_sort (
   KEY lastdate (lastdate)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 文章评论表
+# 文章评论表 (审核机制考虑单独设计一张表)
 DROP TABLE IF EXISTS pre_cms_article_comment;
 CREATE TABLE pre_cms_article_comment (
-  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID (审核机制考虑单独设计一张表)
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
   commentid int(10) unsigned NOT NULL AUTO_INCREMENT,	# 评论ID
   uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
   author char(30) NOT NULL DEFAULT '',			# 作者，可能不等于 username
   content text NOT NULL,				# 评论内容
   ip int(10) NOT NULL DEFAULT '0',			# IP
   dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
-  PRIMARY KEY  (id,commentid),
+  PRIMARY KEY  (commentid),
+  KEY id (id,commentid),
   KEY ip (ip,commentid)	# 用来做防灌水插件
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -262,17 +263,18 @@ CREATE TABLE pre_cms_product_comment_sort (
   KEY lastdate (lastdate)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 产品评论表
+# 产品评论表 (审核机制考虑单独设计一张表)
 DROP TABLE IF EXISTS pre_cms_product_comment;
 CREATE TABLE pre_cms_product_comment (
-  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID (审核机制考虑单独设计一张表)
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
   commentid int(10) unsigned NOT NULL AUTO_INCREMENT,	# 评论ID
   uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
   author char(30) NOT NULL DEFAULT '',			# 作者，可能不等于 username
   content text NOT NULL,				# 评论内容
   ip int(10) NOT NULL DEFAULT '0',			# IP
   dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
-  PRIMARY KEY  (id,commentid),
+  PRIMARY KEY  (commentid),
+  KEY id (id,commentid),
   KEY ip (ip,commentid)	# 用来做防灌水插件
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -357,17 +359,18 @@ CREATE TABLE pre_cms_photo_comment_sort (
   KEY lastdate (lastdate)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 图片评论表
+# 图片评论表 (审核机制考虑单独设计一张表)
 DROP TABLE IF EXISTS pre_cms_photo_comment;
 CREATE TABLE pre_cms_photo_comment (
-  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID (审核机制考虑单独设计一张表)
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
   commentid int(10) unsigned NOT NULL AUTO_INCREMENT,	# 评论ID
   uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
   author char(30) NOT NULL DEFAULT '',			# 作者，可能不等于 username
   content text NOT NULL,				# 评论内容
   ip int(10) NOT NULL DEFAULT '0',			# IP
   dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
-  PRIMARY KEY  (id,commentid),
+  PRIMARY KEY  (commentid),
+  KEY id (id,commentid),
   KEY ip (ip,commentid)	# 用来做防灌水插件
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
