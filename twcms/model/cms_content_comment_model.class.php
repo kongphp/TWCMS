@@ -9,7 +9,7 @@ defined('TWCMS_PATH') or exit;
 class cms_content_comment extends model {
 	function __construct() {
 		$this->table = '';			// 表名 (可以是 cms_article_comment cms_product_comment cms_photo_comment 等)
-		$this->pri = array('id', 'commentid');	// 主键
+		$this->pri = array('commentid');	// 主键
 		$this->maxid = 'commentid';		// 自增字段
 	}
 
