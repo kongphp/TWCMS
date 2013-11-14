@@ -86,8 +86,8 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 	.ajaxbox .cf .but1{float:right;margin-right:8px}
 
 /*page*/
-.page{margin-left:8px}
-.page a,.page a:visited,.page b{border-radius:3px;display:inline;float:left;margin:0 5px 5px 0;padding:0 5px;height:20px;line-height:20px;font-family:Tahoma;font-size:12px;white-space:nowrap;border:1px solid #D1E5EC;background:#EEF7FC;color:#333}
+.page{margin-top:3px}
+.page a,.page a:visited,.page b{border-radius:3px;display:inline;float:left;margin:5px 5px 0 0;padding:0 5px;height:20px;line-height:20px;font-family:Tahoma;font-size:12px;white-space:nowrap;border:1px solid #D1E5EC;background:#EEF7FC;color:#333}
 .page a:hover{border:1px solid #38739F;background:#E5F3FF;color:#000;font-weight:400}
 .page .m,.page b{border:1px solid #97C3DE!important;background:#EEF7FC!important;color:red!important}
 
@@ -134,7 +134,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .tb2 tr.tit{background:url(../img/bg_x.gif) 0 -91px repeat-x}
 .tb2 tr.tit th{height:27px;border:1px solid #D0E6EC;text-align:left;padding:0 5px}
 .tb2 tr.tit .bdr_3{border-left:1px solid #D0E6EC}
-.tb2 tr.li td,.tb2 tr.li th,.tb2 tr.tit2 th{padding:5px 6px;line-height:20px;border-bottom:1px dotted #D0E6EC;text-align:left}
+.tb2 tr.li td,.tb2 tr.li th,.tb2 tr.tit2 th{padding:5px 6px;line-height:20px;border-bottom:1px dotted #D0E6EC;text-align:left;word-wrap:break-word;word-break:break-all}
 .tb2 tr.tit2 th{border-top:1px solid #D0E6EC;border-bottom:1px solid #D0E6EC;background:#FFFFCC}
 .tb2 tr.li:hover{background:#FFFFBB}
 .tb2 tr .t_c{text-align:center}
