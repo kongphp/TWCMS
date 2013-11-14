@@ -3,7 +3,7 @@
 	<div class="head">
 		<dl>
 			<input id="add" type="button" value="发布" class="but1" />
-			<dd class="on">内容管理</dd>
+			<dd class="on">{$_title}</dd>
 			<dt style="display:inline;float:left;">{$category_cid}</dt>
 		</dl>
 	</div>
@@ -39,7 +39,7 @@
 				{/loop}
 			</table>
 
-			<div class="page">{$pages}</div>
+			<div class="page cf"><span>共 <font color="red">{$total}</font> 篇</span>{$pages}</div>
 			{/if}
 		</div>
 	</div>

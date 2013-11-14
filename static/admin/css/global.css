@@ -87,9 +87,9 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 
 /*page*/
 .page{margin-top:3px}
-.page a,.page a:visited,.page b{border-radius:3px;display:inline;float:left;margin:5px 5px 0 0;padding:0 5px;height:20px;line-height:20px;font-family:Tahoma;font-size:12px;white-space:nowrap;border:1px solid #D1E5EC;background:#EEF7FC;color:#333}
+.page a,.page a:visited,.page b,.page span{border-radius:3px;display:inline;float:left;margin:5px 5px 0 0;padding:0 5px;height:20px;line-height:20px;font-family:Tahoma;font-size:12px;white-space:nowrap;border:1px solid #D1E5EC;background:#EEF7FC;color:#333}
 .page a:hover{border:1px solid #38739F;background:#E5F3FF;color:#000;font-weight:400}
-.page .m,.page b{border:1px solid #97C3DE!important;background:#EEF7FC!important;color:red!important}
+.page b{border:1px solid #97C3DE!important;background:#EEF7FC!important;color:red!important}
 
 /*主题设置*/
 .thm{display:inline;float:left;overflow:hidden;width:234px;padding:5px;margin:8px 8px 0 0;border:1px solid #CEE5F0;background:#F4F9FB;border-radius:4px}
