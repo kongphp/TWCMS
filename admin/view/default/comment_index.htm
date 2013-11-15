@@ -16,6 +16,7 @@
 	</div>
 	<div class="p c2">
 		<div class="cc">
+			{if:empty($comment_arr)}<div class="sky warning bnote"><i></i><b>暂无评论</b></div>{else}
 			<table class="tb2">
 				<tr class="tit">
 					<th width="25"><input type="checkbox" id="check_all"></th>
@@ -34,6 +35,7 @@
 				{/loop}
 			</table>
 			<div class="page cf"><span>共 <font color="red">{$total}</font> 条</span>{$pages}</div>
+			{/if}
 		</div>
 	</div>
 </div>
