@@ -42,4 +42,17 @@ class cms_content_comment extends model {
 			return $this->find_fetch($where, array('commentid' => $orderway), $start, $limit);
 		}
 	}
+
+	// 关联删除 （评论数）
+	public function xdelete($table, $id, $commentid) {
+		$this->table = 'cms_'.$table.'_comment';
+
+		$this->cms_content->table = 'cms_'.$table;
+		$data = $this->cms_content->read($id);
+		if(empty($data['comments'])) return '读取评论数出错！';
+		$data['comments']--;
+		if(!$this->cms_content->set($id, $data)) return '写入内容表出错！';
+
+		return !$this->delete($commentid);
+	}
 }
