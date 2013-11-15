@@ -57,6 +57,54 @@ class comment_control extends admin_control {
 		$this->display();
 	}
 
+	// 单条内容评论管理
+	public function content() {
+		// hook admin_comment_control_content_before.php
+
+		$id = (int) R('id');
+		$mid = max(2, (int)R('mid'));
+		$table_arr = $this->models->get_tablename();
+		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+
+		// 模型名称
+		$mod_name = $this->models->get_name();
+		if(isset($mod_name[1])) unset($mod_name[1]);
+		$this->assign('mid', $mid);
+		$this->assign('mod_name', $mod_name);
+
+		// 读取内容
+		$this->cms_content->table = 'cms_'.$table;
+		$content_arr = $this->cms_content->read($id);
+
+		// 初始化标题、位置
+		$this->_cokey = 'content';
+		$this->_title = '评论管理';
+		$this->_place = '内容 &#187; 评论管理 &#187; '.$content_arr['title'];
+
+		// 初始分页
+		$pagenum = 20;
+		$total = $content_arr['comments'];
+		$maxpage = max(1, ceil($total/$pagenum));
+		$page = min($maxpage, max(1, intval(R('page'))));
+		$pages = pages($page, $maxpage, '?u=comment-content-mid-'.$mid.'-id-'.$id.'-page-%d');
+		$this->assign('pages', $pages);
+		$this->assign('total', $total);
+
+		// 获取评论列表
+		$this->cms_content_comment->table = 'cms_'.$table.'_comment';
+		$comment_arr = $this->cms_content_comment->list_arr(array('id' => $id), -1, ($page-1)*$pagenum, $pagenum, $total);
+		foreach($comment_arr as &$v) {
+			$this->cms_content_comment->format($v, 'Y-m-d H:i:s', 0);
+			$v['title'] = $content_arr['title'];
+			$v['url'] = '../index.php?show--cid-'.$content_arr['cid'].'-id-'.$content_arr['id'];
+		}
+		$this->assign('comment_arr', $comment_arr);
+
+		// hook admin_comment_control_content_after.php
+
+		$this->display('comment_index.htm');
+	}
+
 	// 读取一条评论
 	public function get_json() {
 		// hook admin_comment_control_get_json_before.php
