@@ -49,8 +49,8 @@ class cms_content_comment extends model {
 
 		$this->cms_content->table = 'cms_'.$table;
 		$data = $this->cms_content->read($id);
-		if(empty($data['comments'])) return '读取评论数出错！';
-		$data['comments']--;
+		if(empty($data)) return '读取内容表出错！';
+		$data['comments'] > 0 && $data['comments']--;
 		if(!$this->cms_content->set($id, $data)) return '写入内容表出错！';
 
 		return !$this->delete($commentid);
