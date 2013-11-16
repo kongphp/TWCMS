@@ -133,8 +133,8 @@ class comment_control extends admin_control {
 		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
 
 		$commentid = (int) R('commentid', 'P');
-		$author = trim(R('author', 'P'));
-		$content = trim(R('content', 'P'));
+		$author = htmlspecialchars(trim(R('author', 'P')));
+		$content = htmlspecialchars(trim(R('content', 'P')));
 
 		empty($commentid) && E(1, '评论ID不能为空！');
 		empty($author) && E(1, '昵称不能为空！');
