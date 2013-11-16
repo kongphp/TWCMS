@@ -399,7 +399,7 @@ class core{
 			if(!is_file($file)) continue;
 
 			$s = file_get_contents($file);
-			$str .= self::cleanup_str($s);
+			$str .= self::clear_code($s);
 		}
 		return $str;
 	}
@@ -409,7 +409,7 @@ class core{
 	 * @param array $s 字符串
 	 * @return string
 	 */
-	public static function cleanup_str($s) {
+	public static function clear_code($s) {
 		$s = trim($s);
 		if(substr($s, 0, 5) == '<?php') $s = substr($s, 5);
 		$s = ltrim($s);
