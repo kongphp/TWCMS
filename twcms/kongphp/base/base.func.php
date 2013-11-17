@@ -222,13 +222,13 @@ function human_date($dateline, $dateformat = 'Y-m-d H:i:s') {
 	if($second > 31536000) {
 		return date($dateformat, $dateline);
 	}elseif($second > 2592000) {
-		return ceil($second / 2592000).'月前';
+		return floor($second / 2592000).'月前';
 	}elseif($second > 86400) {
-		return ceil($second / 86400).'天前';
+		return floor($second / 86400).'天前';
 	}elseif($second > 3600) {
-		return ceil($second / 3600).'小时前';
+		return floor($second / 3600).'小时前';
 	}elseif($second > 60) {
-		return ceil($second / 60).'分钟前';
+		return floor($second / 60).'分钟前';
 	}else{
 		return $second.'秒前';
 	}
