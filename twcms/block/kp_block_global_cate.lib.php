@@ -2,7 +2,7 @@
 defined('KONG_PATH') || exit;
 
 /**
- * 分类列表/频道模块 (不推荐频道分类使用此模块，影响性能)
+ * 列表页模块 (不推荐频道分类使用此模块，影响性能)
  * @param int pagenum 每页显示条数
  * @param int titlenum 标题长度
  * @param int intronum 简介长度

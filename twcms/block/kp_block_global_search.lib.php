@@ -2,7 +2,7 @@
 defined('KONG_PATH') || exit;
 
 /**
- * 搜索列表模块 (比较占用资源，大站可使用sphinx做搜索引擎)
+ * 搜索页模块 (比较占用资源，大站可使用sphinx做搜索引擎)
  * @param int pagenum 每页显示条数
  * @param int titlenum 标题长度
  * @param int intronum 简介长度

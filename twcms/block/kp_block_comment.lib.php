@@ -2,7 +2,7 @@
 defined('KONG_PATH') || exit;
 
 /**
- * 评论模块 (内容页使用)
+ * 评论列表模块 (内容页使用)
  * @param int pagenum 每页显示条数
  * @param int firstnum 首次显示条数 (有利于SEO)
  * @param string dateformat 时间格式

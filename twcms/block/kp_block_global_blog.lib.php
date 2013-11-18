@@ -2,7 +2,7 @@
 defined('KONG_PATH') || exit;
 
 /**
- * 模型列表模块（类似博客列表）
+ * 模型页模块（类似博客列表）
  * @param int mid 模型ID
  * @param int pagenum 每页显示条数
  * @param int titlenum 标题长度
