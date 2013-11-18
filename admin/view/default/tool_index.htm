@@ -15,7 +15,7 @@
 $(".but1").click(function(){
 	var v1 = $("#dbcache")[0].checked ? 1 : 0;
 	var v2 = $("#filecache")[0].checked ? 1 : 0;
-	twAjax.postd("?u=tool-index", {"dbcache":v1, "filecache":v2}, function(data){
+	twAjax.postd("?u=tool-index-ajax-1", {"dbcache":v1, "filecache":v2}, function(data){
 		twAjax.alert(data);
 	});
 });
