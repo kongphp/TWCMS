@@ -55,7 +55,7 @@ class model{
 			case 'db':
 				return $this->db = $this->load_db();
 			case 'cache':
-				return $this->cache = $this->load_db();
+				return $this->cache = $this->load_cache();
 			case 'db_conf':
 				return $this->db_conf = &$_ENV['_config']['db'];
 			case 'cache_conf':
