@@ -234,10 +234,11 @@ function human_date($dateline, $dateformat = 'Y-m-d H:i:s') {
 	}
 }
 
-// 安全过滤 (过滤非空格、英文、数字、下划线、中文、日文、朝鲜文，其他语言通过 $ext 添加)
+// 安全过滤 (过滤非空格、英文、数字、下划线、中文、日文、朝鲜文，其他语言通过 $ext 添加 Unicode 编码)
+// 4E00-9FA5(中文)  30A0-30FF(日文片假名) 3040-309F(日文平假名) 1100-11FF(朝鲜文) 3130-318F(朝鲜文兼容字母) AC00-D7AF(朝鲜文音节)
 function safe_str($s, $ext = '') {
 	$ext = preg_quote($ext);
-	$s = preg_replace('#[^\040\w\x{4E00}-\x{9FA5}\x{30A0}-\x{30FF}\x{3040}-\x{309F}\x{3130}-\x{318F}'.$ext.']+#u', '', $s);
+	$s = preg_replace('#[^\040\w\x{4E00}-\x{9FA5}\x{30A0}-\x{30FF}\x{3040}-\x{309F}\x{1100}-\x{11FF}\x{3130}-\x{318F}\x{AC00}-\x{D7AF}'.$ext.']+#u', '', $s);
 	$s = trim($s);
 	return $s;
 }
