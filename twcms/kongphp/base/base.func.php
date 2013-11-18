@@ -356,7 +356,8 @@ function pages($page, $maxpage, $url, $offset = 5, $lang = array('&#171;', '&#18
 	$pnum = $offset*2;
 	$ismore = $maxpage > $pnum;
 	$s = '';
-	if($page > 1) $s .= '<a href="'.sprintf($url, $page-1).'">'.$lang[0].'</a>';
+	$ua = explode('{page}', $url);
+	if($page > 1) $s .= '<a href="'.$ua[0].($page-1).$ua[1].'">'.$lang[0].'</a>';
 	if($ismore) {
 		$i_end = min($maxpage, max($pnum, $page+$offset)) - 1;
 		$i = max(2, $i_end-$pnum+2);
@@ -364,11 +365,11 @@ function pages($page, $maxpage, $url, $offset = 5, $lang = array('&#171;', '&#18
 		$i_end = min($maxpage, $pnum)-1;
 		$i = 2;
 	}
-	$s .= $page == 1 ? '<b>1</b>' : '<a href="'.sprintf($url, 1).'">1'.($ismore && $i > 2 ? ' ...' : '').'</a>';
+	$s .= $page == 1 ? '<b>1</b>' : '<a href="'.$ua[0].'1'.$ua[1].'">1'.($ismore && $i > 2 ? ' ...' : '').'</a>';
 	for($i; $i<=$i_end; $i++){
-		$s .= $page == $i ? '<b>'.$i.'</b>' : '<a href="'.sprintf($url, $i).'">'.$i.'</a>';
+		$s .= $page == $i ? '<b>'.$i.'</b>' : '<a href="'.$ua[0].$i.$ua[1].'">'.$i.'</a>';
 	}
-	$s .= $page == $maxpage ? '<b>'.$maxpage.'</b>' : '<a href="'.sprintf($url, $maxpage).'">'.($ismore && $i_end < $maxpage-1 ? '... ' : '').$maxpage.'</a>';
-	if($page < $maxpage) $s .= '<a href="'.sprintf($url, $page+1).'">'.$lang[1].'</a>';
+	$s .= $page == $maxpage ? '<b>'.$maxpage.'</b>' : '<a href="'.$ua[0].$maxpage.$ua[1].'">'.($ismore && $i_end < $maxpage-1 ? '... ' : '').$maxpage.'</a>';
+	if($page < $maxpage) $s .= '<a href="'.$ua[0].($page+1).$ua[1].'">'.$lang[1].'</a>';
 	return $s;
 }
