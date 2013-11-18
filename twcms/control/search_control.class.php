@@ -13,7 +13,8 @@ class search_control extends control{
 	public function index() {
 		// hook search_control_index_before.php
 
-		$keyword = R('keyword');
+		$keyword = urldecode(R('keyword'));
+		$keyword = safe_str($keyword);
 
 		$this->_cfg = $this->runtime->xget();
 		$this->_cfg['titles'] = $keyword;
