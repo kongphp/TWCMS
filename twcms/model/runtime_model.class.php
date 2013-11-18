@@ -45,7 +45,12 @@ class runtime extends model {
 				$cfg['tpl'] = $cfg['webdir'].(defined('F_APP_NAME') ? F_APP_NAME : APP_NAME).'/view/'.$cfg['theme'].'/';
 				$cfg['webroot'] = 'http://'.$cfg['webdomain'];
 				$cfg['weburl'] = 'http://'.$cfg['webdomain'].$cfg['webdir'];
-				$cfg['table_arr'] = $this->models->get_tablename();
+				$table_arr = $this->models->get_tablename();
+				if(isset($table_arr[1])) unset($table_arr[1]);
+				$cfg['table_arr'] = $table_arr;
+				$mod_name = $this->models->get_name();
+				if(isset($mod_name[1])) unset($mod_name[1]);
+				$cfg['mod_name'] = $mod_name;
 
 				$this->data[$key] = &$cfg;
 				$this->set('cfg', $this->data[$key]);
