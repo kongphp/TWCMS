@@ -45,7 +45,7 @@ function kp_block_global_cate($conf) {
 	// 分页相关
 	$maxpage = max(1, ceil($total/$pagenum));
 	$page = min($maxpage, max(1, intval(R('page'))));
-	$pages = pages($page, $maxpage, 'index.php?cate--cid-'.$cid.'-page-%d'.C('url_suffix'));
+	$pages = pages($page, $maxpage, 'index.php?cate--cid-'.$cid.'-page-{page}'.C('url_suffix'));
 
 	// 初始模型表名
 	$run->cms_content->table = 'cms_'.$run->_var['table'];

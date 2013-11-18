@@ -27,7 +27,7 @@ class content_control extends admin_control {
 		$total = $this->cms_content->count();
 		$maxpage = max(1, ceil($total/$pagenum));
 		$page = min($maxpage, max(1, intval(R('page'))));
-		$pages = pages($page, $maxpage, '?u=content-index-page-%d');
+		$pages = pages($page, $maxpage, '?u=content-index-page-{page}');
 		$this->assign('total', $total);
 		$this->assign('pages', $pages);
 

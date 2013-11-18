@@ -28,7 +28,7 @@ class comment_control extends admin_control {
 		$total = $this->cms_content_comment->count();
 		$maxpage = max(1, ceil($total/$pagenum));
 		$page = min($maxpage, max(1, intval(R('page'))));
-		$pages = pages($page, $maxpage, '?u=comment-index-mid-'.$mid.'-page-%d');
+		$pages = pages($page, $maxpage, '?u=comment-index-mid-'.$mid.'-page-{page}');
 		$this->assign('pages', $pages);
 		$this->assign('total', $total);
 
@@ -86,7 +86,7 @@ class comment_control extends admin_control {
 		$total = $content_arr['comments'];
 		$maxpage = max(1, ceil($total/$pagenum));
 		$page = min($maxpage, max(1, intval(R('page'))));
-		$pages = pages($page, $maxpage, '?u=comment-content-mid-'.$mid.'-id-'.$id.'-page-%d');
+		$pages = pages($page, $maxpage, '?u=comment-content-mid-'.$mid.'-id-'.$id.'-page-{page}');
 		$this->assign('pages', $pages);
 		$this->assign('total', $total);
 

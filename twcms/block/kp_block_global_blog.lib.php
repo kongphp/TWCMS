@@ -36,7 +36,7 @@ function kp_block_global_blog($conf) {
 	// 分页相关
 	$maxpage = max(1, ceil($total/$pagenum));
 	$page = min($maxpage, max(1, intval(R('page'))));
-	$pages = pages($page, $maxpage, 'index.php?index--mid-'.$mid.'-page-%d'.C('url_suffix'));
+	$pages = pages($page, $maxpage, 'index.php?index--mid-'.$mid.'-page-{page}'.C('url_suffix'));
 
 	// 读取内容列表
 	$list_arr = $run->cms_content->find_fetch(array(), array($orderby => $orderway), ($page-1)*$pagenum, $pagenum);
