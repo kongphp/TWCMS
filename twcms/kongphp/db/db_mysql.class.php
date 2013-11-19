@@ -212,9 +212,9 @@ class db_mysql implements db_interface {
 		if($val === FALSE) {
 			return $count;
 		}elseif(is_string($val)) {
-			if($val{0} == '+') {
+			if($val[0] == '+') {
 				$val = $count + intval($val);
-			}elseif($val{0} == '-') {
+			}elseif($val[0] == '-') {
 				$val = max(0, $count + intval($val));
 			}
 		}
