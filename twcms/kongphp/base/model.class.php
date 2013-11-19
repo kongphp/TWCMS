@@ -404,7 +404,7 @@ class model{
 		$arr = (array)$arr;
 		$s = $this->table;
 		foreach($this->pri as $k=>$v) {
-			if(empty($arr[$k])) throw new Exception('键名数组非法');
+			if(empty($arr[$k])) throw new Exception('非法键名数组: '.var_export($this->pri, true));
 			$s .= "-$v-".$arr[$k];
 		}
 		return $s;
