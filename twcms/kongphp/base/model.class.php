@@ -274,7 +274,7 @@ class model{
 	}
 
 	/**
-	 * 根据条件读取数据 （提示：目前只有些处具有二级缓存）
+	 * 根据条件读取数据 （提示：目前只有此处具有二级缓存）
 	 * @param array $where	条件
 	 * @param array $order	排序
 	 * @param int $start	开始位置
