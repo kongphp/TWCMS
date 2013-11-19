@@ -70,7 +70,7 @@ class model{
 	 * @param string $method 不存在的方法名
 	 */
 	function __call($method, $args) {
-		throw new Exception("$method does not exists.");
+		throw new Exception("方法 $method 不存在");
 	}
 
 	/**
@@ -404,6 +404,7 @@ class model{
 		$arr = (array)$arr;
 		$s = $this->table;
 		foreach($this->pri as $k=>$v) {
+			if(empty($arr[$k])) throw new Exception('键名数组非法');
 			$s .= "-$v-".$arr[$k];
 		}
 		return $s;

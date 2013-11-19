@@ -110,7 +110,7 @@ class core{
 		}elseif(is_file(KONG_PATH.'ext/'.$classname.'.class.php')) {
 			include KONG_PATH.'ext/'.$classname.'.class.php';
 		}else{
-			throw new Exception("class $classname does not exists");
+			throw new Exception("类 $classname 不存在");
 		}
 		DEBUG && $_ENV['_include'][] = $classname.' 类';
 		return class_exists($classname, false);
