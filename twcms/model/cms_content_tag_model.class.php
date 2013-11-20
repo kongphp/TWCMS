@@ -12,4 +12,9 @@ class cms_content_tag extends model {
 		$this->pri = array('tagid');	// 主键
 		$this->maxid = 'tagid';			// 自增字段
 	}
+
+	// 格式化标签数组
+	public function format(&$v, $mid) {
+		$v['url'] = 'index.php?tag--mid-'.$mid.'-tagid-'.$v['tagid'].C('url_suffix');
+	}
 }
