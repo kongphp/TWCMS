@@ -7,7 +7,7 @@
 		</style>
 
 		<div class="cc" id="">
-			<form action="?u=content-add" method="post">
+			<form action="?u=content-add-ajax-1" method="post">
 				<input name="id" type="hidden" value="" class="inp w1" />
 				<input name="color" type="hidden" value="" class="inp w1" />
 				<input name="seo_title" type="hidden" value="" class="inp w1" />
@@ -91,7 +91,6 @@
 	</div>
 </div>
 <script type="text/javascript">
-/*
 twAjax.submit("form:first", function(data){
 	twAjax.alert(data);
 	if(window.twData.err==0) {
@@ -101,12 +100,11 @@ twAjax.submit("form:first", function(data){
 		//$("#cid").val(temp);
 	}
 });
-*/
 
-$("form:first").submit(function(){
-	twAjax.post($(this).attr("action"), $(this).serialize());
-	return false;
-});
+// $("form:first").submit(function(){
+// 	twAjax.post($(this).attr("action"), $(this).serialize());
+// 	return false;
+// });
 
 // 编辑器接口
 var editor_api = {

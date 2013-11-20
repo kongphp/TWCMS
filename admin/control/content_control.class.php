@@ -57,13 +57,50 @@ class content_control extends admin_control {
 		}else{
 			$cid = intval(R('cid', 'P'));
 
+			empty($cid) && E(1, '分类ID不能为空！');
+
+			$mid = $this->category->get_mid_by_cid($cid);
+			$tablename = $this->models->get_tablename();
+			$table = isset($tablename[$mid]) ? $tablename[$mid] : 'article';
+
+			$tags = trim(R('tags', 'P'), ", \t\n\r\0\x0B");
+			$tags_arr = explode(',', $tags);
+
+			// log::trace('发表内容');
+			// 读tag表
+			$this->cms_content_tag->table = 'cms_'.$table.'_tag';
+			$ti = 0;
+			$tag_set = array();
+			foreach($tags_arr as $tv) {
+				$name = trim($tv);
+				if($name) {
+					$tag_row = $this->cms_content_tag->find_fetch(array('name'=>$name), array(), 0, 1);
+					if(!$tag_row) {
+						$tagid = $this->cms_content_tag->create(array('name'=>$name, 'count'=>0, 'content'=>''));
+						if(!$tagid) {
+							E(1, '写入标签表出错');
+						}
+						$tag_row = $this->cms_content_tag->get($tagid);
+					}else{
+						$tag_row = current($tag_row);
+					}
+
+					$tag_row['count']++;
+					$tag_set[] = $tag_row;
+
+					$ti++;
+					if($ti>4) break;
+				}
+			}
+			// log::trace_save();
+
+			// 写入内容表
 			$cms_content = array(
 				'cid' => $cid,
-				'id' => intval(R('id', 'P')),
 				'title' => trim(strip_tags(R('title', 'P'))).time(),
 				'color' => trim(R('color', 'P')),
 				'alias' => trim(R('alias', 'P')),
-				'tags' => trim(R('tags', 'P')),
+				'tags' => '',
 				'intro' => trim(R('intro', 'P')),
 				'pic' => trim(R('pic', 'P')),
 				'uid' => $this->_user['uid'],
@@ -79,18 +116,14 @@ class content_control extends admin_control {
 				'seo_keywords' => trim(strip_tags(R('seo_keywords', 'P'))),
 				'seo_description' => trim(strip_tags(R('seo_description', 'P'))),
 			);
-
-			// 初始模型表名
-			$mid = $this->category->get_mid_by_cid($cid);
-			$tablename = $this->models->get_tablename();
-			$this->cms_content->table = 'cms_'.$tablename[$mid];
-
+			$this->cms_content->table = 'cms_'.$table;
 			$maxid = $this->cms_content->create($cms_content);
 			if(!$maxid) {
 				E(1, '写入内容表出错');
 			}
 
-			$this->cms_content_data->table = 'cms_'.$tablename[$mid].'_data';
+			// 写入内容数据表
+			$this->cms_content_data->table = 'cms_'.$table.'_data';
 			$cms_content_data = array(
 				'content' => trim(R('content', 'P')).time(),
 			);
@@ -99,13 +132,29 @@ class content_control extends admin_control {
 				E(1, '写入内容数据表出错');
 			}
 
-			$this->cms_content_views->table = 'cms_'.$tablename[$mid].'_views';
+			// 写入内容查看数表
+			$this->cms_content_views->table = 'cms_'.$table.'_views';
 			$cms_content_views = array(
 				'cid' => $cms_content['cid'],
 				'views' => intval(R('views', 'P')),
 			);
 			if(!$this->cms_content_views->set($maxid, $cms_content_views)) {
 				E(1, '写入内容查看数表出错');
+			}
+
+			// 写入内容标签表
+			$this->cms_content_tag_data->table = 'cms_'.$table.'_tag_data';
+			$tags_arr2 = array();
+			foreach($tag_set as $v) {
+				$this->cms_content_tag->update($v);
+				$tags_arr2[] = array($v['tagid']=>$v['name']);
+				$this->cms_content_tag_data->set(array($v['tagid'], $maxid), array('tagid'=>$v['tagid'], 'id'=>$maxid));
+			}
+
+			// 更新标签json到内容表
+			$cms_content['tags'] = json_encode($tags_arr2);
+			if(!$this->cms_content->set($maxid, $cms_content)) {
+				E(1, '写入标签到内容表出错');
 			}
 
 			// 更新相关分类
