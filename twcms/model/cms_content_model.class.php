@@ -22,6 +22,13 @@ class cms_content extends model {
 		$v['date'] = date($dateformat, $v['dateline']);
 		$v['subject'] = $titlenum ? utf8::cutstr_cn($v['title'], $titlenum) : $v['title'];
 		$v['url'] = 'index.php?show--cid-'.$v['cid'].'-id-'.$v['id'].C('url_suffix');
+		$tags = _json_decode($v['tags']);
+		if($tags) {
+			$v['tags'] = array();
+			foreach($tags as $tagid => $name) {
+				$v['tags'][] = array('name'=>$name, 'url'=>'index.php?tags--cid-'.$v['cid'].'-tagid-'.$tagid.C('url_suffix'));
+			}
+		}
 
 		$intronum && $v['intro'] = utf8::cutstr_cn($v['intro'], $intronum);
 		empty($v['pic']) && $v['pic'] = $_ENV['_config']['front_static'].'img/nopic.gif';

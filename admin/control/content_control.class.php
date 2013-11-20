@@ -147,7 +147,7 @@ class content_control extends admin_control {
 			$tags_arr2 = array();
 			foreach($tag_set as $v) {
 				$this->cms_content_tag->update($v);
-				$tags_arr2[] = array($v['tagid']=>$v['name']);
+				$tags_arr2[$v['tagid']] = $v['name'];
 				$this->cms_content_tag_data->set(array($v['tagid'], $maxid), array('tagid'=>$v['tagid'], 'id'=>$maxid));
 			}
 
