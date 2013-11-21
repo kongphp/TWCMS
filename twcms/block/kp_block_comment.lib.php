@@ -21,8 +21,8 @@ function kp_block_comment($conf) {
 	$humandate = isset($conf['humandate']) ? ($conf['humandate'] == 1 ? 1 : 0) : 1;
 	$orderway = isset($conf['orderway']) && $conf['orderway'] == 1 ? 1 : -1;
 
-	$cid = R('cid');	// 前面已经转过整数了，没安全问题
-	$id = R('id');
+	$cid = &$run->_var['cid'];
+	$id = &$_show['id'];
 
 	// 排除单页模型
 	if($run->_var['mid'] == 1) return FALSE;

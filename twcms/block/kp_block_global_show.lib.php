@@ -26,7 +26,7 @@ function kp_block_global_show($conf) {
 	$run->cms_content->format($_show, $mid, $dateformat);
 
 	// 合并大数据字段
-	$id = R('id');	// 前面已经转过整数了，没安全问题
+	$id = &$_show['id'];
 	$_show['comment_url'] = 'index.php?comment--cid-'.$run->_var['cid'].'-id-'.$id.C('url_suffix');
 	$_show['views_url'] = $run->_cfg['webdir'].'index.php?u=views--cid-'.$run->_var['cid'].'-id-'.$id;
 	$_show += $run->cms_content_data->read($id);

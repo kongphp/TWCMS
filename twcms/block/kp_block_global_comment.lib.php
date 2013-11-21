@@ -19,7 +19,7 @@ function kp_block_global_comment($conf) {
 	$humandate = isset($conf['humandate']) ? ($conf['humandate'] == 1 ? TRUE : FALSE) : TRUE;
 	$orderway = isset($conf['orderway']) && $conf['orderway'] == 1 ? 1 : -1;
 
-	$id = R('id');	// 前面已经转过整数了，没安全问题
+	$id = &$_show['id'];
 	$mid = &$run->_var['mid'];
 
 	// 排除单页模型
