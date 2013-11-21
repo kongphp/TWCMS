@@ -14,7 +14,7 @@ class cms_content extends model {
 	}
 
 	// 格式化内容数组
-	public function format(&$v, $dateformat = 'Y-m-d H:i:s', $titlenum = 0, $intronum = 0) {
+	public function format(&$v, $mid, $dateformat = 'Y-m-d H:i:s', $titlenum = 0, $intronum = 0) {
 		// hook cms_content_model_format_before.php
 
 		if(empty($v)) return FALSE;
@@ -22,11 +22,11 @@ class cms_content extends model {
 		$v['date'] = date($dateformat, $v['dateline']);
 		$v['subject'] = $titlenum ? utf8::cutstr_cn($v['title'], $titlenum) : $v['title'];
 		$v['url'] = 'index.php?show--cid-'.$v['cid'].'-id-'.$v['id'].C('url_suffix');
-		$tags = _json_decode($v['tags']);
-		if($tags) {
-			$v['tags'] = array();
-			foreach($tags as $tagid => $name) {
-				$v['tags'][] = array('name'=>$name, 'url'=>'index.php?tags--cid-'.$v['cid'].'-tagid-'.$tagid.C('url_suffix'));
+		$v['tags'] = _json_decode($v['tags']);
+		if($v['tags']) {
+			$v['tag_arr'] = array();
+			foreach($v['tags'] as $name) {
+				$v['tag_arr'][] = array('name'=>$name, 'url'=>'index.php?tag--mid-'.$mid.'-name-'.urlencode($name).C('url_suffix'));
 			}
 		}
 
