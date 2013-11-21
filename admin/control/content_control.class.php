@@ -152,8 +152,8 @@ class content_control extends admin_control {
 			}
 
 			// 更新标签json到内容表
-			$cms_content['tags'] = json_encode($tags_arr2);
-			if(!$this->cms_content->set($maxid, $cms_content)) {
+			$cms_content2 = array('id'=>$maxid, 'tags'=>json_encode($tags_arr2));
+			if(!$this->cms_content->update($cms_content2)) {
 				E(1, '写入标签到内容表出错');
 			}
 
