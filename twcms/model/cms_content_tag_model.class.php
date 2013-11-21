@@ -15,6 +15,6 @@ class cms_content_tag extends model {
 
 	// 格式化标签数组
 	public function format(&$v, $mid) {
-		$v['url'] = 'index.php?tag--mid-'.$mid.'-tagid-'.$v['tagid'].C('url_suffix');
+		$v['url'] = 'index.php?tag--mid-'.$mid.'-name-'.urlencode($v['name']).C('url_suffix');
 	}
 }
