@@ -13,8 +13,10 @@ class tag_control extends control{
 	public function index() {
 		// hook tag_control_index_before.php
 
+		$this->_cfg = $this->runtime->xget();
+
 		$mid = max(2, (int)R('mid'));
-		$table = isset($run->_cfg['table_arr'][$mid]) ? $run->_cfg['table_arr'][$mid] : 'article';
+		$table = isset($this->_cfg['table_arr'][$mid]) ? $this->_cfg['table_arr'][$mid] : 'article';
 
 		$name = R('name');
 		empty($name) && core::error404();
@@ -26,7 +28,6 @@ class tag_control extends control{
 		empty($tags) && core::error404();
 		$tags = current($tags);
 
-		$this->_cfg = $this->runtime->xget();
 		$this->_cfg['titles'] = $tags['name'];
 		$this->_var['topcid'] = -1;
 
