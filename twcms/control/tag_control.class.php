@@ -8,12 +8,48 @@ defined('TWCMS_PATH') or exit;
 
 class tag_control extends control{
 	public $_cfg = array();	// 全站参数
-	public $_var = array();	// tags页参数
+	public $_var = array();	// 标签页参数
 
 	public function index() {
 		// hook tag_control_index_before.php
 
+		$mid = max(2, (int)R('mid'));
+		$table = isset($run->_cfg['table_arr'][$mid]) ? $run->_cfg['table_arr'][$mid] : 'article';
+
+		$name = R('name');
+		empty($name) && core::error404();
+
+		$name = substr(urldecode($name), 0, 30);
+		$name = safe_str($name); // 牺牲一点性能
+		$this->cms_content_tag->table = 'cms_'.$table.'_tag';
+		$tags = $this->cms_content_tag->find_fetch(array('name'=>$name), array(), 0, 1);
+		empty($tags) && core::error404();
+		$tags = current($tags);
+
 		$this->_cfg = $this->runtime->xget();
+		$this->_cfg['titles'] = $tags['name'];
+		$this->_var['topcid'] = -1;
+
+		$this->assign('tw', $this->_cfg);
+		$this->assign('tw_var', $this->_var);
+
+		$GLOBALS['run'] = &$this;
+		$GLOBALS['tags'] = &$tags;
+		$GLOBALS['mid'] = &$mid;
+		$GLOBALS['table'] = &$table;
+
+		// hook tag_control_index_after.php
+
+		$_ENV['_theme'] = &$this->_cfg['theme'];
+		$this->display('tag_list.htm');
+	}
+
+	// 标签展示
+	public function all() {
+		// hook tag_control_all_before.php
+
+		$this->_cfg = $this->runtime->xget();
+		$this->_cfg['titles'] = '全部标签';
 		$this->_var['topcid'] = -1;
 
 		$this->assign('tw', $this->_cfg);
@@ -21,9 +57,9 @@ class tag_control extends control{
 
 		$GLOBALS['run'] = &$this;
 
-		// hook tag_control_index_after.php
+		// hook tag_control_all_after.php
 
 		$_ENV['_theme'] = &$this->_cfg['theme'];
-		$this->display('tag_list.htm');
+		$this->display('tag.htm');
 	}
 }
