@@ -20,12 +20,13 @@ function kp_block_global_comment($conf) {
 	$orderway = isset($conf['orderway']) && $conf['orderway'] == 1 ? 1 : -1;
 
 	$id = R('id');	// 前面已经转过整数了，没安全问题
+	$mid = &$run->_var['mid'];
 
 	// 排除单页模型
-	if($run->_var['mid'] == 1) return FALSE;
+	if($mid == 1) return FALSE;
 
 	// 格式化
-	$run->cms_content->format($_show, $dateformat);
+	$run->cms_content->format($_show, $mid, $dateformat);
 
 	// 分页相关
 	$total = &$_show['comments'];

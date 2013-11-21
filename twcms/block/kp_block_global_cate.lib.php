@@ -24,9 +24,9 @@ function kp_block_global_cate($conf) {
 	$orderway = isset($conf['orderway']) && $conf['orderway'] == 1 ? 1 : -1;
 
 	// 排除单页模型
-	if($run->_var['mid'] == 1) return FALSE;
-
 	$cid = &$run->_var['cid'];
+	$mid = &$run->_var['mid'];
+	if($mid == 1) return FALSE;
 
 	if(!empty($run->_var['son_cids']) && is_array($run->_var['son_cids'])) {
 		// 影响数据库性能
@@ -53,7 +53,7 @@ function kp_block_global_cate($conf) {
 	// 获取内容列表
 	$list_arr = $run->cms_content->list_arr($where, $orderby, $orderway, ($page-1)*$pagenum, $pagenum, $total);
 	foreach($list_arr as &$v) {
-		$run->cms_content->format($v, $dateformat, $titlenum, $intronum);
+		$run->cms_content->format($v, $mid, $dateformat, $titlenum, $intronum);
 		if(isset($cate_arr)) {
 			$v['cate_name'] = $cate_arr[$v['cid']]['name'];
 			$v['cate_url'] = 'index.php?cate--cid-'.$v['cid'].C('url_suffix');

@@ -41,7 +41,7 @@ function kp_block_global_blog($conf) {
 	// 读取内容列表
 	$list_arr = $run->cms_content->find_fetch(array(), array($orderby => $orderway), ($page-1)*$pagenum, $pagenum);
 	foreach($list_arr as &$v) {
-		$run->cms_content->format($v, $dateformat, $titlenum, $intronum);
+		$run->cms_content->format($v, $mid, $dateformat, $titlenum, $intronum);
 	}
 
 	// hook kp_block_global_blog_after.php

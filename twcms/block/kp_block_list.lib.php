@@ -58,7 +58,7 @@ function kp_block_list($conf) {
 	// 读取内容列表
 	$list_arr = $run->cms_content->find_fetch($where, array($orderby => $orderway), $start, $limit);
 	foreach($list_arr as &$v) {
-		$run->cms_content->format($v, $dateformat, $titlenum, $intronum);
+		$run->cms_content->format($v, $mid, $dateformat, $titlenum, $intronum);
 	}
 
 	// hook kp_block_list_after.php

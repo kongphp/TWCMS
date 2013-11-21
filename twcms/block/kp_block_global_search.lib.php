@@ -40,7 +40,7 @@ function kp_block_global_search($conf) {
 	// 读取内容列表
 	$list_arr = $run->cms_content->list_arr($where, 'id', -1, ($page-1)*$pagenum, $pagenum, $total);
 	foreach($list_arr as &$v) {
-		$run->cms_content->format($v, $dateformat, $titlenum, $intronum);
+		$run->cms_content->format($v, $mid, $dateformat, $titlenum, $intronum);
 		$v['subject'] = str_ireplace($keyword, '<font color="red">'.$keyword.'</font>', $v['subject']);
 		$v['intro'] = str_ireplace($keyword, '<font color="red">'.$keyword.'</font>', $v['intro']);
 	}
