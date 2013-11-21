@@ -2,7 +2,7 @@
 defined('KONG_PATH') || exit;
 
 /**
- * 全部标签模块
+ * 标签展示页模块
  * @param int maxcount 显示最大标签数
  * @return array
  */
