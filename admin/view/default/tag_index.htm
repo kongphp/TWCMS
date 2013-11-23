@@ -1,7 +1,159 @@
 {inc:header.htm}
+<style type="text/css">
+.tb2 tr.li td{border-bottom:1px solid #D0E6EC}
+.tb2 .li i{margin-right:15px;color:#077AC7}
+</style>
 <div class="m">
+	<div class="head">
+		<dl>
+			<input onclick="add()" type="button" value="增加标签" class="but1">
+			<dt style="display:inline;float:left;margin-right:8px">
+				<select name="mid" id="mid">
+					{loop:$mod_name $v $k}<option value="{$k}"{if:$mid == $k} selected="selected"{/if}>{$v}标签</option>{/loop}
+				</select>
+			</dt>
+		</dl>
+	</div>
+	<div class="p c2">
+		<div class="cc">
+			{if:empty($list_arr)}<div class="sky warning bnote"><i></i><b>暂无标签</b></div>{else}
+			<table class="tb2">
+				<tr class="tit">
+					<th width="25"><input type="checkbox" id="check_all"></th>
+					<th width="200">名称</th>
+					<th>内容数</th>
+					<th width="150">操作</th>
+				</tr>
 
+				{loop:$list_arr $v}
+				<tr class="li">
+					<td><input type="checkbox" name="chk_row" _tagid="{$v[tagid]}"></td>
+					<td>{$v[name]}</td>
+					<td>{$v[count]}</td>
+					<td><a class="but3" href="javascript:edit({$v[tagid]});">编辑</a> <a class="but3" href="javascript:del({$v[tagid]});">删除</a> <a class="but3" href="../{$v[url]}" target="_blank">查看</a></td>
+				</tr>
+				{/loop}
+			</table>
+			<div class="page cf"><span>共 <font color="red">{$total}</font> 条</span>{$pages}</div>
+			{/if}
+		</div>
+	</div>
 </div>
 
+<script id="edit_code" type="text/html">
+	<table class="tb">
+		<tr>
+			<th><b>*</b>名称</th>
+			<td><input id="t_name" name="name" type="text" class="inp w1" /></td>
+		</tr>
+		<tr>
+			<th>描述</th>
+			<td><textarea id="t_content" name="content" class="inp w3" style="width:98%"></textarea></td>
+		</tr>
+	</table>
+</script>
+
+<script type="text/javascript">
+var _mid = $("#mid").val();
+$("#mid").change(function(){
+	var mid = $(this).val();
+	location.href = '?u=tag-index-mid-'+ mid;
+});
+
+//全选
+$("#check_all").click(function(){
+	var bool = $(this)[0].checked;
+	var len = $("input[name='chk_row']").length;
+	for(var i=0; i<len; i++) {
+		$("input[name='chk_row']").eq(i)[0].checked = bool;
+	}
+	bool ? buttonDis() : $("#batch_del").remove();
+});
+
+//是否显示删除按钮
+$("input[name='chk_row']").click(function(){
+	var len = $("input[name='chk_row']:checked").length;
+	len ? buttonDis() : $("#batch_del").remove();
+});
+
+//显示删除按钮
+function buttonDis() {
+	if(!$("#batch_del").length) $(".head>dl").append('<input id="batch_del" onclick="batch_del()" type="button" value="批量删除" class="but1" />');
+}
+
+//批量删除
+function batch_del() {
+	twAjax.confirm("删除不可恢复，确定删除？", function(){
+		var id_arr = {};
+		var len = $("input[name='chk_row']").length;
+		for(var i=0; i<len; i++) {
+			var obj = $("input[name='chk_row']").eq(i);
+			if(obj[0].checked) {
+				id_arr[i] = obj.attr("_tagid");
+			}
+		}
+		twAjax.postd("?u=tag-batch_del-ajax-1", {"mid":_mid, "id_arr":id_arr}, function(data){
+			twAjax.alert(data);
+			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+
+//对话框
+function twDialog() {
+	$.twDialog({content:$("#edit_code").html(), resizable:true, open:true, modal:true, width:900, height:260, minW:500, minH:260});
+	$(".twdialog_title a,.twdialog_button .close").click(function(){ $.twDialog("remove"); });
+}
+
+//添加
+function add() {
+	twDialog();
+
+	//提交
+	$(".twdialog_button .ok").click(function(){
+		var name = $("#t_name").val();
+		var content = $("#t_content").val();
+		twAjax.postd("?u=tag-add-ajax-1", {"mid":_mid, "name":name, "content":content}, function(data){
+			twAjax.alert(data);
+			$.twDialog("remove");
+			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+
+//编辑
+function edit(tagid) {
+	twDialog();
+
+	//读取
+	twAjax.postd("?u=tag-get_json-ajax-1", {"mid":_mid, "tagid":tagid}, function(data){
+		var json = toJson(data);
+		$("#t_name").val(json.name);
+		$("#t_content").val(json.content);
+		twAjax.remove();
+	});
+
+	//提交
+	$(".twdialog_button .ok").click(function(){
+		var name = $("#t_name").val();
+		var content = $("#t_content").val();
+		twAjax.postd("?u=tag-edit-ajax-1", {"mid":_mid, "tagid":tagid, "name":name, "content":content}, function(data){
+			twAjax.alert(data);
+			$.twDialog("remove");
+			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+
+//删除
+function del(tagid) {
+	twAjax.confirm("删除不可恢复，确定删除？", function(){
+		twAjax.postd("?u=tag-del-ajax-1", {"mid":_mid, "tagid":tagid}, function(data){
+			twAjax.alert(data);
+			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
 </body>
 </html>
