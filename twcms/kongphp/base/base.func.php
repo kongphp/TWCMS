@@ -121,6 +121,16 @@ function _json_decode($s) {
 	return $s === FALSE ? FALSE : json_decode($s, true);
 }
 
+// 简单的数组转JSON
+function _json_encode($arr) {
+	if(!is_array($arr) && empty($arr)) return '';
+	$s = '{';
+	foreach($arr as $k=>$v) {
+		$s .= '"'.$k.'":"'.strtr($v, array('\\'=>'\\\\', '"'=>'\"')).'",';
+	}
+	return rtrim($s, ',').'}';
+}
+
 // 增强多维数组进行排序，最多支持两个字段排序
 function _array_multisort(&$data, $c_1, $c_2 = true, $a_1 = 1, $a_2 = 1) {
 	if(!is_array($data)) return $data;
