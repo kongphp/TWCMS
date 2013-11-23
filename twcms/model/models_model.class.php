@@ -48,7 +48,7 @@ class models extends model {
 		unset($models_arr[1]);
 		$arr = array();
 		foreach ($models_arr as $v) {
-			$arr[$v['mid']] = $v['table_arr'];
+			$arr[$v['mid']] = $v['tablename'];
 		}
 		return $this->data['table_arr'] = $arr;
 	}
