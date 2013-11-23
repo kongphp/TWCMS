@@ -190,7 +190,8 @@ CREATE TABLE pre_cms_article_tag (
   count int(10) unsigned NOT NULL DEFAULT '0',		# tag数量
   content text NOT NULL,				# tag内容
   PRIMARY KEY  (tagid),
-  UNIQUE KEY name (name)
+  UNIQUE KEY name (name),
+  KEY count (count)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 文章标签数据表
@@ -286,7 +287,8 @@ CREATE TABLE pre_cms_product_tag (
   count int(10) unsigned NOT NULL DEFAULT '0',		# tag数量
   content text NOT NULL,				# tag内容
   PRIMARY KEY  (tagid),
-  UNIQUE KEY name (name)
+  UNIQUE KEY name (name),
+  KEY count (count)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 产品标签数据表
@@ -382,7 +384,8 @@ CREATE TABLE pre_cms_photo_tag (
   count int(10) unsigned NOT NULL DEFAULT '0',		# tag数量
   content text NOT NULL,				# tag内容
   PRIMARY KEY  (tagid),
-  UNIQUE KEY name (name)
+  UNIQUE KEY name (name),
+  KEY count (count)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 图片标签数据表
