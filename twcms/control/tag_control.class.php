@@ -45,12 +45,12 @@ class tag_control extends control{
 		$this->display('tag_list.htm');
 	}
 
-	// 标签展示
-	public function all() {
-		// hook tag_control_all_before.php
+	// 热门标签
+	public function top() {
+		// hook tag_control_top_before.php
 
 		$this->_cfg = $this->runtime->xget();
-		$this->_cfg['titles'] = '全部标签';
+		$this->_cfg['titles'] = '热门标签';
 		$this->_var['topcid'] = -1;
 
 		$this->assign('tw', $this->_cfg);
@@ -58,9 +58,9 @@ class tag_control extends control{
 
 		$GLOBALS['run'] = &$this;
 
-		// hook tag_control_all_after.php
+		// hook tag_control_top_after.php
 
 		$_ENV['_theme'] = &$this->_cfg['theme'];
-		$this->display('tag.htm');
+		$this->display('tag_top.htm');
 	}
 }
