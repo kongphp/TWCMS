@@ -12,8 +12,7 @@ class comment_control extends admin_control {
 		// hook admin_comment_control_index_before.php
 
 		$mid = max(2, (int)R('mid'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		// 模型名称
 		$mod_name = $this->models->get_name();
@@ -63,8 +62,7 @@ class comment_control extends admin_control {
 
 		$id = (int) R('id');
 		$mid = max(2, (int)R('mid'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		// 模型名称
 		$mod_name = $this->models->get_name();
@@ -110,8 +108,7 @@ class comment_control extends admin_control {
 		// hook admin_comment_control_get_json_before.php
 
 		$mid = max(2, (int)R('mid', 'P'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		$commentid = (int) R('commentid', 'P');
 
@@ -129,8 +126,7 @@ class comment_control extends admin_control {
 		// hook admin_comment_control_edit_before.php
 
 		$mid = max(2, (int)R('mid', 'P'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		$commentid = (int) R('commentid', 'P');
 		$author = htmlspecialchars(trim(R('author', 'P')));
@@ -162,8 +158,7 @@ class comment_control extends admin_control {
 		// hook admin_comment_control_del_before.php
 
 		$mid = max(2, (int)R('mid', 'P'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		$id = (int) R('id', 'P');
 		$commentid = (int) R('commentid', 'P');
@@ -186,8 +181,7 @@ class comment_control extends admin_control {
 		// hook admin_comment_control_batch_del_before.php
 
 		$mid = max(2, (int)R('mid', 'P'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		$id_arr = R('id_arr', 'P');
 

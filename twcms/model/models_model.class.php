@@ -45,10 +45,17 @@ class models extends model {
 		}
 
 		$models_arr = $this->get_models();
+		unset($models_arr[1]);
 		$arr = array();
 		foreach ($models_arr as $v) {
 			$arr[$v['mid']] = $v['tablename'];
 		}
 		return $this->data['tablename'] = $arr;
+	}
+
+	// 根据 mid 获取模型的表名
+	public function get_table($mid) {
+		$table_arr = $this->get_tablename();
+		return isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
 	}
 }

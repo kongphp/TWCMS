@@ -12,8 +12,7 @@ class tag_control extends admin_control {
 		// hook admin_tag_control_index_before.php
 
 		$mid = max(2, (int)R('mid'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		// 模型名称
 		$mod_name = $this->models->get_name();
@@ -50,8 +49,7 @@ class tag_control extends admin_control {
 		// hook admin_tag_control_get_json_before.php
 
 		$mid = max(2, (int)R('mid', 'P'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		$tagid = (int) R('tagid', 'P');
 
@@ -69,8 +67,7 @@ class tag_control extends admin_control {
 		// hook admin_tag_control_add_before.php
 
 		$mid = max(2, (int)R('mid', 'P'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		$name = trim(safe_str(R('name', 'P')));
 		$content = htmlspecialchars(trim(R('content', 'P')));
@@ -95,8 +92,7 @@ class tag_control extends admin_control {
 		// hook admin_tag_control_edit_before.php
 
 		$mid = max(2, (int)R('mid', 'P'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		$tagid = (int) R('tagid', 'P');
 		$name = trim(safe_str(R('name', 'P')));
@@ -141,8 +137,7 @@ class tag_control extends admin_control {
 		// hook admin_tag_control_del_before.php
 
 		$mid = max(2, (int)R('mid', 'P'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		$tagid = (int) R('tagid', 'P');
 
@@ -163,8 +158,7 @@ class tag_control extends admin_control {
 		// hook admin_tag_control_batch_del_before.php
 
 		$mid = max(2, (int)R('mid', 'P'));
-		$table_arr = $this->models->get_tablename();
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$table = $this->models->get_table($mid);
 
 		$id_arr = R('id_arr', 'P');
 

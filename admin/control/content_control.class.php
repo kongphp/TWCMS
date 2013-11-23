@@ -15,8 +15,8 @@ class content_control extends admin_control {
 
 		// 初始模型表名
 		$mid = $this->category->get_mid_by_cid($cid);
-		$tablename = $this->models->get_tablename();
-		$this->cms_content->table = 'cms_'.$tablename[$mid];
+		$table = $this->models->get_table($mid);
+		$this->cms_content->table = 'cms_'.$table;
 
 		// 获取分类下拉框
 		$category_cid = $this->category->get_category_cid($cid);
@@ -60,8 +60,7 @@ class content_control extends admin_control {
 			empty($cid) && E(1, '分类ID不能为空！');
 
 			$mid = $this->category->get_mid_by_cid($cid);
-			$tablename = $this->models->get_tablename();
-			$table = isset($tablename[$mid]) ? $tablename[$mid] : 'article';
+			$table = $this->models->get_table($mid);
 
 			$tags = trim(R('tags', 'P'), ", \t\n\r\0\x0B");
 			$tags_arr = explode(',', $tags);
