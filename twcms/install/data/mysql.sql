@@ -127,7 +127,7 @@ CREATE TABLE pre_cms_article (
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
-  seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取tags)
+  seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
   PRIMARY KEY  (id),
   KEY cid_id (cid,id),
@@ -223,7 +223,7 @@ CREATE TABLE pre_cms_product (
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
-  seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取tags)
+  seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
   PRIMARY KEY  (id),
   KEY cid_id (cid,id),
@@ -320,7 +320,7 @@ CREATE TABLE pre_cms_photo (
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
-  seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取tags)
+  seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
   PRIMARY KEY  (id),
   KEY cid_id (cid,id),
