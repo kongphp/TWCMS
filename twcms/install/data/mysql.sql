@@ -114,7 +114,7 @@ CREATE TABLE pre_cms_article (
   title char(80) NOT NULL DEFAULT '',			# 标题
   color char(6) NOT NULL DEFAULT '',			# 标题颜色
   alias char(50) NOT NULL DEFAULT '',			# 英文别名 (用于伪静态)
-  tags varchar(80) NOT NULL DEFAULT '',			# tags内容 (,号分割)
+  tags varchar(255) NOT NULL DEFAULT '',		# 标签 (json数组)
   intro varchar(255) NOT NULL DEFAULT '',		# 内容介绍
   pic varchar(255) NOT NULL DEFAULT '',			# 图片地址
   uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
@@ -210,7 +210,7 @@ CREATE TABLE pre_cms_product (
   title char(80) NOT NULL DEFAULT '',			# 标题
   color char(6) NOT NULL DEFAULT '',			# 标题颜色
   alias char(50) NOT NULL DEFAULT '',			# 英文别名 (用于伪静态)
-  tags varchar(80) NOT NULL DEFAULT '',			# tags内容 (,号分割)
+  tags varchar(255) NOT NULL DEFAULT '',		# 标签 (json数组)
   intro varchar(255) NOT NULL DEFAULT '',		# 内容介绍
   pic varchar(255) NOT NULL DEFAULT '',			# 图片地址
   uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
@@ -307,7 +307,7 @@ CREATE TABLE pre_cms_photo (
   title char(80) NOT NULL DEFAULT '',			# 标题
   color char(6) NOT NULL DEFAULT '',			# 标题颜色
   alias char(50) NOT NULL DEFAULT '',			# 英文别名 (用于伪静态)
-  tags varchar(80) NOT NULL DEFAULT '',			# tags内容 (,号分割)
+  tags varchar(255) NOT NULL DEFAULT '',		# 标签 (json数组)
   intro varchar(255) NOT NULL DEFAULT '',		# 内容介绍
   pic varchar(255) NOT NULL DEFAULT '',			# 图片地址
   uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
