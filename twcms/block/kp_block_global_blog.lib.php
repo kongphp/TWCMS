@@ -26,8 +26,7 @@ function kp_block_global_blog($conf) {
 	$orderway = isset($conf['orderway']) && $conf['orderway'] == 1 ? 1 : -1;
 
 	$table_arr = &$run->_cfg['table_arr'];
-	unset($table_arr[1]); // 排除单页模型
-	$table = isset($table_arr[$mid]) ? $table_arr[$mid] : $table_arr[2];
+	$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
 
 	// 初始模型表名
 	$run->cms_content->table = 'cms_'.$table;

@@ -22,7 +22,7 @@ function kp_block_global_search($conf) {
 	$maxcount = isset($conf['maxcount']) ? (int)$conf['maxcount'] : 10000;
 
 	$mid = max(2, (int)R('mid'));
-	$table_arr = $run->_cfg['table_arr'];
+	$table_arr = &$run->_cfg['table_arr'];
 	$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
 
 	$where = array('title'=>array('LIKE'=>$keyword));

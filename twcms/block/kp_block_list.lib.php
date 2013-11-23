@@ -35,8 +35,7 @@ function kp_block_list($conf) {
 		$cate_url = 'javascript:;';
 
 		$table_arr = &$run->_cfg['table_arr'];
-		unset($table_arr[1]); // 排除单页
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : $table_arr[2];
+		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
 
 		$where = array();
 	}else{

@@ -32,8 +32,7 @@ function kp_block_list_top($conf) {
 	if($cid == 0) {
 		// 当cid为0时，根据mid确定table
 		$table_arr = &$run->_cfg['table_arr'];
-		unset($table_arr[1]); // 排除单页
-		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : $table_arr[2];
+		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
 		$where = array();
 	}else{
 		$cate_arr = $run->category->get_cache($cid);
