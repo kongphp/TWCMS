@@ -39,23 +39,23 @@ class models extends model {
 	}
 
 	// 获取所有模型的表名
-	public function get_tablename() {
-		if(isset($this->data['tablename'])) {
-			return $this->data['tablename'];
+	public function get_table_arr() {
+		if(isset($this->data['table_arr'])) {
+			return $this->data['table_arr'];
 		}
 
 		$models_arr = $this->get_models();
 		unset($models_arr[1]);
 		$arr = array();
 		foreach ($models_arr as $v) {
-			$arr[$v['mid']] = $v['tablename'];
+			$arr[$v['mid']] = $v['table_arr'];
 		}
-		return $this->data['tablename'] = $arr;
+		return $this->data['table_arr'] = $arr;
 	}
 
 	// 根据 mid 获取模型的表名
 	public function get_table($mid) {
-		$table_arr = $this->get_tablename();
+		$table_arr = $this->get_table_arr();
 		return isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
 	}
 }
