@@ -34,4 +34,38 @@ class cms_content_tag extends model {
 			return $this->find_fetch(array(), array('count' => $orderway), $start, $limit);
 		}
 	}
+
+	// 关联删除 (需要删除三个表: cms_content_tag cms_content_tag_data cms_content)
+	public function xdelete($table, $tagid) {
+		$this->table = 'cms_'.$table.'_tag';
+		$this->cms_content->table = 'cms_'.$table;
+		$this->cms_content_tag_data->table = 'cms_'.$table.'_tag_data';
+
+		// 删除 cms_content 表的内容
+		try{
+			// 如果内容数太大，会删除失败。（这时程序需要改进做分批删除设计）
+			$list_arr = $this->cms_content_tag_data->find_fetch(array('tagid'=>$tagid));
+			foreach($list_arr as $v) {
+				$data = $this->cms_content->read($v['id']);
+				if(empty($data)) return '读取内容表出错！';
+
+				$row = _json_decode($data['tags']);
+				unset($row[$tagid]);
+				$data['tags'] = _json_encode($row);
+
+				if(!$this->cms_content->update($data)) return '写入内容表出错！';
+			}
+		}catch(Exception $e) {
+			return '修改内容表出错！';
+		}
+
+		// 删除 cms_content_tag_data 表的内容
+		try{
+			$this->cms_content_tag_data->find_delete(array('tagid'=>$tagid));
+		}catch(Exception $e) {
+			return '删除标签数据表出错！';
+		}
+
+		return !$this->delete($tagid);
+	}
 }
