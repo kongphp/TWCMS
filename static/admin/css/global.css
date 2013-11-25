@@ -1,4 +1,4 @@
-body,div,ul,li,dl,dd,dt,p,input,textarea,table,select,form{margin:0;padding:0}
+body,div,ul,li,dl,dd,dt,p,h1,h2,h3,h4,h5,h6,input,textarea,table,select,form{margin:0;padding:0}
 body{font:12px "Lucida Grande",Verdana,Arial,sans-serif}
 ul{list-style:none}
 a,a:visited{color:#077AC7;text-decoration:none}
@@ -99,7 +99,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .thm .tu{width:234px;height:162px;border-radius:4px}
 .thm .full{display:none;width:230px;height:158px;line-height:1.5;padding:2px;overflow:auto}
 .thm .full b{display:block;padding-bottom:5px}
-.thm h1,.thm .author,.thm .gsm{height:22px;line-height:22px;overflow:hidden}
+.thm h1,.thm .author,.thm .gsm{height:22px;line-height:22px;overflow:hidden;font-size:12px}
 .thm .gsm{padding:3px 0 0}
 .thm .gsm .but2{margin:0 8px 0 0}
 .thm .gsm .del{color:#BC0B0B}
@@ -144,7 +144,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 #homel{float:left;width:49%;min-height:600px}
 #homer{float:right;width:49%;min-height:600px}
 .sort{border:1px solid #9AC4DC;margin-top:8px;border-radius:5px}
-.sort h1{line-height:27px;text-indent:8px;border-bottom:1px solid #9AC4DC;color:#077AC7;border-radius:5px 5px 0 0;background:url(../img/bg_x.gif) 0 -91px repeat-x}
+.sort h1{line-height:27px;text-indent:8px;border-bottom:1px solid #9AC4DC;color:#077AC7;border-radius:5px 5px 0 0;font-size:12px;background:url(../img/bg_x.gif) 0 -91px repeat-x}
 .sort .sc{min-height:192px;_height:192px;padding:5px 0}
 .sort .sc li{line-height:23px;padding:0 12px;border-bottom:1px dashed #DEEFFB}
 .sort .sc li b{display:inline-block;width:60px}
