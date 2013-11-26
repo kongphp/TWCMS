@@ -127,7 +127,6 @@ DROP TABLE IF EXISTS pre_cms_article_attach;
 CREATE TABLE pre_cms_article_attach (
   aid int(10) unsigned NOT NULL AUTO_INCREMENT,   # 附件ID
   cid smallint(5) unsigned NOT NULL DEFAULT '0',  # 分类ID
-  mid tinyint(1) unsigned NOT NULL DEFAULT '0',   # 模型ID
   uid int(10) unsigned NOT NULL DEFAULT '0',    # 用户ID
   id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
   filename char(80) NOT NULL DEFAULT '',    # 文件原名
@@ -244,7 +243,6 @@ DROP TABLE IF EXISTS pre_cms_product_attach;
 CREATE TABLE pre_cms_product_attach (
   aid int(10) unsigned NOT NULL AUTO_INCREMENT,   # 附件ID
   cid smallint(5) unsigned NOT NULL DEFAULT '0',  # 分类ID
-  mid tinyint(1) unsigned NOT NULL DEFAULT '0',   # 模型ID
   uid int(10) unsigned NOT NULL DEFAULT '0',    # 用户ID
   id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
   filename char(80) NOT NULL DEFAULT '',    # 文件原名
@@ -361,7 +359,6 @@ DROP TABLE IF EXISTS pre_cms_photo_attach;
 CREATE TABLE pre_cms_photo_attach (
   aid int(10) unsigned NOT NULL AUTO_INCREMENT,   # 附件ID
   cid smallint(5) unsigned NOT NULL DEFAULT '0',  # 分类ID
-  mid tinyint(1) unsigned NOT NULL DEFAULT '0',   # 模型ID
   uid int(10) unsigned NOT NULL DEFAULT '0',    # 用户ID
   id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
   filename char(80) NOT NULL DEFAULT '',    # 文件原名
