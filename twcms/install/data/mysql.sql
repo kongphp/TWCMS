@@ -34,26 +34,6 @@ CREATE TABLE pre_user_group (
   PRIMARY KEY (groupid)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 上传附件表
-DROP TABLE IF EXISTS pre_attach;
-CREATE TABLE pre_attach (
-  aid int(10) unsigned NOT NULL AUTO_INCREMENT,		# 附件ID
-  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
-  mid tinyint(1) unsigned NOT NULL DEFAULT '0',		# 模型ID
-  uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
-  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
-  filename char(80) NOT NULL DEFAULT '',		# 文件原名
-  filetype char(7) NOT NULL DEFAULT '',			# 文件类型
-  filesize int(10) unsigned NOT NULL DEFAULT '0',	# 文件大小
-  filepath char(150) NOT NULL DEFAULT '',		# 文件路径
-  dateline int(10) unsigned NOT NULL DEFAULT '0',	# 上传时间
-  downloads int(10) unsigned NOT NULL DEFAULT '0',	# 下载次数
-  isimage tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否是图片 (1为图片，0为文件。主要区分是否是可下载的附件)
-  PRIMARY KEY (aid),
-  KEY id (id, aid),
-  KEY uid (uid, aid)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
 # 分类栏目表
 DROP TABLE IF EXISTS pre_category;
 CREATE TABLE pre_category (
@@ -141,6 +121,26 @@ CREATE TABLE pre_cms_article_data (
   content mediumtext NOT NULL,				# 内容
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+# 文章附件表
+DROP TABLE IF EXISTS pre_cms_article_attach;
+CREATE TABLE pre_cms_article_attach (
+  aid int(10) unsigned NOT NULL AUTO_INCREMENT,   # 附件ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',  # 分类ID
+  mid tinyint(1) unsigned NOT NULL DEFAULT '0',   # 模型ID
+  uid int(10) unsigned NOT NULL DEFAULT '0',    # 用户ID
+  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  filename char(80) NOT NULL DEFAULT '',    # 文件原名
+  filetype char(7) NOT NULL DEFAULT '',     # 文件类型
+  filesize int(10) unsigned NOT NULL DEFAULT '0', # 文件大小
+  filepath char(150) NOT NULL DEFAULT '',   # 文件路径
+  dateline int(10) unsigned NOT NULL DEFAULT '0', # 上传时间
+  downloads int(10) unsigned NOT NULL DEFAULT '0',  # 下载次数
+  isimage tinyint(1) unsigned NOT NULL DEFAULT '0', # 是否是图片 (1为图片，0为文件)
+  PRIMARY KEY (aid),
+  KEY id (id, aid),
+  KEY uid (uid, aid)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 文章查看数表，用来分离主表的写压力
 DROP TABLE IF EXISTS pre_cms_article_views;
@@ -239,6 +239,26 @@ CREATE TABLE pre_cms_product_data (
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+# 产品附件表
+DROP TABLE IF EXISTS pre_cms_product_attach;
+CREATE TABLE pre_cms_product_attach (
+  aid int(10) unsigned NOT NULL AUTO_INCREMENT,   # 附件ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',  # 分类ID
+  mid tinyint(1) unsigned NOT NULL DEFAULT '0',   # 模型ID
+  uid int(10) unsigned NOT NULL DEFAULT '0',    # 用户ID
+  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  filename char(80) NOT NULL DEFAULT '',    # 文件原名
+  filetype char(7) NOT NULL DEFAULT '',     # 文件类型
+  filesize int(10) unsigned NOT NULL DEFAULT '0', # 文件大小
+  filepath char(150) NOT NULL DEFAULT '',   # 文件路径
+  dateline int(10) unsigned NOT NULL DEFAULT '0', # 上传时间
+  downloads int(10) unsigned NOT NULL DEFAULT '0',  # 下载次数
+  isimage tinyint(1) unsigned NOT NULL DEFAULT '0', # 是否是图片 (1为图片，0为文件)
+  PRIMARY KEY (aid),
+  KEY id (id, aid),
+  KEY uid (uid, aid)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 # 产品查看数表，用来分离主表的写压力
 DROP TABLE IF EXISTS pre_cms_product_views;
 CREATE TABLE pre_cms_product_views (
@@ -335,6 +355,26 @@ CREATE TABLE pre_cms_photo_data (
   content mediumtext NOT NULL,				# 内容
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+# 图片附件表
+DROP TABLE IF EXISTS pre_cms_photo_attach;
+CREATE TABLE pre_cms_photo_attach (
+  aid int(10) unsigned NOT NULL AUTO_INCREMENT,   # 附件ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',  # 分类ID
+  mid tinyint(1) unsigned NOT NULL DEFAULT '0',   # 模型ID
+  uid int(10) unsigned NOT NULL DEFAULT '0',    # 用户ID
+  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  filename char(80) NOT NULL DEFAULT '',    # 文件原名
+  filetype char(7) NOT NULL DEFAULT '',     # 文件类型
+  filesize int(10) unsigned NOT NULL DEFAULT '0', # 文件大小
+  filepath char(150) NOT NULL DEFAULT '',   # 文件路径
+  dateline int(10) unsigned NOT NULL DEFAULT '0', # 上传时间
+  downloads int(10) unsigned NOT NULL DEFAULT '0',  # 下载次数
+  isimage tinyint(1) unsigned NOT NULL DEFAULT '0', # 是否是图片 (1为图片，0为文件)
+  PRIMARY KEY (aid),
+  KEY id (id, aid),
+  KEY uid (uid, aid)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 图片查看数表，用来分离主表的写压力
 DROP TABLE IF EXISTS pre_cms_photo_views;
