@@ -200,11 +200,11 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .twdialog_content{position:absolute;top:31px;bottom:32px;width:100%;overflow:auto}
 .twdialog_button{position:absolute;bottom:0;width:100%;height:27px;padding-top:5px;border-top:1px solid #2C82FC;border-radius:0 0 4px 4px}
 .twdialog_title,.twdialog_button{background:#D9EBEE;background:-webkit-linear-gradient(top,#EDF5F7,#D9EBEE);background:-moz-linear-gradient(top,#EDF5F7,#D9EBEE);background:-o-linear-gradient(top,#EDF5F7,#D9EBEE)}
-.twdialog_resizable_n{cursor:n-resize;z-index:1000;position:absolute;left:0;top:-5px;width:100%;height:8px}
-.twdialog_resizable_e{cursor:e-resize;z-index:1000;position:absolute;right:-5px;top:0;width:8px;height:100%}
-.twdialog_resizable_s{cursor:s-resize;z-index:1000;position:absolute;left:0;bottom:-5px;width:100%;height:8px}
-.twdialog_resizable_w{cursor:w-resize;z-index:1000;position:absolute;left:-5px;top:0;width:8px;height:100%}
-.twdialog_resizable_nw{cursor:nw-resize;z-index:1001;position:absolute;left:-5px;top:-5px;width:10px;height:10px}
-.twdialog_resizable_ne{cursor:ne-resize;z-index:1001;position:absolute;right:-5px;top:-5px;width:10px;height:10px}
-.twdialog_resizable_sw{cursor:sw-resize;z-index:1001;position:absolute;left:-5px;bottom:-5px;width:10px;height:10px}
-.twdialog_resizable_se{cursor:se-resize;z-index:1001;position:absolute;right:-5px;bottom:-5px;width:17px;height:17px;background:url(../img/dialog.gif) no-repeat}
+.twdialog_resizable_n{cursor:n-resize;z-index:900;position:absolute;left:0;top:-5px;width:100%;height:8px}
+.twdialog_resizable_e{cursor:e-resize;z-index:900;position:absolute;right:-5px;top:0;width:8px;height:100%}
+.twdialog_resizable_s{cursor:s-resize;z-index:900;position:absolute;left:0;bottom:-5px;width:100%;height:8px}
+.twdialog_resizable_w{cursor:w-resize;z-index:900;position:absolute;left:-5px;top:0;width:8px;height:100%}
+.twdialog_resizable_nw{cursor:nw-resize;z-index:901;position:absolute;left:-5px;top:-5px;width:10px;height:10px}
+.twdialog_resizable_ne{cursor:ne-resize;z-index:901;position:absolute;right:-5px;top:-5px;width:10px;height:10px}
+.twdialog_resizable_sw{cursor:sw-resize;z-index:901;position:absolute;left:-5px;bottom:-5px;width:10px;height:10px}
+.twdialog_resizable_se{cursor:se-resize;z-index:901;position:absolute;right:-5px;bottom:-5px;width:17px;height:17px;background:url(../img/dialog.gif) no-repeat}
