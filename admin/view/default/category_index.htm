@@ -90,20 +90,10 @@
 var models = {$models};
 load_event(); // 加载事件
 
-// 编辑器接口
-var editor_api = {
-	// 单页内容
-	page_content : {
-		obj : {},
-		get : function() {},
-		set : function(s) {},
-		focus : function() {}
-	}
-}
-
 // 默认无编辑器
-function editor_init(){
-	editor_api = {
+window.editor_init = function(){
+	// 编辑器API
+	window.editor_api = {
 		// 单页内容
 		page_content : {
 			obj : $('#page_content'),
