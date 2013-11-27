@@ -56,7 +56,7 @@ class upload{
 
 	// 获取是否是图片文件
 	private function getIsImage() {
-		return in_array($this->fileExt, array('gif', 'jpg', 'jpeg', 'png', 'bmp')) ? TRUE : FALSE;
+		return in_array($this->fileExt, array('gif', 'jpg', 'jpeg', 'png', 'bmp')) ? 1 : 0; // 1为图片 0为文件
 	}
 
 	// 上传文件
