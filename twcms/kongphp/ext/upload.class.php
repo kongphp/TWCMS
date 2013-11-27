@@ -4,7 +4,7 @@
 // +------------------------------------------------------------------------------
 
 class upload{
-	private $config;	//上传文件配置 只有三个参数 maxSize(允许上传最大文件) | allowExt(允许上传的文件后缀)
+	private $config;	//上传文件配置 只有三个参数 maxSize(允许上传最大文件) | allowExt(允许上传的文件后缀) | upDir(上传保存目录)
 	private $file;		//上传文件信息
 	private $upDir;		//上传文件根目录
 	private $fileName;	//上传原文件名
@@ -34,9 +34,9 @@ class upload{
 		'MOVE' => '文件保存时出错'
 	);
 
-	public function __construct($config, $upDir, $formName, $base64=false) {
+	public function __construct($config, $formName, $base64=false) {
 		$this->config = $config;
-		$this->upDir = $upDir;
+		$this->upDir = $config['upDir'];
 		$this->fileState = $this->stateMap[0];
 		$this->upFile($base64, $formName);
 	}
