@@ -125,17 +125,17 @@ CREATE TABLE pre_cms_article_data (
 # 文章附件表
 DROP TABLE IF EXISTS pre_cms_article_attach;
 CREATE TABLE pre_cms_article_attach (
-  aid int(10) unsigned NOT NULL AUTO_INCREMENT,   # 附件ID
-  cid smallint(5) unsigned NOT NULL DEFAULT '0',  # 分类ID
-  uid int(10) unsigned NOT NULL DEFAULT '0',    # 用户ID
-  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
-  filename char(80) NOT NULL DEFAULT '',    # 文件原名
-  filetype char(7) NOT NULL DEFAULT '',     # 文件类型
-  filesize int(10) unsigned NOT NULL DEFAULT '0', # 文件大小
-  filepath char(150) NOT NULL DEFAULT '',   # 文件路径
-  dateline int(10) unsigned NOT NULL DEFAULT '0', # 上传时间
-  downloads int(10) unsigned NOT NULL DEFAULT '0',  # 下载次数
-  isimage tinyint(1) unsigned NOT NULL DEFAULT '0', # 是否是图片 (1为图片，0为文件)
+  aid int(10) unsigned NOT NULL AUTO_INCREMENT,		# 附件ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
+  uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
+  filename char(80) NOT NULL DEFAULT '',		# 文件原名
+  filetype char(10) NOT NULL DEFAULT '',		# 文件后缀
+  filesize int(10) unsigned NOT NULL DEFAULT '0',	# 文件大小
+  filepath char(150) NOT NULL DEFAULT '',		# 文件路径
+  dateline int(10) unsigned NOT NULL DEFAULT '0',	# 上传时间
+  downloads int(10) unsigned NOT NULL DEFAULT '0',	# 下载次数
+  isimage tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否是图片 (1为图片，0为文件)
   PRIMARY KEY (aid),
   KEY id (id, aid),
   KEY uid (uid, aid)
@@ -241,17 +241,17 @@ CREATE TABLE pre_cms_product_data (
 # 产品附件表
 DROP TABLE IF EXISTS pre_cms_product_attach;
 CREATE TABLE pre_cms_product_attach (
-  aid int(10) unsigned NOT NULL AUTO_INCREMENT,   # 附件ID
-  cid smallint(5) unsigned NOT NULL DEFAULT '0',  # 分类ID
-  uid int(10) unsigned NOT NULL DEFAULT '0',    # 用户ID
-  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
-  filename char(80) NOT NULL DEFAULT '',    # 文件原名
-  filetype char(7) NOT NULL DEFAULT '',     # 文件类型
-  filesize int(10) unsigned NOT NULL DEFAULT '0', # 文件大小
-  filepath char(150) NOT NULL DEFAULT '',   # 文件路径
-  dateline int(10) unsigned NOT NULL DEFAULT '0', # 上传时间
-  downloads int(10) unsigned NOT NULL DEFAULT '0',  # 下载次数
-  isimage tinyint(1) unsigned NOT NULL DEFAULT '0', # 是否是图片 (1为图片，0为文件)
+  aid int(10) unsigned NOT NULL AUTO_INCREMENT,		# 附件ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
+  uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
+  filename char(80) NOT NULL DEFAULT '',		# 文件原名
+  filetype char(10) NOT NULL DEFAULT '',		# 文件后缀
+  filesize int(10) unsigned NOT NULL DEFAULT '0',	# 文件大小
+  filepath char(150) NOT NULL DEFAULT '',		# 文件路径
+  dateline int(10) unsigned NOT NULL DEFAULT '0',	# 上传时间
+  downloads int(10) unsigned NOT NULL DEFAULT '0',	# 下载次数
+  isimage tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否是图片 (1为图片，0为文件)
   PRIMARY KEY (aid),
   KEY id (id, aid),
   KEY uid (uid, aid)
@@ -357,17 +357,17 @@ CREATE TABLE pre_cms_photo_data (
 # 图片附件表
 DROP TABLE IF EXISTS pre_cms_photo_attach;
 CREATE TABLE pre_cms_photo_attach (
-  aid int(10) unsigned NOT NULL AUTO_INCREMENT,   # 附件ID
-  cid smallint(5) unsigned NOT NULL DEFAULT '0',  # 分类ID
-  uid int(10) unsigned NOT NULL DEFAULT '0',    # 用户ID
-  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
-  filename char(80) NOT NULL DEFAULT '',    # 文件原名
-  filetype char(7) NOT NULL DEFAULT '',     # 文件类型
-  filesize int(10) unsigned NOT NULL DEFAULT '0', # 文件大小
-  filepath char(150) NOT NULL DEFAULT '',   # 文件路径
-  dateline int(10) unsigned NOT NULL DEFAULT '0', # 上传时间
-  downloads int(10) unsigned NOT NULL DEFAULT '0',  # 下载次数
-  isimage tinyint(1) unsigned NOT NULL DEFAULT '0', # 是否是图片 (1为图片，0为文件)
+  aid int(10) unsigned NOT NULL AUTO_INCREMENT,		# 附件ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
+  uid int(10) unsigned NOT NULL DEFAULT '0',		# 用户ID
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
+  filename char(80) NOT NULL DEFAULT '',		# 文件原名
+  filetype char(10) NOT NULL DEFAULT '',		# 文件后缀
+  filesize int(10) unsigned NOT NULL DEFAULT '0',	# 文件大小
+  filepath char(150) NOT NULL DEFAULT '',		# 文件路径
+  dateline int(10) unsigned NOT NULL DEFAULT '0',	# 上传时间
+  downloads int(10) unsigned NOT NULL DEFAULT '0',	# 下载次数
+  isimage tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否是图片 (1为图片，0为文件)
   PRIMARY KEY (aid),
   KEY id (id, aid),
   KEY uid (uid, aid)
