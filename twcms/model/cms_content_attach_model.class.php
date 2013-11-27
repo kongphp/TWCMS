@@ -16,7 +16,7 @@ class cms_content_attach extends model {
 	// 上传并记录到数据库
 	public function upload($uid, $maxsize, $allowext) {
 		$config = array('maxSize'=>$maxsize, 'allowExt'=>$allowext);
-		$up = new upload('upfile', $config);
+		$up = new upload($config, TWCMS_PATH.'upload/', 'upfile');
 		$info = $up->getFileInfo();
 
 		if($info['state'] == 'SUCCESS') {
