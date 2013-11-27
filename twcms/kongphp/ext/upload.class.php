@@ -4,7 +4,7 @@
 // +------------------------------------------------------------------------------
 
 class upload{
-	private $config;	//上传文件配置 只有三个参数 maxSize(允许上传最大文件) | allowExt(允许上传的文件后缀) | saveDir(保存目录，可选)
+	private $config;	//上传文件配置 只有三个参数 maxSize(允许上传最大文件) | allowExt(允许上传的文件后缀)
 	private $file;		//上传文件信息
 	private $upDir;		//上传文件根目录
 	private $fileName;	//上传原文件名
@@ -97,7 +97,7 @@ class upload{
 			$this->fileState = $this->getFileState('EXT');
 			return;
 		}
-		$dir = empty($this->config['saveDir']) ? date('Ym/d') : $this->config['saveDir'];
+		$dir = date('Ym/d');
 		$updir = $this->upDir.$dir;
 		if(!is_dir($updir) && !mkdir($updir, 0755, true)) {
 			$this->fileState = $this->getFileState('DIR');
