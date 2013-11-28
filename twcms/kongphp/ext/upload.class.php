@@ -172,7 +172,7 @@ class upload{
 			'chm', 'torrent', 'ttf', 'font',
 		);
 		$fileExt = in_array($this->fileExt, $Exts) ? '.'.$this->fileExt : '_'.$this->fileExt.'.file';
-		return date('His').$this->random(16).$fileExt;
+		return date('His').uniqid().$this->random(6).$fileExt;
 	}
 
 	// 获取安全的文件扩展名
