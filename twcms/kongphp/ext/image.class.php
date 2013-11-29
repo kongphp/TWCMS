@@ -13,7 +13,7 @@ class image{
 	 * @param int $quality		目标质量
 	 * @param int $type			目标类型 1为补白 2为裁剪
 	 */
-	public static function thumb($src_file, $dst_file, $dst_w, $dst_h, $type = 1, $quality = 90) {
+	public static function thumb($src_file, $dst_file, $dst_w = 120, $dst_h = 120, $type = 1, $quality = 90) {
 		is_null($dst_file) && $dst_file = self::thumb_name($src_file);
 
 		$dst_ext = self::ext($dst_file);
