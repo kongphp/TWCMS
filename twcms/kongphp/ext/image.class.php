@@ -10,8 +10,8 @@ class image{
 	 * @param string $dst_file	目标路径 (裁切后，建议后缀为jpg。null时自动生成目标路径)
 	 * @param int $dst_w		目标宽度
 	 * @param int $dst_h		目标高度
-	 * @param int $quality		目标质量
 	 * @param int $type			目标类型 1为补白 2为裁剪
+	 * @param int $quality		目标质量
 	 */
 	public static function thumb($src_file, $dst_file, $dst_w = 120, $dst_h = 120, $type = 1, $quality = 90) {
 		is_null($dst_file) && $dst_file = self::thumb_name($src_file);
