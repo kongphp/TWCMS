@@ -124,11 +124,11 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 
 /*表格1*/
 .tb{width:96%}
-.tb_t{height:26px;line-height:26px;font-weight:bold;color:#077AC7;text-align:left;text-indent:5px;background:#F2F9FB;border-left:3px solid #D0E6EC}
 .tb .th{width:80px;vertical-align:middle;text-align:right;color:#077AC7;font-weight:400}
 .tb .th b{color:red;padding-right:3px}
 .tb .th,.tb .col{padding:8px;line-height:20px}
 .tb .col .desc{margin-top:4px;color:#666}
+.tb_t{height:26px;line-height:26px;font-weight:bold;color:#077AC7;text-align:left;text-indent:5px;background:#F2F9FB;border-left:3px solid #D0E6EC}
 .tb_b{height:22px;padding:7px 0 0 95px;border-top:1px dashed #D0E6EC;overflow:hidden}
 
 /*表格2*/
