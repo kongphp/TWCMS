@@ -25,6 +25,7 @@
 .case_type a:hover{background:#0D6EA7}
 .case_type a.on{background:#0B6092}
 .twdialog_content{_overflow-x:hidden}
+.category .col div{_margin-top:8px}
 </style>
 
 <div class="m">
@@ -55,13 +56,13 @@
 		{loop:$category_arr $arr $mid}
 		<div class="category">
 			<dl class="cat_tit">
-				<dd class="cat_t_1">　{php} echo $mod_name[$mid];{/php}分类</dd>
+				<dd>　{php} echo $mod_name[$mid];{/php}分类</dd>
 			</dl>
 
 			{loop:$arr $v}
-			<dl class="cat_col" cid="{$v[cid]}" mid="{$v[mid]}">
-				<dd class="cat_c_1">
-					<div class="c_name" title="编号(cid): {$v[cid]}&#10;分类名称: {$v[name]}">
+			<dl class="col" cid="{$v[cid]}" mid="{$v[mid]}">
+				<dd>
+					<div title="编号(cid): {$v[cid]}&#10;分类名称: {$v[name]}">
 						　{php} echo str_repeat("　　", $v['pre']-1);{/php}
 						<label><input type="checkbox" value="{$v[cid]}"> {$v[name]}</label>
 					</div>

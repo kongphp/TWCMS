@@ -1,4 +1,4 @@
-body,div,ul,li,dl,dd,dt,p,h1,h2,h3,h4,h5,h6,input,textarea,table,select,form{margin:0;padding:0}
+body,div,ul,li,dl,dd,dt,p,h1,h2,h3,h4,h5,h6,input,textarea,table,select,form,label{margin:0;padding:0}
 body{font:12px "Lucida Grande",Verdana,Arial,sans-serif}
 ul{list-style:none}
 a,a:visited{color:#077AC7;text-decoration:none}
