@@ -1,6 +1,6 @@
 {inc:header.htm}
 <style type="text/css">
-.tb2 tr.li td{border-bottom:1px solid #D0E6EC}
+.tb2 .li .col{border-bottom:1px solid #D0E6EC}
 .tb2 .li i{margin-right:15px;color:#077AC7}
 </style>
 <div class="m">
@@ -18,18 +18,18 @@
 			{if:empty($comment_arr)}<div class="sky warning bnote"><i></i><b>暂无评论</b></div>{else}
 			<table class="tb2">
 				<tr class="tit">
-					<th width="25"><input type="checkbox" id="check_all"></th>
-					<th width="100">作者</th>
-					<th>评论</th>
-					<th width="100">操作</th>
+					<th class="th" width="25"><input type="checkbox" id="check_all"></th>
+					<th class="th" width="100">作者</th>
+					<th class="th">评论</th>
+					<th class="th" width="100">操作</th>
 				</tr>
 
 				{loop:$comment_arr $v}
 				<tr class="li">
-					<td><input type="checkbox" name="chk_row" _id="{$v[id]}" _commentid="{$v[commentid]}"></td>
-					<td>{$v[author]}<br>({$v[ip]})</td>
-					<td>发表于：<i>{$v[date]}</i> 标题：<a href="{$v[url]}" target="_blank">{$v[title]}</a><br>{$v[content]}</td>
-					<td><a class="but3" href="javascript:edit({$v[commentid]});">编辑</a> <a class="but3" href="javascript:del({$v[id]},{$v[commentid]});">删除</a></td>
+					<td class="col"><input type="checkbox" name="chk_row" _id="{$v[id]}" _commentid="{$v[commentid]}"></td>
+					<td class="col">{$v[author]}<br>({$v[ip]})</td>
+					<td class="col">发表于：<i>{$v[date]}</i> 标题：<a href="{$v[url]}" target="_blank">{$v[title]}</a><br>{$v[content]}</td>
+					<td class="col"><a class="but3" href="javascript:edit({$v[commentid]});">编辑</a> <a class="but3" href="javascript:del({$v[id]},{$v[commentid]});">删除</a></td>
 				</tr>
 				{/loop}
 			</table>
@@ -42,12 +42,12 @@
 <script id="edit_comment" type="text/html">
 	<table class="tb">
 		<tr>
-			<th>昵称</th>
-			<td><input id="c_author" name="author" type="text" class="inp w1" /></td>
+			<th class="th">昵称</th>
+			<td class="col"><input id="c_author" name="author" type="text" class="inp w1" /></td>
 		</tr>
 		<tr>
-			<th>评论</th>
-			<td><textarea id="c_content" name="content" class="inp w3" style="width:98%"></textarea></td>
+			<th class="th">评论</th>
+			<td class="col"><textarea id="c_content" name="content" class="inp w3" style="width:98%"></textarea></td>
 		</tr>
 	</table>
 </script>

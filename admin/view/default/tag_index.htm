@@ -1,6 +1,6 @@
 {inc:header.htm}
 <style type="text/css">
-.tb2 tr.li td{border-bottom:1px solid #D0E6EC}
+.tb2 .li .col{border-bottom:1px solid #D0E6EC}
 .tb2 .li i{margin-right:15px;color:#077AC7}
 </style>
 <div class="m">
@@ -19,18 +19,18 @@
 			{if:empty($list_arr)}<div class="sky warning bnote"><i></i><b>暂无标签</b></div>{else}
 			<table class="tb2">
 				<tr class="tit">
-					<th width="25"><input type="checkbox" id="check_all"></th>
-					<th width="200">名称</th>
-					<th>内容数</th>
-					<th width="150">操作</th>
+					<th class="th" width="25"><input type="checkbox" id="check_all"></th>
+					<th class="th" width="200">名称</th>
+					<th class="th">内容数</th>
+					<th class="th" width="150">操作</th>
 				</tr>
 
 				{loop:$list_arr $v}
 				<tr class="li">
-					<td><input type="checkbox" name="chk_row" _tagid="{$v[tagid]}"></td>
-					<td>{$v[name]}</td>
-					<td>{$v[count]}</td>
-					<td><a class="but3" href="javascript:edit({$v[tagid]});">编辑</a> <a class="but3" href="javascript:del({$v[tagid]});">删除</a> <a class="but3" href="../{$v[url]}" target="_blank">查看</a></td>
+					<td class="col"><input type="checkbox" name="chk_row" _tagid="{$v[tagid]}"></td>
+					<td class="col">{$v[name]}</td>
+					<td class="col">{$v[count]}</td>
+					<td class="col"><a class="but3" href="javascript:edit({$v[tagid]});">编辑</a> <a class="but3" href="javascript:del({$v[tagid]});">删除</a> <a class="but3" href="../{$v[url]}" target="_blank">查看</a></td>
 				</tr>
 				{/loop}
 			</table>
@@ -43,12 +43,12 @@
 <script id="edit_code" type="text/html">
 	<table class="tb">
 		<tr>
-			<th><b>*</b>名称</th>
-			<td><input id="t_name" name="name" type="text" class="inp w1" /></td>
+			<th class="th"><b>*</b>名称</th>
+			<td class="col"><input id="t_name" name="name" type="text" class="inp w1" /></td>
 		</tr>
 		<tr>
-			<th>描述</th>
-			<td><textarea id="t_content" name="content" class="inp w3" style="width:98%"></textarea></td>
+			<th class="th">描述</th>
+			<td class="col"><textarea id="t_content" name="content" class="inp w3" style="width:98%"></textarea></td>
 		</tr>
 	</table>
 </script>

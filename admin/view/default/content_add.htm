@@ -14,74 +14,74 @@
 				<div class="left">
 					<table class="tb">
 						<tr>
-							<th><b>*</b>分类</th>
-							<td>
+							<th class="th"><b>*</b>分类</th>
+							<td class="col">
 								{$category_cid}
 							</td>
 						</tr>
 						<tr>
-							<th><b>*</b>标题</th>
-							<td><input name="title" type="text" value="" class="inp w1" /></td>
+							<th class="th"><b>*</b>标题</th>
+							<td class="col"><input name="title" type="text" value="" class="inp w1" /></td>
 						</tr>
 						<tr>
-							<th>别名</th>
-							<td><input name="alias" type="text" value="" class="inp w1" /></td>
+							<th class="th">别名</th>
+							<td class="col"><input name="alias" type="text" value="" class="inp w1" /></td>
 						</tr>
 						<tr>
-							<th><b>*</b>图集</th>
-							<td><textarea name="images" class="inp w3"></textarea></td>
+							<th class="th"><b>*</b>图集</th>
+							<td class="col"><textarea name="images" class="inp w3"></textarea></td>
 						</tr>
 						<tr>
-							<th><b>*</b>内容</th>
-							<td><textarea id="content" name="content"></textarea></td>
+							<th class="th"><b>*</b>内容</th>
+							<td class="col"><textarea id="content" name="content"></textarea></td>
 						</tr>
 						<tr>
-							<th>摘要</th>
-							<td><textarea name="intro" class="inp w3"></textarea></td>
+							<th class="th">摘要</th>
+							<td class="col"><textarea name="intro" class="inp w3"></textarea></td>
 						</tr>
 					</table>
 				</div>
 				<div class="right">
 					<table class="tb">
 						<tr>
-							<th></th>
-							<td><input type="submit" value="&#20445;&#23384;" class="but1" /></td>
+							<th class="th"></th>
+							<td class="col"><input type="submit" value="&#20445;&#23384;" class="but1" /></td>
 						</tr>
 						<tr>
-							<th>图片</th>
-							<td><input name="pic" type="text" value="" class="inp w1" /></td>
+							<th class="th">图片</th>
+							<td class="col"><input name="pic" type="text" value="" class="inp w1" /></td>
 						</tr>
 						<tr>
-							<th>标签</th>
-							<td><input name="tags" type="text" value="" class="inp w1" /></td>
+							<th class="th">标签</th>
+							<td class="col"><input name="tags" type="text" value="" class="inp w1" /></td>
 						</tr>
 						<tr>
-							<th>作者</th>
-							<td><input name="author" type="text" value="{$_user['username']}" class="inp w1" /></td>
+							<th class="th">作者</th>
+							<td class="col"><input name="author" type="text" value="{$_user['username']}" class="inp w1" /></td>
 						</tr>
 						<tr>
-							<th>来源</th>
-							<td><input name="source" type="text" value="" class="inp w1" /></td>
+							<th class="th">来源</th>
+							<td class="col"><input name="source" type="text" value="" class="inp w1" /></td>
 						</tr>
 						<tr>
-							<th>发布时间</th>
-							<td><input name="dateline" type="text" value="{php} echo date('Y-m-d H:i:s', $_ENV['_time']);{/php}" class="inp w1" /></td>
+							<th class="th">发布时间</th>
+							<td class="col"><input name="dateline" type="text" value="{php} echo date('Y-m-d H:i:s', $_ENV['_time']);{/php}" class="inp w1" /></td>
 						</tr>
 						<tr>
-							<th>浏览次数</th>
-							<td><input name="views" type="text" value="0" class="inp w1" /></td>
+							<th class="th">浏览次数</th>
+							<td class="col"><input name="views" type="text" value="0" class="inp w1" /></td>
 						</tr>
 						<tr>
-							<th>禁止评论</th>
-							<td><input name="iscomment" type="checkbox" value="1"></td>
+							<th class="th">禁止评论</th>
+							<td class="col"><input name="iscomment" type="checkbox" value="1"></td>
 						</tr>
 						<tr>
-							<th>SEO关键字</th>
-							<td><input name="seo_keywords" type="text" value="" class="inp w1" /></td>
+							<th class="th">SEO关键字</th>
+							<td class="col"><input name="seo_keywords" type="text" value="" class="inp w1" /></td>
 						</tr>
 						<tr>
-							<th>SEO描述</th>
-							<td><input name="seo_description" type="text" value="" class="inp w1" /></td>
+							<th class="th">SEO描述</th>
+							<td class="col"><input name="seo_description" type="text" value="" class="inp w1" /></td>
 						</tr>
 					</table>
 				</div>

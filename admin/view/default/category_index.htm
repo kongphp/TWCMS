@@ -19,65 +19,65 @@
 		<input name="cid" type="hidden" />
 		<table class="tb" style="margin:5px 0">
 			<tr>
-				<th><div style="width:96px">分类模型</div></th>
-				<td>
+				<th class="th"><div style="width:96px">分类模型</div></th>
+				<td class="col">
 					{loop:$mod_name $v $k}<label><input class="mr3" name="mid" type="radio" value="{$k}">{$v}</label>{/loop}
 				</td>
 			</tr>
 			<tr>
-				<th>分类类型</th>
-				<td>
+				<th class="th">分类类型</th>
+				<td class="col">
 					<label title="可发表内容，下级不可建分类"><input class="mr3" name="type" type="radio" value="0">列表</label>
 					<label title="不可发表内容，下级可建分类"><input class="mr3" name="type" type="radio" value="1">频道</label>
 				</td>
 			</tr>
 			<tr>
-				<th>所属频道</th>
-				<td><select name="upid" id="upid"><option value="0">无</option></select></td>
+				<th class="th">所属频道</th>
+				<td class="col"><select name="upid" id="upid"><option value="0">无</option></select></td>
 			</tr>
 			<tr>
-				<th><font color="red">*</font> 分类名称</th>
-				<td><input name="name" type="text" class="inp w4" /></td>
+				<th class="th"><font color="red">*</font> 分类名称</th>
+				<td class="col"><input name="name" type="text" class="inp w4" /></td>
 			</tr>
 			<tr>
-				<th><font color="red">*</font> 分类别名</th>
-				<td><input name="alias" type="text" class="inp w4" /></td>
+				<th class="th"><font color="red">*</font> 分类别名</th>
+				<td class="col"><input name="alias" type="text" class="inp w4" /></td>
 			</tr>
 			<tr>
-				<th>分类描述</th>
-				<td><input name="intro" type="text" class="inp w4" /></td>
+				<th class="th">分类描述</th>
+				<td class="col"><input name="intro" type="text" class="inp w4" /></td>
 			</tr>
 			<tr style="display:none">
-				<th>单页内容</th>
-				<td><textarea id="page_content" name="page_content" class="inp w3 w4"></textarea></td>
+				<th class="th">单页内容</th>
+				<td class="col"><textarea id="page_content" name="page_content" class="inp w3 w4"></textarea></td>
 			</tr>
 			<tr>
-				<th>排列顺序</th>
-				<td><input name="orderby" value="0" type="number" class="inp wnum" /></td>
+				<th class="th">排列顺序</th>
+				<td class="col"><input name="orderby" value="0" type="number" class="inp wnum" /></td>
 			</tr>
 
 			<tr><td colspan="2"><div class="tb_t">SEO设置</div></td></tr>
 			<tr>
-				<th>SEO标题</th>
-				<td><input class="inp w4" type="text" name="seo_title" /></td>
+				<th class="th">SEO标题</th>
+				<td class="col"><input class="inp w4" type="text" name="seo_title" /></td>
 			</tr>
 			<tr>
-				<th>SEO关键字</th>
-				<td><input class="inp w4" type="text" name="seo_keywords" /></td>
+				<th class="th">SEO关键字</th>
+				<td class="col"><input class="inp w4" type="text" name="seo_keywords" /></td>
 			</tr>
 			<tr>
-				<th>SEO描述</th>
-				<td><input class="inp w4" type="text" name="seo_description" /></td>
+				<th class="th">SEO描述</th>
+				<td class="col"><input class="inp w4" type="text" name="seo_description" /></td>
 			</tr>
 
 			<tr><td colspan="2"><div class="tb_t">模板设置</div></td></tr>
 			<tr>
-				<th>列表模板</th>
-				<td><input class="inp w4" type="text" name="cate_tpl" /></td>
+				<th class="th">列表模板</th>
+				<td class="col"><input class="inp w4" type="text" name="cate_tpl" /></td>
 			</tr>
 			<tr>
-				<th>内容模板</th>
-				<td><input class="inp w4" type="text" name="show_tpl" /></td>
+				<th class="th">内容模板</th>
+				<td class="col"><input class="inp w4" type="text" name="show_tpl" /></td>
 			</tr>
 
 			{hook:admin_category_index_set_dialog_after.htm}

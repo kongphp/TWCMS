@@ -13,28 +13,28 @@
 			{if:empty($cms_content_arr)}<div class="sky warning bnote"><i></i><b>暂无内容</b></div>{else}
 			<table class="tb2">
 				<tr class="tit">
-					<th width="25"><input type="checkbox" id="check_all"></th>
-					<th width="50">ID</th>
-					<th width="120">操作</th>
-					<th>标题</th>
-					<th width="110">作者</th>
-					<th width="127">评论数</th>
-					<th width="140">发布时间</th>
+					<th class="th" width="25"><input type="checkbox" id="check_all"></th>
+					<th class="th" width="50">ID</th>
+					<th class="th" width="120">操作</th>
+					<th class="th">标题</th>
+					<th class="th" width="110">作者</th>
+					<th class="th" width="127">评论数</th>
+					<th class="th" width="140">发布时间</th>
 				</tr>
 
 				{loop:$cms_content_arr $v}
 				<tr class="li">
-					<td><input type="checkbox" name="chk_row" value="{$v[id]}"></td>
-					<td>{$v[id]}</td>
-					<td>
+					<td class="col"><input type="checkbox" name="chk_row" value="{$v[id]}"></td>
+					<td class="col">{$v[id]}</td>
+					<td class="col">
 						<a href="javascript:edit({$v[id]});">[编辑]</a>
 						<a href="javascript:del({$v[id]}, {$v[cid]});">[删除]</a>
 						<a href="../index.php?show--cid-{$v[cid]}-id-{$v[id]}" target="_blank">[查看]</a>
 					</td>
-					<td>{$v[title]}</td>
-					<td>{$v['author']}</td>
-					<td>{$v[comments]}</td>
-					<td>{php} echo date('Y-m-d H:i:s', $v['dateline']);{/php}</td>
+					<td class="col">{$v[title]}</td>
+					<td class="col">{$v['author']}</td>
+					<td class="col">{$v[comments]}</td>
+					<td class="col">{php} echo date('Y-m-d H:i:s', $v['dateline']);{/php}</td>
 				</tr>
 				{/loop}
 			</table>

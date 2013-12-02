@@ -125,20 +125,20 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 /*表格1*/
 .tb{width:96%}
 .tb_t{height:26px;line-height:26px;font-weight:bold;color:#077AC7;text-align:left;text-indent:5px;background:#F2F9FB;border-left:3px solid #D0E6EC}
-.tb th{width:80px;vertical-align:middle;text-align:right;color:#077AC7;font-weight:400}
-.tb th b{color:red;padding-right:3px}
-.tb th,.tb td{padding:8px;line-height:20px}
-.tb td .desc{margin-top:4px;color:#666}
+.tb .th{width:80px;vertical-align:middle;text-align:right;color:#077AC7;font-weight:400}
+.tb .th b{color:red;padding-right:3px}
+.tb .th,.tb .col{padding:8px;line-height:20px}
+.tb .col .desc{margin-top:4px;color:#666}
 .tb_b{height:22px;padding:7px 0 0 95px;border-top:1px dashed #D0E6EC;overflow:hidden}
 
 /*表格2*/
-.tb2 tr.tit{background:url(../img/bg_x.gif) 0 -91px repeat-x}
-.tb2 tr.tit th{height:27px;border:1px solid #D0E6EC;text-align:left;padding:0 5px}
-.tb2 tr.tit .bdr_3{border-left:1px solid #D0E6EC}
-.tb2 tr.li td,.tb2 tr.li th,.tb2 tr.tit2 th{padding:5px 6px;line-height:20px;border-bottom:1px dotted #D0E6EC;text-align:left;word-wrap:break-word;word-break:break-all}
-.tb2 tr.tit2 th{border-top:1px solid #D0E6EC;border-bottom:1px solid #D0E6EC;background:#FFFFCC}
-.tb2 tr.li:hover{background:#FFFFBB}
-.tb2 tr .t_c{text-align:center}
+.tb2 .tit{background:url(../img/bg_x.gif) 0 -91px repeat-x}
+.tb2 .tit .th{height:27px;border:1px solid #D0E6EC;text-align:left;padding:0 5px}
+.tb2 .tit .bdr_3{border-left:1px solid #D0E6EC}
+.tb2 .li .col,.tb2 .li .th,.tb2 .tit2 .th{padding:5px 6px;line-height:20px;border-bottom:1px dotted #D0E6EC;text-align:left;word-wrap:break-word;word-break:break-all}
+.tb2 .tit2 .th{border-top:1px solid #D0E6EC;border-bottom:1px solid #D0E6EC;background:#FFFFCC}
+.tb2 .li:hover{background:#FFFFBB}
+.tb2 .li .t_c{text-align:center}
 
 /*home*/
 #homel{float:left;width:49%;min-height:600px}
