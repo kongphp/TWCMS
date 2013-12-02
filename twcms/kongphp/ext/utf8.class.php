@@ -1,12 +1,9 @@
 <?php
-/*
- * XiunoPHP v1.2
- * http://www.xiuno.com/
- *
- * Copyright 2010 (c) axiuno@gmail.com
- * GNU LESSER GENERAL PUBLIC LICENSE Version 3
- * http://www.gnu.org/licenses/lgpl.html
- *
+/**
+ * Copyright (C) 2013 www.kongphp.com All rights reserved.
+ * Licensed http://www.gnu.org/licenses/lgpl.html
+ * Author: wuzhaohuan <kongphp@gmail.com>
+ * @link http://www.xiuno.com/
  */
 
 if(!defined('FRAMEWORK_UTF8')) {
