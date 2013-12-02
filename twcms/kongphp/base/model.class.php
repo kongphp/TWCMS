@@ -1,7 +1,9 @@
 <?php
-// +------------------------------------------------------------------------------
-// | Copyright (C) 2013 wuzhaohuan <kongphp@gmail.com> All rights reserved.
-// +------------------------------------------------------------------------------
+/**
+ * Copyright (C) 2013 www.kongphp.com All rights reserved. 
+ * Licensed http://www.gnu.org/licenses/lgpl.html
+ * Author: wuzhaohuan <kongphp@gmail.com>
+ */
 
 /*
 在模型设计上我思考了很久，最终确定参考xiunophp的设计：统一 cache+db 接口，并设计二级缓存。 2013.06.27
