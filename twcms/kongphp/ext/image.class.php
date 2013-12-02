@@ -1,7 +1,9 @@
 <?php
-// +------------------------------------------------------------------------------------------------
-// | Copyright (C) 2013 www.kongphp.com All rights reserved. Author: wuzhaohuan <kongphp@gmail.com>
-// +------------------------------------------------------------------------------------------------
+/**
+ * Copyright (C) 2013 www.kongphp.com All rights reserved.
+ * Licensed http://www.gnu.org/licenses/lgpl.html
+ * Author: wuzhaohuan <kongphp@gmail.com>
+ */
 
 class image{
 	/**
@@ -75,6 +77,14 @@ class image{
 		$src_ext = self::ext($src_file);
 		if(!in_array($src_ext, array('jpg', 'gif', 'png'))) return FALSE;
 
+		is_null($dst_file) && $dst_file = &$src_file;
+
+		// 动画图片不加水印
+		if($src_ext == 'gif' && self::check_animation($src_file)) {
+			copy($src_file, $dst_file);
+			return filesize($dst_file);
+		}
+
 		$wat_ext = self::ext($wat_file);
 		if(!in_array($wat_ext, array('jpg', 'gif', 'png'))) return FALSE;
 
@@ -147,8 +157,6 @@ class image{
 			imagecopymerge($im_src, $im_wat, $x, $y, 0, 0, $wat_w, $wat_h, $pct);
 		}
 
-		is_null($dst_file) && $dst_file = &$src_file;
-
 		switch($src_ext) {
 			case 'jpg': imagejpeg($im_src, $dst_file, 100); break;
 			case 'gif': imagegif($im_src, $dst_file); break;
@@ -168,6 +176,14 @@ class image{
 	// 获取文件扩展名
 	public static function ext($filename) {
 		return strtolower(substr(strrchr($filename, '.'), 1, 10));
+	}
+
+	// 检查是否是动画图片
+	function check_animation($filename) {
+		$fp = fopen($filename, 'rb');
+		$s = fread($fp,1024);
+		fclose($fp);
+		return strpos($s, 'NETSCAPE2.0') === FALSE ? 0 : 1;
 	}
 
 	// 加载图片资源
