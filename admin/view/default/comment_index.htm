@@ -100,7 +100,7 @@ function batch_del() {
 
 //编辑
 function edit(commentid) {
-	$.twDialog({content:$("#edit_comment").html(), resizable:true, open:true, modal:true, width:900, height:280, minW:500, minH:260});
+	$.twDialog({content:$("#edit_comment").html(), resizable:true, open:true, modal:true, width:900, height:280, minW:500, minH:280});
 
 	//关闭
 	$(".twdialog_title a,.twdialog_button .close").click(function(){ $.twDialog("remove"); });

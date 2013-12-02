@@ -1,4 +1,11 @@
 {inc:header.htm}
+
+<style type="text/css">
+.tb{margin:5px 0}
+.tb .th div{width:96px}
+.tb .col label{padding-right:8px}
+</style>
+
 <div class="m">
 	<div class="head">
 		<dl>
@@ -17,9 +24,9 @@
 <script id="set_dialog" type="text/html" _mid="2" _type="0" _upid="0">
 	<form method="post" action="?u=category-set-ajax-1">
 		<input name="cid" type="hidden" />
-		<table class="tb" style="margin:5px 0">
+		<table class="tb">
 			<tr>
-				<th class="th"><div style="width:96px">分类模型</div></th>
+				<th class="th"><div>分类模型</div></th>
 				<td class="col">
 					{loop:$mod_name $v $k}<label><input class="mr3" name="mid" type="radio" value="{$k}">{$v}</label>{/loop}
 				</td>
