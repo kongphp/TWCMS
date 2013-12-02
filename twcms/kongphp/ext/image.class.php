@@ -181,7 +181,7 @@ class image{
 	// 检查是否是动画图片
 	function check_animation($filename) {
 		$fp = fopen($filename, 'rb');
-		$s = fread($fp,1024);
+		$s = fread($fp, filesize($filename));
 		fclose($fp);
 		return strpos($s, 'NETSCAPE2.0') === FALSE ? 0 : 1;
 	}
