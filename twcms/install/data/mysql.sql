@@ -122,6 +122,17 @@ CREATE TABLE pre_cms_article_data (
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+# 文章属性标记表
+DROP TABLE IF EXISTS pre_cms_article_flag;
+CREATE TABLE pre_cms_article_flag (
+  flag tinyint(1) unsigned NOT NULL DEFAULT '0',   # 属性标记
+  cid int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  PRIMARY KEY  (flag,id),
+  KEY flag_cid (flag,cid,id),
+  KEY id (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 # 文章附件表
 DROP TABLE IF EXISTS pre_cms_article_attach;
 CREATE TABLE pre_cms_article_attach (
@@ -238,6 +249,17 @@ CREATE TABLE pre_cms_product_data (
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+# 产品属性标记表
+DROP TABLE IF EXISTS pre_cms_product_flag;
+CREATE TABLE pre_cms_product_flag (
+  flag tinyint(1) unsigned NOT NULL DEFAULT '0',   # 属性标记
+  cid int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  PRIMARY KEY  (flag,id),
+  KEY flag_cid (flag,cid,id),
+  KEY id (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 # 产品附件表
 DROP TABLE IF EXISTS pre_cms_product_attach;
 CREATE TABLE pre_cms_product_attach (
@@ -352,6 +374,17 @@ CREATE TABLE pre_cms_photo_data (
   images mediumtext NOT NULL,				# 图集 (json储存)
   content mediumtext NOT NULL,				# 内容
   PRIMARY KEY  (id)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+# 图片属性标记表
+DROP TABLE IF EXISTS pre_cms_photo_flag;
+CREATE TABLE pre_cms_photo_flag (
+  flag tinyint(1) unsigned NOT NULL DEFAULT '0',   # 属性标记
+  cid int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  PRIMARY KEY  (flag,id),
+  KEY flag_cid (flag,cid,id),
+  KEY id (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 图片附件表
