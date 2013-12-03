@@ -106,6 +106,8 @@ CREATE TABLE pre_cms_article (
   ip int(10) NOT NULL DEFAULT '0',			# IP
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
+  imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数
+  filenum int(10) unsigned NOT NULL DEFAULT '0',	# 文件附件数
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
   seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
@@ -231,6 +233,8 @@ CREATE TABLE pre_cms_product (
   ip int(10) NOT NULL DEFAULT '0',			# IP
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
+  imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数
+  filenum int(10) unsigned NOT NULL DEFAULT '0',	# 文件附件数
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
   seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
@@ -357,6 +361,8 @@ CREATE TABLE pre_cms_photo (
   ip int(10) NOT NULL DEFAULT '0',			# IP
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
+  imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数
+  filenum int(10) unsigned NOT NULL DEFAULT '0',	# 文件附件数
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
   seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
