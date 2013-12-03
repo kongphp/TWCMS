@@ -51,6 +51,7 @@ CREATE TABLE pre_category (
   seo_title char(80) NOT NULL DEFAULT '',		# SEO标题
   seo_keywords char(80) NOT NULL DEFAULT '',		# SEO关键词
   seo_description char(150) NOT NULL DEFAULT '',	# SEO描述
+  tops text NOT NULL,					# 存放分类置顶
   PRIMARY KEY (cid),
   UNIQUE KEY alias (alias)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -124,9 +125,9 @@ CREATE TABLE pre_cms_article_data (
 # 文章属性标记表
 DROP TABLE IF EXISTS pre_cms_article_flag;
 CREATE TABLE pre_cms_article_flag (
-  flag tinyint(1) unsigned NOT NULL DEFAULT '0',   # 属性标记
-  cid int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
-  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  flag tinyint(1) unsigned NOT NULL DEFAULT '0',	# 属性标记
+  cid int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
   PRIMARY KEY  (flag,id),
   KEY flag_cid (flag,cid,id),
   KEY id (id)
@@ -250,9 +251,9 @@ CREATE TABLE pre_cms_product_data (
 # 产品属性标记表
 DROP TABLE IF EXISTS pre_cms_product_flag;
 CREATE TABLE pre_cms_product_flag (
-  flag tinyint(1) unsigned NOT NULL DEFAULT '0',   # 属性标记
-  cid int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
-  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  flag tinyint(1) unsigned NOT NULL DEFAULT '0',	# 属性标记
+  cid int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
   PRIMARY KEY  (flag,id),
   KEY flag_cid (flag,cid,id),
   KEY id (id)
@@ -376,9 +377,9 @@ CREATE TABLE pre_cms_photo_data (
 # 图片属性标记表
 DROP TABLE IF EXISTS pre_cms_photo_flag;
 CREATE TABLE pre_cms_photo_flag (
-  flag tinyint(1) unsigned NOT NULL DEFAULT '0',   # 属性标记
-  cid int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
-  id int(10) unsigned NOT NULL DEFAULT '0',   # 内容ID
+  flag tinyint(1) unsigned NOT NULL DEFAULT '0',	# 属性标记
+  cid int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
+  id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
   PRIMARY KEY  (flag,id),
   KEY flag_cid (flag,cid,id),
   KEY id (id)
