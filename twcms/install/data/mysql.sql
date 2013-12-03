@@ -103,7 +103,6 @@ CREATE TABLE pre_cms_article (
   dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
   lasttime int(10) unsigned NOT NULL DEFAULT '0',	# 更新时间
   ip int(10) NOT NULL DEFAULT '0',			# IP
-  type tinyint(1) unsigned NOT NULL DEFAULT '0',	# 类型 (0为正常 1为链接)
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
@@ -229,7 +228,6 @@ CREATE TABLE pre_cms_product (
   dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
   lasttime int(10) unsigned NOT NULL DEFAULT '0',	# 更新时间
   ip int(10) NOT NULL DEFAULT '0',			# IP
-  type tinyint(1) unsigned NOT NULL DEFAULT '0',	# 类型 (0为正常 1为链接)
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
@@ -356,7 +354,6 @@ CREATE TABLE pre_cms_photo (
   dateline int(10) unsigned NOT NULL DEFAULT '0',	# 发表时间
   lasttime int(10) unsigned NOT NULL DEFAULT '0',	# 更新时间
   ip int(10) NOT NULL DEFAULT '0',			# IP
-  type tinyint(1) unsigned NOT NULL DEFAULT '0',	# 类型 (0为正常 1为链接)
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
