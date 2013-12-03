@@ -86,10 +86,10 @@ CREATE TABLE pre_cms_page (
   PRIMARY KEY (cid)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 文章表 (可根据 id 范围分区)
+# 文章表 (可根据 id 范围分区, 审核/定时发布等考虑单独设计一张表)
 DROP TABLE IF EXISTS pre_cms_article;
 CREATE TABLE pre_cms_article (
-  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID (审核/定时发布等考虑单独设计一张表)
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
   id int(10) unsigned NOT NULL AUTO_INCREMENT,		# 内容ID
   title char(80) NOT NULL DEFAULT '',			# 标题
   color char(6) NOT NULL DEFAULT '',			# 标题颜色
@@ -211,10 +211,10 @@ CREATE TABLE pre_cms_article_tag_data (
   PRIMARY KEY  (tagid,id)				# 排序要用id
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 产品表 (可根据 id 范围分区)
+# 产品表 (可根据 id 范围分区, 审核/定时发布等考虑单独设计一张表)
 DROP TABLE IF EXISTS pre_cms_product;
 CREATE TABLE pre_cms_product (
-  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID (审核/定时发布等考虑单独设计一张表)
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
   id int(10) unsigned NOT NULL AUTO_INCREMENT,		# 内容ID
   title char(80) NOT NULL DEFAULT '',			# 标题
   color char(6) NOT NULL DEFAULT '',			# 标题颜色
@@ -337,10 +337,10 @@ CREATE TABLE pre_cms_product_tag_data (
   PRIMARY KEY  (tagid,id)				# 排序要用id
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 图片表 (可根据 id 范围分区)
+# 图片表 (可根据 id 范围分区, 审核/定时发布等考虑单独设计一张表)
 DROP TABLE IF EXISTS pre_cms_photo;
 CREATE TABLE pre_cms_photo (
-  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID (审核/定时发布等考虑单独设计一张表)
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
   id int(10) unsigned NOT NULL AUTO_INCREMENT,		# 内容ID
   title char(80) NOT NULL DEFAULT '',			# 标题
   color char(6) NOT NULL DEFAULT '',			# 标题颜色
