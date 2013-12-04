@@ -31,7 +31,7 @@ class my_control extends admin_control {
 		$stat = array();
 		$stat['category'] = $this->category->count();
 		$stat['user'] = $this->user->count();
-		$stat['attach'] = $this->attach->count();
+		//$stat['attach'] = $this->attach->count();
 		//$stat['article'] = $this->cms_article->count();
 		//$stat['article_comment'] = $this->article_comment->count();
 		//$stat['product'] = $this->product->count();
