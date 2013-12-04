@@ -284,6 +284,8 @@ class category extends model {
 			$arr = $this->read($cid);
 		}else{
 			$arr = $this->get_category();
+			if(empty($arr)) return 2;
+
 			$arr = current($arr);
 			$arr = current($arr);
 		}
