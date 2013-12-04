@@ -108,6 +108,8 @@ CREATE TABLE pre_cms_article (
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
   imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数
   filenum int(10) unsigned NOT NULL DEFAULT '0',	# 文件附件数
+  flags varchar(20) NOT NULL DEFAULT '',		# 所有属性 (,号分割，用于内容管理显示属性)
+  top tinyint(1) NOT NULL default '0',			# 置顶 0为不置顶 1为分类置顶 2为全站置顶
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
   seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
@@ -235,6 +237,8 @@ CREATE TABLE pre_cms_product (
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
   imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数
   filenum int(10) unsigned NOT NULL DEFAULT '0',	# 文件附件数
+  flags varchar(20) NOT NULL DEFAULT '',		# 所有属性 (,号分割，用于内容管理显示属性)
+  top tinyint(1) NOT NULL default '0',			# 置顶 0为不置顶 1为分类置顶 2为全站置顶
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
   seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
@@ -363,6 +367,8 @@ CREATE TABLE pre_cms_photo (
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
   imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数
   filenum int(10) unsigned NOT NULL DEFAULT '0',	# 文件附件数
+  flags varchar(20) NOT NULL DEFAULT '',		# 所有属性 (,号分割，用于内容管理显示属性)
+  top tinyint(1) NOT NULL default '0',			# 置顶 0为不置顶 1为分类置顶 2为全站置顶
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
   seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
