@@ -6,10 +6,8 @@ a:hover{color:#BD0A01}
 a:focus{outline:0}
 img{border:0}
 table{width:100%;border-collapse:collapse;border-spacing:0}
-html,body{width:100%;height:100%;overflow:hidden}
 
 /*公共*/
-.m{width:100%;height:100%;overflow:hidden;position:relative}
 .un{display:none}
 .dis{display:block}
 .cf:after{content:"";display:block;clear:both;height:0;overflow:hidden}
@@ -48,13 +46,8 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .btn_cl:hover{background-position:-74px -26px}
 
 /*内容*/
-.p{position:absolute;top:0;right:0;bottom:0;left:0;overflow:auto;_width:100%}
-.p .cc{overflow:hidden;line-height:1.6;padding:8px;_width:expression(document.body.offsetWidth-33)}
+.p .cc{line-height:1.6;padding:8px}
 .p .cc .ajaxbox,.p .cc .warning{border-width:1px}
-.c1{_height:expression(document.body.offsetHeight)}
-.c2{top:31px;_height:expression(document.body.offsetHeight-31)}
-.c3{top:31px;bottom:33px;_height:expression(document.body.offsetHeight-64)}
-.c3 .cc{padding:5px 8px}
 
 /*头部*/
 .head{height:26px;margin-top:5px;background:url(../img/bg_x.gif) 0 25px repeat-x}
@@ -64,9 +57,6 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .head dl dd{display:inline;float:left;cursor:pointer;margin-right:6px;height:26px;line-height:26px;padding:0 8px;color:#077AC7;border-left:1px solid #9AC4DC;border-right:1px solid #9AC4DC;background:url(../img/bg_x.gif) 0 -4px repeat-x}
 .head dl dd.on{background-position: 0 -33px}
 .head dl dd.hover{background-position: 0 -62px}
-
-/*底部*/
-.foot{position:absolute;bottom:0;width:100%;height:22px;padding:5px 0;background:#F3F9FA;border-top:1px solid #D0E6EC}
 
 /*Ajax*/
 .ajaxoverlay,.twoverlay{position:absolute;top:0;left:0;z-index:1001;width:100%;height:100%;background:#aaa;filter:Alpha(opacity=30);opacity:0.3}
@@ -170,15 +160,6 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .cat_c_1 .type1{background:#999}
 .cat_c_1 .c_name,.cat_c_2 .c_alias{width:95%;line-height:36px;overflow:hidden;word-wrap:break-word}
 .cat_c_3 input{_margin-top:4px}
-
-/*内容*/
-.cont_show{float:right;width:82%;height:100%;position:relative;border-left:1px solid #9AC4DC}
-.cont_show iframe{position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%}
-.cont_cc{position:absolute;top:29px;bottom:33px;width:100%;_height:expression(document.body.offsetHeight-33);overflow:auto}
-
-/*生成*/
-.nothtml span{float:left;line-height:24px}
-.nothtml span b{color:red}
 
 /*数据库*/
 .bkprompt{height:28px;line-height:22px}
