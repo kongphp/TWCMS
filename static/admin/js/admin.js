@@ -55,7 +55,7 @@ function addTab(title, url) {
 	$("#box_tab ul li.on").removeClass("on");
 	$("#box_tab ul").append('<li url='+ url +' title="'+ title +'" class="on"><b>'+ title +'</b><i></i></li>');
 	$("#box_frame iframe:visible").hide();
-	$("#box_frame").append('<iframe src="'+ url+getR() +'" frameborder="0"></iframe>');
+	$("#box_frame").append('<iframe src="'+ url+getR() +'" frameborder="0" scrolling="yes"></iframe>');
 
 	setUlwidth();
 	if($("#box_tab ul").width() > $("#box_tab").width()) {
