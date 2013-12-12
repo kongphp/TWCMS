@@ -187,7 +187,7 @@ function load_event() {
 
 // 加载编辑器 (增加或编辑时使用)
 function load_dialog() {
-	var H = Math.max(350, $("body").height()-30);
+	var H = Math.max(350, document.documentElement.clientHeight-30);
 	$.twDialog("remove");
 	$.twDialog({content:$("#set_dialog").html(), resizable:true, open:true, modal:false, width:900, height:H, minW:700});
 

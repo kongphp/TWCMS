@@ -262,7 +262,7 @@ $.fn.kpdragsort = function(options) {
 //添加分类
 $("#add").click(function(){
 	window.setType = 0;
-	window.addHeight = Math.max(350, $("body").height()-30);
+	window.addHeight = Math.max(350, document.documentElement.clientHeight-30);
 	$.twDialog({content:$("#add_link").html(), resizable:true, open:true, modal:true, width:600, height:addHeight, minW:500});
 
 	//关闭
