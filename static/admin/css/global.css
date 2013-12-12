@@ -50,17 +50,18 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .p .cc .ajaxbox,.p .cc .warning{border-width:1px}
 
 /*头部*/
-.head{height:26px;margin-top:5px;background:url(../img/bg_x.gif) 0 25px repeat-x}
+.head{z-index:99;position:fixed;top:0;left:0;width:100%;height:26px;padding-top:5px;background:url(../img/bg_x.gif) #fff 0 30px repeat-x}
 .head dl{height:26px;overflow:hidden;padding-left:8px}
 .head dl .but1{margin:0 8px 0 0}
 .head dl .sele1{margin:0;float:none}
-.head dl dd{display:inline;float:left;cursor:pointer;margin-right:6px;height:26px;line-height:26px;padding:0 8px;color:#077AC7;border-left:1px solid #9AC4DC;border-right:1px solid #9AC4DC;background:url(../img/bg_x.gif) 0 -4px repeat-x}
+.head dl dd{_display:inline;float:left;cursor:pointer;margin-right:6px;height:26px;line-height:26px;padding:0 8px;color:#077AC7;border-left:1px solid #9AC4DC;border-right:1px solid #9AC4DC;background:url(../img/bg_x.gif) 0 -4px repeat-x}
 .head dl dd.on{background-position: 0 -33px}
 .head dl dd.hover{background-position: 0 -62px}
+.c2{margin-top:33px}
 
 /*Ajax*/
-.ajaxoverlay,.twoverlay{position:absolute;top:0;left:0;z-index:1001;width:100%;height:100%;background:#aaa;filter:Alpha(opacity=30);opacity:0.3}
-.ajaxtips{position:absolute;z-index:1002}
+.ajaxoverlay,.twoverlay{position:fixed;top:0;left:0;right:0;bottom:0;z-index:1001;width:100%;height:100%;background:#aaa;filter:Alpha(opacity=30);opacity:0.3}
+.ajaxtips{position:fixed;z-index:1002}
 	.ajaximg{width:48px;height:48px;background:url(../img/load.gif) center no-repeat}
 	.ajaxbox,.warning{border:3px solid #78C370;padding:8px;line-height:24px;border-radius:4px;box-shadow:2px 3px 6px #000;overflow:hidden}
 	.ajaxbox i,.warning i{width:24px;height:24px;margin-right:8px;display:inline;float:left}
@@ -188,3 +189,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .twdialog_resizable_ne{cursor:ne-resize;z-index:901;position:absolute;right:-5px;top:-5px;width:10px;height:10px}
 .twdialog_resizable_sw{cursor:sw-resize;z-index:901;position:absolute;left:-5px;bottom:-5px;width:10px;height:10px}
 .twdialog_resizable_se{cursor:se-resize;z-index:901;position:absolute;right:-5px;bottom:-5px;width:17px;height:17px;background:url(../img/dialog.gif) no-repeat}
+
+/*ie6*/
+body{_background:url(about:blank)}
+.head,.ajaxoverlay,.twoverlay,.ajaxtips{_position:absolute;_top:expression(eval(document.documentElement.scrollTop))}

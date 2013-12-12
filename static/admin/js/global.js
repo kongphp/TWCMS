@@ -4,12 +4,14 @@ $(function() {
 });
 
 // 通王 Ajax
+window.isIE6 = window.VBArray && !window.XMLHttpRequest;
 window.twAjax = {
 	//加载半透明效果
 	loading : function() {
 		twAjax.remove();
 		twAjax.unObj();
 		$("body").prepend('<div class="ajaxoverlay"></div><div class="ajaxtips"><div class="ajaximg"></div></div>');
+		if(window.isIE6) $(".ajaxoverlay").css({"width":document.documentElement.clientWidth, "height":document.documentElement.clientHeight});
 		$(window).resize(twAjax.setTopLeft);
 		twAjax.setTopLeft();
 	},
@@ -30,7 +32,7 @@ window.twAjax = {
 
 	//删除半透明框和提示框
 	remove : function() {
-		$("body").off("keypress");
+		document.onkeydown = null;
 		twAjax.disObj();
 		$(".ajaxoverlay,.ajaxtips").remove();
 	},
@@ -47,11 +49,15 @@ window.twAjax = {
 	},
 
 	getHeight : function(H) {
-		return ($("body").height()-$(".ajaxtips").height())/2-(typeof H == 'number' ? H : 0);
+		if(window.isIE6) {
+			return document.documentElement.scrollTop+(document.documentElement.clientHeight-$(".ajaxtips").height())/2-(typeof H == 'number' ? H : 0);
+		}else{
+			return ($(".ajaxoverlay").height()-$(".ajaxtips").height())/2-(typeof H == 'number' ? H : 0);
+		}
 	},
 
 	getWidth : function() {
-		return ($("body").width()-$(".ajaxtips").width())/2;
+		return ($(".ajaxoverlay").width()-$(".ajaxtips").width())/2;
 	},
 
 	//设置提示框动画
@@ -101,15 +107,15 @@ window.twAjax = {
 		$("#noA").click(twAjax.close);
 		$("#okA").click(function(){ twAjax.remove(); func(); });
 
-		$("body").on("keypress", function(event){
-			var k = event.keyCode;
+		document.onkeydown = function() {
+			var k = e.which || e.keyCode;
 			if(k == 27) {
 				twAjax.close();
 			}else if(k == 13) {
 				twAjax.remove();
 				func();
 			}
-		});
+		}
 	},
 
 	//提交表单
