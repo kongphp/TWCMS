@@ -175,7 +175,7 @@ $.twDialog = function(options) {
 		height:300,
 		top:"center",
 		left:"center",
-		zIndex:99,
+		zIndex:199,
 		modal:true,
 		minW:300,
 		minH:150
@@ -183,13 +183,16 @@ $.twDialog = function(options) {
 	var o = $.extend(defaults, options);
 
 	//init
-	$("body").append('<div class="twdialog"><div class="twdialog_title"><span></span><a href="javascript:;">close</a></div><div class="twdialog_content"><div style="padding:8px">玩命加载中...</div></div><div class="twdialog_button"><input type="button" value="确定" class="but1 ok"><input type="button" value="取消" class="but1 close"></div></div>');
+	$("body").append('<div id="tw_dialog"><div class="twdialog"><div class="twdialog_title"><span></span><a href="javascript:;">close</a></div><div class="twdialog_content"><div style="padding:8px">玩命加载中...</div></div><div class="twdialog_button"><input type="button" value="确定" class="but1 ok"><input type="button" value="取消" class="but1 close"></div></div></div>');
 
 	objd = $(".twdialog");
 	if(o.content) $(".twdialog_content").html(o.content);
 	//$("xxx").replaceAll(".twdialog_content div"); //以前的替换代码
 	$(".twdialog_title span").html(o.title);
-	if(o.modal) { $("body").append('<div class="twoverlay"></div>'); $(".twoverlay").css("z-index",o.zIndex-1); }
+	if(o.modal) {
+		$("#tw_dialog").append('<div class="twoverlay"></div>');
+		$(".twoverlay").css({"z-index":o.zIndex-1, "width":document.documentElement.clientWidth, "height":document.documentElement.clientHeight});
+	}
 	if(o.open) { objd.show(); }else { $(".twoverlay").hide(); }
 
 	//resizable
@@ -207,7 +210,7 @@ $.twDialog = function(options) {
 		$("html,body,.twdialog").css("user-select","none");
 		document.onselectstart = objd[0].onselectstart = function(){return false};
 		if(!tval) tval = $(this).attr("class");
-		dx=e.pageX,dy=e.pageY,sx=objd.position().left,sy=objd.position().top,objH=objd.height(),objW=objd.width(),bWidth=$("body").width(),bHeight=$("body").height();
+		dx=e.pageX,dy=e.pageY,sx=objd.position().left,sy=objd.position().top,objH=objd.height(),objW=objd.width(),bWidth=document.documentElement.clientWidth,bHeight=document.documentElement.clientHeight;
 	});
 
 	//关闭拖动
@@ -225,8 +228,8 @@ $.twDialog = function(options) {
 	function _e(e) { left=e.pageX-(dx-sx); newW=left-sx+objW; if(newW>o.minW && e.pageX<bWidth-(objW-(dx-sx-1))) objd.css({"width": newW}); }
 	function _s(e) { top=e.pageY-(dy-sy); newH=top-sy+objH; if(newH>o.minH && e.pageY<bHeight-(objH-(dy-sy-1))) objd.css({"height": newH}); _setH(); }
 	function _w(e) { left=e.pageX-(dx-sx); newW=objW-(left-sx); if(newW>o.minW && left>=0) objd.css({"left": left, "width": newW}); }
-	function getTop(){return Math.max(0, ($("body").height()-objd.height())/2);}
-	function getLeft(){return Math.max(0, ($("body").width()-objd.width())/2);}
+	function getTop(){return Math.max(0, (document.documentElement.clientHeight-objd.height())/2);}
+	function getLeft(){return Math.max(0, (document.documentElement.clientWidth-objd.width())/2);}
 
 	//获得鼠标指针在页面中的位置
 	$(document).mousemove(function(e){
@@ -255,7 +258,8 @@ $.twDialog = function(options) {
 	});
 
 	var resize_position = function() {
-		var p=$(".twdialog").position(), obj=$(".twdialog"), objW=obj.width(), objH=obj.height(), bodyW=$("body").width(), bodyH=$("body").height();
+		var p=$(".twdialog").position(), obj=$(".twdialog"), objW=obj.width(), objH=obj.height(), bodyW=document.documentElement.clientWidth, bodyH=document.documentElement.clientHeight;
+		$(".twoverlay").css({"width":bodyW, "height":bodyH});
 		if(p.left+objW+2 > bodyW) obj.css("left", Math.max(bodyW-objW-2, 0));
 		if(p.top+objH+2 > bodyH) obj.css("top", Math.max(bodyH-objH-2, 0));
 	}
