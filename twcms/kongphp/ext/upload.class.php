@@ -1,12 +1,12 @@
 <?php
 /**
- * Copyright (C) 2013 www.kongphp.com All rights reserved. 
+ * Copyright (C) 2013 www.kongphp.com All rights reserved.
  * Licensed http://www.gnu.org/licenses/lgpl.html
  * Author: wuzhaohuan <kongphp@gmail.com>
  */
 
 class upload{
-	private $config;	//上传文件配置 只有三个参数 maxSize(允许上传最大文件) | allowExt(允许上传的文件后缀) | upDir(上传保存目录)
+	private $config;	//上传文件配置 共三个参数 maxSize(允许上传最大文件) | allowExt(允许上传的文件后缀) | upDir(上传保存目录)
 	private $file;		//上传文件信息
 	private $upDir;		//上传文件根目录
 	private $fileName;	//上传原文件名
