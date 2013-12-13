@@ -38,7 +38,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .but1{width:68px;height:22px;cursor:pointer;line-height:22px;color:#fff;font-weight:700;border:0;background:url(../img/bg.gif) -132px -92px no-repeat}
 .but1:hover{background-position:-132px -114px}
 .but2,.but3{height:20px;line-height:20px;/*高度有兼容性问题*/padding:0 8px;border:1px solid #94C5E5;background:url(../img/bg_x.gif) 0 -122px repeat-x}
-.but2:hover,.but3:hover{background-position:0 -145px;border:1px solid #fdcd99}
+.but2:hover,.but3:hover,.but_on{color:#BD0A01!important;background-position:0 -145px;border:1px solid #fdcd99}
 .but3{display:inline-block}
 
 .btn_ok{border:0;width:73px;height:25px;background:url(../img/btn.gif) no-repeat;margin-right:8px}
