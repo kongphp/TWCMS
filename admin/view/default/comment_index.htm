@@ -29,7 +29,7 @@
 					<td class="col"><input type="checkbox" name="chk_row" _id="{$v[id]}" _commentid="{$v[commentid]}"></td>
 					<td class="col">{$v[author]}<br>({$v[ip]})</td>
 					<td class="col">发表于：<i>{$v[date]}</i> 标题：<a href="{$v[url]}" target="_blank">{$v[title]}</a><br>{$v[content]}</td>
-					<td class="col"><a class="but3" href="javascript:edit({$v[commentid]});">编辑</a> <a class="but3" href="javascript:del({$v[id]},{$v[commentid]});">删除</a></td>
+					<td class="col"><a class="but3" href="javascript:edit({$v[commentid]});">编辑</a> <a class="but3 del" href="javascript:del({$v[id]},{$v[commentid]});">删除</a></td>
 				</tr>
 				{/loop}
 			</table>

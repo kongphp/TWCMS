@@ -29,8 +29,8 @@
 					<td class="col">{php} echo date('Y-m-d H:i:s', $v['dateline']);{/php}</td>
 					<td class="col">
 						<a class="but3" href="javascript:edit({$v[id]});">编辑</a>
-						<a class="but3" href="javascript:del({$v[id]}, {$v[cid]});">删除</a>
 						<a class="but3" href="../index.php?show--cid-{$v[cid]}-id-{$v[id]}" target="_blank">查看</a>
+						<a class="but3 del" href="javascript:del({$v[id]}, {$v[cid]});">删除</a>
 					</td>
 				</tr>
 				{/loop}

@@ -154,8 +154,8 @@ function load_event() {
 
 				var s = '<div class="more_but">';
 				s += '<a class="but2" href="javascript:edit('+cid+');">编辑</a>';
-				s += '<a class="but2" href="javascript:del('+cid+');">删除</a>';
 				s += '<a class="but2" href="../index.php?cate--cid-'+cid+'" target="_blank">查看</a>';
+				s += '<a class="but2 del" href="javascript:del('+cid+');">删除</a>';
 				s += '</div>';
 
 				$(this).find(".cat_c_1").append(s);

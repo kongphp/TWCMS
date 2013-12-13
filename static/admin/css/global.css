@@ -12,6 +12,7 @@ table{width:100%;border-collapse:collapse;border-spacing:0}
 .dis{display:block}
 .cf:after{content:"";display:block;clear:both;height:0;overflow:hidden}
 .cf{zoom:1}
+.del,.del:visited{color:#BC0B0B}
 
 /*表单*/
 input[type="checkbox"],input[type="radio"]{vertical-align:text-top;margin-top:1px;*+vertical-align:middle}
@@ -92,7 +93,6 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .thm h1,.thm .author,.thm .gsm{height:22px;line-height:22px;overflow:hidden;font-size:12px}
 .thm .gsm{padding:3px 0 0}
 .thm .gsm .but2{margin:0 8px 0 0}
-.thm .gsm .del{color:#BC0B0B}
 .thmon{border:1px solid #CD0A0A;background:#FEF1EC}
 
 /*插件*/
@@ -110,7 +110,6 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .plu_i{color:#555}
 .plu_bottom{margin-top:4px;height:22px;line-height:22px}
 .plu_bottom .but2{margin:0 8px 0 0}
-.plu_bottom .delete{color:#BC0B0B}
 
 /*表格1*/
 .tb{width:96%}
