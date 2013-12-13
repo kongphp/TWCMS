@@ -70,18 +70,17 @@ window.twAjax = {
 	tipsHtml : function(str) {
 		if($(".ajaxtips").length == 0) twAjax.loading();
 		$(".ajaxtips").html(str);
-		$(".ajaxbox .cf").hide();
+
 		$(".ajaxbox").width("auto");
 		var W = $(".ajaxbox").width()+5;
 		$(".ajaxbox").css({"width":(W>850?850:(W<180?180:W))});
-		$(".ajaxbox .cf").show();
-		twAjax.setTopAn();
 	},
 
 	//调试程序
 	debug : function(data) {
 		var msg = "<div style='width:100%;overflow:auto;'><b>" + data.kp_error + "</b></div>";
 		twAjax.tipsHtml('<div class="ajaxbox bfalse">'+ msg +'<u>\u6211\u77E5\u9053\u4E86</u></div>');
+		twAjax.setTopAn();
 
 		$(".ajaxtips u").click(twAjax.close);
 	},
@@ -92,6 +91,7 @@ window.twAjax = {
 		if(window.twExit) return;
 
 		twAjax.tipsHtml('<div class="ajaxbox b'+ (data.err==0 ? true : false) +'"><i></i><b>'+ data.msg +'</b><u>\u6211\u77E5\u9053\u4E86</u></div>');
+		twAjax.setTopAn();
 
 		$(".ajaxtips u").click(function(){
 			twAjax.close();
@@ -102,7 +102,10 @@ window.twAjax = {
 
 	//确定框
 	confirm : function(msg, func) {
-		twAjax.tipsHtml('<div class="ajaxbox bnote"><i></i><b>'+ msg +'</b><p class="cf"><a id="noA" class="but3">取消</a><a id="okA" class="but3">确认</a></p></div>');
+		twAjax.tipsHtml('<div class="ajaxbox bnote"><i></i><b>'+ msg +'</b></div>');
+		$(".ajaxbox").append('<p class="cf"><a id="noA" class="but3">取消</a><a id="okA" class="but3">确认</a></p>');
+		twAjax.setTopAn();
+
 		$("#noA,#okA").attr("href","javascript:;");
 		$("#noA").click(twAjax.close);
 		$("#okA").click(function(){ twAjax.remove(); func(); });
