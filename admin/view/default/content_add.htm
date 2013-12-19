@@ -1,115 +1,308 @@
 {inc:header.htm}
 <div class="m">
-	<div class="p c1">
+	<div class="p">
 		<style type="text/css">
-		.left{width:70%;float:left;}
-		.right{width:29%;float:right;}
+		.left{width:70%;float:left}
+		.right{width:29%;float:right}
+		#tw_pic_img{border:1px solid #ccc;padding:3px;border-radius:5px}
+
+		#tw_dropbox{width:100%;min-height:120px;padding-bottom:5px;border:3px dashed #E5E5E5}
+		#tw_dropbox .d_li{width:120px;height:120px;float:left;margin:5px 0 0 5px;border:1px solid #ccc}
+		#tw_dropbox .d_li .d_img{height:100px;overflow:hidden}
+		#tw_dropbox .d_li .d_img img{display:block;margin:auto}
+		#tw_dropbox .d_li .d_txt textarea{display:block;width:118px;height:18px;overflow:hidden;border:none;border-top:1px solid #ccc}
+		#tw_imgup div{font:14px/18px helvetica,arial,sans-serif;padding-top:20px;text-align:center;color:#D30D12}
+
+		#tw_pic_upfile,#tw_img_upfile{display:none;opacity:0.2;filter:alpha(opacity=20);border:1px solid red}
+		.picimg img{height:100px}
+		.picbut{margin-top:10px}
 		</style>
 
-		<div class="cc" id="">
-			<form action="?u=content-add-ajax-1" method="post">
-				<input name="id" type="hidden" value="" class="inp w1" />
-				<input name="color" type="hidden" value="" class="inp w1" />
-				<input name="seo_title" type="hidden" value="" class="inp w1" />
-				<div class="left">
-					<table class="tb">
-						<tr>
-							<th class="th"><b>*</b>分类</th>
-							<td class="col">
-								{$category_cid}
-							</td>
-						</tr>
-						<tr>
-							<th class="th"><b>*</b>标题</th>
-							<td class="col"><input name="title" type="text" value="" class="inp w1" /></td>
-						</tr>
-						<tr>
-							<th class="th">别名</th>
-							<td class="col"><input name="alias" type="text" value="" class="inp w1" /></td>
-						</tr>
-						<tr>
-							<th class="th"><b>*</b>图集</th>
-							<td class="col"><textarea name="images" class="inp w3"></textarea></td>
-						</tr>
-						<tr>
-							<th class="th"><b>*</b>内容</th>
-							<td class="col"><textarea id="content" name="content"></textarea></td>
-						</tr>
-						<tr>
-							<th class="th">摘要</th>
-							<td class="col"><textarea name="intro" class="inp w3"></textarea></td>
-						</tr>
-						<tr>
-							<th class="th"></th>
-							<td class="col"><input type="submit" value="&#20445;&#23384;" class="but1" /></td>
-						</tr>
-					</table>
-				</div>
-				<div class="right">
-					<table class="tb">
-						<tr>
-							<th class="th">图片</th>
-							<td class="col"><input name="pic" type="text" value="" class="inp w1" /></td>
-						</tr>
-						<tr>
-							<th class="th">置顶</th>
-							<td class="col">
-								<label><input class="mr3" name="top" type="radio" value="0" checked="checked">不置顶</label>
-								<label><input class="mr3" name="top" type="radio" value="1">分类置顶</label>
-								<label><input class="mr3" name="top" type="radio" value="2">全站置顶</label>
-							</td>
-						</tr>
-						<tr>
-							<th class="th">属性</th>
-							<td class="col">
-								<label><input class="mr3" name="flag" type="checkbox" value="1">原创</label>
-								<label><input class="mr3" name="flag" type="checkbox" value="2">推荐</label>
-								<label><input class="mr3" name="flag" type="checkbox" value="3">热点</label>
-								<label><input class="mr3" name="flag" type="checkbox" value="4">头条</label>
-								<label><input class="mr3" name="flag" type="checkbox" value="5">滚动</label>
-							</td>
-						</tr>
-						<tr>
-							<th class="th">标签</th>
-							<td class="col"><input name="tags" type="text" value="" class="inp w1" /></td>
-						</tr>
-						<tr>
-							<th class="th">作者</th>
-							<td class="col"><input name="author" type="text" value="{$_user['username']}" class="inp w1" /></td>
-						</tr>
-						<tr>
-							<th class="th">来源</th>
-							<td class="col"><input name="source" type="text" value="" class="inp w1" /></td>
-						</tr>
-						<tr>
-							<th class="th">发布时间</th>
-							<td class="col"><input name="dateline" type="text" value="{php} echo date('Y-m-d H:i:s', $_ENV['_time']);{/php}" class="inp w1" /></td>
-						</tr>
-						<tr>
-							<th class="th">浏览次数</th>
-							<td class="col"><input name="views" type="text" value="0" class="inp w1" /></td>
-						</tr>
-						<tr>
-							<th class="th">禁止评论</th>
-							<td class="col"><input name="iscomment" type="checkbox" value="1"></td>
-						</tr>
-						<tr>
-							<th class="th">SEO关键字</th>
-							<td class="col"><input name="seo_keywords" type="text" value="" class="inp w1" /></td>
-						</tr>
-						<tr>
-							<th class="th">SEO描述</th>
-							<td class="col"><input name="seo_description" type="text" value="" class="inp w1" /></td>
-						</tr>
-					</table>
-				</div>
-
-			</form>
+		<form id="content_add" action="?u=content-add-ajax-1" method="post">
+		<input name="id" type="hidden" />
+		<input name="color" type="hidden" />
+		<input name="seo_title" type="hidden" />
+		<div class="cc cf" id="">
+			<div class="left">
+				<table class="tb">
+					<tr>
+						<th class="th"><b>*</b>分类</th>
+						<td class="col">
+							{$category_cid}
+						</td>
+					</tr>
+					<tr>
+						<th class="th"><b>*</b>标题</th>
+						<td class="col"><input name="title" type="text" value="" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">别名</th>
+						<td class="col"><input name="alias" type="text" value="" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th"><b>*</b>图集</th>
+						<td class="col">
+							<div id="tw_dropbox" class="cf">
+								<div id="tw_imgup" class="d_li">
+									<div><a id="tw_img_but" class="but3" href="javascript:;">上传图片</a></div>
+									<div id="tw_img_tips"></div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="th"><b>*</b>内容</th>
+						<td class="col"><textarea id="content" name="content"></textarea></td>
+					</tr>
+					<tr>
+						<th class="th">摘要</th>
+						<td class="col"><textarea name="intro" class="inp w3"></textarea></td>
+					</tr>
+					<tr>
+						<th class="th"></th>
+						<td class="col"><input type="submit" value="&#20445;&#23384;" class="but1" /></td>
+					</tr>
+				</table>
+			</div>
+			<div class="right">
+				<table class="tb">
+					<tr>
+						<th class="th">缩略图</th>
+						<td class="col">
+							<input id="tw_pic_val" name="pic" type="hidden" />
+							<div class="picimg"><img id="tw_pic_img" src="../static/img/nopic.gif" /></div>
+							<div class="picbut"><a id="tw_pic_but" class="but3" href="javascript:;">上传</a></div>
+						</td>
+					</tr>
+					<tr>
+						<th class="th">置顶</th>
+						<td class="col">
+							<label><input class="mr3" name="top" type="radio" value="0" checked="checked">不置顶</label>
+							<label><input class="mr3" name="top" type="radio" value="1">分类置顶</label>
+							<label><input class="mr3" name="top" type="radio" value="2">全站置顶</label>
+						</td>
+					</tr>
+					<tr>
+						<th class="th">属性</th>
+						<td class="col">
+							<label><input class="mr3" name="flag" type="checkbox" value="1">原创</label>
+							<label><input class="mr3" name="flag" type="checkbox" value="2">推荐</label>
+							<label><input class="mr3" name="flag" type="checkbox" value="3">热点</label>
+							<label><input class="mr3" name="flag" type="checkbox" value="4">头条</label>
+							<label><input class="mr3" name="flag" type="checkbox" value="5">滚动</label>
+						</td>
+					</tr>
+					<tr>
+						<th class="th">标签</th>
+						<td class="col"><input name="tags" type="text" value="" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">作者</th>
+						<td class="col"><input name="author" type="text" value="{$_user['username']}" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">来源</th>
+						<td class="col"><input name="source" type="text" value="" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">发布时间</th>
+						<td class="col"><input name="dateline" type="text" value="{php} echo date('Y-m-d H:i:s', $_ENV['_time']);{/php}" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">浏览次数</th>
+						<td class="col"><input name="views" type="text" value="0" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">禁止评论</th>
+						<td class="col"><input name="iscomment" type="checkbox" value="1"></td>
+					</tr>
+					<tr>
+						<th class="th">SEO关键字</th>
+						<td class="col"><input name="seo_keywords" type="text" value="" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">SEO描述</th>
+						<td class="col"><input name="seo_description" type="text" value="" class="inp w1" /></td>
+					</tr>
+				</table>
+			</div>
 		</div>
+		</form>
 	</div>
 </div>
+
+
+<iframe name="tw_upifr" style="display:none"></iframe>
+<form id="tw_pic_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="?u=attach-upload_image&type=pic">
+	<input id="tw_pic_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" />
+</form>
+<form id="tw_img_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="?u=attach-upload_image&type=img">
+	<input id="tw_img_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" multiple="multiple" />
+</form>
+
 <script type="text/javascript">
-twAjax.submit("form:first", function(data){
+//====拖拽图片上传====
+var twUpload = {
+	//绑定拖拽事件  提示: ondragover(当元素被拖动至有效拖放目标上方时运行脚本) ondrop(当拖动元素时运行脚本)是必须事件，否则拖拽不正常
+	ondrag : function() {
+		var box = document.getElementById("tw_dropbox");
+		var handleDragover = function(e) {
+			$(box).css("border-color", "#808080");
+			e.stopPropagation();
+			e.preventDefault();
+		}
+		var handlePrevent = function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+		}
+		var handleDragleave = function(e) { //当元素离开有效拖放目标时运行脚本
+			$(box).css("border-color", "#ccc");
+			e.preventDefault();
+		}
+		document.ondragleave = handleDragleave;
+		document.ondragover = handleDragover;
+		document.ondrop = handlePrevent;
+		if(window.parent) {
+			parent.document.ondragover = handleDragover;
+			parent.document.ondrop = handlePrevent;
+		}
+		box.ondragover = handleDragover;
+		box.ondrop = function(e){
+			$(box).css("border-color", "#ccc");
+			$("#tw_img_upfile").hide();
+			e.stopPropagation();
+			e.preventDefault();
+			twUpload.ajaxUpload(e.dataTransfer.files);
+		};
+	},
+
+	// 缩放图片尺寸
+	scaleImg : function (img, maxW, maxH) {
+		var width = 0, height = 0, percent, ow = img.width, oh = img.height;
+		if(ow > maxW || oh > maxH) {
+			if(ow >= oh) {
+				var width = ow - maxW;
+				if(width >= 0) {
+					percent = (width / ow).toFixed(2);
+					var h = oh - oh * percent;
+					img.height = h;
+					img.width = maxW;
+					img.style.marginTop = (maxH-h)/2+"px";
+				}
+			}else{
+				if(height = oh - maxH) {
+					percent = (height / oh).toFixed(2);
+					img.width = ow - ow * percent;
+					img.height = maxH;
+				}
+			}
+		}
+	},
+
+	//增加图片显示
+	boxAdd : function(file) {
+		var img = document.createElement("img");
+		var div = $('<div class="d_img"></div>').append(img);
+		var d_li = $('<div class="d_li"><div class="d_txt"><textarea placeholder="请输入描述"></textarea></div></div>').prepend(div);
+		$("#tw_imgup").before(d_li);
+
+		if(typeof file == "object") {
+			var reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = function(e) {
+				img.src = e.target.result;
+				img.onload = function() {
+					twUpload.scaleImg(this, 120, 100);
+				}
+			};
+		}else if(typeof file == "string") {
+			img.src = file;
+			img.onload = function() {
+				twUpload.scaleImg(this, 120, 100);
+			}
+		}
+	},
+
+	// 判断是否图片
+	isImg : function(type) {
+		switch (type) {
+			case 'image/jpg':
+			case 'image/jpeg':
+			case 'image/gif':
+			case 'image/png':
+				return true;
+			default:
+				return false;
+		}
+	},
+
+	//按顺序ajax上传
+	ajaxUpload : function(files) {
+		var upload = function(i) {
+			if(typeof files[i] == 'object') {
+				var f = files[i];
+
+				if(!twUpload.isImg(f.type)) {
+					upload(i+1);
+					return;
+				}
+
+				var xhr = new XMLHttpRequest();
+				xhr.open("post", "?u=attach-upload_image&type=img&ajax=1", true);
+				xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+				//模拟数据
+				var fd = new FormData();
+				fd.append("upfile", f);
+				xhr.send(fd);
+
+				xhr.addEventListener('load', function (e) {
+					var data = toJson(e.target.response);
+
+					if(data.state == "SUCCESS") {
+						twUpload.boxAdd("../"+data.thumb);
+						setTimeout(function(){ upload(i+1); }, 50);
+
+						if(i == files.length - 1) {
+							setButton("#tw_img_but", "#tw_img_upfile"); // 重新定位上传按钮
+						}
+					}
+				});
+			}
+		}
+		upload(0);
+	}
+
+};
+
+// 定位上传按钮
+function setButton(but, but2) {
+	var isIE = !!window.ActiveXObject;
+	var obj = $(but);
+	var p = obj.position();
+	var top = isIE && but == "#tw_img_but" ? p.top-10 : p.top;
+	$(but2).hover(function(){
+		obj.addClass("but_on");
+	}, function(){
+		obj.removeClass("but_on");
+	}).show().css({"position":"absolute", "top":p.top, "left":p.left, "width":obj.outerWidth(true), "height":obj.outerHeight(true)});
+}
+
+// 设置显示缩略图 (iframe使用)
+function setDisplayPic(path, thumb) {
+	$("#tw_pic_val").val(thumb);
+	$("#tw_pic_img").attr("src", "../"+thumb);
+}
+
+// 设置显示图集 (iframe使用)
+function setDisplayImg(path, thumb) {
+	$("#tw_img_upfile").hide();
+	twUpload.boxAdd("../"+thumb);
+	setButton("#tw_img_but", "#tw_img_upfile"); // 重新定位上传按钮
+}
+
+// 提交表单
+twAjax.submit("#content_add:first", function(data){
 	twAjax.alert(data);
 	if(window.twData.err==0) {
 		//var temp = $("#cid").val();
@@ -119,10 +312,39 @@ twAjax.submit("form:first", function(data){
 	}
 });
 
-// $("form:first").submit(function(){
-// 	twAjax.post($(this).attr("action"), $(this).serialize());
-// 	return false;
-// });
+$(document).ready(function(){
+	// 定位上传按钮
+	setTimeout(function(){ setButton("#tw_pic_but", "#tw_pic_upfile"); } ,500);
+
+	// 自动上传缩略图
+	document.getElementById("tw_pic_upfile").onchange = function() {
+		document.getElementById("tw_pic_upform").submit();
+	};
+
+	window.isDrop = !!window.FileReader;
+	if(isDrop) {
+		twUpload.ondrag();
+
+		//提交上传图集
+		$("#tw_img_upfile").change(function() {
+			$("#tw_img_upfile").hide();
+			twUpload.ajaxUpload(this.files);
+		});
+
+		$("#tw_img_tips").html("支持拖拽上传");
+		setButton("#tw_img_but", "#tw_img_upfile");
+	}else{
+		//自动上传图集
+		document.getElementById("tw_img_upfile").onchange = function() {
+			document.getElementById("tw_img_upform").submit();
+		};
+
+		$("#tw_imgup div").css("padding-top", "10px");
+		$("#tw_img_tips").html("您的浏览器太老，不支持拖拽上传，建议使用IE10以上版本或chrome");
+		setButton("#tw_img_but", "#tw_img_upfile");
+		return;
+	}
+});
 
 // 默认无编辑器
 window.editor_init = function(){
