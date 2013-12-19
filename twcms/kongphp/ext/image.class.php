@@ -12,7 +12,7 @@ class image{
 	 * @param string $dst_file	目标路径 (裁切后，建议后缀为jpg。null时自动生成目标路径)
 	 * @param int $dst_w		目标宽度
 	 * @param int $dst_h		目标高度
-	 * @param int $type			目标类型 1为补白 2为裁剪
+	 * @param int $type			目标类型 1为补白裁剪 2为居中裁剪 3为上左裁剪
 	 * @param int $quality		目标质量
 	 */
 	public static function thumb($src_file, $dst_file, $dst_w = 120, $dst_h = 120, $type = 1, $quality = 90) {
@@ -36,7 +36,7 @@ class image{
 		$src_w = $imgs[0];
 		$src_h = $imgs[1];
 
-		if($type == 1) {
+		if($type == 1) { // 补白裁剪
 			$scale = min($dst_w/$src_w, $dst_h/$src_h);
 			$new_w = round($src_w * $scale);
 			$new_h = round($src_h * $scale);
@@ -44,7 +44,7 @@ class image{
 			$dst_y = $new_h < $dst_h ? ($dst_h - $new_h)/2 : 0;
 
 			imagecopyresampled($im_dst, $im_src, $dst_x, $dst_y, 0, 0, $new_w, $new_h, $src_w, $src_h);
-		}else{
+		}elseif($type == 2) { // 居中裁剪
 			$scale = max($dst_w/$src_w, $dst_h/$src_h);
 			$new_w = round($dst_w/$scale);
 			$new_h = round($dst_h/$scale);
@@ -52,6 +52,12 @@ class image{
 			$y = ($src_h - $new_h)/2;
 
 			imagecopyresampled($im_dst, $im_src, 0, 0, $x, $y, $dst_w, $dst_h, $new_w, $new_h);
+		}else{ // 上左裁剪
+			$scale = max($dst_w/$src_w, $dst_h/$src_h);
+			$new_w = round($dst_w/$scale);
+			$new_h = round($dst_h/$scale);
+
+			imagecopyresampled($im_dst, $im_src, 0, 0, 0, 0, $dst_w, $dst_h, $new_w, $new_h);
 		}
 
 		switch($dst_ext) {
