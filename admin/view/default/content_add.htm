@@ -266,6 +266,8 @@ var twUpload = {
 						if(i == files.length - 1) {
 							setButton("#tw_img_but", "#tw_img_upfile"); // 重新定位上传按钮
 						}
+					}else{
+						setButton("#tw_img_but", "#tw_img_upfile");
 					}
 				});
 			}
@@ -314,7 +316,7 @@ twAjax.submit("#content_add:first", function(data){
 
 $(document).ready(function(){
 	// 定位上传按钮
-	setTimeout(function(){ setButton("#tw_pic_but", "#tw_pic_upfile"); } ,500);
+	setTimeout(function(){ setButton("#tw_pic_but", "#tw_pic_upfile"); } , 500);
 
 	// 自动上传缩略图
 	document.getElementById("tw_pic_upfile").onchange = function() {
