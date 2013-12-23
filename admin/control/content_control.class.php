@@ -56,30 +56,11 @@ class content_control extends admin_control {
 			$this->display();
 		}else{
 			$cid = intval(R('cid', 'P'));
-			$top = intval(R('top', 'P'));
 
 			empty($cid) && E(1, '分类ID不能为空！');
 
 			$mid = $this->category->get_mid_by_cid($cid);
 			$table = $this->models->get_table($mid);
-
-			// 全站置顶
-			if($top == 2) {
-				$topid = $this->kv->get('topid');
-				$topnum = isset($topid[$mid]) ? count($topid[$mid]) : 0;
-				if($topnum > 3) E(1, '全站置顶不允许超过3个！');
-			}
-
-			// 分类置顶
-			if($top == 1) {
-				$categorys = $this->category->read($cid);
-				if(empty($categorys)) E(1, '分类ID不存在！');
-				if(!empty($categorys['type'])) E(1, '不允许发布到频道分类！');
-
-				$tops = _json_decode($categorys['tops']);
-				$topnum = count($tops);
-				if($topnum > 5) E(1, '分类置顶不允许超过5个！');
-			}
 
 			// 处理标签，最多支持5个标签
 			$tags = trim(R('tags', 'P'), ", \t\n\r\0\x0B");
@@ -129,7 +110,6 @@ class content_control extends admin_control {
 				'imagenum' => 0,
 				'filenum' => 0,
 				'flags' => '',
-				'top' => $top,
 				'seo_title' => trim(strip_tags(R('seo_title', 'P'))),
 				'seo_keywords' => trim(strip_tags(R('seo_keywords', 'P'))),
 				'seo_description' => trim(strip_tags(R('seo_description', 'P'))),
