@@ -51,7 +51,6 @@ CREATE TABLE pre_category (
   seo_title char(80) NOT NULL DEFAULT '',		# SEO标题
   seo_keywords char(80) NOT NULL DEFAULT '',		# SEO关键词
   seo_description char(150) NOT NULL DEFAULT '',	# SEO描述
-  tops text NOT NULL,					# 存放分类置顶
   PRIMARY KEY (cid),
   UNIQUE KEY alias (alias)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -109,7 +108,6 @@ CREATE TABLE pre_cms_article (
   imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数
   filenum int(10) unsigned NOT NULL DEFAULT '0',	# 文件附件数
   flags varchar(20) NOT NULL DEFAULT '',		# 所有属性 (,号分割，用于内容管理显示属性)
-  top tinyint(1) NOT NULL default '0',			# 置顶 0为不置顶 1为分类置顶 2为全站置顶
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
   seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
@@ -238,7 +236,6 @@ CREATE TABLE pre_cms_product (
   imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数
   filenum int(10) unsigned NOT NULL DEFAULT '0',	# 文件附件数
   flags varchar(20) NOT NULL DEFAULT '',		# 所有属性 (,号分割，用于内容管理显示属性)
-  top tinyint(1) NOT NULL default '0',			# 置顶 0为不置顶 1为分类置顶 2为全站置顶
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
   seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
@@ -368,7 +365,6 @@ CREATE TABLE pre_cms_photo (
   imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数
   filenum int(10) unsigned NOT NULL DEFAULT '0',	# 文件附件数
   flags varchar(20) NOT NULL DEFAULT '',		# 所有属性 (,号分割，用于内容管理显示属性)
-  top tinyint(1) NOT NULL default '0',			# 置顶 0为不置顶 1为分类置顶 2为全站置顶
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
   seo_keywords varchar(80) NOT NULL DEFAULT '',		# SEO关键词 (没填写时读取标题)
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
