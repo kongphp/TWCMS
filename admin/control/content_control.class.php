@@ -62,11 +62,9 @@ class content_control extends admin_control {
 			$mid = $this->category->get_mid_by_cid($cid);
 			$table = $this->models->get_table($mid);
 
+			// 处理标签，最多支持5个标签
 			$tags = trim(R('tags', 'P'), ", \t\n\r\0\x0B");
 			$tags_arr = explode(',', $tags);
-
-			// log::trace('发表内容');
-			// 读tag表
 			$this->cms_content_tag->table = 'cms_'.$table.'_tag';
 			$ti = 0;
 			$tag_set = array();
@@ -91,12 +89,11 @@ class content_control extends admin_control {
 					if($ti>4) break;
 				}
 			}
-			// log::trace_save();
 
 			// 写入内容表
 			$cms_content = array(
 				'cid' => $cid,
-				'title' => trim(strip_tags(R('title', 'P'))).time(),
+				'title' => trim(strip_tags(R('title', 'P'))),
 				'color' => trim(R('color', 'P')),
 				'alias' => trim(R('alias', 'P')),
 				'tags' => '',
@@ -113,7 +110,7 @@ class content_control extends admin_control {
 				'imagenum' => 0,
 				'filenum' => 0,
 				'flags' => '',
-				'top' => 0,
+				'top' => intval(R('top', 'P')),
 				'seo_title' => trim(strip_tags(R('seo_title', 'P'))),
 				'seo_keywords' => trim(strip_tags(R('seo_keywords', 'P'))),
 				'seo_description' => trim(strip_tags(R('seo_description', 'P'))),
