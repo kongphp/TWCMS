@@ -56,8 +56,14 @@ class content_control extends admin_control {
 			$this->display();
 		}else{
 			$cid = intval(R('cid', 'P'));
+			$title = trim(strip_tags(R('title', 'P')));
+			$flags = (array)R('flag', 'P');
 
 			empty($cid) && E(1, '分类ID不能为空！');
+			empty($title) && E(1, '标题不能为空！');
+
+			$categorys = $this->category->read($cid);
+			if(empty($categorys)) E(1, '分类ID不存在！');
 
 			$mid = $this->category->get_mid_by_cid($cid);
 			$table = $this->models->get_table($mid);
@@ -93,7 +99,7 @@ class content_control extends admin_control {
 			// 写入内容表
 			$cms_content = array(
 				'cid' => $cid,
-				'title' => trim(strip_tags(R('title', 'P'))),
+				'title' => $title,
 				'color' => trim(R('color', 'P')),
 				'alias' => trim(R('alias', 'P')),
 				'tags' => '',
@@ -109,7 +115,7 @@ class content_control extends admin_control {
 				'comments' => 0,
 				'imagenum' => 0,
 				'filenum' => 0,
-				'flags' => '',
+				'flags' => implode(',', $flags),
 				'seo_title' => trim(strip_tags(R('seo_title', 'P'))),
 				'seo_keywords' => trim(strip_tags(R('seo_keywords', 'P'))),
 				'seo_description' => trim(strip_tags(R('seo_description', 'P'))),
@@ -130,6 +136,14 @@ class content_control extends admin_control {
 				E(1, '写入内容数据表出错');
 			}
 
+			// 写入内容属性标记表
+			$this->cms_content_flag->table = 'cms_'.$table.'_flag';
+			foreach($flags as $flag) {
+				if(!$this->cms_content_flag->set(array($flag, $maxid), array('cid'=>$cid))) {
+					E(1, '写入内容属性标记表出错');
+				}
+			}
+
 			// 写入内容查看数表
 			$this->cms_content_views->table = 'cms_'.$table.'_views';
 			$cms_content_views = array(
@@ -146,7 +160,7 @@ class content_control extends admin_control {
 			foreach($tag_set as $v) {
 				$this->cms_content_tag->update($v);
 				$tags_arr2[$v['tagid']] = $v['name'];
-				$this->cms_content_tag_data->set(array($v['tagid'], $maxid), array('tagid'=>$v['tagid'], 'id'=>$maxid));
+				$this->cms_content_tag_data->set(array($v['tagid'], $maxid), array('id'=>$maxid));
 			}
 
 			// 更新标签json到内容表
