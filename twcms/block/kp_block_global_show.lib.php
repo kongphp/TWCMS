@@ -30,6 +30,11 @@ function kp_block_global_show($conf) {
 	$_show['comment_url'] = 'index.php?comment--cid-'.$run->_var['cid'].'-id-'.$id.C('url_suffix');
 	$_show['views_url'] = $run->_cfg['webdir'].'index.php?u=views--cid-'.$run->_var['cid'].'-id-'.$id;
 	$_show += $run->cms_content_data->read($id);
+	$_show['images'] = (array)_json_decode($_show['images']);
+	foreach($_show['images'] as &$v) {
+		$v['big'] = $run->_cfg['webdir'].$v['big'];
+		$v['thumb'] = $run->_cfg['webdir'].$v['thumb'];
+	}
 
 	// 显示上下翻页 (大数据站点建议关闭)
 	if($show_prev_next) {
