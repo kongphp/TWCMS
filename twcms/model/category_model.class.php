@@ -234,7 +234,7 @@ class category extends model {
 				// 不显示单页
 				if($mid == 1) continue;
 
-				$s .= '<option mid="'.$mid.'" value="0">'.$mod_name[$mid].'</option>';
+				$s .= '<option mid="'.$mid.'" value="0" disabled="disabled">'.$mod_name[$mid].'</option>';
 				foreach ($arr as $v) {
 					$disabled = $v['type'] == 1 ? ' disabled="disabled"' : '';
 					$s .= '<option mid="'.$mid.'" value="'.$v['cid'].'"'.($v['type'] == 0 && $v['cid'] == $cid ? ' selected="selected"' : '').$disabled.'>';
