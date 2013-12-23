@@ -27,7 +27,7 @@ function kp_block_global_show($conf) {
 
 	// 合并大数据字段
 	$id = &$_show['id'];
-	$_show['comment_url'] = 'index.php?comment--cid-'.$run->_var['cid'].'-id-'.$id.C('url_suffix');
+	$_show['comment_url'] =$run->_cfg['webdir'].'index.php?comment--cid-'.$run->_var['cid'].'-id-'.$id.C('url_suffix');
 	$_show['views_url'] = $run->_cfg['webdir'].'index.php?u=views--cid-'.$run->_var['cid'].'-id-'.$id;
 	$_show += $run->cms_content_data->read($id);
 	$_show['images'] = (array)_json_decode($_show['images']);
