@@ -16,6 +16,8 @@
 		#tw_pic_upfile,#tw_img_upfile{display:none;opacity:0.2;filter:alpha(opacity=20);border:1px solid red}
 		.picimg img{height:100px}
 		.picbut{margin-top:10px}
+
+		#imgs{display:none}
 		</style>
 
 		<form id="content_add" action="?u=content-add-ajax-1" method="post">
@@ -39,7 +41,7 @@
 						<th class="th">别名</th>
 						<td class="col"><input name="alias" type="text" value="" class="inp w1" /></td>
 					</tr>
-					<tr>
+					<tr id="imgs">
 						<th class="th"><b>*</b>图集</th>
 						<td class="col">
 							<div id="tw_dropbox" class="cf">
@@ -71,7 +73,7 @@
 						<td class="col">
 							<input id="tw_pic_val" name="pic" type="hidden" />
 							<div class="picimg"><img id="tw_pic_img" src="../static/img/nopic.gif" /></div>
-							<div class="picbut"><a id="tw_pic_but" class="but3" href="javascript:;">上传</a></div>
+							<div class="picbut"><a id="tw_pic_but" class="but3" href="javascript:;">上传缩略图</a></div>
 						</td>
 					</tr>
 					<tr>
@@ -142,7 +144,33 @@
 
 <script type="text/javascript">
 //====拖拽图片上传====
-var twUpload = {
+window.isDrop = !!window.FileReader;
+var kpUpload = {
+	init : function() {
+		if(!window.TW_UP) window.TW_UP = true;
+
+		if(isDrop) {
+			$("#tw_img_tips").html("支持拖拽上传");
+
+			//ajax上传图集
+			$("#tw_img_upfile").change(function() {
+				$("#tw_img_upfile").hide();
+				kpUpload.ajaxUpload(this.files);
+			});
+
+			//加载 HTML5 拖拽上传图集
+			kpUpload.ondrag();
+		}else{
+			$("#tw_imgup div").css("padding-top", "10px");
+			$("#tw_img_tips").html("您的浏览器太老，不支持拖拽上传，建议使用IE10以上版本或chrome");
+
+			//传统上传图集
+			document.getElementById("tw_img_upfile").onchange = function() {
+				document.getElementById("tw_img_upform").submit();
+			};
+		}
+	},
+
 	//绑定拖拽事件  提示: ondragover(当元素被拖动至有效拖放目标上方时运行脚本) ondrop(当拖动元素时运行脚本)是必须事件，否则拖拽不正常
 	ondrag : function() {
 		var box = document.getElementById("tw_dropbox");
@@ -172,7 +200,7 @@ var twUpload = {
 			$("#tw_img_upfile").hide();
 			e.stopPropagation();
 			e.preventDefault();
-			twUpload.ajaxUpload(e.dataTransfer.files);
+			kpUpload.ajaxUpload(e.dataTransfer.files);
 		};
 	},
 
@@ -212,13 +240,13 @@ var twUpload = {
 			reader.onload = function(e) {
 				img.src = e.target.result;
 				img.onload = function() {
-					twUpload.scaleImg(this, 120, 100);
+					kpUpload.scaleImg(this, 120, 100);
 				}
 			};
 		}else if(typeof file == "string") {
 			img.src = file;
 			img.onload = function() {
-				twUpload.scaleImg(this, 120, 100);
+				kpUpload.scaleImg(this, 120, 100);
 			}
 		}
 	},
@@ -242,7 +270,7 @@ var twUpload = {
 			if(typeof files[i] == 'object') {
 				var f = files[i];
 
-				if(!twUpload.isImg(f.type)) {
+				if(!kpUpload.isImg(f.type)) {
 					upload(i+1);
 					return;
 				}
@@ -260,11 +288,11 @@ var twUpload = {
 					var data = toJson(e.target.response);
 
 					if(data.state == "SUCCESS") {
-						twUpload.boxAdd("../"+data.thumb);
+						kpUpload.boxAdd("../"+data.thumb);
 						setTimeout(function(){ upload(i+1); }, 50);
 
 						if(i == files.length - 1) {
-							setButton("#tw_img_but", "#tw_img_upfile"); // 重新定位上传按钮
+							setButton("#tw_img_but", "#tw_img_upfile"); // 图集上传按钮
 						}
 					}else{
 						setButton("#tw_img_but", "#tw_img_upfile");
@@ -274,7 +302,6 @@ var twUpload = {
 		}
 		upload(0);
 	}
-
 };
 
 // 定位上传按钮
@@ -296,11 +323,30 @@ function setDisplayPic(path, thumb) {
 	$("#tw_pic_img").attr("src", "../"+thumb);
 }
 
-// 设置显示图集 (iframe使用)
+// 图集中插入新图 (iframe使用)
 function setDisplayImg(path, thumb) {
 	$("#tw_img_upfile").hide();
-	twUpload.boxAdd("../"+thumb);
+	kpUpload.boxAdd("../"+thumb);
 	setButton("#tw_img_but", "#tw_img_upfile"); // 重新定位上传按钮
+}
+
+// 是否显示图集框
+function getMid() {
+	var cid = $("#cid").val();
+	return $("#cid option[value='"+cid+"']").attr("mid");
+}
+
+// 是否显示图集上传
+function disImgsUpload() {
+	var mid = getMid();
+	if(mid == 2) {
+		$("#imgs").hide();
+		$("#tw_img_upfile").hide();
+	}else if(mid == 3 || mid == 4) {
+		$("#imgs").show();
+		kpUpload.init();
+		setButton("#tw_img_but", "#tw_img_upfile");
+	}
 }
 
 // 提交表单
@@ -308,44 +354,21 @@ twAjax.submit("#content_add:first", function(data){
 	twAjax.alert(data);
 	if(window.twData.err==0) {
 		//var temp = $("#cid").val();
-		//$("form:first")[0].reset(); //重置表单
+		//$(this)[0].reset(); //重置表单
 		//editor_api.content.set("");
 		//$("#cid").val(temp);
 	}
 });
 
 $(document).ready(function(){
-	// 定位上传按钮
-	setTimeout(function(){ setButton("#tw_pic_but", "#tw_pic_upfile"); } , 500);
-
-	// 自动上传缩略图
+	// 传统上传缩略图
 	document.getElementById("tw_pic_upfile").onchange = function() {
 		document.getElementById("tw_pic_upform").submit();
 	};
+	setTimeout(function(){ setButton("#tw_pic_but", "#tw_pic_upfile"); } , 500); // 缩略图上传按钮
 
-	window.isDrop = !!window.FileReader;
-	if(isDrop) {
-		twUpload.ondrag();
-
-		//提交上传图集
-		$("#tw_img_upfile").change(function() {
-			$("#tw_img_upfile").hide();
-			twUpload.ajaxUpload(this.files);
-		});
-
-		$("#tw_img_tips").html("支持拖拽上传");
-		setButton("#tw_img_but", "#tw_img_upfile");
-	}else{
-		//自动上传图集
-		document.getElementById("tw_img_upfile").onchange = function() {
-			document.getElementById("tw_img_upform").submit();
-		};
-
-		$("#tw_imgup div").css("padding-top", "10px");
-		$("#tw_img_tips").html("您的浏览器太老，不支持拖拽上传，建议使用IE10以上版本或chrome");
-		setButton("#tw_img_but", "#tw_img_upfile");
-		return;
-	}
+	disImgsUpload();
+	$("#cid").change(disImgsUpload);
 });
 
 // 默认无编辑器
