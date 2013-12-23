@@ -126,7 +126,7 @@ class content_control extends admin_control {
 			$cms_content_data = array(
 				'content' => trim(R('content', 'P')).time(),
 			);
-			if($mid == 3 || $mid == 4) $cms_content_data['images'] = R('images', 'P');
+			if($mid == 3 || $mid == 4) $cms_content_data['images'] = json_encode(R('images', 'P'));
 			if(!$this->cms_content_data->set($maxid, $cms_content_data)) {
 				E(1, '写入内容数据表出错');
 			}

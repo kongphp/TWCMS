@@ -146,6 +146,7 @@
 //====拖拽图片上传====
 window.isDrop = !!window.FileReader;
 var kpUpload = {
+	count : 0,
 	init : function() {
 		if(!window.TW_UP) window.TW_UP = true;
 
@@ -228,10 +229,14 @@ var kpUpload = {
 	},
 
 	//增加图片显示
-	boxAdd : function(file) {
+	boxAdd : function(file, big, thumb) {
+		kpUpload.count++;
 		var img = document.createElement("img");
 		var div = $('<div class="d_img"></div>').append(img);
-		var d_li = $('<div class="d_li"><div class="d_txt"><textarea placeholder="请输入描述"></textarea></div></div>').prepend(div);
+		var inps = '<input name="images['+kpUpload.count+'][big]" value="'+big+'" type="hidden" />';
+			inps += '<input name="images['+kpUpload.count+'][thumb]" value="'+thumb+'" type="hidden" />';
+			inps += '<textarea name="images['+kpUpload.count+'][content]" placeholder="请输入描述"></textarea>';
+		var d_li = $('<div class="d_li"><div class="d_txt">'+inps+'</div></div>').prepend(div);
 		$("#tw_imgup").before(d_li);
 
 		if(typeof file == "object") {
@@ -288,7 +293,7 @@ var kpUpload = {
 					var data = toJson(e.target.response);
 
 					if(data.state == "SUCCESS") {
-						kpUpload.boxAdd("../"+data.thumb);
+						kpUpload.boxAdd("../"+data.thumb, data.path, data.thumb);
 						setTimeout(function(){ upload(i+1); }, 50);
 
 						if(i == files.length - 1) {
@@ -326,7 +331,7 @@ function setDisplayPic(path, thumb) {
 // 图集中插入新图 (iframe使用)
 function setDisplayImg(path, thumb) {
 	$("#tw_img_upfile").hide();
-	kpUpload.boxAdd("../"+thumb);
+	kpUpload.boxAdd("../"+thumb, path, thumb);
 	setButton("#tw_img_but", "#tw_img_upfile"); // 重新定位上传按钮
 }
 
