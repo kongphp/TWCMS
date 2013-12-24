@@ -233,7 +233,7 @@ CREATE TABLE pre_cms_product (
   ip int(10) NOT NULL DEFAULT '0',			# IP
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
-  imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数
+  imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数 (编辑器中的图片+图集)
   filenum int(10) unsigned NOT NULL DEFAULT '0',	# 文件附件数
   flags varchar(20) NOT NULL DEFAULT '',		# 所有属性 (,号分割，用于内容管理显示属性)
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
@@ -362,7 +362,7 @@ CREATE TABLE pre_cms_photo (
   ip int(10) NOT NULL DEFAULT '0',			# IP
   iscomment tinyint(1) unsigned NOT NULL DEFAULT '0',	# 是否禁止评论 (1为禁止 0为允许)
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
-  imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数
+  imagenum int(10) unsigned NOT NULL DEFAULT '0',	# 图片附件数 (编辑器中的图片+图集)
   filenum int(10) unsigned NOT NULL DEFAULT '0',	# 文件附件数
   flags varchar(20) NOT NULL DEFAULT '',		# 所有属性 (,号分割，用于内容管理显示属性)
   seo_title varchar(80) NOT NULL DEFAULT '',		# SEO标题/副标题
