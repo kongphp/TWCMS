@@ -176,8 +176,10 @@ class content_control extends admin_control {
 			}
 
 			// 更新附件归宿 cid 和 id
-			if(!$this->cms_content_attach->find_update(array('id'=>0, 'uid'=>$uid), array('cid'=>$cid, 'id'=>$id))) {
-				E(1, '更新内容附件表出错');
+			if($imagenum || $filenum) {
+				if(!$this->cms_content_attach->find_update(array('id'=>0, 'uid'=>$uid), array('cid'=>$cid, 'id'=>$id))) {
+					E(1, '更新内容附件表出错');
+				}
 			}
 
 			// 更新相关分类
