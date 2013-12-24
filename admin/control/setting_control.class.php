@@ -74,7 +74,7 @@ class setting_control extends admin_control {
 		$this->display();
 	}
 
-	// 附件设置
+	// 上传设置
 	public function attach() {
 		if(empty($_POST)) {
 			$cfg = $this->kv->xget('cfg');
@@ -100,6 +100,50 @@ class setting_control extends admin_control {
 			$this->kv->xset('get_file_max_size', R('get_file_max_size', 'P'), 'cfg');
 
 			// hook admin_setting_control_attach_post_after.php
+
+			$this->kv->save_changed();
+			$this->runtime->delete('cfg');
+
+			exit('{"err":0, "msg":"修改成功"}');
+		}
+	}
+
+	// 图片设置
+	public function image() {
+		if(empty($_POST)) {
+			$cfg = $this->kv->xget('cfg');
+			$input = array();
+			$input['thumb_article_w'] = form::get_number('thumb_article_w', $cfg['thumb_article_w'], 'inp ws');
+			$input['thumb_article_h'] = form::get_number('thumb_article_h', $cfg['thumb_article_h'], 'inp ws');
+			$input['thumb_product_w'] = form::get_number('thumb_product_w', $cfg['thumb_product_w'], 'inp ws');
+			$input['thumb_product_h'] = form::get_number('thumb_product_h', $cfg['thumb_product_h'], 'inp ws');
+			$input['thumb_photo_w'] = form::get_number('thumb_photo_w', $cfg['thumb_photo_w'], 'inp ws');
+			$input['thumb_photo_h'] = form::get_number('thumb_photo_h', $cfg['thumb_photo_h'], 'inp ws');
+
+			$input['thumb_type'] = form::loop('radio', 'thumb_type', array('1'=>'补白', '2'=>'居中', '3'=>'上左'), $cfg['thumb_type'], ' &nbsp; &nbsp;');
+			$input['thumb_quality'] = form::get_number('thumb_quality', $cfg['thumb_quality'], 'inp ws');
+
+			$cfg['watermark_pos'] = isset($cfg['watermark_pos']) ? (int)$cfg['watermark_pos'] : 0;
+			$input['watermark_pct'] = form::get_number('watermark_pct', $cfg['watermark_pct'], 'inp ws');
+
+			// hook admin_setting_control_image_after.php
+
+			$this->assign('input', $input);
+			$this->assign('cfg', $cfg);
+			$this->display();
+		}else{
+			$this->kv->xset('thumb_article_w', (int) R('thumb_article_w', 'P'), 'cfg');
+			$this->kv->xset('thumb_article_h', (int) R('thumb_article_h', 'P'), 'cfg');
+			$this->kv->xset('thumb_product_w', (int) R('thumb_product_w', 'P'), 'cfg');
+			$this->kv->xset('thumb_product_h', (int) R('thumb_product_h', 'P'), 'cfg');
+			$this->kv->xset('thumb_photo_w', (int) R('thumb_photo_w', 'P'), 'cfg');
+			$this->kv->xset('thumb_photo_h', (int) R('thumb_photo_h', 'P'), 'cfg');
+			$this->kv->xset('thumb_type', (int) R('thumb_type', 'P'), 'cfg');
+			$this->kv->xset('thumb_quality', (int) R('thumb_quality', 'P'), 'cfg');
+			$this->kv->xset('watermark_pos', (int) R('watermark_pos', 'P'), 'cfg');
+			$this->kv->xset('watermark_pct', (int) R('watermark_pct', 'P'), 'cfg');
+
+			// hook admin_setting_control_image_post_after.php
 
 			$this->kv->save_changed();
 			$this->runtime->delete('cfg');
