@@ -38,35 +38,33 @@ class form{
 	 * @param string $type 类型
 	 * @param string $name 表单名
 	 * @param string $arr 分类数组
-	 * @param string $on 默认选中值
-	 * @param string $br 是否换行
+	 * @param string $val 默认选中值
+	 * @param string $split 分隔字符串
 	 */
-	public static function loop($type, $name, $arr, $on, $br=true) {
+	public static function loop($type, $name, $arr, &$val, $split = '<br>') {
 		$s = '';
 		switch ($type) {
 			case 'radio':
-				foreach ($arr as $a){
-					$s .= '<label><input class="mr3" name="'.$name.'" type="radio" value="'.$a[0].'"'.($a[0]==$on ? ' checked="checked"' : '').'>'.$a[1].'</label>';
-					if($br) $s.='<br>';
+				foreach ($arr as $v => $n){
+					$s .= '<label><input class="mr3" name="'.$name.'" type="radio" value="'.$v.'"'.($v==$val ? ' checked="checked"' : '').'>'.$n.'</label>'.$split;
 				}
 				break;
 			case 'checkbox':
-				foreach ($arr as $a){
-					$s .= '<label><input class="mr3" name="'.$name.'[]" type="checkbox" value="'.$a[0].'"'.(in_array($a[0],explode(',', $on)) ? ' checked="checked"' : '').'>'.$a[1].'</label>';
-					if($br) $s.='<br>';
+				foreach ($arr as $v => $n){
+					$s .= '<label><input class="mr3" name="'.$name.'[]" type="checkbox" value="'.$v.'"'.(in_array($v, explode(',', $val)) ? ' checked="checked"' : '').'>'.$n.'</label>'.$split;
 				}
 				break;
 			case 'select':
 				$s .= '<select name="'.$name.'" class="se1">';
-				foreach ($arr as $a){
-					$s .= '<option value="'.$a[0].'"'.($a[0]==$on ? ' selected="selected"' : '').'>'.$a[1].'</option>';
+				foreach ($arr as $v => $n){
+					$s .= '<option value="'.$v.'"'.($v==$val ? ' selected="selected"' : '').'>'.$n.'</option>';
 				}
 				$s .= '</select>';
 				break;
 			case 'multiple':
 				$s .= '<select name="'.$name.'[]" multiple="multiple" class="se2">';
-				foreach ($arr as $a){
-					$s .= '<option value="'.$a[0].'"'.(in_array($a[0],explode(',', $on)) ? ' selected="selected"' : '').'>'.$a[1].'</option>';
+				foreach ($arr as $v => $n){
+					$s .= '<option value="'.$v.'"'.(in_array($v, explode(',', $val)) ? ' selected="selected"' : '').'>'.$n.'</option>';
 				}
 				$s .= '</select>';
 		}
