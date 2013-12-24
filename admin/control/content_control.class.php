@@ -58,6 +58,7 @@ class content_control extends admin_control {
 			$cid = intval(R('cid', 'P'));
 			$title = trim(strip_tags(R('title', 'P')));
 			$flags = (array)R('flag', 'P');
+			$uid = $this->_user['uid'];
 
 			empty($cid) && E(1, '分类ID不能为空！');
 			empty($title) && E(1, '标题不能为空！');
@@ -96,6 +97,11 @@ class content_control extends admin_control {
 				}
 			}
 
+			// 计算图片数，和非图片文件数
+			$this->cms_content_attach->table = 'cms_'.$table.'_attach';
+			$imagenum = $this->cms_content_attach->find_count(array('id'=>0, 'uid'=>$uid, 'isimage'=>1));
+			$filenum = $this->cms_content_attach->find_count(array('id'=>0, 'uid'=>$uid, 'isimage'=>0));
+
 			// 写入内容表
 			$cms_content = array(
 				'cid' => $cid,
@@ -105,7 +111,7 @@ class content_control extends admin_control {
 				'tags' => '',
 				'intro' => trim(R('intro', 'P')),
 				'pic' => trim(R('pic', 'P')),
-				'uid' => $this->_user['uid'],
+				'uid' => $uid,
 				'author' => trim(R('author', 'P')),	// 可以不等于发布用户
 				'source' => trim(R('source', 'P')),
 				'dateline' => strtotime(trim(R('dateline', 'P'))),
@@ -113,16 +119,16 @@ class content_control extends admin_control {
 				'ip' => ip2long($_ENV['_ip']),
 				'iscomment' => intval(R('iscomment', 'P')),
 				'comments' => 0,
-				'imagenum' => 0,
-				'filenum' => 0,
+				'imagenum' => $imagenum,
+				'filenum' => $filenum,
 				'flags' => implode(',', $flags),
 				'seo_title' => trim(strip_tags(R('seo_title', 'P'))),
 				'seo_keywords' => trim(strip_tags(R('seo_keywords', 'P'))),
 				'seo_description' => trim(strip_tags(R('seo_description', 'P'))),
 			);
 			$this->cms_content->table = 'cms_'.$table;
-			$maxid = $this->cms_content->create($cms_content);
-			if(!$maxid) {
+			$id = $this->cms_content->create($cms_content);
+			if(!$id) {
 				E(1, '写入内容表出错');
 			}
 
@@ -132,14 +138,14 @@ class content_control extends admin_control {
 				'content' => trim(R('content', 'P')),
 			);
 			if($mid == 3 || $mid == 4) $cms_content_data['images'] = json_encode(R('images', 'P'));
-			if(!$this->cms_content_data->set($maxid, $cms_content_data)) {
+			if(!$this->cms_content_data->set($id, $cms_content_data)) {
 				E(1, '写入内容数据表出错');
 			}
 
 			// 写入内容属性标记表
 			$this->cms_content_flag->table = 'cms_'.$table.'_flag';
 			foreach($flags as $flag) {
-				if(!$this->cms_content_flag->set(array($flag, $maxid), array('cid'=>$cid))) {
+				if(!$this->cms_content_flag->set(array($flag, $id), array('cid'=>$cid))) {
 					E(1, '写入内容属性标记表出错');
 				}
 			}
@@ -150,7 +156,7 @@ class content_control extends admin_control {
 				'cid' => $cms_content['cid'],
 				'views' => intval(R('views', 'P')),
 			);
-			if(!$this->cms_content_views->set($maxid, $cms_content_views)) {
+			if(!$this->cms_content_views->set($id, $cms_content_views)) {
 				E(1, '写入内容查看数表出错');
 			}
 
@@ -160,13 +166,18 @@ class content_control extends admin_control {
 			foreach($tag_set as $v) {
 				$this->cms_content_tag->update($v);
 				$tags_arr2[$v['tagid']] = $v['name'];
-				$this->cms_content_tag_data->set(array($v['tagid'], $maxid), array('id'=>$maxid));
+				$this->cms_content_tag_data->set(array($v['tagid'], $id), array('id'=>$id));
 			}
 
 			// 更新标签json到内容表
-			$cms_content2 = array('id'=>$maxid, 'tags'=>json_encode($tags_arr2));
+			$cms_content2 = array('id'=>$id, 'tags'=>json_encode($tags_arr2));
 			if(!$this->cms_content->update($cms_content2)) {
 				E(1, '写入标签到内容表出错');
+			}
+
+			// 更新附件归宿 cid 和 id
+			if(!$this->cms_content_attach->find_update(array('id'=>0, 'uid'=>$uid), array('cid'=>$cid, 'id'=>$id))) {
+				E(1, '更新内容附件表出错');
 			}
 
 			// 更新相关分类
