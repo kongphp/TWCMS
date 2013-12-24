@@ -166,6 +166,7 @@ class admin_control extends control {
 				'setting-seo'=>array('name'=>'SEO设置', 'p'=>'setting'),
 				'setting-link'=>array('name'=>'链接设置', 'p'=>'setting'),
 				'setting-attach'=>array('name'=>'上传设置', 'p'=>'setting'),
+				'setting-image'=>array('name'=>'图片设置', 'p'=>'setting'),
 
 				'category-index'=>array('name'=>'分类管理', 'p'=>'category'),
 				'navigate-index'=>array('name'=>'导航管理', 'p'=>'category'),
