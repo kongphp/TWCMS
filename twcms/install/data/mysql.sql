@@ -343,7 +343,7 @@ CREATE TABLE pre_cms_product_tag_data (
   PRIMARY KEY  (tagid,id)				# 排序要用id
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 图片表 (可根据 id 范围分区, 审核/定时发布等考虑单独设计一张表)
+# 图集表 (可根据 id 范围分区, 审核/定时发布等考虑单独设计一张表)
 DROP TABLE IF EXISTS pre_cms_photo;
 CREATE TABLE pre_cms_photo (
   cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
@@ -373,7 +373,7 @@ CREATE TABLE pre_cms_photo (
   KEY cid_dateline (cid,dateline)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 图片数据表 (大内容字段表，可根据 id 范围分区)
+# 图集数据表 (大内容字段表，可根据 id 范围分区)
 DROP TABLE IF EXISTS pre_cms_photo_data;
 CREATE TABLE pre_cms_photo_data (
   id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
@@ -382,7 +382,7 @@ CREATE TABLE pre_cms_photo_data (
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 图片属性标记表
+# 图集属性标记表
 DROP TABLE IF EXISTS pre_cms_photo_flag;
 CREATE TABLE pre_cms_photo_flag (
   flag tinyint(1) unsigned NOT NULL DEFAULT '0',	# 属性标记
@@ -393,7 +393,7 @@ CREATE TABLE pre_cms_photo_flag (
   KEY id (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 图片附件表
+# 图集附件表
 DROP TABLE IF EXISTS pre_cms_photo_attach;
 CREATE TABLE pre_cms_photo_attach (
   aid int(10) unsigned NOT NULL AUTO_INCREMENT,		# 附件ID
@@ -412,7 +412,7 @@ CREATE TABLE pre_cms_photo_attach (
   KEY uid (uid, aid)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 图片查看数表，用来分离主表的写压力
+# 图集查看数表，用来分离主表的写压力
 DROP TABLE IF EXISTS pre_cms_photo_views;
 CREATE TABLE pre_cms_photo_views (
   id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
@@ -423,7 +423,7 @@ CREATE TABLE pre_cms_photo_views (
   KEY views (views)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 图片评论排序表，用来减小主表索引 (有评论时才写入)
+# 图集评论排序表，用来减小主表索引 (有评论时才写入)
 DROP TABLE IF EXISTS pre_cms_photo_comment_sort;
 CREATE TABLE pre_cms_photo_comment_sort (
   id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
@@ -437,7 +437,7 @@ CREATE TABLE pre_cms_photo_comment_sort (
   KEY lastdate (lastdate)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 图片评论表 (审核机制考虑单独设计一张表)
+# 图集评论表 (审核机制考虑单独设计一张表)
 DROP TABLE IF EXISTS pre_cms_photo_comment;
 CREATE TABLE pre_cms_photo_comment (
   id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
@@ -452,7 +452,7 @@ CREATE TABLE pre_cms_photo_comment (
   KEY ip (ip,commentid)	# 用来做防灌水插件
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 图片标签表
+# 图集标签表
 DROP TABLE IF EXISTS pre_cms_photo_tag;
 CREATE TABLE pre_cms_photo_tag (
   tagid int(10) unsigned NOT NULL AUTO_INCREMENT,	# tagID
@@ -464,7 +464,7 @@ CREATE TABLE pre_cms_photo_tag (
   KEY count (count)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-# 图片标签数据表
+# 图集标签数据表
 DROP TABLE IF EXISTS pre_cms_photo_tag_data;
 CREATE TABLE pre_cms_photo_tag_data (
   tagid int(10) unsigned NOT NULL,			# tagID

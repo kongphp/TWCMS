@@ -13,4 +13,4 @@ INSERT INTO `pre_models` (`mid`, `name`, `tablename`, `index_tpl`, `cate_tpl`, `
 (1, '单页', 'page', '', 'page_show.htm', '', 1),
 (2, '文章', 'article', 'article_index.htm', 'article_list.htm', 'article_show.htm', 1),
 (3, '产品', 'product', 'product_index.htm', 'product_list.htm', 'product_show.htm', 1),
-(4, '图片', 'photo', 'photo_index.htm', 'photo_list.htm', 'photo_show.htm', 1);
+(4, '图集', 'photo', 'photo_index.htm', 'photo_list.htm', 'photo_show.htm', 1);
