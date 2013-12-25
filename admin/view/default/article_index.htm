@@ -9,7 +9,7 @@
 
 	<div class="p c2">
 		<div class="cc" id="">
-			{if:empty($cms_content_arr)}<div class="sky warning bnote"><i></i><b>暂无内容</b></div>{else}
+			{if:empty($cms_article_arr)}<div class="sky warning bnote"><i></i><b>暂无内容</b></div>{else}
 			<table class="tb2">
 				<tr class="tit">
 					<th class="th" width="25"><input type="checkbox" id="check_all"></th>
@@ -20,7 +20,7 @@
 					<th class="th" width="150">操作</th>
 				</tr>
 
-				{loop:$cms_content_arr $v}
+				{loop:$cms_article_arr $v}
 				<tr class="li">
 					<td class="col"><input type="checkbox" name="chk_row" value="{$v[id]}"></td>
 					<td class="col">{$v[title]}</td>
@@ -43,11 +43,11 @@
 </div>
 <script type="text/javascript">
 $("#add").click(function(){
-	parent.parent.oneTab("?u=content-add", true);
+	parent.parent.oneTab("?u=article-add", true);
 });
 
 $("#cid").change(function(){
-	location.href = "?u=content-index-cid-"+ $(this).val();
+	location.href = "?u=article-index-cid-"+ $(this).val();
 });
 
 </script>

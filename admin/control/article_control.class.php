@@ -27,14 +27,14 @@ class article_control extends admin_control {
 		$total = $this->cms_content->count();
 		$maxpage = max(1, ceil($total/$pagenum));
 		$page = min($maxpage, max(1, intval(R('page'))));
-		$pages = pages($page, $maxpage, '?u=content-index-page-{page}');
+		$pages = pages($page, $maxpage, '?u=article-index-page-{page}');
 		$this->assign('total', $total);
 		$this->assign('pages', $pages);
 
 		// 读取内容列表
 		$where = $cid ? array('cid' => $cid) : array();
-		$cms_content_arr = $this->cms_content->list_arr($where, 'id', -1, ($page-1)*$pagenum, $pagenum, $total);
-		$this->assign('cms_content_arr', $cms_content_arr);
+		$cms_article_arr = $this->cms_content->list_arr($where, 'id', -1, ($page-1)*$pagenum, $pagenum, $total);
+		$this->assign('cms_article_arr', $cms_article_arr);
 
 		// hook admin_article_control_index_after.php
 

@@ -20,7 +20,7 @@
 		#imgs{display:none}
 		</style>
 
-		<form id="content_add" action="?u=content-add-ajax-1" method="post">
+		<form id="article_add" action="?u=article-add-ajax-1" method="post">
 		<input name="id" type="hidden" />
 		<input name="color" type="hidden" />
 		<input name="seo_title" type="hidden" />
@@ -348,7 +348,7 @@ function disImgsUpload() {
 }
 
 // 提交表单
-twAjax.submit("#content_add:first", function(data){
+twAjax.submit("#article_add:first", function(data){
 	twAjax.alert(data);
 	if(window.twData.err==0) {
 		//var temp = $("#cid").val();
