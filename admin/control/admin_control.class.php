@@ -171,7 +171,9 @@ class admin_control extends control {
 				'category-index'=>array('name'=>'分类管理', 'p'=>'category'),
 				'navigate-index'=>array('name'=>'导航管理', 'p'=>'category'),
 
-				'content-index'=>array('name'=>'内容管理', 'p'=>'content'),
+				'article-index'=>array('name'=>'文章管理', 'p'=>'content'),
+				'product-index'=>array('name'=>'产品管理', 'p'=>'content'),
+				'photo-index'=>array('name'=>'图集管理', 'p'=>'content'),
 				'comment-index'=>array('name'=>'评论管理', 'p'=>'content'),
 				'tag-index'=>array('name'=>'标签管理', 'p'=>'content'),
 
