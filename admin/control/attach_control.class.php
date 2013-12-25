@@ -29,15 +29,19 @@ class attach_control extends admin_control {
 			$dst_file = image::thumb_name($src_file);
 			$thumb = str_replace(TWCMS_PATH, '', $dst_file);
 
+			$thumb_w = $cfg['thumb_'.$table.'_w'];
+			$thumb_h = $cfg['thumb_'.$table.'_h'];
+			$thumb_h = $cfg['thumb_'.$table.'_h'];
+
 			if($type == 'img') { // 图集
-				image::thumb($src_file, $dst_file, 200, 200, 1, 90);
+				image::thumb($src_file, $dst_file, $thumb_w, $thumb_h, $cfg['thumb_type'], $cfg['thumb_quality']);
 				if(R('ajax')) {
 					echo '{"path":"'.$path.'","thumb":"'.$thumb.'","state":"'.$info['state'].'"}';
 				}else{
 					echo '<script>parent.setDisplayImg("'.$path.'","'.$thumb.'");</script>';
 				}
 			}elseif($type == 'pic') { // 缩略图
-				image::thumb($src_file, $dst_file, 120, 120, 1, 90);
+				image::thumb($src_file, $dst_file, $thumb_w, $thumb_h, $cfg['thumb_type'], $cfg['thumb_quality']);
 				echo '<script>parent.setDisplayPic("'.$path.'","'.$thumb.'");</script>';
 			}
 		}else{
