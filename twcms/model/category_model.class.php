@@ -221,10 +221,9 @@ class category extends model {
 		return $arr;
 	}
 
-	// 获取所有分类 (内容发布时使用)
-	public function get_category_cid($cid = 0) {
+	// 获取分类HTML (内容发布时使用)
+	public function get_cidhtml_by_mid($_mid, $cid = 0) {
 		$category_arr = $this->get_category();
-		$mod_name = $this->models->get_name();
 
 		$s = '<select name="cid" id="cid">';
 		if(empty($category_arr)) {
@@ -232,13 +231,13 @@ class category extends model {
 		}else{
 			foreach($category_arr as $mid => $arr) {
 				// 不显示单页
-				if($mid == 1) continue;
+				if($mid != $_mid) continue;
 
-				$s .= '<option mid="'.$mid.'" value="0" disabled="disabled">'.$mod_name[$mid].'</option>';
-				foreach ($arr as $v) {
+				$s .= '<option value="0">选择分类</option>';
+				foreach($arr as $v) {
 					$disabled = $v['type'] == 1 ? ' disabled="disabled"' : '';
-					$s .= '<option mid="'.$mid.'" value="'.$v['cid'].'"'.($v['type'] == 0 && $v['cid'] == $cid ? ' selected="selected"' : '').$disabled.'>';
-					$s .= str_repeat("　", $v['pre']);
+					$s .= '<option value="'.$v['cid'].'"'.($v['type'] == 0 && $v['cid'] == $cid ? ' selected="selected"' : '').$disabled.'>';
+					$s .= str_repeat("　", $v['pre']-1);
 					$s .= '|─'.$v['name'].($v['type'] == 1 ? '[频道]' : '').'</option>';
 				}
 			}

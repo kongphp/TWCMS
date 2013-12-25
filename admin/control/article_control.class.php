@@ -13,18 +13,20 @@ class article_control extends admin_control {
 
 		$cid = intval(R('cid'));
 
-		// 初始模型表名
-		$mid = $this->category->get_mid_by_cid($cid);
-		$table = $this->models->get_table($mid);
-		$this->cms_content->table = 'cms_'.$table;
-
 		// 获取分类下拉框
-		$category_cid = $this->category->get_category_cid($cid);
-		$this->assign('category_cid', $category_cid);
+		$cidhtml = $this->category->get_cidhtml_by_mid(2, $cid);
+		$this->assign('cidhtml', $cidhtml);
+
+		// 初始模型表名
+		$this->cms_content->table = 'cms_article';
 
 		// 初始分页
 		$pagenum = 20;
-		$total = $this->cms_content->count();
+		if($cid) {
+			$total = $this->cms_content->find_count(array('cid'=>$cid));
+		}else{
+			$total = $this->cms_content->count();
+		}
 		$maxpage = max(1, ceil($total/$pagenum));
 		$page = min($maxpage, max(1, intval(R('page'))));
 		$pages = pages($page, $maxpage, '?u=article-index-page-{page}');
@@ -49,9 +51,10 @@ class article_control extends admin_control {
 			$this->_cokey = 'content';
 			$this->_title = '内容发布';
 			$this->_place = '内容 &#187; 内容管理 &#187 内容发布';
+			$cid = intval(R('cid'));
 
-			$category_cid = $this->category->get_category_cid();
-			$this->assign('category_cid', $category_cid);
+			$cidhtml = $this->category->get_cidhtml_by_mid(2, $cid);
+			$this->assign('cidhtml', $cidhtml);
 
 			$this->display();
 		}else{
