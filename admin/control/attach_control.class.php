@@ -32,6 +32,11 @@ class attach_control extends admin_control {
 			$thumb = str_replace(TWCMS_PATH, '', $dst_file);
 			image::thumb($src_file, $dst_file, $cfg['thumb_'.$table.'_w'], $cfg['thumb_'.$table.'_h'], $cfg['thumb_type'], $cfg['thumb_quality']);
 
+			// 是否添加水印
+			if(!empty($cfg['watermark_pos'])) {
+				image::watermark($src_file, TWCMS_PATH.'static/img/watermark.png', null, $cfg['watermark_pos'], $cfg['watermark_pct']);
+			}
+
 			// 核心功能不打算做复杂了，想生成更多尺寸的图片建议使用此接口做成插件。
 			// hook admin_attach_control_upload_image_success_after.php
 
