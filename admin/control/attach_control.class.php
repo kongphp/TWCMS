@@ -9,6 +9,8 @@ defined('TWCMS_PATH') or exit;
 class attach_control extends admin_control {
 	// 上传图集和缩略图
 	public function upload_image() {
+		// hook admin_attach_control_upload_image_before.php
+
 		$type = R('type');
 		$mid = max(2, (int)R('mid'));
 		$table = $this->models->get_table($mid);
@@ -24,24 +26,25 @@ class attach_control extends admin_control {
 		$info = $this->cms_content_attach->upload($this->_user['uid'], $config);
 
 		if($info['state'] == 'SUCCESS') {
+			$thumb_w = $cfg['thumb_'.$table.'_w'];
+			$thumb_h = $cfg['thumb_'.$table.'_h'];
+			$thumb_type = $cfg['thumb_type'];
+			$thumb_quality = $cfg['thumb_quality'];
+
 			$path = $updir.$info['path'];
 			$src_file = TWCMS_PATH.$path;
 			$dst_file = image::thumb_name($src_file);
 			$thumb = str_replace(TWCMS_PATH, '', $dst_file);
 
-			$thumb_w = $cfg['thumb_'.$table.'_w'];
-			$thumb_h = $cfg['thumb_'.$table.'_h'];
-			$thumb_h = $cfg['thumb_'.$table.'_h'];
-
 			if($type == 'img') { // 图集
-				image::thumb($src_file, $dst_file, $thumb_w, $thumb_h, $cfg['thumb_type'], $cfg['thumb_quality']);
+				image::thumb($src_file, $dst_file, $thumb_w, $thumb_h, $thumb_type, $thumb_quality);
 				if(R('ajax')) {
 					echo '{"path":"'.$path.'","thumb":"'.$thumb.'","state":"'.$info['state'].'"}';
 				}else{
 					echo '<script>parent.setDisplayImg("'.$path.'","'.$thumb.'");</script>';
 				}
 			}elseif($type == 'pic') { // 缩略图
-				image::thumb($src_file, $dst_file, $thumb_w, $thumb_h, $cfg['thumb_type'], $cfg['thumb_quality']);
+				image::thumb($src_file, $dst_file, $thumb_w, $thumb_h, $thumb_type, $thumb_quality);
 				echo '<script>parent.setDisplayPic("'.$path.'","'.$thumb.'");</script>';
 			}
 		}else{
