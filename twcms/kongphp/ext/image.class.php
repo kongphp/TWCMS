@@ -185,7 +185,7 @@ class image{
 	}
 
 	// 检查是否是动画图片
-	function check_animation($filename) {
+	public static function check_animation($filename) {
 		$fp = fopen($filename, 'rb');
 		$s = fread($fp, filesize($filename));
 		fclose($fp);
