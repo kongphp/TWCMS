@@ -81,7 +81,7 @@ class image{
 	 */
 	public static function watermark($src_file, $wat_file, $dst_file = null, $pos = 0, $pct = 80){
 		$src_ext = self::ext($src_file);
-		if(!in_array($src_ext, array('jpg', 'gif', 'png'))) return FALSE;
+		if(!in_array($src_ext, array('jpg', 'jpeg', 'gif', 'png'))) return FALSE;
 
 		is_null($dst_file) && $dst_file = &$src_file;
 
