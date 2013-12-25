@@ -45,31 +45,39 @@ class my_control extends admin_control {
 		$this->assign('response_info', $response_info);
 
 		// hook admin_my_control_index_after.php
+
 		$this->display();
 	}
 
 	// 新标签页
 	public function newtab() {
 		// hook admin_my_control_newtab_after.php
+
 		$this->display();
 	}
 
 	// 修改密码
 	public function password() {
 		// hook admin_my_control_password_after.php
+
 		$this->display();
 	}
 
 	// 获取常用功能
 	private function get_used() {
 		$arr = array(
-			array('name'=>'发布内容', 'url'=>'?u=content-add', 'imgsrc'=>'admin/ico/01.jpg'),
-			array('name'=>'内容管理', 'url'=>'?u=content-index', 'imgsrc'=>'admin/ico/02.jpg'),
-			array('name'=>'评论管理', 'url'=>'?u=comment-index', 'imgsrc'=>'admin/ico/03.jpg'),
-			array('name'=>'分类管理', 'url'=>'?u=category-index', 'imgsrc'=>'admin/ico/04.jpg'),
+			array('name'=>'发布文章', 'url'=>'?u=article-add', 'imgsrc'=>'admin/ico/article_add.jpg'),
+			array('name'=>'文章管理', 'url'=>'?u=article-index', 'imgsrc'=>'admin/ico/article_index.jpg'),
+			array('name'=>'发布产品', 'url'=>'?u=product-add', 'imgsrc'=>'admin/ico/product_add.jpg'),
+			array('name'=>'产品管理', 'url'=>'?u=product-index', 'imgsrc'=>'admin/ico/product_index.jpg'),
+			array('name'=>'发布图集', 'url'=>'?u=photo-add', 'imgsrc'=>'admin/ico/photo_add.jpg'),
+			array('name'=>'图集管理', 'url'=>'?u=photo-index', 'imgsrc'=>'admin/ico/photo_index.jpg'),
+			array('name'=>'评论管理', 'url'=>'?u=comment-index', 'imgsrc'=>'admin/ico/comment_index.jpg'),
+			array('name'=>'分类管理', 'url'=>'?u=category-index', 'imgsrc'=>'admin/ico/category_index.jpg'),
 		);
 
 		// hook admin_my_control_get_used_after.php
+
 		return $arr;
 	}
 
