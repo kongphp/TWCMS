@@ -163,10 +163,10 @@ class image{
 			imagecopymerge($im_src, $im_wat, $x, $y, 0, 0, $wat_w, $wat_h, $pct);
 		}
 
-		switch($src_ext) {
-			case 'jpg': imagejpeg($im_src, $dst_file, 100); break;
-			case 'gif': imagegif($im_src, $dst_file); break;
-			case 'png': imagepng($im_src, $dst_file); break;
+		switch($srcs['mime']) {
+			case 'image/jpeg': imagejpeg($im_src, $dst_file, 100); break;
+			case 'image/gif': imagegif($im_src, $dst_file); break;
+			case 'image/png': imagepng($im_src, $dst_file); break;
 		}
 
 		imagedestroy($im_src);
