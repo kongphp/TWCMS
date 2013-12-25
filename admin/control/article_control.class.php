@@ -29,7 +29,7 @@ class article_control extends admin_control {
 		}
 		$maxpage = max(1, ceil($total/$pagenum));
 		$page = min($maxpage, max(1, intval(R('page'))));
-		$pages = pages($page, $maxpage, '?u=article-index-page-{page}');
+		$pages = pages($page, $maxpage, '?u=article-index'.($cid ? '-cid-'.$cid : '').'-page-{page}');
 		$this->assign('total', $total);
 		$this->assign('pages', $pages);
 
