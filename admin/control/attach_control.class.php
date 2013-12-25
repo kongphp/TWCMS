@@ -26,25 +26,22 @@ class attach_control extends admin_control {
 		$info = $this->cms_content_attach->upload($this->_user['uid'], $config);
 
 		if($info['state'] == 'SUCCESS') {
-			$thumb_w = $cfg['thumb_'.$table.'_w'];
-			$thumb_h = $cfg['thumb_'.$table.'_h'];
-			$thumb_type = $cfg['thumb_type'];
-			$thumb_quality = $cfg['thumb_quality'];
-
 			$path = $updir.$info['path'];
 			$src_file = TWCMS_PATH.$path;
 			$dst_file = image::thumb_name($src_file);
 			$thumb = str_replace(TWCMS_PATH, '', $dst_file);
+			image::thumb($src_file, $dst_file, $cfg['thumb_'.$table.'_w'], $cfg['thumb_'.$table.'_h'], $cfg['thumb_type'], $cfg['thumb_quality']);
+
+			// 核心功能不打算做复杂了，想生成更多尺寸的图片建议使用此接口做成插件。
+			// hook admin_attach_control_upload_image_success_after.php
 
 			if($type == 'img') { // 图集
-				image::thumb($src_file, $dst_file, $thumb_w, $thumb_h, $thumb_type, $thumb_quality);
 				if(R('ajax')) {
 					echo '{"path":"'.$path.'","thumb":"'.$thumb.'","state":"'.$info['state'].'"}';
 				}else{
 					echo '<script>parent.setDisplayImg("'.$path.'","'.$thumb.'");</script>';
 				}
-			}elseif($type == 'pic') { // 缩略图
-				image::thumb($src_file, $dst_file, $thumb_w, $thumb_h, $thumb_type, $thumb_quality);
+			}else{ // 缩略图
 				echo '<script>parent.setDisplayPic("'.$path.'","'.$thumb.'");</script>';
 			}
 		}else{
