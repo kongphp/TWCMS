@@ -6,10 +6,10 @@
 
 defined('TWCMS_PATH') or exit;
 
-class content_control extends admin_control {
+class article_control extends admin_control {
 	// 内容管理
 	public function index() {
-		// hook admin_content_control_index_before.php
+		// hook admin_article_control_index_before.php
 
 		$cid = intval(R('cid'));
 
@@ -36,14 +36,14 @@ class content_control extends admin_control {
 		$cms_content_arr = $this->cms_content->list_arr($where, 'id', -1, ($page-1)*$pagenum, $pagenum, $total);
 		$this->assign('cms_content_arr', $cms_content_arr);
 
-		// hook admin_content_control_index_after.php
+		// hook admin_article_control_index_after.php
 
 		$this->display();
 	}
 
 	// 内容发布
 	public function add() {
-		// hook admin_content_control_add_before.php
+		// hook admin_article_control_add_before.php
 
 		if(empty($_POST)) {
 			$this->_cokey = 'content';
@@ -191,8 +191,8 @@ class content_control extends admin_control {
 			E(0, '发表成功');
 		}
 
-		// hook admin_content_control_add_after.php
+		// hook admin_article_control_add_after.php
 	}
 
-	// hook admin_content_control_after.php
+	// hook admin_article_control_after.php
 }
