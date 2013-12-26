@@ -176,12 +176,6 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .contadd .w98{width:98%}
 .contadd .tl .th{width:50px}
 
-/*数据库*/
-.bkprompt{height:28px;line-height:22px}
-.bkprompt a{float:right;margin-left:10px}
-.pbr{border:1px solid #aaa;height:22px;border-radius:4px}
-.pbr .pbr-within{height:22px;line-height:22px;overflow:hidden;border-radius:4px;background:url(../img/pbr.gif);text-align:center}
-
 /*工具*/
 .marginbot{margin:8px}
 .marginbot li{line-height:24px}
