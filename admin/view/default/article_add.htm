@@ -24,7 +24,7 @@
 		<input name="id" type="hidden" />
 		<input name="color" type="hidden" />
 		<input name="seo_title" type="hidden" />
-		<div class="cc cf" id="">
+		<div class="cc cf">
 			<div class="left">
 				<table class="tb">
 					<tr>
@@ -40,17 +40,6 @@
 					<tr>
 						<th class="th">别名</th>
 						<td class="col"><input name="alias" type="text" value="" class="inp w1" /></td>
-					</tr>
-					<tr id="imgs">
-						<th class="th"><b>*</b>图集</th>
-						<td class="col">
-							<div id="tw_dropbox" class="cf">
-								<div id="tw_imgup" class="d_li">
-									<div><a id="tw_img_but" class="but3" href="javascript:;">上传图片</a></div>
-									<div id="tw_img_tips"></div>
-								</div>
-							</div>
-						</td>
 					</tr>
 					<tr>
 						<th class="th"><b>*</b>内容</th>
@@ -135,172 +124,6 @@
 </form>
 
 <script type="text/javascript">
-//====拖拽图片上传====
-window.isDrop = !!window.FileReader;
-var kpUpload = {
-	count : 0,
-	init : function() {
-		if(!window.TW_UP) window.TW_UP = true;
-
-		if(isDrop) {
-			$("#tw_img_tips").html("支持拖拽上传");
-
-			//ajax上传图集
-			$("#tw_img_upfile").change(function() {
-				$("#tw_img_upfile").hide();
-				kpUpload.ajaxUpload(this.files);
-			});
-
-			//加载 HTML5 拖拽上传图集
-			kpUpload.ondrag();
-		}else{
-			$("#tw_imgup div").css("padding-top", "10px");
-			$("#tw_img_tips").html("您的浏览器太老，不支持拖拽上传，建议使用IE10以上版本或chrome");
-
-			//传统上传图集
-			document.getElementById("tw_img_upfile").onchange = function() {
-				document.getElementById("tw_img_upform").submit();
-			};
-		}
-	},
-
-	//绑定拖拽事件  提示: ondragover(当元素被拖动至有效拖放目标上方时运行脚本) ondrop(当拖动元素时运行脚本)是必须事件，否则拖拽不正常
-	ondrag : function() {
-		var box = document.getElementById("tw_dropbox");
-		var handleDragover = function(e) {
-			$(box).css("border-color", "#808080");
-			e.stopPropagation();
-			e.preventDefault();
-		}
-		var handlePrevent = function(e) {
-			e.stopPropagation();
-			e.preventDefault();
-		}
-		var handleDragleave = function(e) { //当元素离开有效拖放目标时运行脚本
-			$(box).css("border-color", "#ccc");
-			e.preventDefault();
-		}
-		document.ondragleave = handleDragleave;
-		document.ondragover = handleDragover;
-		document.ondrop = handlePrevent;
-		if(window.parent) {
-			parent.document.ondragover = handleDragover;
-			parent.document.ondrop = handlePrevent;
-		}
-		box.ondragover = handleDragover;
-		box.ondrop = function(e){
-			$(box).css("border-color", "#ccc");
-			$("#tw_img_upfile").hide();
-			e.stopPropagation();
-			e.preventDefault();
-			kpUpload.ajaxUpload(e.dataTransfer.files);
-		};
-	},
-
-	// 缩放图片尺寸
-	scaleImg : function (img, maxW, maxH) {
-		var width = 0, height = 0, percent, ow = img.width, oh = img.height;
-		if(ow > maxW || oh > maxH) {
-			if(ow >= oh) {
-				var width = ow - maxW;
-				if(width >= 0) {
-					percent = (width / ow).toFixed(2);
-					var h = oh - oh * percent;
-					img.height = h;
-					img.width = maxW;
-					img.style.marginTop = (maxH-h)/2+"px";
-				}
-			}else{
-				if(height = oh - maxH) {
-					percent = (height / oh).toFixed(2);
-					img.width = ow - ow * percent;
-					img.height = maxH;
-				}
-			}
-		}
-	},
-
-	//增加图片显示
-	boxAdd : function(file, big, thumb) {
-		kpUpload.count++;
-		var img = document.createElement("img");
-		var div = $('<div class="d_img"></div>').append(img);
-		var inps = '<input name="images['+kpUpload.count+'][big]" value="'+big+'" type="hidden" />';
-			inps += '<input name="images['+kpUpload.count+'][thumb]" value="'+thumb+'" type="hidden" />';
-			inps += '<textarea name="images['+kpUpload.count+'][content]" placeholder="请输入描述"></textarea>';
-		var d_li = $('<div class="d_li"><div class="d_txt">'+inps+'</div></div>').prepend(div);
-		$("#tw_imgup").before(d_li);
-
-		if(typeof file == "object") {
-			var reader = new FileReader();
-			reader.readAsDataURL(file);
-			reader.onload = function(e) {
-				img.src = e.target.result;
-				img.onload = function() {
-					kpUpload.scaleImg(this, 120, 100);
-				}
-			};
-		}else if(typeof file == "string") {
-			img.src = file;
-			img.onload = function() {
-				kpUpload.scaleImg(this, 120, 100);
-			}
-		}
-	},
-
-	// 判断是否图片
-	isImg : function(type) {
-		switch (type) {
-			case 'image/jpg':
-			case 'image/jpeg':
-			case 'image/gif':
-			case 'image/png':
-				return true;
-			default:
-				return false;
-		}
-	},
-
-	//按顺序ajax上传
-	ajaxUpload : function(files) {
-		var upload = function(i) {
-			if(typeof files[i] == 'object') {
-				var f = files[i];
-
-				if(!kpUpload.isImg(f.type)) {
-					upload(i+1);
-					return;
-				}
-
-				var xhr = new XMLHttpRequest();
-				xhr.open("post", "?u=attach-upload_image&type=img&ajax=1", true);
-				xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-
-				//模拟数据
-				var fd = new FormData();
-				fd.append("upfile", f);
-				xhr.send(fd);
-
-				xhr.addEventListener('load', function (e) {
-					var data = toJson(e.target.response);
-
-					if(data.state == "SUCCESS") {
-						kpUpload.boxAdd("../"+data.thumb, data.path, data.thumb);
-						setTimeout(function(){ upload(i+1); }, 50);
-
-						if(i == files.length - 1) {
-							setButton("#tw_img_but", "#tw_img_upfile"); // 图集上传按钮
-						}
-					}else{
-						setButton("#tw_img_but", "#tw_img_upfile");
-					}
-				});
-			}
-		}
-		upload(0);
-	}
-};
-
 // 定位上传按钮
 function setButton(but, but2) {
 	var isIE = !!window.ActiveXObject;
@@ -320,33 +143,6 @@ function setDisplayPic(path, thumb) {
 	$("#tw_pic_img").attr("src", "../"+thumb);
 }
 
-// 图集中插入新图 (iframe使用)
-function setDisplayImg(path, thumb) {
-	$("#tw_img_upfile").hide();
-	kpUpload.boxAdd("../"+thumb, path, thumb);
-	setButton("#tw_img_but", "#tw_img_upfile"); // 重新定位上传按钮
-}
-
-// 是否显示图集框
-function getMid() {
-	var cid = $("#cid").val();
-	return $("#cid option[value='"+cid+"']").attr("mid");
-}
-
-// 是否显示图集上传
-function disImgsUpload() {
-	var mid = getMid();
-	if(mid == 2) {
-		$("#imgs").hide();
-		$("#tw_img_upfile").hide();
-	}else if(mid == 3 || mid == 4) {
-		$("#imgs").show();
-		kpUpload.init();
-		setButton("#tw_img_but", "#tw_img_upfile");
-		setButton("#tw_pic_but", "#tw_pic_upfile");
-	}
-}
-
 // 提交表单
 twAjax.submit("#article_add:first", function(data){
 	twAjax.alert(data);
@@ -364,9 +160,6 @@ $(document).ready(function(){
 		document.getElementById("tw_pic_upform").submit();
 	};
 	setTimeout(function(){ setButton("#tw_pic_but", "#tw_pic_upfile"); } , 500); // 缩略图上传按钮
-
-	disImgsUpload();
-	$("#cid").change(disImgsUpload);
 });
 
 // 默认无编辑器
