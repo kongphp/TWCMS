@@ -109,7 +109,9 @@ class article_control extends admin_control {
 
 			// 如果摘要为空，自动生成摘要
 			$intro = trim(R('intro', 'P'));
-			if(empty($intro)) $intro = trim(utf8::cutstr_cn(preg_replace('/\s{2,}/', ' ', strip_tags($contentstr)), 255, ''));
+			$intro = empty($intro) ? $contentstr : $intro;
+			$intro = preg_replace('/\s{2,}/', ' ', strip_tags($intro));
+			$intro = trim(utf8::cutstr_cn($intro, 255, ''));
 
 			// 写入内容表
 			$cms_content = array(
