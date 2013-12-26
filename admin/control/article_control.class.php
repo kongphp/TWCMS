@@ -186,6 +186,10 @@ class article_control extends admin_control {
 				}
 			}
 
+			// 更新发布内容条数
+			$this->_user['contents']++;
+			$this->user->update($this->_user);
+
 			// 更新相关分类
 			$data = $this->category->get($cid);
 			$data['count']++;
