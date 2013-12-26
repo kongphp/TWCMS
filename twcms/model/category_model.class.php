@@ -222,7 +222,7 @@ class category extends model {
 	}
 
 	// 获取分类下拉列表HTML (内容发布时使用)
-	public function get_cidhtml_by_mid($_mid, $cid) {
+	public function get_cidhtml_by_mid($_mid, $cid, $tips = '选择分类') {
 		$category_arr = $this->get_category();
 
 		$s = '<select name="cid" id="cid">';
@@ -233,7 +233,7 @@ class category extends model {
 				// 不显示单页
 				if($mid != $_mid) continue;
 
-				$s .= '<option value="0">选择分类</option>';
+				$s .= '<option value="0">'.$tips.'</option>';
 				foreach($arr as $v) {
 					$disabled = $v['type'] == 1 ? ' disabled="disabled"' : '';
 					$s .= '<option value="'.$v['cid'].'"'.($v['type'] == 0 && $v['cid'] == $cid ? ' selected="selected"' : '').$disabled.'>';
