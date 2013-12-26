@@ -18,15 +18,17 @@
 		.picbut{margin-top:10px}
 
 		#imgs{display:none}
+		.w98{width:98%}
+		.tl .th{width:50px}
 		</style>
 
 		<form id="article_add" action="?u=article-add-ajax-1" method="post">
 		<input name="id" type="hidden" />
 		<input name="color" type="hidden" />
 		<input name="seo_title" type="hidden" />
-		<div class="cc cf">
-			<div class="left">
-				<table class="tb">
+		<div class="cc">
+			<table><tr valign="top">
+				<td><table class="tb tl">
 					<tr>
 						<th class="th"><b>*</b>分类</th>
 						<td class="col">
@@ -35,28 +37,32 @@
 					</tr>
 					<tr>
 						<th class="th"><b>*</b>标题</th>
-						<td class="col"><input name="title" type="text" value="" class="inp w1" /></td>
+						<td class="col"><input name="title" type="text" value="" class="inp w98" /></td>
+					</tr>
+					<tr>
+						<th class="th"><b>*</b>内容</th>
+						<td class="col"><textarea id="content" class="inp w98" name="content"></textarea></td>
 					</tr>
 					<tr>
 						<th class="th">别名</th>
 						<td class="col"><input name="alias" type="text" value="" class="inp w1" /></td>
 					</tr>
 					<tr>
-						<th class="th"><b>*</b>内容</th>
-						<td class="col"><textarea id="content" name="content"></textarea></td>
+						<th class="th">标签</th>
+						<td class="col"><input name="tags" type="text" value="" class="inp w1" /></td>
 					</tr>
 					<tr>
 						<th class="th">摘要</th>
-						<td class="col"><textarea name="intro" class="inp w3"></textarea></td>
+						<td class="col">
+							<textarea name="intro" class="inp w98" style="height:60px" titile="如果不填，程序自动生成摘要" maxlength="255"></textarea>
+						</td>
 					</tr>
 					<tr>
 						<th class="th"></th>
-						<td class="col"><input type="submit" value="&#20445;&#23384;" class="but1" /></td>
+						<td class="col"><input type="submit" value="&#20445;&#23384;" class="but1" style="margin:0" /></td>
 					</tr>
-				</table>
-			</div>
-			<div class="right">
-				<table class="tb">
+				</table></td>
+				<td width="398"><table class="tb">
 					<tr>
 						<th class="th">缩略图</th>
 						<td class="col">
@@ -74,10 +80,6 @@
 							<label><input class="mr3" name="flag[]" type="checkbox" value="4">精华</label>
 							<label><input class="mr3" name="flag[]" type="checkbox" value="5">幻灯</label>
 						</td>
-					</tr>
-					<tr>
-						<th class="th">标签</th>
-						<td class="col"><input name="tags" type="text" value="" class="inp w1" /></td>
 					</tr>
 					<tr>
 						<th class="th">作者</th>
@@ -107,8 +109,8 @@
 						<th class="th">SEO描述</th>
 						<td class="col"><input name="seo_description" type="text" value="" class="inp w1" /></td>
 					</tr>
-				</table>
-			</div>
+				</table></td>
+			</tr></table>
 		</div>
 		</form>
 	</div>
@@ -124,44 +126,6 @@
 </form>
 
 <script type="text/javascript">
-// 定位上传按钮
-function setButton(but, but2) {
-	var isIE = !!window.ActiveXObject;
-	var obj = $(but);
-	var p = obj.position();
-	var top = isIE && but == "#tw_img_but" ? p.top-10 : p.top;
-	$(but2).hover(function(){
-		obj.addClass("but_on");
-	}, function(){
-		obj.removeClass("but_on");
-	}).show().css({"position":"absolute", "top":p.top, "left":p.left, "width":obj.outerWidth(true), "height":obj.outerHeight(true)});
-}
-
-// 设置显示缩略图 (iframe使用)
-function setDisplayPic(path, thumb) {
-	$("#tw_pic_val").val(thumb);
-	$("#tw_pic_img").attr("src", "../"+thumb);
-}
-
-// 提交表单
-twAjax.submit("#article_add:first", function(data){
-	twAjax.alert(data);
-	if(window.twData.err==0) {
-		//var temp = $("#cid").val();
-		//$(this)[0].reset(); //重置表单
-		//editor_api.content.set("");
-		//$("#cid").val(temp);
-	}
-});
-
-$(document).ready(function(){
-	// 传统上传缩略图
-	document.getElementById("tw_pic_upfile").onchange = function() {
-		document.getElementById("tw_pic_upform").submit();
-	};
-	setTimeout(function(){ setButton("#tw_pic_but", "#tw_pic_upfile"); } , 500); // 缩略图上传按钮
-});
-
 // 默认无编辑器
 window.editor_init = function(){
 	// 编辑器API
@@ -181,6 +145,46 @@ window.editor_init = function(){
 		}
 	}
 }
+
+// 传统上传缩略图
+document.getElementById("tw_pic_upfile").onchange = function() {
+	document.getElementById("tw_pic_upform").submit();
+};
+
+// 设置显示缩略图 (iframe使用)
+function setDisplayPic(path, thumb) {
+	$("#tw_pic_val").val(thumb);
+	$("#tw_pic_img").attr("src", "../"+thumb);
+}
+
+// 定位缩略图上传按钮
+function setPicBut() {
+	var obj = $("#tw_pic_but"),
+		p = obj.position(),
+		w = obj.outerWidth(true),
+		h = obj.outerHeight(true),
+		r = $(document).width() - w - p.left;
+	$("#tw_pic_upfile").hover(function(){
+		obj.addClass("but_on");
+	}, function(){
+		obj.removeClass("but_on");
+	}).show().css({"position":"absolute", "top":p.top, "right":r, "width":w, "height":h});
+}
+
+$(function(){
+	setPicBut();
+});
+
+// 提交表单
+twAjax.submit("#article_add:first", function(data){
+	twAjax.alert(data);
+	if(window.twData.err==0) {
+		//var temp = $("#cid").val();
+		//$(this)[0].reset(); //重置表单
+		//editor_api.content.set("");
+		//$("#cid").val(temp);
+	}
+});
 </script>
 
 {hook:admin_content_add_after.htm}
