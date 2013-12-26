@@ -44,14 +44,14 @@ class article_control extends admin_control {
 		$this->display();
 	}
 
-	// 内容发布
+	// 文章发布
 	public function add() {
 		// hook admin_article_control_add_before.php
 
 		if(empty($_POST)) {
 			$this->_cokey = 'content';
-			$this->_title = '内容发布';
-			$this->_place = '内容 &#187; 内容管理 &#187 内容发布';
+			$this->_title = '文章发布';
+			$this->_place = '内容 &#187; 内容管理 &#187 文章发布';
 			$cid = intval(R('cid'));
 
 			$cidhtml = $this->category->get_cidhtml_by_mid(2, $cid);
