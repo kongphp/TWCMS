@@ -148,7 +148,6 @@ class article_control extends admin_control {
 			$cms_content_data = array(
 				'content' => $contentstr,
 			);
-			if($mid == 3 || $mid == 4) $cms_content_data['images'] = json_encode(R('images', 'P'));
 			if(!$this->cms_content_data->set($id, $cms_content_data)) {
 				E(1, '写入内容数据表出错');
 			}
