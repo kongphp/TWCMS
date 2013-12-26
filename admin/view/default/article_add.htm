@@ -18,7 +18,7 @@
 		.picbut{margin-top:10px}
 
 		#imgs{display:none}
-		.w98{width:98%}
+		.w98{width:97%}
 		.tl .th{width:50px}
 		</style>
 
@@ -116,7 +116,6 @@
 	</div>
 </div>
 
-
 <iframe name="tw_upifr" style="display:none"></iframe>
 <form id="tw_pic_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="?u=attach-upload_image&type=pic">
 	<input id="tw_pic_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" />
@@ -176,14 +175,33 @@ $(function(){
 });
 
 // 提交表单
-twAjax.submit("#article_add:first", function(data){
-	twAjax.alert(data);
-	if(window.twData.err==0) {
-		//var temp = $("#cid").val();
-		//$(this)[0].reset(); //重置表单
-		//editor_api.content.set("");
-		//$("#cid").val(temp);
+twAjax.submit("#article_add:first", function(json){
+	var data = toJson(json);
+	var cid = $("#cid").val();
+
+	if(data.err==0) {
+		var id = data.name;
+		twAjax.tipsHtml('<div class="ajaxbox btrue"><i></i><b>'+ data.msg +'</b></div>');
+		$(".ajaxbox").width(260).append('<p class="cf"><a class="but3" id="okEdit" href="javascript:;">编辑</a><a class="but3" id="okGo" href="javascript:;">继续</a></p>');
+		$(".ajaxbox .cf").prepend('<a class="but3" href="../index.php?show--cid-'+cid+'-id-'+id+'" target="_blank">查看</a>')
+		$("#okEdit").click(function(){
+			$("input[name='id']").val(id);
+			twAjax.close();
+		});
+		$("#okGo").click(function(){
+			$("#article_add:first")[0].reset(); //重置表单
+			editor_api.content.set("");
+			$("#cid").val(cid);
+			twAjax.close();
+		});
+	}else{
+		twAjax.tipsHtml('<div class="ajaxbox bfalse"><i></i><b>'+ data.msg +'</b><u>\u6211\u77E5\u9053\u4E86</u></div>');
+		$(".ajaxtips u").click(function(){
+			twAjax.close();
+			if(!window.twName && data.name != '') $("[name='"+data.name+"']").focus();
+		});
 	}
+	twAjax.setTopAn();
 });
 </script>
 

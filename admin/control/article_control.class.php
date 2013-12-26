@@ -192,7 +192,7 @@ class article_control extends admin_control {
 			$this->category->update($data);
 			$this->category->update_cache($cid);
 
-			E(0, '发表成功');
+			E(0, '发表成功', $id);
 		}
 
 		// hook admin_article_control_add_after.php
