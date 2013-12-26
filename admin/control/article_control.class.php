@@ -62,6 +62,7 @@ class article_control extends admin_control {
 			$cid = intval(R('cid', 'P'));
 			$title = trim(strip_tags(R('title', 'P')));
 			$flags = (array)R('flag', 'P');
+			$contentstr = trim(R('content', 'P'));
 			$uid = $this->_user['uid'];
 
 			empty($cid) && E(1, '分类ID不能为空！');
@@ -106,6 +107,10 @@ class article_control extends admin_control {
 			$imagenum = $this->cms_content_attach->find_count(array('id'=>0, 'uid'=>$uid, 'isimage'=>1));
 			$filenum = $this->cms_content_attach->find_count(array('id'=>0, 'uid'=>$uid, 'isimage'=>0));
 
+			// 如果摘要为空，自动生成摘要
+			$intro = trim(R('intro', 'P'));
+			if(empty($intro)) $intro = trim(utf8::cutstr_cn(preg_replace('/\s{2,}/', ' ', strip_tags($contentstr)), 255, ''));
+
 			// 写入内容表
 			$cms_content = array(
 				'cid' => $cid,
@@ -113,7 +118,7 @@ class article_control extends admin_control {
 				'color' => trim(R('color', 'P')),
 				'alias' => trim(R('alias', 'P')),
 				'tags' => '',
-				'intro' => trim(R('intro', 'P')),
+				'intro' => $intro,
 				'pic' => trim(R('pic', 'P')),
 				'uid' => $uid,
 				'author' => trim(R('author', 'P')),	// 可以不等于发布用户
@@ -139,7 +144,7 @@ class article_control extends admin_control {
 			// 写入内容数据表
 			$this->cms_content_data->table = 'cms_'.$table.'_data';
 			$cms_content_data = array(
-				'content' => trim(R('content', 'P')),
+				'content' => $contentstr,
 			);
 			if($mid == 3 || $mid == 4) $cms_content_data['images'] = json_encode(R('images', 'P'));
 			if(!$this->cms_content_data->set($id, $cms_content_data)) {
@@ -186,7 +191,7 @@ class article_control extends admin_control {
 				}
 			}
 
-			// 更新发布内容条数
+			// 更新用户发布的内容条数
 			$this->_user['contents']++;
 			$this->user->update($this->_user);
 
@@ -196,10 +201,10 @@ class article_control extends admin_control {
 			$this->category->update($data);
 			$this->category->update_cache($cid);
 
+			// hook admin_article_control_add_after.php
+
 			E(0, '发表成功', $id);
 		}
-
-		// hook admin_article_control_add_after.php
 	}
 
 	// hook admin_article_control_after.php

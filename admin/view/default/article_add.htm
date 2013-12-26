@@ -156,6 +156,8 @@ $(function(){
 // 提交表单
 twAjax.submit("#article_add:first", function(json){
 	var data = toJson(json);
+	if(window.twExit) return; // 用来终止程序执行，显示出错提示
+
 	var cid = $("#cid").val();
 
 	if(data.err==0) {
