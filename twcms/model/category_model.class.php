@@ -221,8 +221,8 @@ class category extends model {
 		return $arr;
 	}
 
-	// 获取分类HTML (内容发布时使用)
-	public function get_cidhtml_by_mid($_mid, $cid = 0) {
+	// 获取分类下拉列表HTML (内容发布时使用)
+	public function get_cidhtml_by_mid($_mid, $cid) {
 		$category_arr = $this->get_category();
 
 		$s = '<select name="cid" id="cid">';
