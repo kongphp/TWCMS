@@ -9,7 +9,7 @@ window.twAjax = {
 	//加载半透明效果
 	loading : function() {
 		twAjax.remove();
-		twAjax.unObj();
+		window.isIE6 && twAjax.unObj();
 		$("body").prepend('<div class="ajaxoverlay"></div><div class="ajaxtips"><div class="ajaximg"></div></div>');
 		if(window.isIE6) $(".ajaxoverlay").css({"width":document.documentElement.clientWidth, "height":document.documentElement.clientHeight});
 		$(window).resize(twAjax.setTopLeft);
@@ -33,7 +33,7 @@ window.twAjax = {
 	//删除半透明框和提示框
 	remove : function() {
 		document.onkeydown = null;
-		twAjax.disObj();
+		window.isIE6 && twAjax.disObj();
 		$(".ajaxoverlay,.ajaxtips").remove();
 	},
 
