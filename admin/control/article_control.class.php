@@ -23,7 +23,8 @@ class article_control extends admin_control {
 		// 初始分页
 		$pagenum = 20;
 		if($cid) {
-			$total = $this->cms_content->find_count(array('cid'=>$cid));
+			$categorys = $this->category->read($cid);
+			$total = $categorys['count'];
 		}else{
 			$total = $this->cms_content->count();
 		}
