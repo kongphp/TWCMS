@@ -14,7 +14,7 @@ class article_control extends admin_control {
 		$cid = intval(R('cid'));
 
 		// 获取分类下拉框
-		$cidhtml = $this->category->get_cidhtml_by_mid(2, $cid);
+		$cidhtml = $this->category->get_cidhtml_by_mid(2, $cid, '所有文章');
 		$this->assign('cidhtml', $cidhtml);
 
 		// 初始模型表名
