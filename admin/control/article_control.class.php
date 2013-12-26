@@ -24,7 +24,7 @@ class article_control extends admin_control {
 		$pagenum = 20;
 		if($cid) {
 			$categorys = $this->category->read($cid);
-			$total = $categorys['count'];
+			$total = isset($categorys['count']) ? $categorys['count'] : 0;
 		}else{
 			$total = $this->cms_content->count();
 		}
