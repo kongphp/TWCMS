@@ -230,7 +230,6 @@ class category extends model {
 			$s .= '<option value="0">没有分类</option>';
 		}else{
 			foreach($category_arr as $mid => $arr) {
-				// 不显示单页
 				if($mid != $_mid) continue;
 
 				$s .= '<option value="0">'.$tips.'</option>';
