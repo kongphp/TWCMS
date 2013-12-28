@@ -70,7 +70,7 @@ class cms_content_attach extends model {
 
 		try{
 			// 抓取远程图片
-			$context = stream_context_create(array('http'=>array('follow_location'=>false))); // 不重定向抓取
+			$context = stream_context_create(array('http'=>array('follow_location'=>false, 'timeout'=>60))); // 不重定向抓取
 			$img = file_get_contents($uri, false, $context);
 
 			// 图片大小验证
