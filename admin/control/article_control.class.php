@@ -63,6 +63,7 @@ class article_control extends admin_control {
 			$title = trim(strip_tags(R('title', 'P')));
 			$flags = (array)R('flag', 'P');
 			$contentstr = trim(R('content', 'P'));
+			$isremote = intval(R('isremote', 'P'));
 			$uid = $this->_user['uid'];
 
 			empty($cid) && E(1, '分类ID不能为空！');
@@ -102,8 +103,15 @@ class article_control extends admin_control {
 				}
 			}
 
-			// 计算图片数，和非图片文件数
+			// 远程图片本地化
 			$this->cms_content_attach->table = 'cms_'.$table.'_attach';
+			if($isremote) {
+				$_ENV['preg_replace_callback_arg'] = array('uid'=>$uid, 'maxSize'=>10000, 'upDir'=>TWCMS_PATH.'upload/'.$table.'/');
+				$contentstr = preg_replace_callback('#\<img [^\>]*src=["\']((?:http|ftp)\://[^"\']+)["\'][^\>]*\>#iU', array($this, 'img_replace'), $contentstr);
+				unset($_ENV['preg_replace_callback_arg']);
+			}
+
+			// 计算图片数，和非图片文件数
 			$imagenum = $this->cms_content_attach->find_count(array('id'=>0, 'uid'=>$uid, 'isimage'=>1));
 			$filenum = $this->cms_content_attach->find_count(array('id'=>0, 'uid'=>$uid, 'isimage'=>0));
 
@@ -205,6 +213,16 @@ class article_control extends admin_control {
 			// hook admin_article_control_add_after.php
 
 			E(0, '发表成功', $id);
+		}
+	}
+
+	// 远程图片处理 (如果抓取失败则不替换)
+	private function img_replace($mat) {
+		$file = $this->cms_content_attach->remote_down($mat[1], $_ENV['preg_replace_callback_arg']);
+		if($file) {
+			return str_replace($mat[1], $file, $mat[0]);
+		}else{
+			return $mat[0];
 		}
 	}
 
