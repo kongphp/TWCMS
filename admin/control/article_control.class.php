@@ -65,6 +65,7 @@ class article_control extends admin_control {
 			$contentstr = trim(R('content', 'P'));
 			$isremote = intval(R('isremote', 'P'));
 			$uid = $this->_user['uid'];
+			$endstr = '';
 
 			empty($cid) && E(1, '分类ID不能为空！');
 			empty($title) && E(1, '标题不能为空！');
@@ -109,7 +110,8 @@ class article_control extends admin_control {
 				function_exists('set_time_limit') && set_time_limit(0);
 				$cfg = $this->runtime->xget();
 				$updir = 'upload/'.$table.'/';
-				$_ENV['preg_replace_callback_arg'] = array(
+				$_ENV['_prc_err'] = 0;
+				$_ENV['_prc_arg'] = array(
 					'hosts'=>array('127.0.0.1', 'localhost', $_SERVER['HTTP_HOST'], $cfg['webdomain']),
 					'uid'=>$uid,
 					'maxSize'=>10000,
@@ -117,7 +119,8 @@ class article_control extends admin_control {
 					'preUri'=>$cfg['weburl'].$updir,
 				);
 				$contentstr = preg_replace_callback('#\<img [^\>]*src=["\']((?:http|ftp)\://[^"\']+)["\'][^\>]*\>#iU', array($this, 'img_replace'), $contentstr);
-				unset($_ENV['preg_replace_callback_arg']);
+				unset($_ENV['_prc_arg']);
+				$endstr .= $_ENV['_prc_err'] ? '，但远程抓取图片失败 '.$_ENV['_prc_err'].' 张！' : '';
 			}
 
 			// 计算图片数，和非图片文件数
@@ -221,16 +224,17 @@ class article_control extends admin_control {
 
 			// hook admin_article_control_add_after.php
 
-			E(0, '发表成功', $id);
+			E(0, '发表成功'.$endstr, $id);
 		}
 	}
 
 	// 远程图片处理 (如果抓取失败则不替换; 没有考虑排除重复图片问题)
 	private function img_replace($mat) {
-		$file = $this->cms_content_attach->remote_down($mat[1], $_ENV['preg_replace_callback_arg']);
+		$file = $this->cms_content_attach->remote_down($mat[1], $_ENV['_prc_arg']);
 		if($file) {
 			return str_replace($mat[1], $file, $mat[0]);
 		}else{
+			$_ENV['_prc_err']++;
 			return $mat[0];
 		}
 	}
