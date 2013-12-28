@@ -27,10 +27,9 @@ class attach_control extends admin_control {
 
 		if($info['state'] == 'SUCCESS') {
 			$path = $updir.$info['path'];
+			$thumb = image::thumb_name($path);
 			$src_file = TWCMS_PATH.$path;
-			$dst_file = image::thumb_name($src_file);
-			$thumb = str_replace(TWCMS_PATH, '', $dst_file);
-			image::thumb($src_file, $dst_file, $cfg['thumb_'.$table.'_w'], $cfg['thumb_'.$table.'_h'], $cfg['thumb_type'], $cfg['thumb_quality']);
+			image::thumb($src_file, TWCMS_PATH.$thumb, $cfg['thumb_'.$table.'_w'], $cfg['thumb_'.$table.'_h'], $cfg['thumb_type'], $cfg['thumb_quality']);
 
 			// 核心功能不打算做复杂了，想生成更多尺寸的图片建议使用此接口做成插件。
 			// hook admin_attach_control_upload_image_success_after.php
