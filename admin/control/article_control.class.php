@@ -64,6 +64,7 @@ class article_control extends admin_control {
 			$flags = (array)R('flag', 'P');
 			$contentstr = trim(R('content', 'P'));
 			$isremote = intval(R('isremote', 'P'));
+			$pic = trim(R('pic', 'P'));
 			$uid = $this->_user['uid'];
 			$endstr = '';
 
@@ -127,6 +128,16 @@ class article_control extends admin_control {
 			$imagenum = $this->cms_content_attach->find_count(array('id'=>0, 'uid'=>$uid, 'isimage'=>1));
 			$filenum = $this->cms_content_attach->find_count(array('id'=>0, 'uid'=>$uid, 'isimage'=>0));
 
+			// 如果缩略图为空，并且文章含有图片，则将第一张图片设置为缩略图
+			if(empty($pic) && $imagenum) {
+				$pic_arr = $this->cms_content_attach->find_fetch(array('id'=>0, 'uid'=>$uid, 'isimage'=>1), array(), 0, 1);
+				$pic_arr = current($pic_arr);
+				$cfg = $this->runtime->xget();
+				$path = 'upload/'.$table.'/'.$pic_arr['filepath'];
+				$pic = image::thumb_name($path);
+				image::thumb(TWCMS_PATH.$path, TWCMS_PATH.$pic, $cfg['thumb_'.$table.'_w'], $cfg['thumb_'.$table.'_h'], $cfg['thumb_type'], $cfg['thumb_quality']);
+			}
+
 			// 如果摘要为空，自动生成摘要
 			$intro = trim(R('intro', 'P'));
 			$intro = empty($intro) ? $contentstr : $intro;
@@ -141,7 +152,7 @@ class article_control extends admin_control {
 				'alias' => trim(R('alias', 'P')),
 				'tags' => '',
 				'intro' => $intro,
-				'pic' => trim(R('pic', 'P')),
+				'pic' => $pic,
 				'uid' => $uid,
 				'author' => trim(R('author', 'P')),	// 可以不等于发布用户
 				'source' => trim(R('source', 'P')),
