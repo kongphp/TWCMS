@@ -106,7 +106,16 @@ class article_control extends admin_control {
 			// 远程图片本地化
 			$this->cms_content_attach->table = 'cms_'.$table.'_attach';
 			if($isremote) {
-				$_ENV['preg_replace_callback_arg'] = array('uid'=>$uid, 'maxSize'=>10000, 'upDir'=>TWCMS_PATH.'upload/'.$table.'/');
+				function_exists('set_time_limit') && set_time_limit(0);
+				$cfg = $this->runtime->xget();
+				$updir = 'upload/'.$table.'/';
+				$_ENV['preg_replace_callback_arg'] = array(
+					'hosts'=>array('127.0.0.1', 'localhost', $_SERVER['HTTP_HOST'], $cfg['webdomain']),
+					'uid'=>$uid,
+					'maxSize'=>10000,
+					'upDir'=>TWCMS_PATH.$updir,
+					'preUri'=>$cfg['weburl'].$updir,
+				);
 				$contentstr = preg_replace_callback('#\<img [^\>]*src=["\']((?:http|ftp)\://[^"\']+)["\'][^\>]*\>#iU', array($this, 'img_replace'), $contentstr);
 				unset($_ENV['preg_replace_callback_arg']);
 			}
@@ -216,7 +225,7 @@ class article_control extends admin_control {
 		}
 	}
 
-	// 远程图片处理 (如果抓取失败则不替换)
+	// 远程图片处理 (如果抓取失败则不替换; 没有考虑排除重复图片问题)
 	private function img_replace($mat) {
 		$file = $this->cms_content_attach->remote_down($mat[1], $_ENV['preg_replace_callback_arg']);
 		if($file) {
