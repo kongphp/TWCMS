@@ -99,14 +99,14 @@ class upload{
 			$this->fileState = $this->getFileState('EXT');
 			return;
 		}
-		$dir = date('Ym/d');
+		$dir = date('Ym/d/');
 		$updir = $this->upDir.$dir;
 		if(!is_dir($updir) && !mkdir($updir, 0755, true)) {
 			$this->fileState = $this->getFileState('DIR');
 			return;
 		}
 
-		$this->filePath = $dir.'/'.$this->getName();
+		$this->filePath = $dir.$this->getName();
 		if($this->fileState == $this->stateMap[0]) {
 			if(!move_uploaded_file($this->file['tmp_name'] , $this->upDir.$this->filePath)) {
 				$this->fileState = $this->getFileState('MOVE');
@@ -118,7 +118,7 @@ class upload{
 	private function base64ToImage($base64Data) {
 		$img = base64_decode($base64Data);
 
-		$dir = date('Ym/d');
+		$dir = date('Ym/d/');
 		$updir = $this->upDir.$dir;
 		if(!is_dir($updir) && !mkdir($updir, 0755, true)) {
 			$this->fileState = $this->getFileState('DIR');
@@ -128,7 +128,7 @@ class upload{
 		$this->fileSize = strlen($img);
 		$this->fileType = 'image/png';
 		$this->fileExt = 'png';
-		$this->filePath = $dir.'/'.$this->getName();
+		$this->filePath = $dir.$this->getName();
 		if(!file_put_contents($this->upDir.$this->filePath, $img)) {
 			$this->fileState = $this->getFileState('IO');
 			return;
