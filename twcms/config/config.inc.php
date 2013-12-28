@@ -18,7 +18,7 @@ $_ENV['_config'] = array(
 		'master' => array(
 			'host' => 'localhost',
 			'user' => 'root',
-			'password' => '123',
+			'password' => '',
 			'name' => '2_0',
 			'charset' => 'utf8',
 			'tablepre' => 'pre_',
@@ -30,8 +30,8 @@ $_ENV['_config'] = array(
 			array(
 				'host' => 'localhost',
 				'user' => 'root',
-				'password' => '123',
-				'name' => 'twcms',
+				'password' => '',
+				'name' => '2_0',
 				'charset' => 'utf8',
 				'engine'=>'MyISAM',
 			),
