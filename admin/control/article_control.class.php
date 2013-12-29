@@ -128,14 +128,18 @@ class article_control extends admin_control {
 			$imagenum = $this->cms_content_attach->find_count(array('id'=>0, 'uid'=>$uid, 'isimage'=>1));
 			$filenum = $this->cms_content_attach->find_count(array('id'=>0, 'uid'=>$uid, 'isimage'=>0));
 
-			// 如果缩略图为空，并且文章含有图片，则将第一张图片设置为缩略图
+			// 如果缩略图为空，并且内容含有图片，则将第一张图片设置为缩略图
 			if(empty($pic) && $imagenum) {
 				$pic_arr = $this->cms_content_attach->find_fetch(array('id'=>0, 'uid'=>$uid, 'isimage'=>1), array(), 0, 1);
 				$pic_arr = current($pic_arr);
 				$cfg = $this->runtime->xget();
 				$path = 'upload/'.$table.'/'.$pic_arr['filepath'];
 				$pic = image::thumb_name($path);
-				image::thumb(TWCMS_PATH.$path, TWCMS_PATH.$pic, $cfg['thumb_'.$table.'_w'], $cfg['thumb_'.$table.'_h'], $cfg['thumb_type'], $cfg['thumb_quality']);
+				$src_file = TWCMS_PATH.$path;
+				$dst_file = TWCMS_PATH.$pic;
+				if(!is_file($dst_file)) {
+					image::thumb($src_file, $dst_file, $cfg['thumb_'.$table.'_w'], $cfg['thumb_'.$table.'_h'], $cfg['thumb_type'], $cfg['thumb_quality']);
+				}
 			}
 
 			// 如果摘要为空，自动生成摘要
