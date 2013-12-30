@@ -46,12 +46,19 @@ class cms_content_comment extends model {
 	// 关联删除 （评论数）
 	public function xdelete($table, $id, $commentid) {
 		$this->table = 'cms_'.$table.'_comment';
-
 		$this->cms_content->table = 'cms_'.$table;
+		$this->cms_content_comment_sort->table = 'cms_'.$table.'_comment_sort';
+
 		$data = $this->cms_content->read($id);
 		if(empty($data)) return '读取内容表出错！';
 		$data['comments'] > 0 && $data['comments']--;
 		if(!$this->cms_content->set($id, $data)) return '写入内容表出错！';
+
+		$data2 = $this->cms_content_comment_sort->read($id);
+		if($data2) {
+			$ret = $this->cms_content_comment_sort->update(array('id' => $id, 'comments' => $data['comments']));
+			if(!$ret) return '写入评论排序表出错！';
+		}
 
 		return !$this->delete($commentid);
 	}
