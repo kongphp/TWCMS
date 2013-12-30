@@ -54,7 +54,7 @@ class cms_content extends model {
 	}
 
 	// 内容关联删除
-	public function xdelete($table, $cid, $id) {
+	public function xdelete($table, $id, $cid) {
 		// hook cms_content_model_xdelete_before.php
 
 		$this->table = 'cms_'.$table;
@@ -85,7 +85,7 @@ class cms_content extends model {
 				is_file($file) && unlink($file);
 				is_file($thumb) && unlink($thumb);
 			}catch(Exception $e) {}
-			$this->cms_content_attach->delete($aid);
+			$this->cms_content_attach->delete($v['aid']);
 		}
 
 		// 更新标签表

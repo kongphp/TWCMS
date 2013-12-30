@@ -244,6 +244,26 @@ class article_control extends admin_control {
 		}
 	}
 
+	// 文章删除
+	public function del() {
+		// hook admin_article_control_del_before.php
+
+		$id = (int) R('id', 'P');
+		$cid = (int) R('cid', 'P');
+
+		empty($id) && E(1, '内容ID不能为空！');
+		empty($cid) && E(1, '分类ID不能为空！');
+
+		// hook admin_article_control_del_after.php
+
+		$err = $this->cms_content->xdelete('article', $id, $cid);
+		if($err) {
+			E(1, $err);
+		}else{
+			E(0, '删除成功！');
+		}
+	}
+
 	// 远程图片处理 (如果抓取失败则不替换)
 	// $conf 用到4个参数 hosts preUri cfg upDir
 	private function img_replace($mat) {
