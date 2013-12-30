@@ -118,6 +118,7 @@ class article_control extends admin_control {
 					'maxSize'=>10000,
 					'upDir'=>TWCMS_PATH.$updir,
 					'preUri'=>$cfg['weburl'].$updir,
+					'cfg'=>$cfg,
 				);
 				$contentstr = preg_replace_callback('#\<img [^\>]*src=["\']((?:http|ftp)\://[^"\']+)["\'][^\>]*\>#iU', array($this, 'img_replace'), $contentstr);
 				unset($_ENV['_prc_arg']);
@@ -243,22 +244,31 @@ class article_control extends admin_control {
 		}
 	}
 
-	// 远程图片处理 (如果抓取失败则不替换; 没有考虑排除重复图片问题)
+	// 远程图片处理 (如果抓取失败则不替换)
+	// $conf 用到4个参数 hosts preUri cfg upDir
 	private function img_replace($mat) {
 		static $uris = array();
 		$uri = $mat[1];
+		$conf = &$_ENV['_prc_arg'];
 
 		// 排除重复保存相同URL图片
 		if(isset($uris[$uri])) return str_replace($uri, $uris[$uri], $mat[0]);
 
 		// 根据域名排除本站图片
 		$urls = parse_url($uri);
-		if(in_array($urls['host'], $_ENV['_prc_arg']['hosts'])) return $mat[0];
+		if(in_array($urls['host'], $conf['hosts'])) return $mat[0];
 
-		$file = $this->cms_content_attach->remote_down($uri, $_ENV['_prc_arg']);
+		$file = $this->cms_content_attach->remote_down($uri, $conf);
 		if($file) {
-			$uris[$uri] = $file;
-			return str_replace($uri, $file, $mat[0]);
+			$uris[$uri] = $conf['preUri'].$file;
+			$cfg = $conf['cfg'];
+
+			// 是否添加水印
+			if(!empty($cfg['watermark_pos'])) {
+				image::watermark($conf['upDir'].$file, TWCMS_PATH.'static/img/watermark.png', null, $cfg['watermark_pos'], $cfg['watermark_pct']);
+			}
+
+			return str_replace($uri, $uris[$uri], $mat[0]);
 		}else{
 			$_ENV['_prc_err']++;
 			return $mat[0];

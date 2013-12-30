@@ -41,7 +41,7 @@ class cms_content_attach extends model {
 		return $info;
 	}
 
-	// 远程图片下载并记录到数据库 ($conf 共5个必填参数 hosts uid maxSize upDir preUri)
+	// 远程图片下载并记录到数据库 ($conf 用到3个参数 uid maxSize upDir)
 	public function remote_down($uri, &$conf) {
 		// php.ini 中的 allow_url_fopen 关闭时不抓取远程图片
 		if(function_exists('ini_get') && !ini_get('allow_url_fopen')) return FALSE;
@@ -99,7 +99,7 @@ class cms_content_attach extends model {
 			);
 			if(!$this->create($data)) return FALSE;
 
-			return $conf['preUri'].$filepath;
+			return $filepath;
 		}catch(Exception $e) {
 			return FALSE;
 		}
