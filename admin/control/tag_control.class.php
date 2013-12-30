@@ -147,7 +147,7 @@ class tag_control extends admin_control {
 
 		$err = $this->cms_content_tag->xdelete($table, $tagid);
 		if($err) {
-			E(1, $err ? $err : '删除失败！');
+			E(1, $err);
 		}else{
 			E(0, '删除成功！');
 		}

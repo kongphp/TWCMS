@@ -66,6 +66,6 @@ class cms_content_tag extends model {
 			return '删除标签数据表出错！';
 		}
 
-		return !$this->delete($tagid);
+		return $this->delete($tagid) ? '' : '删除失败！';
 	}
 }
