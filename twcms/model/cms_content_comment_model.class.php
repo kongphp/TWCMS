@@ -43,7 +43,7 @@ class cms_content_comment extends model {
 		}
 	}
 
-	// 关联删除 （评论数）
+	// 评论关联删除
 	public function xdelete($table, $id, $commentid) {
 		// hook cms_content_comment_model_xdelete_before.php
 
@@ -51,6 +51,7 @@ class cms_content_comment extends model {
 		$this->cms_content->table = 'cms_'.$table;
 		$this->cms_content_comment_sort->table = 'cms_'.$table.'_comment_sort';
 
+		// 更新评论数
 		$data = $this->cms_content->read($id);
 		if(empty($data)) return '读取内容表出错！';
 		if($data['comments'] > 0) {
@@ -63,6 +64,6 @@ class cms_content_comment extends model {
 			if(!$ret) return '写入评论排序表出错！';
 		}
 
-		return !$this->delete($commentid);
+		return $this->delete($commentid) ? '' : '删除失败！';
 	}
 }

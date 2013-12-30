@@ -170,7 +170,7 @@ class comment_control extends admin_control {
 
 		$err = $this->cms_content_comment->xdelete($table, $id, $commentid);
 		if($err) {
-			E(1, $err ? $err : '删除失败！');
+			E(1, $err);
 		}else{
 			E(0, '删除成功！');
 		}
