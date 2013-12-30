@@ -12,7 +12,7 @@ class image{
 	 * @param string $dst_file	目标路径 (裁切后，建议后缀为jpg。null时自动生成目标路径)
 	 * @param int $dst_w		目标宽度
 	 * @param int $dst_h		目标高度
-	 * @param int $type			目标类型 1为补白裁剪 2为居中裁剪 3为上左裁剪
+	 * @param int $type			目标类型 1为补白裁剪 2为居中裁剪 3为上左裁剪 4为按等比缩放，最大不会超过 $dst_w $dst_h
 	 * @param int $quality		目标质量
 	 */
 	public static function thumb($src_file, $dst_file, $dst_w = 120, $dst_h = 120, $type = 1, $quality = 90) {
@@ -24,7 +24,9 @@ class image{
 		if(!in_array($dst_ext, array('jpg', 'gif', 'png'))) return FALSE;
 
 		$imgs = getimagesize($src_file);
-		if(empty($imgs[0]) || empty($imgs[1])) return FALSE;
+		$src_w = $imgs[0];
+		$src_h = $imgs[1];
+		if(empty($src_w) || empty($src_h)) return FALSE;
 
 		// GD库不支持时，使用原图
 		if(!function_exists('imagecreatefromjpeg')) {
@@ -32,34 +34,55 @@ class image{
 		}
 
 		$im_src = self::load_img($src_file, $imgs['mime']);
-		$im_dst = imagecreatetruecolor($dst_w, $dst_h);
-		imagefill($im_dst, 0, 0 ,0xFFFFFF);
 
-		$src_w = $imgs[0];
-		$src_h = $imgs[1];
+		switch($type) {
+			case 1: // 补白裁剪
+				$scale = min($dst_w/$src_w, $dst_h/$src_h);
+				$new_w = round($src_w * $scale);
+				$new_h = round($src_h * $scale);
+				$dst_x = $new_w < $dst_w ? ($dst_w - $new_w)/2 : 0;
+				$dst_y = $new_h < $dst_h ? ($dst_h - $new_h)/2 : 0;
 
-		if($type == 1) { // 补白裁剪
-			$scale = min($dst_w/$src_w, $dst_h/$src_h);
-			$new_w = round($src_w * $scale);
-			$new_h = round($src_h * $scale);
-			$dst_x = $new_w < $dst_w ? ($dst_w - $new_w)/2 : 0;
-			$dst_y = $new_h < $dst_h ? ($dst_h - $new_h)/2 : 0;
+				$im_dst = imagecreatetruecolor($dst_w, $dst_h);
+				imagefill($im_dst, 0, 0 ,0xFFFFFF);
+				imagecopyresampled($im_dst, $im_src, $dst_x, $dst_y, 0, 0, $new_w, $new_h, $src_w, $src_h);
+				break;
+			case 2: // 居中裁剪
+				$scale = max($dst_w/$src_w, $dst_h/$src_h);
+				$new_w = round($dst_w/$scale);
+				$new_h = round($dst_h/$scale);
+				$x = ($src_w - $new_w)/2;
+				$y = ($src_h - $new_h)/2;
 
-			imagecopyresampled($im_dst, $im_src, $dst_x, $dst_y, 0, 0, $new_w, $new_h, $src_w, $src_h);
-		}elseif($type == 2) { // 居中裁剪
-			$scale = max($dst_w/$src_w, $dst_h/$src_h);
-			$new_w = round($dst_w/$scale);
-			$new_h = round($dst_h/$scale);
-			$x = ($src_w - $new_w)/2;
-			$y = ($src_h - $new_h)/2;
+				$im_dst = imagecreatetruecolor($dst_w, $dst_h);
+				imagecopyresampled($im_dst, $im_src, 0, 0, $x, $y, $dst_w, $dst_h, $new_w, $new_h);
+				break;
+			case 3: // 上左裁剪
+				$scale = max($dst_w/$src_w, $dst_h/$src_h);
+				$new_w = round($dst_w/$scale);
+				$new_h = round($dst_h/$scale);
 
-			imagecopyresampled($im_dst, $im_src, 0, 0, $x, $y, $dst_w, $dst_h, $new_w, $new_h);
-		}else{ // 上左裁剪
-			$scale = max($dst_w/$src_w, $dst_h/$src_h);
-			$new_w = round($dst_w/$scale);
-			$new_h = round($dst_h/$scale);
+				$im_dst = imagecreatetruecolor($dst_w, $dst_h);
+				imagecopyresampled($im_dst, $im_src, 0, 0, 0, 0, $dst_w, $dst_h, $new_w, $new_h);
+				break;
+			default: // 按等比缩放，最大不会超过 $dst_w $dst_h
+				$src_scale = $src_w/$src_h;
+				$scale_w = $dst_w/$src_w;
+				$scale_h = $dst_h/$src_h;
+				$scale = min($scale_w, $scale_h);
+				$new_w = round($dst_w/$scale);
+				$new_h = round($dst_h/$scale);
 
-			imagecopyresampled($im_dst, $im_src, 0, 0, 0, 0, $dst_w, $dst_h, $new_w, $new_h);
+				if($scale_w >= $scale_h) {
+					$new_dst_w = round($dst_h * $src_scale);
+					$new_dst_h = $dst_h;
+				}else{
+					$new_dst_w = $dst_w;
+					$new_dst_h = round($dst_w * $src_scale);
+				}
+
+				$im_dst = imagecreatetruecolor($new_dst_w, $new_dst_h);
+				imagecopyresampled($im_dst, $im_src, 0, 0, 0, 0, $dst_w, $dst_h, $new_w, $new_h);
 		}
 
 		switch($dst_ext) {
