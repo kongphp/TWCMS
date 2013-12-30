@@ -245,6 +245,10 @@ class article_control extends admin_control {
 
 	// 远程图片处理 (如果抓取失败则不替换; 没有考虑排除重复图片问题)
 	private function img_replace($mat) {
+		// 根据域名排除本站图片
+		$urls = parse_url($mat[0]);
+		if(in_array($urls['host'], $_ENV['_prc_arg']['hosts'])) return $mat[0];
+
 		$file = $this->cms_content_attach->remote_down($mat[1], $_ENV['_prc_arg']);
 		if($file) {
 			return str_replace($mat[1], $file, $mat[0]);

@@ -46,10 +46,6 @@ class cms_content_attach extends model {
 		// php.ini 中的 allow_url_fopen 关闭时不抓取远程图片
 		if(function_exists('ini_get') && !ini_get('allow_url_fopen')) return FALSE;
 
-		// 根据域名排除
-		$uris = parse_url($uri);
-		if(in_array($uris['host'], $conf['hosts'])) return FALSE;
-
 		// 获取请求头
 		try{ $heads = get_headers($uri, 1); }catch(Exception $e) { return FALSE; }
 
