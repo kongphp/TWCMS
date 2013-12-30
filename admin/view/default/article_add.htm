@@ -175,6 +175,8 @@ twAjax.submit("#article_add:first", function(json){
 		$("#okGo").click(function(){
 			$("#article_add:first")[0].reset(); //重置表单
 			editor_api.content.set("");
+			$("#tw_pic_val").val("");
+			$("#tw_pic_img").attr("src", "../static/img/nopic.gif");
 			$("#cid").val(cid);
 			twAjax.close();
 		});
