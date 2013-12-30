@@ -3,7 +3,7 @@
 	<div class="head">
 		<dl>
 			<input id="add" type="button" value="发布" class="but1" />
-			<dt style="display:inline;float:left">{$cidhtml}</dt>
+			<dt style="display:inline;float:left;margin-right:8px">{$cidhtml}</dt>
 		</dl>
 	</div>
 
@@ -63,6 +63,27 @@ $("#add").click(function(){
 $("#cid").change(function(){
 	location.href = "?u=article-index-cid-"+ $(this).val();
 });
+
+//全选
+$("#check_all").click(function(){
+	var bool = $(this)[0].checked;
+	var len = $("input[name='chk_row']").length;
+	for(var i=0; i<len; i++) {
+		$("input[name='chk_row']").eq(i)[0].checked = bool;
+	}
+	bool ? buttonDis() : $("#batch_del").remove();
+});
+
+//是否显示删除按钮
+$("input[name='chk_row']").click(function(){
+	var len = $("input[name='chk_row']:checked").length;
+	len ? buttonDis() : $("#batch_del").remove();
+});
+
+//显示删除按钮
+function buttonDis() {
+	if(!$("#batch_del").length) $(".head>dl").append('<input id="batch_del" onclick="batch_del()" type="button" value="批量删除" class="but1" />');
+}
 
 //删除
 function del(id, cid) {
