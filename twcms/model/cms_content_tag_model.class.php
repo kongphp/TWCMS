@@ -35,7 +35,7 @@ class cms_content_tag extends model {
 		}
 	}
 
-	// 关联删除 (需要删除三个表: cms_content_tag cms_content_tag_data cms_content)
+	// 标签关联删除 (需要删除三个表: cms_content_tag cms_content_tag_data cms_content)
 	public function xdelete($table, $tagid) {
 		$this->table = 'cms_'.$table.'_tag';
 		$this->cms_content->table = 'cms_'.$table;
