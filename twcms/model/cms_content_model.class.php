@@ -52,4 +52,63 @@ class cms_content extends model {
 			return $this->find_fetch($where, array($orderby => $orderway), $start, $limit);
 		}
 	}
+
+	// 内容关联删除
+	public function xdelete($table, $cid, $id) {
+		// hook cms_content_model_xdelete_before.php
+
+		$this->table = 'cms_'.$table;
+		$this->cms_content_data->table = 'cms_'.$table.'_data';
+		$this->cms_content_comment->table = 'cms_'.$table.'_comment';
+		$this->cms_content_comment_sort->table = 'cms_'.$table.'_comment_sort';
+		$this->cms_content_attach->table = 'cms_'.$table.'_attach';
+		$this->cms_content_flag->table = 'cms_'.$table.'_flag';
+		$this->cms_content_tag->table = 'cms_'.$table.'_tag';
+		$this->cms_content_tag_data->table = 'cms_'.$table.'_tag_data';
+		$this->cms_content_views->table = 'cms_'.$table.'_views';
+
+		// 内容读取
+		$data = $this->read($id);
+		if(empty($data)) return '内容不存在！';
+
+		// 删除评论
+		$this->cms_content_comment->find_delete(array('id'=>$id));
+		$this->cms_content_comment_sort->delete($id);
+
+		// 删除附件
+		$attach_arr = $this->cms_content_attach->find_fetch(array('id'=>$id));
+		$updir = TWCMS_PATH.'upload/'.$table.'/';
+		foreach($attach_arr as $v) {
+			$file = $updir.$v['filepath'];
+			$thumb = image::thumb_name($file);
+			try{
+				is_file($file) && unlink($file);
+				is_file($thumb) && unlink($thumb);
+			}catch(Exception $e) {}
+			$this->cms_content_attach->delete($aid);
+		}
+
+		// 更新标签表
+		if(!empty($data['tags'])) {
+			$tags_arr = _json_decode($data['tags']);
+			foreach($tags_arr as $tagid => $name) {
+				$this->cms_content_tag_data->delete($tagid, $id);
+				$tagdata = $this->cms_content_tag->read($tagid);
+				if($tagdata['count'] > 0) $this->cms_content_tag->update(array('tagid'=>$tagid, 'count' => --$tagdata['count']));
+			}
+		}
+
+		// 更新分类表
+		$categorys = $this->category->read($cid);
+		if(empty($categorys)) return '读取分类表出错！';
+		if($categorys['count'] > 0) {
+			if(!$this->category->update(array('cid'=>$cid, 'count'=>--$categorys['count']))) return '写入内容表出错！';
+		}
+
+		// 删除内容
+		$this->cms_content_views->delete($id);
+		$this->cms_content_flag->find_delete(array('id'=>$id));
+		$ret = $this->delete($id);
+		return $ret ? '' : '删除失败！';
+	}
 }
