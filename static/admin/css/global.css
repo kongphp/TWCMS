@@ -175,6 +175,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .contadd #imgs{display:none}
 .contadd .w98{width:98%}
 .contadd .tl .th{width:50px}
+.contadd .addition{border:1px solid #D4D4D4;border-radius:3px;background:#FCF8E3;margin-top:10px;width:98%;padding:5px}
 
 /*工具*/
 .marginbot{margin:8px}
