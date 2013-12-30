@@ -244,7 +244,7 @@ class article_control extends admin_control {
 		}
 	}
 
-	// 文章删除
+	// 删除文章
 	public function del() {
 		// hook admin_article_control_del_before.php
 
@@ -261,6 +261,28 @@ class article_control extends admin_control {
 			E(1, $err);
 		}else{
 			E(0, '删除成功！');
+		}
+	}
+
+	// 批量删除文章
+	public function batch_del() {
+		// hook admin_article_control_batch_del_before.php
+
+		$id_arr = R('id_arr', 'P');
+		if(!empty($id_arr) && is_array($id_arr)) {
+			$err_num = 0;
+			foreach($id_arr as $v) {
+				$err = $this->cms_content->xdelete('article', $v[0], $v[1]);
+				if($err) $err_num++;
+			}
+
+			if($err_num) {
+				E(1, $err_num.' 篇文章删除失败！');
+			}else{
+				E(0, '删除成功！');
+			}
+		}else{
+			E(1, '参数不能为空！');
 		}
 	}
 

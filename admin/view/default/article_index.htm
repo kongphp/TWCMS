@@ -36,7 +36,7 @@
 					if($v['flagstr']) $v['flagstr'] = '<font color="BC0B0B">'.$v['flagstr'].'</font>';
 				{/php}
 				<tr class="li">
-					<td class="col"><input type="checkbox" name="chk_row" value="{$v[id]}"></td>
+					<td class="col"><input type="checkbox" name="chk_row" _id="{$v[id]}" _cid="{$v[cid]}"></td>
 					<td class="col">{$v[title]}{$v[flagstr]}</td>
 					<td class="col">{$v['author']}</td>
 					<td class="col">{$v[comments]}</td>
@@ -95,6 +95,23 @@ function del(id, cid) {
 	});
 }
 
+//批量删除
+function batch_del() {
+	twAjax.confirm("删除不可恢复，确定删除？", function(){
+		var id_arr = {};
+		var len = $("input[name='chk_row']").length;
+		for(var i=0; i<len; i++) {
+			var obj = $("input[name='chk_row']").eq(i);
+			if(obj[0].checked) {
+				id_arr[i] = [obj.attr("_id"), obj.attr("_cid")];
+			}
+		}
+		twAjax.postd("?u=article-batch_del-ajax-1", {"id_arr":id_arr}, function(data){
+			twAjax.alert(data);
+			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
 </script>
 </body>
 </html>
