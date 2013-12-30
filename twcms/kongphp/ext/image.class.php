@@ -217,3 +217,13 @@ class image{
 		return $im_src;
 	}
 }
+
+/*
+用法：
+image::thumb('img/1.jpg', 'img/1_1.jpg', 120, 120, 1);
+image::thumb('img/1.jpg', 'img/1_2.jpg', 120, 120, 2);
+image::thumb('img/1.jpg', 'img/1_3.jpg', 120, 120, 3);
+
+image::watermark('img/2.gif', 'img/water.gif', 'img/2_new.gif', 9, 80);
+image::watermark('img/2.gif', 'img/water.gif', null, 9, 80);
+*/
