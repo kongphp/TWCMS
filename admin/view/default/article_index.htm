@@ -21,9 +21,23 @@
 				</tr>
 
 				{loop:$cms_article_arr $v}
+				{php}
+					$v['flagstr'] = '';
+					if(!empty($v['imagenum'])) {
+						$v['flagstr'] .= ' [图片]';
+					}
+					if(!empty($v['flags'])) {
+						$flags = explode(',', $v['flags']);
+						$flag_arr = array(1=>'推荐', 2=>'热点', 3=>'头条', 4=>'精华', 5=>'幻灯');
+						foreach($flags as $flag) {
+							$v['flagstr'] .= ' ['.$flag_arr[$flag].']';
+						}
+					}
+					if($v['flagstr']) $v['flagstr'] = '<font color="BC0B0B">'.$v['flagstr'].'</font>';
+				{/php}
 				<tr class="li">
 					<td class="col"><input type="checkbox" name="chk_row" value="{$v[id]}"></td>
-					<td class="col">{$v[title]}</td>
+					<td class="col">{$v[title]}{$v[flagstr]}</td>
 					<td class="col">{$v['author']}</td>
 					<td class="col">{$v[comments]}</td>
 					<td class="col">{php} echo date('Y-m-d H:i:s', $v['dateline']);{/php}</td>
