@@ -26,19 +26,22 @@ class category_control extends admin_control {
 	// 写入分类 (包括添加和编辑)
 	public function set() {
 		if(!empty($_POST)) {
-			$post['cid'] = intval(R('cid', 'P'));
-			$post['mid'] = intval(R('mid', 'P'));
-			$post['type'] = intval(R('type', 'P'));
-			$post['upid'] = intval(R('upid', 'P'));
-			$post['name'] = trim(strip_tags(R('name', 'P')));
-			$post['alias'] = trim(R('alias', 'P'));
-			$post['intro'] = trim(R('intro', 'P'));
-			$post['orderby'] = intval(R('orderby', 'P'));
-			$post['seo_title'] = trim(strip_tags(R('seo_title', 'P')));
-			$post['seo_keywords'] = trim(strip_tags(R('seo_keywords', 'P')));
-			$post['seo_description'] = trim(strip_tags(R('seo_description', 'P')));
-			$post['cate_tpl'] = trim(strip_tags(R('cate_tpl', 'P')));
-			$post['show_tpl'] = trim(strip_tags(R('show_tpl', 'P')));
+			$post = array(
+				'cid' => intval(R('cid', 'P')),
+				'mid' =>  intval(R('mid', 'P')),
+				'type' => intval(R('type', 'P')),
+				'upid' => intval(R('upid', 'P')),
+				'name' => trim(strip_tags(R('name', 'P'))),
+				'alias' => trim(R('alias', 'P')),
+				'intro' => trim(strip_tags(R('intro', 'P'))),
+				'cate_tpl' => trim(strip_tags(R('cate_tpl', 'P'))),
+				'show_tpl' => trim(strip_tags(R('show_tpl', 'P'))),
+				'count' => 0,
+				'orderby' => intval(R('orderby', 'P')),
+				'seo_title' => trim(strip_tags(R('seo_title', 'P'))),
+				'seo_keywords' => trim(strip_tags(R('seo_keywords', 'P'))),
+				'seo_description' => trim(strip_tags(R('seo_description', 'P'))),
+			);
 
 			$category = &$this->category;
 
@@ -61,8 +64,8 @@ class category_control extends admin_control {
 
 				// 单页时
 				if($post['mid'] == 1) {
-					$data = array('content' => R('page_content', 'P'));
-					if(!$this->cms_page->set($maxid, $data)) {
+					$pagedata = array('content' => R('page_content', 'P'));
+					if(!$this->cms_page->set($maxid, $pagedata)) {
 						E(1, '写入单页数据表出错');
 					}
 				}
@@ -74,18 +77,14 @@ class category_control extends admin_control {
 					E(1, $err['msg'], $err['name']);
 				}
 
-				// 表单数据和数据库数据相同则不修改
-				foreach($post as $k=>$v) {
-					if(in_array($k, array('cid', 'mid'))) continue;
-					if($v == $data[$k]) unset($post[$k]);
-				}
-
-				// 检查别名是否被使用
-				if(isset($post['alias']) && $err = $category->check_alias($post['alias'])) {
+				// 别名被修改过才检查是否被使用
+				if($post['alias'] != $data['alias'] && $err = $category->check_alias($post['alias'])) {
 					E(1, $err['msg'], $err['name']);
 				}
 
-				if($post && !$category->update($post)) {
+				// 这里赋值，是为了开启缓存后，编辑时更新缓存
+				$post['count'] = $data['count'];
+				if(!$category->update($post)) {
 					E(1, '写入分类数据表出错');
 				}
 
@@ -96,8 +95,8 @@ class category_control extends admin_control {
 
 				// 单页时
 				if($post['mid'] == 1) {
-					$data = array('content' => R('page_content', 'P'));
-					if(!$this->cms_page->set($post['cid'], $data)) {
+					$pagedata = array('content' => R('page_content', 'P'));
+					if(!$this->cms_page->set($post['cid'], $pagedata)) {
 						E(1, '写入单页数据表出错');
 					}
 				}
