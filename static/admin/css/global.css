@@ -184,7 +184,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 /*dialog*/
 #twdialog{position:fixed;top:0;left:0;z-index:1001;width:0;height:0;display:none}
 #twdialog #twoverlay{position:absolute;top:0;left:0;width:100%;height:100%;background:#aaa;filter:Alpha(opacity=30);opacity:0.3}
-#twdialog #twbox{width:500px;height:300px;background:#fff;border:1px solid #2C82FC;border-radius:4px;position:absolute;top:0;left:0}
+#twdialog #twdialogbox{width:500px;height:300px;background:#fff;border:1px solid #2C82FC;border-radius:4px;position:absolute;top:0;left:0}
 #twdialog_title{height:30px;line-height:30px;border-bottom:1px solid #2C82FC;border-radius:4px 4px 0 0;padding:0 5px 0 10px;cursor:move}
 #twdialog_title span{float:left;display:inline;font-weight:bold;font-size:13px;color:#222}
 #twdialog_title a{float:right;display:inline;margin-top:5px;text-indent:-99px;width:21px;height:20px;overflow:hidden;background:url(../img/dialog.gif) -21px 0 no-repeat}

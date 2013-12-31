@@ -187,9 +187,9 @@ $.twDialog = function(options) {
 	var o = $.extend(defaults, options);
 
 	//init
-	$("body").append('<div id="twdialog"><div id="twbox"><div id="twdialog_title"><span></span><a href="javascript:;">close</a></div><div id="twdialog_content"><div style="padding:8px">玩命加载中...</div></div><div id="twdialog_button"><input type="button" value="确定" class="but1 ok"><input type="button" value="取消" class="but1 close"></div></div></div>');
+	$("body").append('<div id="twdialog"><div id="twdialogbox"><div id="twdialog_title"><span></span><a href="javascript:;">close</a></div><div id="twdialog_content"><div style="padding:8px">玩命加载中...</div></div><div id="twdialog_button"><input type="button" value="确定" class="but1 ok"><input type="button" value="取消" class="but1 close"></div></div></div>');
 
-	objd = $("#twbox");
+	objd = $("#twdialogbox");
 	if(o.content) $("#twdialog_content").html(o.content);
 	$("#twdialog_title span").html(o.title);
 	if(o.open) { $("#twdialog").show(); }else { $("#twdialog").hide(); }
@@ -260,7 +260,7 @@ $.twDialog = function(options) {
 	});
 
 	var resize_position = function() {
-		var obj=$("#twbox"), p=obj.position(), objW=obj.width(), objH=obj.height(), bodyW=document.documentElement.clientWidth, bodyH=document.documentElement.clientHeight;
+		var obj=$("#twdialogbox"), p=obj.position(), objW=obj.width(), objH=obj.height(), bodyW=document.documentElement.clientWidth, bodyH=document.documentElement.clientHeight;
 		$("#twoverlay").css({"width":bodyW, "height":bodyH});
 		if(p.left+objW+2 > bodyW) obj.css("left", Math.max(bodyW-objW-2, 0));
 		if(p.top+objH+2 > bodyH) obj.css("top", Math.max(bodyH-objH-2, 0));
