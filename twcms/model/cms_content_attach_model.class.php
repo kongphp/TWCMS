@@ -85,6 +85,7 @@ class cms_content_attach extends model {
 			$filepath = $dir.date('His').uniqid().random(6, 3).'.'.$fileExt;
 			if(!file_put_contents($conf['upDir'].$filepath, $img)) return FALSE;
 
+			// 记录到数据库
 			$data = array(
 				'cid' => 0,
 				'uid' => $conf['uid'],
