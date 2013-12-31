@@ -107,24 +107,26 @@ class tag_control extends admin_control {
 		$this->cms_content_tag_data->table = 'cms_'.$table.'_tag_data';
 
 		$data = $this->cms_content_tag->read($tagid);
-		$data['name'] = $name;
-		$data['content'] = $content;
 
 		// 修改 cms_content 表的内容
-		$list_arr = $this->cms_content_tag_data->find_fetch(array('tagid'=>$tagid));
-		foreach($list_arr as $v) {
-			$data2 = $this->cms_content->read($v['id']);
-			if(empty($data2)) return '读取内容表出错！';
+		if($data['name'] != $name) {
+			$list_arr = $this->cms_content_tag_data->find_fetch(array('tagid'=>$tagid));
+			foreach($list_arr as $v) {
+				$data2 = $this->cms_content->read($v['id']);
+				if(empty($data2)) return '读取内容表出错！';
 
-			$row = _json_decode($data2['tags']);
-			$row[$tagid] = $name;
-			$data2['tags'] = _json_encode($row);
+				$row = _json_decode($data2['tags']);
+				$row[$tagid] = $name;
+				$data2['tags'] = _json_encode($row);
 
-			if(!$this->cms_content->update($data2)) return '写入内容表出错！';
+				if(!$this->cms_content->update($data2)) return '写入内容表出错！';
+			}
 		}
 
 		// hook admin_tag_control_edit_after.php
 
+		$data['name'] = $name;
+		$data['content'] = $content;
 		if($this->cms_content_tag->update($data)) {
 			E(0, '编辑成功！');
 		}else{

@@ -102,7 +102,6 @@ function batch_del() {
 //对话框
 function twDialog() {
 	$.twDialog({content:$("#edit_code").html(), resizable:true, open:true, modal:true, width:900, height:280, minW:500, minH:280});
-	$(".twdialog_title a,.twdialog_button .close").click(function(){ $.twDialog("remove"); });
 }
 
 //添加
@@ -110,7 +109,7 @@ function add() {
 	twDialog();
 
 	//提交
-	$(".twdialog_button .ok").click(function(){
+	$("#twdialog_button>.ok").click(function(){
 		var name = $("#t_name").val();
 		var content = $("#t_content").val();
 		twAjax.postd("?u=tag-add-ajax-1", {"mid":_mid, "name":name, "content":content}, function(data){
@@ -134,7 +133,7 @@ function edit(tagid) {
 	});
 
 	//提交
-	$(".twdialog_button .ok").click(function(){
+	$("#twdialog_button>.ok").click(function(){
 		var name = $("#t_name").val();
 		var content = $("#t_content").val();
 		twAjax.postd("?u=tag-edit-ajax-1", {"mid":_mid, "tagid":tagid, "name":name, "content":content}, function(data){
