@@ -181,7 +181,8 @@ $.twDialog = function(options) {
 		left:"center",
 		zIndex:199,
 		minW:300,
-		minH:150
+		minH:150,
+		remove:true
 	};
 	var o = $.extend(defaults, options);
 
@@ -224,7 +225,6 @@ $.twDialog = function(options) {
 		if(tval) tval = null;
 	});
 
-	function _close() { $("#twdialog").hide(); }
 	function _setH() { $("#twdialog_content").css("height", objd.height()-$("#twdialog_title").height()-$("#twdialog_button").height()-7); }
 	function _n(e) { top=e.pageY-(dy-sy); newH = dy-top+objH; if(newH>o.minH && top>=0) objd.css({"top": top, "height": newH}); _setH(); }
 	function _e(e) { left=e.pageX-(dx-sx); newW=left-sx+objW; if(newW>o.minW && e.pageX<bWidth-(objW-(dx-sx-1))) objd.css({"width": newW}); }
@@ -267,8 +267,10 @@ $.twDialog = function(options) {
 	}
 	$(window).on("resize", resize_position);
 
-	//关闭显示
-	$("#twdialog_title a,#twdialog_button .close").click(_close);
+	//关闭
+	$("#twdialog_title a,#twdialog_button .close").click(function(){
+		if(o.remove) { $.twDialog("remove"); }else{ $.twDialog("close"); }
+	});
 };
 
 //加载JS
