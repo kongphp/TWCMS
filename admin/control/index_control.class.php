@@ -40,21 +40,18 @@ class index_control extends admin_control{
 				exit('{"name":"password", "message":"啊哦，请15分钟之后再试！"}');
 			}
 
-			$users = $user->get_user_by_username($username);
-			if($users && $user->verify_password($password, $users['salt'], $users['password'])) {
+			$data = $user->get_user_by_username($username);
+			if($data && $user->verify_password($password, $data['salt'], $data['password'])) {
 				// 写入 cookie
-				$admauth = str_auth("$users[uid]\t$users[username]\t$users[password]\t$users[groupid]\t$ip", 'ENCODE');
+				$admauth = str_auth("$data[uid]\t$data[username]\t$data[password]\t$data[groupid]\t$ip", 'ENCODE');
 				_setcookie('admauth', $admauth, 0, '', '', false, true);
 
 				// 更新登陆信息
-				$data = array(
-					'uid' => $users['uid'],
-					'loginip' => ip2long($ip),
-					'logindate' => $_ENV['_time'],
-					'lastip' => $users['loginip'],
-					'lastdate' => $users['logindate'],
-					'logins' => intval($users['logins'])+1,
-				);
+				$data['lastip'] = $data['loginip'];
+				$data['lastdate'] = $data['logindate'];
+				$data['loginip'] = ip2long($ip);
+				$data['logindate'] = $_ENV['_time'];
+				$data['logins']++;
 				$user->update($data);
 
 				// 删除密码错误记录
