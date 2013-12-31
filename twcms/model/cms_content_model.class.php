@@ -94,15 +94,17 @@ class cms_content extends model {
 			foreach($tags_arr as $tagid => $name) {
 				$this->cms_content_tag_data->delete($tagid, $id);
 				$tagdata = $this->cms_content_tag->read($tagid);
-				if($tagdata['count'] > 0) $this->cms_content_tag->update(array('tagid'=>$tagid, 'count'=>--$tagdata['count']));
+				$tagdata['count']--;
+				if($tagdata['count'] > 0) $this->cms_content_tag->update($tagdata);
 			}
 		}
 
 		// 更新分类表
-		$categorys = $this->category->read($cid);
-		if(empty($categorys)) return '读取分类表出错！';
-		if($categorys['count'] > 0) {
-			if(!$this->category->update(array('cid'=>$cid, 'count'=>--$categorys['count']))) return '写入内容表出错！';
+		$catedata = $this->category->read($cid);
+		if(empty($catedata)) return '读取分类表出错！';
+		if($catedata['count'] > 0) {
+			$catedata['count']--;
+			if(!$this->category->update($catedata)) return '写入内容表出错！';
 			$this->category->update_cache($cid);
 		}
 
