@@ -165,41 +165,40 @@ window.twAjax = {
 
 // 通王 dialog
 $.twDialog = function(options) {
-	if(options == "open") { $(".twdialog,.twoverlay").show(); return false;
-	}else if(options == "close") { $(".twdialog,.twoverlay").hide(); return false;
-	}else if(options == "remove") { $(".twdialog,.twoverlay").remove(); $(window).off("resize", resize_position); return false;
-	}else if($(".twdialog").length) { alert("已存在一个对话框了，不允许再创建!"); return false; }
+	if(options == "open") { $("#twdialog").show(); return false;
+	}else if(options == "close") { $("#twdialog").hide(); return false;
+	}else if(options == "remove") { $("#twdialog").remove(); $(window).off("resize", resize_position); return false;
+	}else if($("#twdialog").length) { alert("已存在一个对话框了，不允许再创建!"); return false; }
 	var objd, tval, dx, dy, sx, sy, objH, objW, bWidth, bHeight, left, top, maxLeft, maxTop, newH, newW;
 	var defaults = {
 		title:"标题",
 		open:true,
+		modal:true,
 		resizable:true,
 		width:600,
 		height:300,
 		top:"center",
 		left:"center",
 		zIndex:199,
-		modal:true,
 		minW:300,
 		minH:150
 	};
 	var o = $.extend(defaults, options);
 
 	//init
-	$("body").append('<div id="tw_dialog"><div class="twdialog"><div class="twdialog_title"><span></span><a href="javascript:;">close</a></div><div class="twdialog_content"><div style="padding:8px">玩命加载中...</div></div><div class="twdialog_button"><input type="button" value="确定" class="but1 ok"><input type="button" value="取消" class="but1 close"></div></div></div>');
+	$("body").append('<div id="twdialog"><div id="twbox"><div id="twdialog_title"><span></span><a href="javascript:;">close</a></div><div id="twdialog_content"><div style="padding:8px">玩命加载中...</div></div><div id="twdialog_button"><input type="button" value="确定" class="but1 ok"><input type="button" value="取消" class="but1 close"></div></div></div>');
 
-	objd = $(".twdialog");
-	if(o.content) $(".twdialog_content").html(o.content);
-	//$("xxx").replaceAll(".twdialog_content div"); //以前的替换代码
-	$(".twdialog_title span").html(o.title);
+	objd = $("#twbox");
+	if(o.content) $("#twdialog_content").html(o.content);
+	$("#twdialog_title span").html(o.title);
+	if(o.open) { $("#twdialog").show(); }else { $("#twdialog").hide(); }
 	if(o.modal) {
-		$("#tw_dialog").append('<div class="twoverlay"></div>');
-		$(".twoverlay").css({"z-index":o.zIndex-1, "width":document.documentElement.clientWidth, "height":document.documentElement.clientHeight});
+		$("#twdialog").prepend('<div id="twoverlay"></div>');
+		$("#twoverlay").css({"z-index":o.zIndex-1, "width":document.documentElement.clientWidth, "height":document.documentElement.clientHeight});
 	}
-	if(o.open) { objd.show(); }else { $(".twoverlay").hide(); }
 
 	//resizable
-	if(o.resizable) objd.append('<div class="twdialog_resizable_n"></div><div class="twdialog_resizable_e"></div><div class="twdialog_resizable_s"></div><div class="twdialog_resizable_w"></div><div class="twdialog_resizable_nw"></div><div class="twdialog_resizable_ne"></div><div class="twdialog_resizable_sw"></div><div class="twdialog_resizable_se"></div>');
+	if(o.resizable) objd.append('<div id="twdialog_resizable_n"></div><div id="twdialog_resizable_e"></div><div id="twdialog_resizable_s"></div><div id="twdialog_resizable_w"></div><div id="twdialog_resizable_nw"></div><div id="twdialog_resizable_ne"></div><div id="twdialog_resizable_sw"></div><div id="twdialog_resizable_se"></div>');
 
 	//初始位置
 	objd.css({"width":o.width, "height":o.height, "z-index":o.zIndex});
@@ -208,25 +207,25 @@ $.twDialog = function(options) {
 	_setH();
 
 	//触发拖动
-	$(".twdialog_title,.twdialog_resizable_n,.twdialog_resizable_e,.twdialog_resizable_s,.twdialog_resizable_w,.twdialog_resizable_nw,.twdialog_resizable_ne,.twdialog_resizable_sw,.twdialog_resizable_se").mousedown(function(e){
+	$("#twdialog_title,#twdialog_resizable_n,#twdialog_resizable_e,#twdialog_resizable_s,#twdialog_resizable_w,#twdialog_resizable_nw,#twdialog_resizable_ne,#twdialog_resizable_sw,#twdialog_resizable_se").mousedown(function(e){
 		objd = $(this).parent();
-		$("html,body,.twdialog").css("user-select","none");
+		$("html,body,#twdialog").css("user-select","none");
 		document.onselectstart = objd[0].onselectstart = function(){return false};
-		if(!tval) tval = $(this).attr("class");
+		if(!tval) tval = $(this).attr("id");
 		dx=e.pageX,dy=e.pageY,sx=objd.position().left,sy=objd.position().top,objH=objd.height(),objW=objd.width(),bWidth=document.documentElement.clientWidth,bHeight=document.documentElement.clientHeight;
 	});
 
 	//关闭拖动
 	$(document).mouseup(function(){
 		if(objd) {
-			$("html,body,.twdialog").css("user-select","auto");
+			$("html,body,#twdialog").css("user-select","auto");
 			document.onselectstart = objd[0].onselectstart = function(){return true};
 		}
 		if(tval) tval = null;
 	});
 
-	function _close() { $(".twdialog,.twoverlay").hide(); }
-	function _setH() { $(".twdialog_content").css("height", objd.height()-$(".twdialog_title").height()-$(".twdialog_button").height()-7); }
+	function _close() { $("#twdialog").hide(); }
+	function _setH() { $("#twdialog_content").css("height", objd.height()-$("#twdialog_title").height()-$("#twdialog_button").height()-7); }
 	function _n(e) { top=e.pageY-(dy-sy); newH = dy-top+objH; if(newH>o.minH && top>=0) objd.css({"top": top, "height": newH}); _setH(); }
 	function _e(e) { left=e.pageX-(dx-sx); newW=left-sx+objW; if(newW>o.minW && e.pageX<bWidth-(objW-(dx-sx-1))) objd.css({"width": newW}); }
 	function _s(e) { top=e.pageY-(dy-sy); newH=top-sy+objH; if(newH>o.minH && e.pageY<bHeight-(objH-(dy-sy-1))) objd.css({"height": newH}); _setH(); }
@@ -261,15 +260,15 @@ $.twDialog = function(options) {
 	});
 
 	var resize_position = function() {
-		var p=$(".twdialog").position(), obj=$(".twdialog"), objW=obj.width(), objH=obj.height(), bodyW=document.documentElement.clientWidth, bodyH=document.documentElement.clientHeight;
-		$(".twoverlay").css({"width":bodyW, "height":bodyH});
+		var obj=$("#twbox"), p=obj.position(), objW=obj.width(), objH=obj.height(), bodyW=document.documentElement.clientWidth, bodyH=document.documentElement.clientHeight;
+		$("#twoverlay").css({"width":bodyW, "height":bodyH});
 		if(p.left+objW+2 > bodyW) obj.css("left", Math.max(bodyW-objW-2, 0));
 		if(p.top+objH+2 > bodyH) obj.css("top", Math.max(bodyH-objH-2, 0));
 	}
 	$(window).on("resize", resize_position);
 
 	//关闭显示
-	$(".twdialog_title a,.twdialog_button .close").click(_close);
+	$("#twdialog_title a,#twdialog_button .close").click(_close);
 };
 
 //加载JS
