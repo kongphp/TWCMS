@@ -191,9 +191,6 @@ function load_dialog() {
 	$.twDialog("remove");
 	$.twDialog({content:$("#set_dialog").html(), resizable:true, open:true, modal:false, width:900, height:H, minW:700});
 
-	// 增加关闭窗口事件
-	$("#twdialog_title a,#twdialog_button .close").click(remove_dialog);
-
 	// 改变分类模型
 	$("#twdialog [name='mid']").change(function(){
 		var mid = $(this).val();
@@ -209,7 +206,7 @@ function load_dialog() {
 	});
 
 	// 触发提交 (添加 & 编辑)
-	$("#twdialog_button .ok").click(function(){ $("#twdialog form").submit(); });
+	$("#twdialog_button>.ok").click(function(){ $("#twdialog form").submit(); });
 
 	// 拦截表单提交
 	twAjax.submit("#twdialog form", function(data){
