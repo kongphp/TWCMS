@@ -62,7 +62,7 @@ class category extends model {
 	public function check_is_edit($post, $data) {
 		if($post['cid'] == $post['upid']) {
 			$name = 'upid';
-			$msg = '所属频道不能修改为自己';	// 暂时不考虑 upid 不能为自己的下级分类或非频道分类
+			$msg = '所属频道不能修改为自己';	// 暂时不考虑 upid 不能为自己的下级分类或非频道分类 (前端已经限制)
 		}elseif($data['count'] > 0 && $post['mid'] != $data['mid']) {
 			$name = 'mid';
 			$msg = '分类中有内容，不允许修改分类模型，请先清空分类内容';
