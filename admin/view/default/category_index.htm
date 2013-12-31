@@ -124,15 +124,15 @@ $("#add").click(function(){
 
 		// 加载会话框
 		load_dialog();
-		$(".twdialog_title span").html("增加分类");
+		$("#twdialog_title span").html("增加分类");
 
 		// 初始化表单
 		var mid = $("#set_dialog").attr("_mid");
 		var type = $("#set_dialog").attr("_type");
 		var upid = $("#set_dialog").attr("_upid");
 
-		$(".twdialog [name='mid']").val([mid]);
-		$(".twdialog [name='type']").val([type]);
+		$("#twdialog [name='mid']").val([mid]);
+		$("#twdialog [name='type']").val([type]);
 		setFormVal(mid, type);
 
 		// 加载所属频道
@@ -192,33 +192,33 @@ function load_dialog() {
 	$.twDialog({content:$("#set_dialog").html(), resizable:true, open:true, modal:false, width:900, height:H, minW:700});
 
 	// 增加关闭窗口事件
-	$(".twdialog_title a,.twdialog_button .close").click(remove_dialog);
+	$("#twdialog_title a,#twdialog_button .close").click(remove_dialog);
 
 	// 改变分类模型
-	$(".twdialog [name='mid']").change(function(){
+	$("#twdialog [name='mid']").change(function(){
 		var mid = $(this).val();
-		setFormVal(mid, $(".twdialog").attr("type"));
+		setFormVal(mid, $("#twdialog").attr("type"));
 
 		// 加载所属频道
 		loadCategoryUpid(mid);
 	});
 
 	// 改变分类类型
-	$(".twdialog [name='type']").change(function(){
-		setFormVal($(".twdialog").attr("mid"), $(this).val());
+	$("#twdialog [name='type']").change(function(){
+		setFormVal($("#twdialog").attr("mid"), $(this).val());
 	});
 
 	// 触发提交 (添加 & 编辑)
-	$(".twdialog_button .ok").click(function(){ $(".twdialog form").submit(); });
+	$("#twdialog_button .ok").click(function(){ $("#twdialog form").submit(); });
 
 	// 拦截表单提交
-	twAjax.submit(".twdialog form", function(data){
+	twAjax.submit("#twdialog form", function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) {
 			// 增加时记录状态
-			var cid = $(".twdialog [name='cid']").val();
+			var cid = $("#twdialog [name='cid']").val();
 			if(!cid) {
-				var fields = $(".twdialog [name='mid'], .twdialog [name='type'], .twdialog [name='upid']").serializeArray();
+				var fields = $("#twdialog [name='mid'], #twdialog [name='type'], #twdialog [name='upid']").serializeArray();
 				$.each(fields, function(i, field) {
 					if(field.name == "mid") {
 						$("#set_dialog").attr("_mid", field.value);
@@ -244,38 +244,38 @@ function remove_dialog() {
 
 // 设置表单内的值
 function setFormVal(mid, type) {
-	$(".twdialog").attr("mid", mid);
-	$(".twdialog").attr("type", type);
+	$("#twdialog").attr("mid", mid);
+	$("#twdialog").attr("type", type);
 
 	if(mid == 1) {
-		$(".twdialog table tr:eq(1)").hide();
+		$("#twdialog table tr:eq(1)").hide();
 		$("#page_content").parent().parent().show();
-		$(".twdialog [name='show_tpl']").parent().parent().hide();
+		$("#twdialog [name='show_tpl']").parent().parent().hide();
 
 		// 单页时把类型设置为 0
-		$(".twdialog [name='type']").val([0]);
-		$(".twdialog").attr("type", 0);
+		$("#twdialog [name='type']").val([0]);
+		$("#twdialog").attr("type", 0);
 		$("#upid").parent().prev("th").html("上级分类");
 
 		editor_init();
 	}else{
-		$(".twdialog table tr:eq(1)").show();
+		$("#twdialog table tr:eq(1)").show();
 		$("#page_content").parent().parent().hide();
-		$(".twdialog [name='show_tpl']").parent().parent().show();
+		$("#twdialog [name='show_tpl']").parent().parent().show();
 		$("#upid").parent().prev("th").html("所属频道");
 	}
-	$(".twdialog [name='cate_tpl']").parent().prev("th").html(mid == 1 ? "单页模板" : (type == 1 ? "频道模板" : "列表模板"));
+	$("#twdialog [name='cate_tpl']").parent().prev("th").html(mid == 1 ? "单页模板" : (type == 1 ? "频道模板" : "列表模板"));
 
 	// 默认模板设置
-	var edit_mid = $(".twdialog").attr("edit_mid");
-	var edit_type = $(".twdialog").attr("edit_type");
+	var edit_mid = $("#twdialog").attr("edit_mid");
+	var edit_type = $("#twdialog").attr("edit_type");
 	if(!!edit_mid && edit_mid == mid && edit_type == type) {
-		$(".twdialog [name='cate_tpl']").val($(".twdialog [name='cate_tpl']").attr("v"));
-		$(".twdialog [name='show_tpl']").val($(".twdialog [name='show_tpl']").attr("v"));
+		$("#twdialog [name='cate_tpl']").val($("#twdialog [name='cate_tpl']").attr("v"));
+		$("#twdialog [name='show_tpl']").val($("#twdialog [name='show_tpl']").attr("v"));
 	}else{
 		var k = "models-mid-"+mid;
-		$(".twdialog [name='cate_tpl']").val(mid != 1 && type == 1 ? models[k]["index_tpl"] : models[k]["cate_tpl"]);
-		$(".twdialog [name='show_tpl']").val(models[k]["show_tpl"]);
+		$("#twdialog [name='cate_tpl']").val(mid != 1 && type == 1 ? models[k]["index_tpl"] : models[k]["cate_tpl"]);
+		$("#twdialog [name='show_tpl']").val(models[k]["show_tpl"]);
 	}
 }
 
@@ -288,22 +288,22 @@ function edit(cid) {
 
 		// 加载会话框
 		load_dialog();
-		$(".twdialog_title span").html("编辑分类");
+		$("#twdialog_title span").html("编辑分类");
 
 		// 遍历设置表单值
 		for(var v in data) {
-			$(".twdialog [name='"+v+"']").val([data[v]]);
+			$("#twdialog [name='"+v+"']").val([data[v]]);
 		}
 
 		// 如果分类已发布了内容或有下级分类就不允许改变模型和类型
 		if(data.count > 0 || data.son_cate) {
-			$(".twdialog [name='mid']").each(function() {
+			$("#twdialog [name='mid']").each(function() {
 				if($(this).val() != data.mid) {
 					$(this).attr("disabled", "disabled");
 				}
 			});
 
-			$(".twdialog [name='type']").each(function() {
+			$("#twdialog [name='type']").each(function() {
 				if($(this).val() != data.type) {
 					$(this).attr("disabled", "disabled");
 				}
@@ -311,12 +311,12 @@ function edit(cid) {
 		}
 
 		// 记录模板设置
-		$(".twdialog [name='cate_tpl']").attr("v", data.cate_tpl);
-		$(".twdialog [name='show_tpl']").attr("v", data.show_tpl);
+		$("#twdialog [name='cate_tpl']").attr("v", data.cate_tpl);
+		$("#twdialog [name='show_tpl']").attr("v", data.show_tpl);
 
 		// 设置表单内的值
-		$(".twdialog").attr("edit_mid", data.mid);
-		$(".twdialog").attr("edit_type", data.type);
+		$("#twdialog").attr("edit_mid", data.mid);
+		$("#twdialog").attr("edit_type", data.type);
 		setFormVal(data.mid, data.type);
 
 		// 加载所属频道
