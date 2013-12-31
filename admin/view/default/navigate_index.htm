@@ -23,7 +23,7 @@
 .case_type a:visited{color:#fff}
 .case_type a:hover{background:#0D6EA7}
 .case_type a.on{background:#0B6092}
-.twdialog_content{_overflow-x:hidden}
+#twdialog_content{_overflow-x:hidden}
 .category .col div{_margin-top:8px}
 </style>
 
@@ -264,11 +264,8 @@ $("#add").click(function(){
 	window.addHeight = Math.max(350, document.documentElement.clientHeight-30);
 	$.twDialog({content:$("#add_link").html(), resizable:true, open:true, modal:true, width:600, height:addHeight, minW:500});
 
-	//关闭
-	$(".twdialog_title a,.twdialog_button .close").click(function(){ $.twDialog("remove"); });
-
 	//提交
-	$(".twdialog_button .ok").click(function(){
+	$("#twdialog_button>.ok").click(function(){
 		if(window.setType == 0) {
 			//添加分类
 			var cate = [];
@@ -393,8 +390,8 @@ function set_type(type) {
 		h = 275;
 		window.setType = 1;
 	}
-	$(".twdialog").css("height", h);
-	$(".twdialog_content").css("height", h-64);
+	$("#twbox").css("height", h);
+	$("#twdialog_content").css("height", h-64);
 	$(".case_type>a").removeAttr("class");
 	$(".case_type>a").eq(type).addClass("on");
 }
