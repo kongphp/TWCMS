@@ -55,13 +55,14 @@ class cms_content_comment extends model {
 		$data = $this->cms_content->read($id);
 		if(empty($data)) return '读取内容表出错！';
 		if($data['comments'] > 0) {
-			if(!$this->cms_content->update(array('id'=>$id, 'comments'=>--$data['comments']))) return '写入内容表出错！';
+			$data['comments']--;
+			if(!$this->cms_content->update($data)) return '写入内容表出错！';
 		}
 
 		$data2 = $this->cms_content_comment_sort->read($id);
 		if($data2) {
-			$ret = $this->cms_content_comment_sort->update(array('id' => $id, 'comments' => $data['comments']));
-			if(!$ret) return '写入评论排序表出错！';
+			$data2['comments'] = $data['comments'];
+			if(!$this->cms_content_comment_sort->update($data2)) return '写入评论排序表出错！';
 		}
 
 		return $this->delete($commentid) ? '' : '删除失败！';
