@@ -31,14 +31,14 @@
 					{loop:$mod_name $v $k}<label><input class="mr3" name="mid" type="radio" value="{$k}">{$v}</label>{/loop}
 				</td>
 			</tr>
-			<tr>
+			<tr id="i_type">
 				<th class="th">分类类型</th>
 				<td class="col">
 					<label title="可发表内容，下级不可建分类"><input class="mr3" name="type" type="radio" value="0">列表</label>
 					<label title="不可发表内容，下级可建分类"><input class="mr3" name="type" type="radio" value="1">频道</label>
 				</td>
 			</tr>
-			<tr>
+			<tr id="i_upid">
 				<th class="th">所属频道</th>
 				<td class="col"><select name="upid" id="upid"><option value="0">无</option></select></td>
 			</tr>
@@ -54,7 +54,7 @@
 				<th class="th">分类描述</th>
 				<td class="col"><input name="intro" type="text" class="inp w4" /></td>
 			</tr>
-			<tr style="display:none">
+			<tr id="i_page_content" style="display:none">
 				<th class="th">单页内容</th>
 				<td class="col"><textarea id="page_content" name="page_content" class="inp w3 w4"></textarea></td>
 			</tr>
@@ -78,13 +78,13 @@
 			</tr>
 
 			<tr><td colspan="2"><div class="tb_t">模板设置</div></td></tr>
-			<tr>
+			<tr id="i_cate_tpl">
 				<th class="th">列表模板</th>
-				<td class="col"><input class="inp w4" type="text" name="cate_tpl" /></td>
+				<td class="col"><input class="inp w4" type="text" name="cate_tpl" id="cate_tpl" /></td>
 			</tr>
-			<tr>
+			<tr id="i_show_tpl">
 				<th class="th">内容模板</th>
-				<td class="col"><input class="inp w4" type="text" name="show_tpl" /></td>
+				<td class="col"><input class="inp w4" type="text" name="show_tpl" id="show_tpl" /></td>
 			</tr>
 
 			{hook:admin_category_index_set_dialog_after.htm}
@@ -131,8 +131,8 @@ $("#add").click(function(){
 		var type = $("#set_dialog").attr("_type");
 		var upid = $("#set_dialog").attr("_upid");
 
-		$("#twdialog [name='mid']").val([mid]);
-		$("#twdialog [name='type']").val([type]);
+		$("#twdialog input[name='mid']").val([mid]);
+		$("#twdialog input[name='type']").val([type]);
 		setFormVal(mid, type);
 
 		// 加载所属频道
@@ -170,7 +170,7 @@ function load_event() {
 	);
 
 	// 快速修改排序
-	$(".cat_c_3 [name='orderby']").focusin(function() {
+	$(".cat_c_3 input[name='orderby']").focusin(function() {
 		$(this).attr("v", $(this).val());
 	}).focusout(function() {
 		var orderby = $(this).val();
@@ -192,7 +192,7 @@ function load_dialog() {
 	$.twDialog({content:$("#set_dialog").html(), resizable:true, open:true, modal:false, width:900, height:H, minW:700});
 
 	// 改变分类模型
-	$("#twdialog [name='mid']").change(function(){
+	$("#twdialog input[name='mid']").change(function(){
 		var mid = $(this).val();
 		setFormVal(mid, $("#twdialog").attr("type"));
 
@@ -201,7 +201,7 @@ function load_dialog() {
 	});
 
 	// 改变分类类型
-	$("#twdialog [name='type']").change(function(){
+	$("#twdialog input[name='type']").change(function(){
 		setFormVal($("#twdialog").attr("mid"), $(this).val());
 	});
 
@@ -213,9 +213,9 @@ function load_dialog() {
 		twAjax.alert(data);
 		if(window.twData.err==0) {
 			// 增加时记录状态
-			var cid = $("#twdialog [name='cid']").val();
+			var cid = $("#twdialog input[name='cid']").val();
 			if(!cid) {
-				var fields = $("#twdialog [name='mid'], #twdialog [name='type'], #twdialog [name='upid']").serializeArray();
+				var fields = $("#twdialog input[name='mid'], #twdialog input[name='type'], #twdialog input[name='upid']").serializeArray();
 				$.each(fields, function(i, field) {
 					if(field.name == "mid") {
 						$("#set_dialog").attr("_mid", field.value);
@@ -245,34 +245,34 @@ function setFormVal(mid, type) {
 	$("#twdialog").attr("type", type);
 
 	if(mid == 1) {
-		$("#twdialog table tr:eq(1)").hide();
-		$("#page_content").parent().parent().show();
-		$("#twdialog [name='show_tpl']").parent().parent().hide();
+		$("#i_type").hide();
+		$("#i_page_content").show();
+		$("#i_show_tpl").hide();
+		$("#i_upid>th").html("上级分类");
 
 		// 单页时把类型设置为 0
-		$("#twdialog [name='type']").val([0]);
+		$("#twdialog input[name='type']").val([0]);
 		$("#twdialog").attr("type", 0);
-		$("#upid").parent().prev("th").html("上级分类");
 
 		editor_init();
 	}else{
-		$("#twdialog table tr:eq(1)").show();
-		$("#page_content").parent().parent().hide();
-		$("#twdialog [name='show_tpl']").parent().parent().show();
-		$("#upid").parent().prev("th").html("所属频道");
+		$("#i_type").show();
+		$("#i_page_content").hide();
+		$("#i_show_tpl").show();
+		$("#i_upid>th").html("所属频道");
 	}
-	$("#twdialog [name='cate_tpl']").parent().prev("th").html(mid == 1 ? "单页模板" : (type == 1 ? "频道模板" : "列表模板"));
+	$("#i_cate_tpl>th").html(mid == 1 ? "单页模板" : (type == 1 ? "频道模板" : "列表模板"));
 
 	// 默认模板设置
 	var edit_mid = $("#twdialog").attr("edit_mid");
 	var edit_type = $("#twdialog").attr("edit_type");
 	if(!!edit_mid && edit_mid == mid && edit_type == type) {
-		$("#twdialog [name='cate_tpl']").val($("#twdialog [name='cate_tpl']").attr("v"));
-		$("#twdialog [name='show_tpl']").val($("#twdialog [name='show_tpl']").attr("v"));
+		$("#cate_tpl").val($("#cate_tpl").attr("v"));
+		$("#show_tpl").val($("#show_tpl").attr("v"));
 	}else{
 		var k = "models-mid-"+mid;
-		$("#twdialog [name='cate_tpl']").val(mid != 1 && type == 1 ? models[k]["index_tpl"] : models[k]["cate_tpl"]);
-		$("#twdialog [name='show_tpl']").val(models[k]["show_tpl"]);
+		$("#cate_tpl").val(mid != 1 && type == 1 ? models[k]["index_tpl"] : models[k]["cate_tpl"]);
+		$("#show_tpl").val(models[k]["show_tpl"]);
 	}
 }
 
@@ -294,13 +294,13 @@ function edit(cid) {
 
 		// 如果分类已发布了内容或有下级分类就不允许改变模型和类型
 		if(data.count > 0 || data.son_cate) {
-			$("#twdialog [name='mid']").each(function() {
+			$("#twdialog input[name='mid']").each(function() {
 				if($(this).val() != data.mid) {
 					$(this).attr("disabled", "disabled");
 				}
 			});
 
-			$("#twdialog [name='type']").each(function() {
+			$("#twdialog input[name='type']").each(function() {
 				if($(this).val() != data.type) {
 					$(this).attr("disabled", "disabled");
 				}
@@ -308,8 +308,8 @@ function edit(cid) {
 		}
 
 		// 记录模板设置
-		$("#twdialog [name='cate_tpl']").attr("v", data.cate_tpl);
-		$("#twdialog [name='show_tpl']").attr("v", data.show_tpl);
+		$("#cate_tpl").attr("v", data.cate_tpl);
+		$("#show_tpl").attr("v", data.show_tpl);
 
 		// 设置表单内的值
 		$("#twdialog").attr("edit_mid", data.mid);
