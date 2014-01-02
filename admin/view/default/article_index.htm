@@ -57,7 +57,9 @@
 </div>
 <script type="text/javascript">
 $("#add").click(function(){
-	parent.parent.oneTab("?u=article-add", true);
+	var cid = $("#cid").val();
+	var s = cid > 0 ? "-cid-"+cid : "";
+	parent.parent.oneTab("?u=article-add"+s, true);
 });
 
 $("#cid").change(function(){
