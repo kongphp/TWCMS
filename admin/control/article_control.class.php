@@ -209,15 +209,15 @@ class article_control extends admin_control {
 			// 写入内容标签表
 			$this->cms_content_tag_data->table = 'cms_'.$table.'_tag_data';
 			$tags_arr2 = array();
-			foreach($tag_set as $v) {
-				$this->cms_content_tag->update($v);
-				$tags_arr2[$v['tagid']] = $v['name'];
-				$this->cms_content_tag_data->set(array($v['tagid'], $id), array('id'=>$id));
+			foreach($tag_set as $tagdata) {
+				$this->cms_content_tag->update($tagdata);
+				$tags_arr2[$tagdata['tagid']] = $tagdata['name'];
+				$this->cms_content_tag_data->set(array($tagdata['tagid'], $id), array('id'=>$id));
 			}
 
 			// 更新标签json到内容表
-			$cms_content2 = array('id'=>$id, 'tags'=>json_encode($tags_arr2));
-			if(!$this->cms_content->update($cms_content2)) {
+			$contdata = array('id'=>$id, 'tags'=>json_encode($tags_arr2));
+			if(!$this->cms_content->update($contdata)) {
 				E(1, '写入标签到内容表出错');
 			}
 

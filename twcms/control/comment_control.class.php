@@ -84,7 +84,7 @@ class comment_control extends control{
 		}
 
 		$data['comments']++;
-		if(!$this->cms_content->set($id, $data)) {
+		if(!$this->cms_content->update($id, $data)) {
 			$this->message(0, '写入内容表出错！');
 		}
 
