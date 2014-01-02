@@ -42,7 +42,7 @@
 					<td class="col">{$v[comments]}</td>
 					<td class="col">{php} echo date('Y-m-d H:i:s', $v['dateline']);{/php}</td>
 					<td class="col">
-						<a class="but3" href="javascript:edit({$v[id]});">编辑</a>
+						<a class="but3" href="javascript:edit({$v[id]}, {$v[cid]});">编辑</a>
 						<a class="but3" href="../index.php?show--cid-{$v[cid]}-id-{$v[id]}" target="_blank">查看</a>
 						<a class="but3 del" href="javascript:del({$v[id]}, {$v[cid]});">删除</a>
 					</td>
@@ -85,6 +85,11 @@ $("input[name='chk_row']").click(function(){
 //显示删除按钮
 function buttonDis() {
 	if(!$("#batch_del").length) $(".head>dl").append('<input id="batch_del" onclick="batch_del()" type="button" value="批量删除" class="but1" />');
+}
+
+//编辑
+function edit(id, cid) {
+	parent.parent.oneTab("?u=article-edit-cid-"+cid+"-id-"+id, true);
 }
 
 //删除
