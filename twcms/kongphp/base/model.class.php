@@ -406,7 +406,14 @@ class model{
 		$arr = (array)$arr;
 		$s = $this->table;
 		foreach($this->pri as $k=>$v) {
-			if(empty($arr[$k])) throw new Exception('非法键名数组: '.var_export($this->pri, true));
+			if(!isset($arr[$k])) {
+				$err = array();
+				foreach($this->pri as $pk=>$pv) {
+					$var = isset($arr[$pk]) ? $arr[$pk] : 'null';
+					$err[] = "'$pv => $var";
+				}
+				throw new Exception('非法键名数组: array('.implode(', ', $err).');');
+			}
 			$s .= "-$v-".$arr[$k];
 		}
 		return $s;
