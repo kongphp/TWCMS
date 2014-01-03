@@ -95,18 +95,15 @@ class article_control extends admin_control {
 				$name = trim($tags_arr[$i]);
 				if($name) {
 					$tagdata = $this->cms_content_tag->find_fetch(array('name'=>$name), array(), 0, 1);
-					if(!$tagdata) {
-						$tagid = $this->cms_content_tag->create(array('name'=>$name, 'count'=>0, 'content'=>''));
-						if(!$tagid) {
-							E(1, '写入标签表出错');
-						}
-						$tagdata = $this->cms_content_tag->get($tagid);
-					}else{
+					if($tagdata) {
 						$tagdata = current($tagdata);
+					}else{
+						$tagid = $this->cms_content_tag->create(array('name'=>$name, 'count'=>0, 'content'=>''));
+						if(!$tagid) E(1, '写入标签表出错');
+						$tagdata = $this->cms_content_tag->get($tagid);
 					}
 
 					$tagdata['count']++;
-
 					$tagdatas[] = $tagdata;
 					$tags[$tagdata['tagid']] = $tagdata['name'];
 				}
@@ -301,18 +298,15 @@ class article_control extends admin_control {
 				$name = trim($tags_arr[$i]);
 				if($name) {
 					$tagdata = $this->cms_content_tag->find_fetch(array('name'=>$name), array(), 0, 1);
-					if(!$tagdata) {
-						$tagid = $this->cms_content_tag->create(array('name'=>$name, 'count'=>0, 'content'=>''));
-						if(!$tagid) {
-							E(1, '写入标签表出错');
-						}
-						$tagdata = $this->cms_content_tag->get($tagid);
-					}else{
+					if($tagdata) {
 						$tagdata = current($tagdata);
+					}else{
+						$tagid = $this->cms_content_tag->create(array('name'=>$name, 'count'=>0, 'content'=>''));
+						if(!$tagid) E(1, '写入标签表出错');
+						$tagdata = $this->cms_content_tag->get($tagid);
 					}
 
 					$tagdata['count']++;
-
 					$tagdatas[] = $tagdata;
 					$tags[$tagdata['tagid']] = $tagdata['name'];
 				}
