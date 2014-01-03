@@ -228,12 +228,14 @@ class article_control extends admin_control {
 
 			$this->cms_content->table = 'cms_'.$table;
 			$this->cms_content_data->table = 'cms_'.$table.'_data';
+			$this->cms_content_views->table = 'cms_'.$table.'_views';
 			$data = $this->cms_content->get($id);
 			$data2 = $this->cms_content_data->get($id);
-			$data = array_merge($data, $data2);
+			$data3 = $this->cms_content_views->get($id);
+			$data = array_merge($data, $data2, $data3);
 			$data['content'] = htmlspecialchars($data['content']);
 			$data['tags'] = implode(',', (array)_json_decode($data['tags']));
-			$data['intro'] = str_replace('<br />', "\n", strip_tags($data['intro']));
+			$data['intro'] = str_replace('<br />', "\n", strip_tags($data['intro'], '<br>'));
 			$data['pic_src'] = empty($data['pic']) ? '../static/img/nopic.gif' : '../upload/'.$table.'/'.$data['pic'];
 			$data['flags'] = explode(',', $data['flags']);
 			$data['dateline'] = date('Y-m-d H:i:s', $data['dateline']);
@@ -281,19 +283,20 @@ class article_control extends admin_control {
 			$tags = trim(R('tags', 'P'), ", \t\n\r\0\x0B");
 			$tags_new = explode(',', $tags);
 			$tags_old = (array)_json_decode($data['tags']);
-			$tags_arr = array();
+			$tags_arr = $tags = array();
 			foreach($tags_new as $tagname) {
 				$key = array_search($tagname, $tags_old);
 				if($key === false) {
 					$tags_arr[] = $tagname;
 				}else{
+					$tags[$key] = $tagname;
 					unset($tags_old[$key]);
 				}
 			}
 
 			// 标签预处理，最多支持5个标签
 			$this->cms_content_tag->table = 'cms_'.$table.'_tag';
-			$tagdatas = $tags = array();
+			$tagdatas = array();
 			for($i=0; isset($tags_arr[$i]) && $i<5; $i++) {
 				$name = trim($tags_arr[$i]);
 				if($name) {
@@ -334,8 +337,8 @@ class article_control extends admin_control {
 			$intro = $this->auto_intro($intro, $contentstr);
 
 			// 写入内容表
-			$data['id'] = $id;
 			$data['cid'] = $cid;
+			$data['id'] = $id;
 			$data['title'] = $title;
 			$data['color'] = trim(R('color', 'P'));
 			$data['alias'] = trim(R('alias', 'P'));
@@ -347,9 +350,7 @@ class article_control extends admin_control {
 			$data['source'] = trim(R('source', 'P'));
 			$data['dateline'] = strtotime(trim(R('dateline', 'P')));
 			$data['lasttime'] = $_ENV['_time'];
-			// $data['ip'] = ip2long($_ENV['_ip']);
 			$data['iscomment'] = intval(R('iscomment', 'P'));
-			// $data['comments'] = 0;
 			$data['imagenum'] = $imagenum;
 			$data['filenum'] = $filenum;
 			$data['flags'] = implode(',', $flags);
