@@ -113,6 +113,7 @@
 </form>
 
 <script type="text/javascript">
+var action = "{$_GET['action']}";
 // 默认无编辑器
 window.editor_init = function(){
 	// 编辑器API
@@ -131,6 +132,12 @@ window.editor_init = function(){
 			}
 		}
 	}
+}
+
+// 自动保存
+window.autoSave = function() {
+	var data = $("#article_add").serialize();
+	twAjax.post("?u=article-auto_save-ajax-1", data, function(html) { });
 }
 
 // 传统上传缩略图
@@ -160,10 +167,15 @@ function setPicBut() {
 
 $(function(){
 	setPicBut();
+
+	// 触发自动保存
+	if(action == "add") {
+		$("#article_add input, #article_add textarea").change(autoSave);
+	}
 });
 
 // 提交表单
-twAjax.submit("#article_add:first", function(json){
+twAjax.submit("#article_add", function(json){
 	var data = toJson(json);
 	if(window.twExit) return; // 用来终止程序执行，显示出错提示
 
@@ -179,7 +191,7 @@ twAjax.submit("#article_add:first", function(json){
 			twAjax.close();
 		});
 		$("#okGo").click(function(){
-			$("#article_add:first")[0].reset(); //重置表单
+			$("#article_add")[0].reset(); //重置表单
 			editor_api.content.set("");
 			$("#tw_pic_val").val("");
 			$("#tw_pic_img").attr("src", "../static/img/nopic.gif");
