@@ -53,15 +53,22 @@ class article_control extends admin_control {
 			$this->_title = '发布文章';
 			$this->_place = '内容 &#187; 内容管理 &#187 发布文章';
 			$cid = intval(R('cid'));
+			$data = $this->kv->get('auto_save_article');
+			if($data) {
+				!empty($data['cid']) && $cid = $data['cid'];
+				$data['pic_src'] = empty($data['pic']) ? '../static/img/nopic.gif' : '../'.$data['pic'];
+				empty($data['author']) && $data['author'] = $this->_user['username'];
+				$data['flags'] = empty($data['flag']) ? array() : $data['flag'];
+			}else{
+				$data['flags'] = array();
+				$data['pic_src'] = '../static/img/nopic.gif';
+				$data['author'] = $this->_user['username'];
+				$data['views'] = 0;
+			}
+			$this->assign('data', $data);
 
 			$cidhtml = $this->category->get_cidhtml_by_mid(2, $cid);
 			$this->assign('cidhtml', $cidhtml);
-
-			$data['flags'] = array();
-			$data['pic_src'] = '../static/img/nopic.gif';
-			$data['author'] = $this->_user['username'];
-			$data['views'] = 0;
-			$this->assign('data', $data);
 
 			$this->display('article_set.htm');
 		}else{
@@ -199,6 +206,8 @@ class article_control extends admin_control {
 			$categorys['count']++;
 			$this->category->update($categorys);
 			$this->category->update_cache($cid);
+
+			$data = $this->kv->delete('auto_save_article');
 
 			// hook admin_article_control_add_after.php
 
@@ -424,11 +433,6 @@ class article_control extends admin_control {
 		}
 	}
 
-	// 自动保存文章
-	public function auto_save() {
-		$this->kv->set('auto_save_article', $_POST) ? E(0, '自动保存成功！') : E(1, '自动保存失败！');
-	}
-
 	// 批量删除文章
 	public function batch_del() {
 		// hook admin_article_control_batch_del_before.php
@@ -449,6 +453,11 @@ class article_control extends admin_control {
 		}else{
 			E(1, '参数不能为空！');
 		}
+	}
+
+	// 自动保存文章
+	public function auto_save() {
+		$this->kv->set('auto_save_article', $_POST) ? E(0, '自动保存成功！') : E(1, '自动保存失败！');
 	}
 
 	// 自动生成摘要

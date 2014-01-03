@@ -113,23 +113,19 @@
 </form>
 
 <script type="text/javascript">
-var action = "{$_GET['action']}";
-// 默认无编辑器
-window.editor_init = function(){
-	// 编辑器API
-	window.editor_api = {
-		// 内容
-		content : {
-			obj : $('#content'),
-			get : function() {
-				return this.obj.val();
-			},
-			set : function(s) {
-				return this.obj.val(s);
-			},
-			focus : function() {
-				return this.obj.focus();
-			}
+// 编辑器API
+window.editor_api = {
+	// 内容
+	content : {
+		obj : $('#content'),
+		get : function() {
+			return this.obj.val();
+		},
+		set : function(s) {
+			return this.obj.val(s);
+		},
+		focus : function() {
+			return this.obj.focus();
 		}
 	}
 }
@@ -138,7 +134,7 @@ window.editor_init = function(){
 window.autoSave = function() {
 	var data = $("#article_add").serialize();
 	twAjax.post("?u=article-auto_save-ajax-1", data, function(html) { });
-}
+};
 
 // 传统上传缩略图
 document.getElementById("tw_pic_upfile").onchange = function() {
@@ -149,6 +145,7 @@ document.getElementById("tw_pic_upfile").onchange = function() {
 function setDisplayPic(path, thumb) {
 	$("#tw_pic_val").val(thumb);
 	$("#tw_pic_img").attr("src", "../"+thumb);
+	autoSave();
 }
 
 // 定位缩略图上传按钮
@@ -169,8 +166,9 @@ $(function(){
 	setPicBut();
 
 	// 触发自动保存
+	var action = "{$_GET['action']}";
 	if(action == "add") {
-		$("#article_add input, #article_add textarea").change(autoSave);
+		$("#article_add input, #article_add textarea, #article_add select").change(autoSave);
 	}
 });
 
