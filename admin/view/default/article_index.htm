@@ -28,7 +28,7 @@
 					}
 					if(!empty($v['flags'])) {
 						$flags = explode(',', $v['flags']);
-						$flag_arr = array(1=>'推荐', 2=>'热点', 3=>'头条', 4=>'精华', 5=>'幻灯');
+						$flag_arr = array(1=>'推荐', 2=>'热点', 3=>'头条', 4=>'精选', 5=>'幻灯');
 						foreach($flags as $flag) {
 							$v['flagstr'] .= ' ['.$flag_arr[$flag].']';
 						}

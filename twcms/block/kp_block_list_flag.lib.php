@@ -3,7 +3,7 @@ defined('KONG_PATH') || exit;
 
 /**
  * 内容属性列表模块
- * @param int flag 属性ID (默认为0)
+ * @param int flag 属性ID (默认为0) [0=图片 1=推荐 2=热点 3=头条 4=精选 5=幻灯]
  * @param int cid 分类ID 如果不填：自动识别 (不推荐用于读取频道分类，影响性能)
  * @param int mid 模型ID (当cid为0时，设置mid才能生效，否则程序自动识别)
  * @param string dateformat 时间格式
