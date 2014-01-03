@@ -1,10 +1,10 @@
 {inc:header.htm}
 <div class="m">
 	<div class="p">
-		<form id="article_add" action="?u=article-add-ajax-1" method="post">
-		<input name="id" type="hidden" />
-		<input name="color" type="hidden" />
-		<input name="seo_title" type="hidden" />
+		<form id="article_add" action="?u=article-{$_GET['action']}-ajax-1" method="post">
+		<input name="id" type="hidden" value="{$data[id]}" />
+		<input name="color" type="hidden" value="{$data[color]}" />
+		<input name="seo_title" type="hidden" value="{$data[seo_title]}" />
 		<div class="cc contadd">
 			<table><tr valign="top">
 				<td><table class="tb tl">
@@ -16,27 +16,31 @@
 					</tr>
 					<tr>
 						<th class="th"><b>*</b>标题</th>
-						<td class="col"><input name="title" type="text" value="" class="inp w98" /></td>
+						<td class="col"><input name="title" type="text" value="{$data[title]}" class="inp w98" /></td>
 					</tr>
 					<tr>
 						<th class="th"><b>*</b>内容</th>
 						<td class="col">
-							<textarea id="content" class="inp w98" name="content"></textarea>
-							<div class="addition"><label title="远程抓取图片比较消耗服务器资源，影响发布速度"><input name="isremote" type="checkbox" value="1"> 远程图片本地化</label></div>
+							<textarea id="content" class="inp w98" name="content">{$data[content]}</textarea>
+							<div class="addition">
+								<label title="远程抓取图片比较消耗服务器资源，影响发布速度">
+									<input name="isremote" type="checkbox" value="1"> 远程图片本地化
+								</label>
+							</div>
 						</td>
 					</tr>
 					<tr>
 						<th class="th">别名</th>
-						<td class="col"><input name="alias" type="text" value="" class="inp w1" /></td>
+						<td class="col"><input name="alias" type="text" value="{$data[alias]}" class="inp w1" /></td>
 					</tr>
 					<tr>
 						<th class="th">标签</th>
-						<td class="col"><input name="tags" type="text" value="" class="inp w1" /></td>
+						<td class="col"><input name="tags" type="text" value="{$data[tags]}" class="inp w1" /></td>
 					</tr>
 					<tr>
 						<th class="th">摘要</th>
 						<td class="col">
-							<textarea name="intro" class="inp w98" style="height:60px" titile="如果不填，程序自动生成摘要" maxlength="255"></textarea>
+							<textarea name="intro" class="inp w98" style="height:60px" titile="如果不填，程序自动生成摘要" maxlength="255">{$data[intro]}</textarea>
 						</td>
 					</tr>
 					<tr>
@@ -48,48 +52,50 @@
 					<tr>
 						<th class="th">缩略图</th>
 						<td class="col">
-							<input id="tw_pic_val" name="pic" type="hidden" />
-							<div class="picimg"><img id="tw_pic_img" src="../static/img/nopic.gif" /></div>
+							<input id="tw_pic_val" name="pic" type="hidden" value="{$data[pic]}" />
+							<div class="picimg"><img id="tw_pic_img" src="{$data[pic_src]}" /></div>
 							<div class="picbut"><a id="tw_pic_but" class="but3" href="javascript:;">上传缩略图</a></div>
 						</td>
 					</tr>
 					<tr>
 						<th class="th">属性</th>
 						<td class="col">
-							<label><input class="mr3" name="flag[]" type="checkbox" value="1">推荐</label>
-							<label><input class="mr3" name="flag[]" type="checkbox" value="2">热点</label>
-							<label><input class="mr3" name="flag[]" type="checkbox" value="3">头条</label>
-							<label><input class="mr3" name="flag[]" type="checkbox" value="4">精华</label>
-							<label><input class="mr3" name="flag[]" type="checkbox" value="5">幻灯</label>
+							<label><input class="mr3" name="flag[]" type="checkbox" value="1"{if:in_array(1,$data[flags])} checked{/if}>推荐</label>
+							<label><input class="mr3" name="flag[]" type="checkbox" value="2"{if:in_array(2,$data[flags])} checked{/if}>热点</label>
+							<label><input class="mr3" name="flag[]" type="checkbox" value="3"{if:in_array(3,$data[flags])} checked{/if}>头条</label>
+							<label><input class="mr3" name="flag[]" type="checkbox" value="4"{if:in_array(4,$data[flags])} checked{/if}>精华</label>
+							<label><input class="mr3" name="flag[]" type="checkbox" value="5"{if:in_array(5,$data[flags])} checked{/if}>幻灯</label>
 						</td>
 					</tr>
 					<tr>
 						<th class="th">作者</th>
-						<td class="col"><input name="author" type="text" value="{$_user['username']}" class="inp w1" /></td>
+						<td class="col"><input name="author" type="text" value="{$data[author]}" class="inp w1" /></td>
 					</tr>
 					<tr>
 						<th class="th">来源</th>
-						<td class="col"><input name="source" type="text" value="" class="inp w1" /></td>
+						<td class="col"><input name="source" type="text" value="{$data[source]}" class="inp w1" /></td>
 					</tr>
+					{if:$_GET['action'] == 'edit'}
 					<tr>
 						<th class="th">发布时间</th>
-						<td class="col"><input name="dateline" type="text" value="{php} echo date('Y-m-d H:i:s', $_ENV['_time']);{/php}" class="inp w1" /></td>
+						<td class="col"><input name="dateline" type="text" value="{$data[dateline]}" class="inp w1" /></td>
 					</tr>
+					{/if}
 					<tr>
 						<th class="th">浏览次数</th>
-						<td class="col"><input name="views" type="text" value="0" class="inp w1" /></td>
+						<td class="col"><input name="views" type="text" value="{$data[views]}" class="inp w1" /></td>
 					</tr>
 					<tr>
 						<th class="th">禁止评论</th>
-						<td class="col"><input name="iscomment" type="checkbox" value="1"></td>
+						<td class="col"><input name="iscomment" type="checkbox" value="1"{if:!empty($data['iscomment'])} checked="checked"{/if}></td>
 					</tr>
 					<tr>
 						<th class="th">SEO关键字</th>
-						<td class="col"><input name="seo_keywords" type="text" value="" class="inp w1" /></td>
+						<td class="col"><input name="seo_keywords" type="text" value="{$data[seo_keywords]}" class="inp w1" /></td>
 					</tr>
 					<tr>
 						<th class="th">SEO描述</th>
-						<td class="col"><input name="seo_description" type="text" value="" class="inp w1" /></td>
+						<td class="col"><input name="seo_description" type="text" value="{$data[seo_description]}" class="inp w1" /></td>
 					</tr>
 				</table></td>
 			</tr></table>
