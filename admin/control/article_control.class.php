@@ -121,7 +121,7 @@ class article_control extends admin_control {
 
 			// 如果缩略图为空，并且内容含有图片，则将第一张图片设置为缩略图
 			if(empty($pic) && $imagenum) {
-				$pic = auto_pic($table, $uid);
+				$pic = $this->auto_pic($table, $uid);
 			}
 
 			// 如果摘要为空，自动生成摘要
@@ -325,7 +325,7 @@ class article_control extends admin_control {
 
 			// 如果缩略图为空，并且内容含有图片，则将第一张图片设置为缩略图
 			if(empty($pic) && $imagenum) {
-				$pic = auto_pic($table, $uid);
+				$pic = $this->auto_pic($table, $uid);
 			}
 
 			// 如果摘要为空，自动生成摘要
@@ -422,6 +422,11 @@ class article_control extends admin_control {
 		}else{
 			E(0, '删除成功！');
 		}
+	}
+
+	// 自动保存文章
+	public function auto_save() {
+		$this->kv->set('auto_save_article', $_POST) ? E(0, '自动保存成功！') : E(1, '自动保存失败！');
 	}
 
 	// 批量删除文章
