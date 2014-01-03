@@ -82,7 +82,6 @@ class article_control extends admin_control {
 			$dateline = trim(R('dateline', 'P'));
 			$isremote = intval(R('isremote', 'P'));
 			$pic = trim(R('pic', 'P'));
-			$endstr = '';
 
 			empty($cid) && E(1, '分类ID不能为空！');
 			empty($title) && E(1, '标题不能为空！');
@@ -117,6 +116,7 @@ class article_control extends admin_control {
 			}
 
 			// 远程图片本地化
+			$endstr = '';
 			$this->cms_content_attach->table = 'cms_'.$table.'_attach';
 			if($isremote) {
 				$endstr .= $this->get_remote_img($table, $uid, $contentstr);
@@ -191,6 +191,11 @@ class article_control extends admin_control {
 				}
 			}
 
+			// 如果内容含有图片附件，则标记图片属性
+			if($imagenum && !$this->cms_content_flag->set(array(0, $id), array('cid'=>$cid))) {
+				E(1, '写入内容属性标记表出错');
+			}
+
 			// 写入内容标签表
 			$this->cms_content_tag_data->table = 'cms_'.$table.'_tag_data';
 			foreach($tagdatas as $tagdata) {
@@ -260,7 +265,6 @@ class article_control extends admin_control {
 			$isremote = intval(R('isremote', 'P'));
 			$pic = trim(R('pic', 'P'));
 			$uid = $this->_user['uid'];
-			$endstr = '';
 
 			empty($id) && E(1, 'ID不能为空！');
 			empty($cid) && E(1, '分类ID不能为空！');
@@ -323,6 +327,7 @@ class article_control extends admin_control {
 			}
 
 			// 远程图片本地化
+			$endstr = '';
 			$this->cms_content_attach->table = 'cms_'.$table.'_attach';
 			if($isremote) {
 				$endstr .= $this->get_remote_img($table, $uid, $contentstr);
@@ -361,7 +366,6 @@ class article_control extends admin_control {
 			$data['seo_title'] = trim(strip_tags(R('seo_title', 'P')));
 			$data['seo_keywords'] = trim(strip_tags(R('seo_keywords', 'P')));
 			$data['seo_description'] = trim(strip_tags(R('seo_description', 'P')));
-
 			if(!$this->cms_content->update($data)) {
 				E(1, '更新内容表出错');
 			}
@@ -384,6 +388,13 @@ class article_control extends admin_control {
 				if(!$this->cms_content_flag->set(array($flag, $id), array('cid'=>$cid))) {
 					E(1, '写入内容属性标记表出错');
 				}
+			}
+
+			// 如果内容含有图片附件，则标记图片属性，否则删除图片属性
+			if($imagenum) {
+				$this->cms_content_flag->set(array(0, $id), array('cid'=>$cid));
+			}else{
+				$this->cms_content_flag->delete(0, $id);
 			}
 
 			// 删除去掉的属性
