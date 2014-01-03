@@ -140,7 +140,7 @@ class article_control extends admin_control {
 				'title' => $title,
 				'color' => trim(R('color', 'P')),
 				'alias' => trim(R('alias', 'P')),
-				'tags' => json_encode($tags),
+				'tags' => _json_encode($tags),
 				'intro' => $intro,
 				'pic' => $pic,
 				'uid' => $uid,
@@ -346,7 +346,7 @@ class article_control extends admin_control {
 			$data['title'] = $title;
 			$data['color'] = trim(R('color', 'P'));
 			$data['alias'] = trim(R('alias', 'P'));
-			$data['tags'] = json_encode($tags);
+			$data['tags'] = _json_encode($tags);
 			$data['intro'] = $intro;
 			$data['pic'] = $pic;
 			$data['uid'] = $uid;
