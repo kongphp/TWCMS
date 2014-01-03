@@ -44,14 +44,14 @@ class article_control extends admin_control {
 		$this->display();
 	}
 
-	// 文章发布
+	// 发布文章
 	public function add() {
 		// hook admin_article_control_add_before.php
 
 		if(empty($_POST)) {
 			$this->_cokey = 'content';
-			$this->_title = '文章发布';
-			$this->_place = '内容 &#187; 内容管理 &#187 文章发布';
+			$this->_title = '发布文章';
+			$this->_place = '内容 &#187; 内容管理 &#187 发布文章';
 			$cid = intval(R('cid'));
 
 			$cidhtml = $this->category->get_cidhtml_by_mid(2, $cid);
@@ -59,8 +59,8 @@ class article_control extends admin_control {
 
 			$data['flags'] = array();
 			$data['pic_src'] = '../static/img/nopic.gif';
-			//$_user['username']
-			//{$data[source]} = date('Y-m-d H:i:s', $_ENV['_time']);
+			$data['author'] = $this->_user['username'];
+			$data['views'] = 0;
 			$this->assign('data', $data);
 
 			$this->display('article_set.htm');
@@ -206,14 +206,14 @@ class article_control extends admin_control {
 		}
 	}
 
-	// 文章编辑
+	// 编辑文章
 	public function edit() {
 		// hook admin_article_control_edit_before.php
 
 		if(empty($_POST)) {
 			$this->_cokey = 'content';
-			$this->_title = '文章编辑';
-			$this->_place = '内容 &#187; 内容管理 &#187 文章编辑';
+			$this->_title = '编辑文章';
+			$this->_place = '内容 &#187; 内容管理 &#187 编辑文章';
 			$id = intval(R('id'));
 			$cid = intval(R('cid'));
 
@@ -223,6 +223,7 @@ class article_control extends admin_control {
 			$mid = $this->category->get_mid_by_cid($cid);
 			$table = $this->models->get_table($mid);
 
+			// 读取内容
 			$this->cms_content->table = 'cms_'.$table;
 			$this->cms_content_data->table = 'cms_'.$table.'_data';
 			$this->cms_content_views->table = 'cms_'.$table.'_views';
