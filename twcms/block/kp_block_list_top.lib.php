@@ -55,7 +55,7 @@ function kp_block_list_top($conf) {
 		$list_arr = $run->cms_content->mget($keys);
 		foreach($list_arr as &$v) {
 			$run->cms_content->format($v, $mid, $dateformat, $titlenum, $intronum);
-			$v['views'] = $key_arr[$table_key.$v['id']]['views'];
+			isset($v['id']) && $v['views'] = $key_arr[$table_key.$v['id']]['views'];
 		}
 	}else{
 		$run->cms_content_comment_sort->table = $table_key = 'cms_'.$table.'_comment_sort';
