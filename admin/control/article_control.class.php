@@ -48,12 +48,13 @@ class article_control extends admin_control {
 	public function add() {
 		// hook admin_article_control_add_before.php
 
+		$uid = $this->_user['uid'];
 		if(empty($_POST)) {
 			$this->_cokey = 'content';
 			$this->_title = '发布文章';
 			$this->_place = '内容 &#187; 内容管理 &#187 发布文章';
 			$cid = intval(R('cid'));
-			$data = $this->kv->get('auto_save_article');
+			$data = $this->kv->get('auto_save_article_uid_'.$uid);
 			if($data) {
 				!empty($data['cid']) && $cid = $data['cid'];
 				$data['pic_src'] = empty($data['pic']) ? '../static/img/nopic.gif' : '../'.$data['pic'];
@@ -81,7 +82,6 @@ class article_control extends admin_control {
 			$dateline = trim(R('dateline', 'P'));
 			$isremote = intval(R('isremote', 'P'));
 			$pic = trim(R('pic', 'P'));
-			$uid = $this->_user['uid'];
 			$endstr = '';
 
 			empty($cid) && E(1, '分类ID不能为空！');
@@ -207,7 +207,7 @@ class article_control extends admin_control {
 			$this->category->update($categorys);
 			$this->category->update_cache($cid);
 
-			$data = $this->kv->delete('auto_save_article');
+			$data = $this->kv->delete('auto_save_article_uid_'.$uid);
 
 			// hook admin_article_control_add_after.php
 
@@ -457,7 +457,7 @@ class article_control extends admin_control {
 
 	// 自动保存文章
 	public function auto_save() {
-		$this->kv->set('auto_save_article', $_POST) ? E(0, '自动保存成功！') : E(1, '自动保存失败！');
+		$this->kv->set('auto_save_article_uid_'.$this->_user['uid'], $_POST) ? E(0, '自动保存成功！') : E(1, '自动保存失败！');
 	}
 
 	// 自动生成摘要
