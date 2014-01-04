@@ -78,6 +78,7 @@ class core{
 		$_ENV['_include'] = array();	// autoload 时使用
 		$_ENV['_time'] = isset($_SERVER['REQUEST_TIME']) ? $_SERVER['REQUEST_TIME'] : time();
 		$_ENV['_ip'] = ip();
+		$_ENV['_sqlnum'] = 0;
 
 		// 某些IIS环境 fix
 		if(!isset($_SERVER['REQUEST_URI'])) {

@@ -9,7 +9,6 @@ defined('KONG_PATH') || exit;
 class db_mysql implements db_interface {
 	private $conf;
 	public $tablepre;		// 数据表前缀
-	//public $querynum = 0;	//记录SQL执行数 (去掉原因，可通过 $_ENV['_sqls'] 查看)
 	//private $wlink;		// 写(主)数据库
 	//private $rlink;		// 读(从)数据库
 	//private $xlink;		// 分发数据库
@@ -481,7 +480,7 @@ class db_mysql implements db_interface {
 				throw new Exception('MySQL Query Error: <b>'.str_replace($this->tablepre, '***', $sql).'</b>');
 			}
 		}
-		//$this->querynum++;	//去掉原因，可通过 $_ENV['_sqls'] 查看
+		$_ENV['_sqlnum']++;
 		return $result;
 	}
 
