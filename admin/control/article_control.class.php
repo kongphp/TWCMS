@@ -216,7 +216,7 @@ class article_control extends admin_control {
 
 			// hook admin_article_control_add_after.php
 
-			E(0, '发表成功'.$endstr, $id);
+			E(0, '发布完成'.$endstr);
 		}
 	}
 
@@ -248,7 +248,7 @@ class article_control extends admin_control {
 			$data['content'] = htmlspecialchars($data['content']);
 			$data['tags'] = implode(',', (array)_json_decode($data['tags']));
 			$data['intro'] = str_replace('<br />', "\n", strip_tags($data['intro'], '<br>'));
-			$data['pic_src'] = empty($data['pic']) ? '../static/img/nopic.gif' : '../upload/'.$table.'/'.$data['pic'];
+			$data['pic_src'] = empty($data['pic']) ? '../static/img/nopic.gif' : '../'.$data['pic'];
 			$data['flags'] = explode(',', $data['flags']);
 			$data['dateline'] = date('Y-m-d H:i:s', $data['dateline']);
 			$this->assign('data', $data);
@@ -420,7 +420,7 @@ class article_control extends admin_control {
 
 			// hook admin_article_control_edit_after.php
 
-			E(0, '发表成功'.$endstr, $id);
+			E(0, '编辑完成'.$endstr);
 		}
 	}
 
