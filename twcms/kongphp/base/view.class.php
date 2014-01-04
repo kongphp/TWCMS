@@ -108,7 +108,7 @@ class view{
 		if(!is_file($lib_file)) return '';
 
 		//为减少IO，把需要用到的函数代码放到模板解析代码头部
-		$lib_str = file_get_contents($lib_file);
+		$lib_str = DEBUG ? file_get_contents($lib_file) : php_strip_whitespace($lib_file);
 		$lib_str = core::clear_code($lib_str);
 		$lib_str = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $lib_str);
 		$this->head_arr['kp_block_'.$func] = $lib_str;
