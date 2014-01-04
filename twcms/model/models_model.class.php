@@ -1,6 +1,6 @@
 <?php
 /**
- * (C)2012-2013 twcms.cn TongWang Inc.
+ * (C)2012-2014 twcms.com TongWang Inc.
  * Author: wuzhaohuan <kongphp@gmail.com>
  */
 
