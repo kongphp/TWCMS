@@ -216,12 +216,13 @@ class model{
 	/**
 	 * 更新一条数据
 	 * @param array $data	数据 (必须包含主键)
+	 * @param int  $life	缓存时间 (默认为永久)
 	 * @return bool
 	 */
-	public function update($data) {
+	public function update($data, $life = 0) {
 		$key = $this->pri2key($data);
 		$this->unique[$key] = $data;
-		return $this->cache_db_update($key, $data);
+		return $this->cache_db_update($key, $data, $life);
 	}
 
 	/**
