@@ -7,7 +7,7 @@
 
 // 统计程序运行时间
 function runtime() {
-	return number_format(microtime(1) - $_ENV['_start_time'], 6);
+	return number_format(microtime(1) - $_ENV['_start_time'], 4);
 }
 
 // 统计程序内存开销
