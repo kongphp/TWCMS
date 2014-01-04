@@ -40,7 +40,7 @@ function kp_block_global_taglist($conf) {
 	$run->cms_content->table = 'cms_'.$table;
 	$list_arr = $run->cms_content->mget($keys);
 	foreach($list_arr as &$v) {
-		$run->cms_content->format($v, $mid, $dateformat, $titlenum, $intronum);
+		$run->cms_content->format($v, $mid, $run->_cfg['webdir'], $dateformat, $titlenum, $intronum);
 	}
 
 	// hook kp_block_global_taglist_after.php

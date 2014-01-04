@@ -14,7 +14,7 @@ class cms_content extends model {
 	}
 
 	// 格式化内容数组
-	public function format(&$v, $mid, $dateformat = 'Y-m-d H:i:s', $titlenum = 0, $intronum = 0) {
+	public function format(&$v, $mid, $webdir = '', $dateformat = 'Y-m-d H:i:s', $titlenum = 0, $intronum = 0) {
 		// hook cms_content_model_format_before.php
 
 		if(empty($v)) return FALSE;
@@ -31,7 +31,7 @@ class cms_content extends model {
 		}
 
 		$intronum && $v['intro'] = utf8::cutstr_cn($v['intro'], $intronum);
-		empty($v['pic']) && $v['pic'] = $_ENV['_config']['front_static'].'img/nopic.gif';
+		$v['pic'] = $webdir.(empty($v['pic']) ? 'static/img/nopic.gif' : $v['pic']);
 
 		// hook cms_content_model_format_after.php
 	}
