@@ -97,7 +97,7 @@ class cache_memcache implements cache_interface{
 	public function set($key, $data, $life = 0) {
 		// 二级缓存开启时，写入最新微秒时间
 		if($this->conf['l2_cache'] === 1) {
-			$this->memcache->delete($this->pre.'_twocache_time');
+			$this->memcache->delete($this->pre.'_l2_cache_time');
 		}
 		return $this->memcache->set($this->pre.$key, $data, 0, $life);
 	}
@@ -127,7 +127,7 @@ class cache_memcache implements cache_interface{
 	public function delete($key) {
 		// 二级缓存开启时，写入最新微秒时间
 		if($this->conf['l2_cache'] === 1) {
-			$this->memcache->delete($this->pre.'_twocache_time');
+			$this->memcache->delete($this->pre.'_l2_cache_time');
 		}
 		return $this->memcache->delete($this->pre.$key);
 	}
@@ -179,7 +179,7 @@ class cache_memcache implements cache_interface{
 	 * @return boot
 	 */
 	public function l2_cache_get($l2_key) {
-		$l2_cache_time = $this->get('_twocache_time');	// 最后更新数据微秒时间，用来控制缓存
+		$l2_cache_time = $this->get('_l2_cache_time');	// 最后更新数据微秒时间，用来控制缓存
 		$l2_key_time = $this->get($l2_key.'_time');	// 用来和 $l2_cache_time 对比是否一样
 		if($l2_cache_time && $l2_cache_time === $l2_key_time) {
 			return $this->get($l2_key);	// 从缓存中读取数据
@@ -194,10 +194,10 @@ class cache_memcache implements cache_interface{
 	 * @return boot
 	 */
 	public function l2_cache_set($l2_key, $keys, $life = 0) {
-		$l2_cache_time = $this->get('_twocache_time');	// 最后更新数据微秒时间，用来控制缓存
+		$l2_cache_time = $this->get('_l2_cache_time');	// 最后更新数据微秒时间，用来控制缓存
 		if(empty($l2_cache_time)) {
 			$l2_cache_time = microtime(1);
-			$this->memcache->set($this->pre.'_twocache_time', $l2_cache_time, 0, 0);
+			$this->memcache->set($this->pre.'_l2_cache_time', $l2_cache_time, 0, 0);
 		}
 		$this->memcache->set($this->pre.$l2_key.'_time', $l2_cache_time, 0, $life);	// 把最后更新数据微秒时间写入缓存
 		return $this->memcache->set($this->pre.$l2_key, $keys, 0, $life);	// 把数据写入缓存
