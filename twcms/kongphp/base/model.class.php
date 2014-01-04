@@ -276,15 +276,16 @@ class model{
 	}
 
 	/**
-	 * 根据条件读取数据 （提示：目前只有此处具有二级缓存）
+	 * 根据条件读取数据
 	 * @param array $where	条件
 	 * @param array $order	排序
 	 * @param int $start	开始位置
 	 * @param int $limit	读取几条
+	 * @param int $life		二级缓存时间 (默认为永久)
 	 * @return array
 	 */
-	public function find_fetch($where = array(), $order = array(), $start = 0, $limit = 0) {
-		return $this->cache_db_find_fetch($this->table, $this->pri, $where, $order, $start, $limit);
+	public function find_fetch($where = array(), $order = array(), $start = 0, $limit = 0, $life = 0) {
+		return $this->cache_db_find_fetch($this->table, $this->pri, $where, $order, $start, $limit, $life);
 	}
 
 	/**
@@ -293,10 +294,11 @@ class model{
 	 * @param array $order	排序
 	 * @param int $start	开始位置
 	 * @param int $limit	读取几条
+	 * @param int $life		二级缓存时间 (默认为永久)
 	 * @return array
 	 */
-	public function find_fetch_key($where = array(), $order = array(), $start = 0, $limit = 0) {
-		return $this->cache_db_find_fetch_key($this->table, $this->pri, $where, $order, $start, $limit);
+	public function find_fetch_key($where = array(), $order = array(), $start = 0, $limit = 0, $life = 0) {
+		return $this->cache_db_find_fetch_key($this->table, $this->pri, $where, $order, $start, $limit, $life);
 	}
 
 	/**
@@ -484,11 +486,11 @@ class model{
 	 * cache+db 写入一条数据
 	 * @param string $key	键名
 	 * @param mixed $data	数据
-	 * @param int  $life	缓存时间
+	 * @param int $life		缓存时间 (默认为永久)
 	 * @return boot
 	 */
 	public function cache_db_set($key, $data, $life = 0) {
-		$this->cache_conf['enable'] && $this->cache->set($key, $data, $life);	// 更新缓存
+		$this->cache_conf['enable'] && $this->cache->set($key, $data, $life);
 		return $this->db->set($key, $data);
 	}
 
@@ -499,8 +501,8 @@ class model{
 	 * @param int $life		缓存时间 (默认为永久)
 	 * @return boot
 	 */
-	public function cache_db_update($key, $data) {
-		$this->cache_conf['enable'] && $this->cache->update($key, $data);	// 更新缓存
+	public function cache_db_update($key, $data, $life = 0) {
+		$this->cache_conf['enable'] && $this->cache->update($key, $data, $life);
 		return $this->db->update($key, $data);
 	}
 
@@ -579,14 +581,15 @@ class model{
 	 * @param array $order	排序
 	 * @param int $start	开始位置
 	 * @param int $limit	读取几条
+	 * @param int $life		二级缓存时间 (默认为永久)
 	 * @return array
 	 */
-	public function cache_db_find_fetch($table, $pri, $where = array(), $order = array(), $start = 0, $limit = 0) {
+	public function cache_db_find_fetch($table, $pri, $where = array(), $order = array(), $start = 0, $limit = 0, $life = 0) {
 		// 如果是 mongodb 就直接取数据，不支持缓存
 		if($this->db_conf['type'] == 'mongodb') {
 			return $this->db->find_fetch($table, $pri, $where, $order, $start, $limit);
 		}else{
-			$keys = $this->cache_db_find_fetch_key($table, $pri, $where, $order, $start, $limit);
+			$keys = $this->cache_db_find_fetch_key($table, $pri, $where, $order, $start, $limit, $life);
 			return $this->cache_db_multi_get($keys);
 		}
 	}
@@ -599,15 +602,16 @@ class model{
 	 * @param array $order	排序
 	 * @param int $start	开始位置
 	 * @param int $limit	读取几条
+	 * @param int $life		二级缓存时间 (默认为永久)
 	 * @return array
 	 */
-	public function cache_db_find_fetch_key($table, $pri, $where = array(), $order = array(), $start = 0, $limit = 0) {
+	public function cache_db_find_fetch_key($table, $pri, $where = array(), $order = array(), $start = 0, $limit = 0, $life = 0) {
 		if($this->cache_conf['enable'] && $this->cache_conf['l2_cache'] === 1) {
 			$key = $table.'_'.md5(serialize(array($pri, $where, $order, $start, $limit)));
 			$keys = $this->cache->l2_cache_get($key);
 			if(empty($keys)) {
 				$keys = $this->db->find_fetch_key($table, $pri, $where, $order, $start, $limit);
-				$this->cache->l2_cache_set($key, $keys);
+				$this->cache->l2_cache_set($key, $keys, $life);
 			}
 		}else{
 			$keys = $this->db->find_fetch_key($table, $pri, $where, $order, $start, $limit);

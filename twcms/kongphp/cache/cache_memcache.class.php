@@ -193,14 +193,14 @@ class cache_memcache implements cache_interface{
 	 * @param string $keys		键名数组
 	 * @return boot
 	 */
-	public function l2_cache_set($l2_key, $keys) {
+	public function l2_cache_set($l2_key, $keys, $life = 0) {
 		$l2_cache_time = $this->get('_twocache_time');	// 最后更新数据微秒时间，用来控制缓存
 		if(empty($l2_cache_time)) {
 			$l2_cache_time = microtime(1);
 			$this->memcache->set($this->pre.'_twocache_time', $l2_cache_time, 0, 0);
 		}
-		$this->memcache->set($this->pre.$l2_key.'_time', $l2_cache_time, 0, 0);	// 把最后更新数据微秒时间写入缓存
-		return $this->memcache->set($this->pre.$l2_key, $keys, 0, 0);	// 把数据写入缓存
+		$this->memcache->set($this->pre.$l2_key.'_time', $l2_cache_time, 0, $life);	// 把最后更新数据微秒时间写入缓存
+		return $this->memcache->set($this->pre.$l2_key, $keys, 0, $life);	// 把数据写入缓存
 	}
 }
 ?>
