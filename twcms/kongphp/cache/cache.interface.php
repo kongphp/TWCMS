@@ -17,5 +17,5 @@ interface cache_interface {
 	public function truncate($pre = '');
 
 	public function l2_cache_get($l2_key);
-	public function l2_cache_set($l2_key, $keys);
+	public function l2_cache_set($l2_key, $keys, $life = 0);
 }
