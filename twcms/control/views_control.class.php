@@ -8,6 +8,8 @@ defined('TWCMS_PATH') or exit;
 
 class views_control extends control{
 	public function index() {
+		$_ENV['_config']['cache']['l2_cache'] = 0;
+
 		$id = (int)R('id');
 		$cid = (int)R('cid');
 
