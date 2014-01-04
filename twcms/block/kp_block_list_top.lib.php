@@ -12,6 +12,7 @@ defined('KONG_PATH') || exit;
  * @param int orderway 降序(-1),升序(1)
  * @param int start 开始位置
  * @param int limit 显示几条
+ * @param int life 缓存时间 (开启二级缓存后，点击数排列才会有缓存时间)
  * @return array
  */
 function kp_block_list_top($conf) {
@@ -28,6 +29,7 @@ function kp_block_list_top($conf) {
 	$orderway = isset($conf['orderway']) && $conf['orderway'] == 1 ? 1 : -1;
 	$start = _int($conf, 'start');
 	$limit = _int($conf, 'limit', 10);
+	$life = _int($conf, 'life', 60);
 
 	if($cid == 0) {
 		// 当cid为0时，根据mid确定table
@@ -42,7 +44,7 @@ function kp_block_list_top($conf) {
 
 	if($orderby == 'views') {
 		$run->cms_content_views->table = $table_key = 'cms_'.$table.'_views';
-		$key_arr = $run->cms_content_views->find_fetch($where, array($orderby => $orderway), $start, $limit);
+		$key_arr = $run->cms_content_views->find_fetch($where, array($orderby => $orderway), $start, $limit, $life);
 
 		$table_key .= '-id-';
 		$keys = array();
