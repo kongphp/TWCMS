@@ -13,10 +13,12 @@ $(function(){
 
 	$("#closeer,#adder,#leftbtn,#rightbtn").hover(function(){$(this).addClass("on");}, function(){$(this).removeAttr("class");});
 
-	var newUrl = $("#box_frame iframe:visible").attr("src");
-	var stopNum = newUrl.indexOf("&r=");
-	var newUrl = ( (stopNum == -1) ? newUrl : newUrl.substring(0, stopNum) ) + getR();
-	$("#ifr_refresh").click(function(){$("#box_frame iframe:visible").attr("src", newUrl);return false;});
+	$("#ifr_refresh").click(function(){
+		var newUrl = $("#box_frame iframe:visible").attr("src");
+		var stopNum = newUrl.indexOf("&r=");
+		$("#box_frame iframe:visible").attr("src", ( (stopNum == -1) ? newUrl : newUrl.substring(0, stopNum) ) + getR() );
+		return false;
+	});
 	$("#full_screen").click(function(){$(".acp").toggleClass("fsn");return false;});
 });
 
