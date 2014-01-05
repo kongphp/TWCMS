@@ -131,7 +131,9 @@ window.editor_api = {
 }
 
 // 自动保存
+var action = "{$_GET['action']}";
 window.autoSave = function() {
+	if(action != "add") return;
 	var data = $("#article_set").serialize();
 	twAjax.post("?u=article-auto_save-ajax-1", data, function(html) { });
 };
@@ -165,10 +167,7 @@ function setPicBut() {
 setPicBut();
 
 // 触发自动保存
-var action = "{$_GET['action']}";
-if(action == "add") {
-	$("#article_set input, #article_set textarea, #article_set select").change(autoSave);
-}
+$("#article_set input, #article_set textarea, #article_set select").change(autoSave);
 
 // 提交表单
 twAjax.submit("#article_set", function(data){
