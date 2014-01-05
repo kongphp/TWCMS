@@ -54,7 +54,10 @@ class article_control extends admin_control {
 			$this->_ukey = 'article-add';
 			$this->_title = '发布文章';
 			$this->_place = '内容 &#187; 内容管理 &#187 发布文章';
-			$cid = intval(R('cid'));
+
+			$habits = (array)$this->kv->get('user_habits_uid_'.$uid);
+			$cid = isset($habits['last_add_cid']) ? (int)$habits['last_add_cid'] : 0;
+
 			$data = $this->kv->get('auto_save_article_uid_'.$uid);
 			if($data) {
 				!empty($data['cid']) && $cid = $data['cid'];
@@ -218,6 +221,11 @@ class article_control extends admin_control {
 			$this->category->update_cache($cid);
 
 			$data = $this->kv->delete('auto_save_article_uid_'.$uid);
+
+			// 记住最后一次发布的分类ID，感觉这样人性化一些吧。
+			$habits = (array) $this->kv->get('user_habits_uid_'.$uid);
+			$habits['last_add_cid'] = $cid;
+			$habits = $this->kv->set('user_habits_uid_'.$uid, $habits);
 
 			// hook admin_article_control_add_after.php
 
