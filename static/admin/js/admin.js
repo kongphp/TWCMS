@@ -137,13 +137,7 @@ function loadEvent() {
 	$("#box_tab ul li i:last,#box_tab ul li b:last").hover(function(){$(this).addClass("on")},function(){$(this).removeAttr("class")});
 	$("#box_tab ul li i:last").click(function(){
 		var obj = $(this).parent();
-		var eq = $("#box_tab ul li").index(obj);
-		if(obj.is(".on")) {
-			var eqOn = $("#box_tab ul li").eq(eq+1).html() != undefined ? eq+1 : eq-1;
-			$("#box_tab ul li").eq(eqOn).addClass("on");
-			$("#box_frame iframe").eq(eqOn).show();
-		}
-		rmTab(eq);
+		rmTab($("#box_tab ul li").index(obj));
 	});
 }
 
@@ -167,7 +161,14 @@ function onTab(obj) {
 
 //删除标签页
 function rmTab(i) {
-	$("#box_tab ul li").eq(i).remove();
+	var obj = $("#box_tab ul li").eq(i);
+	if(obj.is(".on")) {
+		var eqOn = $("#box_tab ul li").eq(i+1).html() != undefined ? i+1 : i-1;
+		$("#box_tab ul li").eq(eqOn).addClass("on");
+		$("#box_frame iframe").eq(eqOn).show();
+	}
+
+	obj.remove();
 	$("#box_frame iframe").eq(i).remove();
 
 	setUlwidth();
