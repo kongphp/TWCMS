@@ -127,12 +127,10 @@ class admin_control extends control {
 
 	// 初始化标题、位置
 	public function init_title_place() {
-		$url = $_GET['control'].'-'.$_GET['action'];
-		if(!isset($this->_navs[1][$url])) return;
-
-		$this->_pkey = $this->_navs[1][$url]['p'];
-		$this->_ukey = $url;
-		$this->_title = $this->_navs[1][$url]['name'];
+		$this->_ukey = $_GET['control'].'-'.$_GET['action'];
+		if(!isset($this->_navs[1][$this->_ukey])) return;
+		$this->_pkey = $this->_navs[1][$this->_ukey]['p'];
+		$this->_title = $this->_navs[1][$this->_ukey]['name'];
 		$this->_place = $this->_navs[0][$this->_pkey].' &#187; '.$this->_title;
 	}
 

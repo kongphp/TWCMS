@@ -50,7 +50,8 @@ class article_control extends admin_control {
 
 		$uid = $this->_user['uid'];
 		if(empty($_POST)) {
-			$this->_cokey = 'content';
+			$this->_pkey = 'content';
+			$this->_ukey = 'article-add';
 			$this->_title = '发布文章';
 			$this->_place = '内容 &#187; 内容管理 &#187 发布文章';
 			$cid = intval(R('cid'));
@@ -225,11 +226,13 @@ class article_control extends admin_control {
 		// hook admin_article_control_edit_before.php
 
 		if(empty($_POST)) {
-			$this->_cokey = 'content';
-			$this->_title = '编辑文章';
-			$this->_place = '内容 &#187; 内容管理 &#187 编辑文章';
 			$id = intval(R('id'));
 			$cid = intval(R('cid'));
+
+			$this->_pkey = 'content';
+			$this->_ukey = 'article-edit-cid-'.$cid.'-id-'.$id;
+			$this->_title = '编辑文章';
+			$this->_place = '内容 &#187; 内容管理 &#187 编辑文章';			
 
 			$cidhtml = $this->category->get_cidhtml_by_mid(2, $cid);
 			$this->assign('cidhtml', $cidhtml);

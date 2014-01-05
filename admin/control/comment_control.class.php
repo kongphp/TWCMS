@@ -75,7 +75,7 @@ class comment_control extends admin_control {
 		$content_arr = $this->cms_content->read($id);
 
 		// 初始化标题、位置
-		$this->_cokey = 'content';
+		$this->_pkey = 'content';
 		$this->_title = '评论管理';
 		$this->_place = '内容 &#187; 评论管理 &#187; '.$content_arr['title'];
 
