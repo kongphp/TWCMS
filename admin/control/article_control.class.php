@@ -84,7 +84,7 @@ class article_control extends admin_control {
 			$isremote = intval(R('isremote', 'P'));
 			$pic = trim(R('pic', 'P'));
 
-			empty($cid) && E(1, '分类ID不能为空！');
+			empty($cid) && E(1, '亲，您没有选择分类哦！');
 			empty($title) && E(1, '标题不能为空！');
 
 			$categorys = $this->category->read($cid);
@@ -92,6 +92,9 @@ class article_control extends admin_control {
 
 			$mid = $this->category->get_mid_by_cid($cid);
 			$table = $this->models->get_table($mid);
+
+			// 防止提交到其他模型的分类
+			if($table != 'article') E(1, '分类ID非法！');
 
 			// 标签预处理，最多支持5个标签
 			$tags = trim(R('tags', 'P'), ", \t\n\r\0\x0B");
@@ -232,13 +235,12 @@ class article_control extends admin_control {
 			$this->_pkey = 'content';
 			$this->_ukey = 'article-edit-cid-'.$cid.'-id-'.$id;
 			$this->_title = '编辑文章';
-			$this->_place = '内容 &#187; 内容管理 &#187 编辑文章';			
+			$this->_place = '内容 &#187; 内容管理 &#187 编辑文章';
 
 			$cidhtml = $this->category->get_cidhtml_by_mid(2, $cid);
 			$this->assign('cidhtml', $cidhtml);
 
-			$mid = $this->category->get_mid_by_cid($cid);
-			$table = $this->models->get_table($mid);
+			$table = 'article';
 
 			// 读取内容
 			$this->cms_content->table = 'cms_'.$table;
@@ -270,7 +272,7 @@ class article_control extends admin_control {
 			$uid = $this->_user['uid'];
 
 			empty($id) && E(1, 'ID不能为空！');
-			empty($cid) && E(1, '分类ID不能为空！');
+			empty($cid) && E(1, '亲，您没有选择分类哦！');
 			empty($title) && E(1, '标题不能为空！');
 
 			$categorys = $this->category->read($cid);
@@ -278,6 +280,9 @@ class article_control extends admin_control {
 
 			$mid = $this->category->get_mid_by_cid($cid);
 			$table = $this->models->get_table($mid);
+
+			// 防止提交到其他模型的分类
+			if($table != 'article') E(1, '分类ID非法！');
 
 			$this->cms_content->table = 'cms_'.$table;
 			$data = $this->cms_content->get($id);
