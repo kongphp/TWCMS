@@ -174,7 +174,17 @@ if(action == "add") {
 twAjax.submit("#article_add", function(data){
 	twAjax.alert(data);
 	if(window.twData.err==0) {
+		setTimeout(function(){
+			var i = P("#box_tab ul li[urlKey='article-index']").index();
+			if(i == -1) {
+				parent.oneTab("article-index");
+			}else{
+				P("#box_frame iframe").eq(i).attr("src", "?u=article-index"+parent.getR());
+			}
 
+			var j = P("#box_tab ul li[urlKey='"+urlKey+"']").index();
+			parent.rmTab(j);
+		}, 2000);
 	}
 });
 </script>
