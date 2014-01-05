@@ -38,30 +38,35 @@ function setNav() {
 }
 
 //判断只加载一次标签
-function oneTab(urlKey) {
+function oneTab(urlKey, url) {
+	if(!url) url = urlKey;
+
 	var newUrlKey = "my-newtab";
-	if($("#box_tab ul li[urlKey='"+urlKey+"']").length>0) {
+	var len = $("#box_tab ul li[urlKey='"+urlKey+"']").length;
+
+	if(len>0) {
 		onTab($("#box_tab ul li[urlKey='"+urlKey+"']:first"));
 	}else if($("#box_tab ul li[urlKey='"+newUrlKey+"']").length>0){
 		$("#box_tab ul li.on").removeClass("on");
 		var newTab = $("#box_tab ul li[urlKey='"+newUrlKey+"']:first");
 		newTab.addClass("on").attr("urlKey", urlKey);
-		$("#box_frame iframe:eq("+newTab.index()+")").attr("src", "?u="+urlKey);
+		$("#box_frame iframe:eq("+newTab.index()+")").attr("src", "?u="+url);
 	}else{
-		addTab("\u6b63\u5728\u52a0\u8f7d", urlKey);
+		addTab("\u6b63\u5728\u52a0\u8f7d", urlKey, url);
 	}
 }
 
 //添加标签页
-function addTab(title, urlKey) {
-	title = !title ? '\u65b0\u6807\u7b7e\u9875' : title;
-	urlKey = (!urlKey ? 'my-newtab' : urlKey);
+function addTab(title, urlKey, url) {
+	if(!title) title = '\u65b0\u6807\u7b7e\u9875';
+	if(!urlKey) urlKey = 'my-newtab';
+	if(!url) url = urlKey;
 
 	$("#box_tab ul").width($("#box_tab ul").width()+200);
 	$("#box_tab ul li.on").removeClass("on");
 	$("#box_tab ul").append('<li urlKey='+ urlKey +' title="'+ title +'" class="on"><b>'+ title +'</b><i></i></li>');
 	$("#box_frame iframe:visible").hide();
-	$("#box_frame").append('<iframe src="'+"?u="+urlKey+getR()+'" frameborder="0" scrolling="yes"></iframe>');
+	$("#box_frame").append('<iframe src="?u='+ url + getR() +'" frameborder="0" scrolling="yes"></iframe>');
 
 	setUlwidth();
 	if($("#box_tab ul").width() > $("#box_tab").width()) {
