@@ -79,6 +79,8 @@ class view{
 		$s = preg_replace('#\{\@([^\}]+)\}#', '<?php echo(\\1); ?>', $s);	//用于运算时的输出 如 {@$k+2}
 		$s = preg_replace_callback('#\{(\$'.$reg_arr.')\}#', array($this, 'parse_vars'), $s);
 
+		// $s = str_replace(array("\r\n", "\n", "\t"), '', $s); // 压缩HTML代码
+
 		//第8步 组合模板代码
 		$head_str = empty($this->head_arr) ? '' : implode("\r\n", $this->head_arr);
 		$s = "<?php defined('APP_NAME') || exit('Access Denied'); $head_str\r\n?>$s";
@@ -108,9 +110,10 @@ class view{
 		if(!is_file($lib_file)) return '';
 
 		//为减少IO，把需要用到的函数代码放到模板解析代码头部
-		$lib_str = DEBUG ? file_get_contents($lib_file) : php_strip_whitespace($lib_file);
-		$lib_str = core::clear_code($lib_str);
+		$lib_str = file_get_contents($lib_file);
 		$lib_str = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $lib_str);
+		if(!DEBUG) $lib_str = _strip_whitespace($lib_str);
+		$lib_str = core::clear_code($lib_str);
 		$this->head_arr['kp_block_'.$func] = $lib_str;
 
 		$s = $this->rep_double($s);
