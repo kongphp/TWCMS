@@ -85,8 +85,8 @@ class article_control extends admin_control {
 			$pic = trim(R('pic', 'P'));
 
 			empty($cid) && E(1, '亲，您没有选择分类哦！');
-			empty($title) && E(1, '亲，您的标题不能过关哦！');
-			if(strlen($contentstr) < 50) E(1, '亲，您的内容不能过关哦！');
+			empty($title) && E(1, '亲，您的标题忘了填哦！');
+			if(strlen($contentstr) < 50) E(1, '亲，您的内容字数太少了哦！');
 
 			$categorys = $this->category->read($cid);
 			if(empty($categorys)) E(1, '分类ID不存在！');
@@ -274,8 +274,8 @@ class article_control extends admin_control {
 
 			empty($id) && E(1, 'ID不能为空！');
 			empty($cid) && E(1, '亲，您没有选择分类哦！');
-			empty($title) && E(1, '亲，您的标题不能过关哦！');
-			if(strlen($contentstr) < 50) E(1, '亲，您的内容不能过关哦！');
+			empty($title) && E(1, '亲，您的标题忘了填哦！');
+			if(strlen($contentstr) < 50) E(1, '亲，您的内容字数太少了哦！');
 
 			$categorys = $this->category->read($cid);
 			if(empty($categorys)) E(1, '分类ID不存在！');
