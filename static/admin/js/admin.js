@@ -135,7 +135,16 @@ function setAdder(){
 function loadEvent() {
 	$("#box_tab ul li:last").click(function(){onTab($(this))});
 	$("#box_tab ul li i:last,#box_tab ul li b:last").hover(function(){$(this).addClass("on")},function(){$(this).removeAttr("class")});
-	rmTab();
+	$("#box_tab ul li i:last").click(function(){
+		var obj = $(this).parent();
+		var eq = $("#box_tab ul li").index(obj);
+		if(obj.is(".on")) {
+			var eqOn = $("#box_tab ul li").eq(eq+1).html() != undefined ? eq+1 : eq-1;
+			$("#box_tab ul li").eq(eqOn).addClass("on");
+			$("#box_frame iframe").eq(eqOn).show();
+		}
+		rmTab(eq);
+	});
 }
 
 //选择标签
@@ -157,31 +166,22 @@ function onTab(obj) {
 }
 
 //删除标签页
-function rmTab() {
-	$("#box_tab ul li i:last").click(function(){
-		var eq = $("#box_tab ul li").index($(this).parent());
+function rmTab(i) {
+	$("#box_tab ul li").eq(i).remove();
+	$("#box_frame iframe").eq(i).remove();
 
-		if($(this).parent().is(".on")) {
-			var eqOn = $("#box_tab ul li").eq(eq+1).html() != undefined ? eq+1 : eq-1;
-			$("#box_tab ul li").eq(eqOn).addClass("on");
-			$("#box_frame iframe").eq(eqOn).show();
+	setUlwidth();
+	if($("#box_tab ul").width() > $("#box_tab").width()) {
+		if($("#box_tab ul li:last").offset().left < 167+$("#box_tab").width()-$("#box_tab ul li:last").width()) {
+			var leftVal = $("#box_tab").width()-$("#box_tab ul").width();
+			$("#box_tab ul").animate({"left": leftVal}, "fast").css("left",leftVal);
 		}
-		$(this).parent().remove();
-		$("#box_frame iframe").eq(eq).remove();
-
-		setUlwidth();
-		if($("#box_tab ul").width() > $("#box_tab").width()) {
-			if($("#box_tab ul li:last").offset().left < 167+$("#box_tab").width()-$("#box_tab ul li:last").width()) {
-				var leftVal = $("#box_tab").width()-$("#box_tab ul").width();
-				$("#box_tab ul").animate({"left": leftVal}, "fast").css("left",leftVal);
-			}
-		}else{
-			$("#box_tab ul").animate({left: 0}, "fast").css("left",0);
-		}
-		setAdder();
-		loadMenu($("#box_tab ul li.on").attr("pKey"), "select");
-		if($("#box_tab ul li").length<1) loadMenu("my");
-	});
+	}else{
+		$("#box_tab ul").animate({left: 0}, "fast").css("left",0);
+	}
+	setAdder();
+	loadMenu($("#box_tab ul li.on").attr("pKey"), "select");
+	if($("#box_tab ul li").length<1) loadMenu("my");
 }
 
 //删除其他
