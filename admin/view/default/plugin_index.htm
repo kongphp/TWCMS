@@ -22,7 +22,7 @@
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
 						<p class="plu_bottom" plugin="{$k}" version="{$v[version]}">
 							<a class="but2 disabled">停用</a>
-							{if:!empty($v['setting'])}<a class="but2" href="javascript:parent.oneTab('{$v[setting]}', true);">设置</a>{/if}
+							{if:!empty($v['setting'])}<a class="but2" href="javascript:parent.oneTab('{$v[setting]}');">设置</a>{/if}
 						</p>
 					</div>
 					<div class="plu_r">
@@ -41,7 +41,7 @@
 						<p class="plu_cont plu_b">{$v[name]}({$k})</p>
 						<p class="plu_bottom" plugin="{$k}" version="{$v[version]}">
 							{if:!empty($v['setting']) && !empty($v['setting_ok'])}
-							<a class="but2" href="javascript:parent.oneTab('{$v[setting]}', true);">设置</a>
+							<a class="but2" href="javascript:parent.oneTab('{$v[setting]}');">设置</a>
 							{else}
 							<a class="but2 enable">启用</a>
 							{/if}

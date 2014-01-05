@@ -59,7 +59,7 @@
 $("#add").click(function(){
 	var cid = $("#cid").val();
 	var s = cid > 0 ? "-cid-"+cid : "";
-	parent.oneTab("article-add"+s, true);
+	parent.oneTab("article-add", "article-add"+s);
 });
 
 $("#cid").change(function(){
@@ -89,7 +89,7 @@ function buttonDis() {
 
 //编辑
 function edit(id, cid) {
-	parent.oneTab("article-edit-cid-"+cid+"-id-"+id, true);
+	parent.oneTab("article-edit-cid-"+cid+"-id-"+id);
 }
 
 //删除

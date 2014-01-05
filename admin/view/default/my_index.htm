@@ -78,7 +78,7 @@ $(window).resize(setHomeWidth);
 
 $(function() {
 	$("#used a").click(function(){
-		parent.oneTab($(this).attr("urlKey"), true);
+		parent.oneTab($(this).attr("urlKey"));
 	}).attr("href", "javascript:;");
 
 	setHomeWidth();
