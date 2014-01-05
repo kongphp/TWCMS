@@ -12,7 +12,11 @@ $(function(){
 	$("#rightbtn").click(rightTab);
 
 	$("#closeer,#adder,#leftbtn,#rightbtn").hover(function(){$(this).addClass("on");}, function(){$(this).removeAttr("class");});
-	$("#ifr_refresh").click(function(){$("#box_frame iframe:visible").attr("src", "?u="+$("#box_tab ul li.on").attr("urlKey")+getR());return false;});
+
+	var newUrl = $("#box_frame iframe:visible").attr("src");
+	var stopNum = newUrl.indexOf("&r=");
+	var newUrl = ( (stopNum == -1) ? newUrl : newUrl.substring(0, stopNum) ) + getR();
+	$("#ifr_refresh").click(function(){$("#box_frame iframe:visible").attr("src", newUrl);return false;});
 	$("#full_screen").click(function(){$(".acp").toggleClass("fsn");return false;});
 });
 
