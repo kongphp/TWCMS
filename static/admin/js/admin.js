@@ -12,7 +12,7 @@ $(function(){
 	$("#rightbtn").click(rightTab);
 
 	$("#closeer,#adder,#leftbtn,#rightbtn").hover(function(){$(this).addClass("on");}, function(){$(this).removeAttr("class");});
-	$("#ifr_refresh").click(function(){$("#box_frame iframe:visible").attr("src", $("#box_tab ul li.on").attr("url")+getR());return false;});
+	$("#ifr_refresh").click(function(){$("#box_frame iframe:visible").attr("src", "?u="+$("#box_tab ul li.on").attr("urlKey")+getR());return false;});
 	$("#full_screen").click(function(){$(".acp").toggleClass("fsn");return false;});
 });
 
@@ -27,35 +27,35 @@ function setNav() {
 	$(".nav ul li dl dd").hover(
 		function(){$(this).addClass("x");}, function(){$(this).removeAttr("class");}
 	).click(function(){
-		oneTab($(this).attr("url"));
+		oneTab($(this).attr("urlKey"));
 	});
 }
 
 //判断只加载一次标签
-function oneTab(url) {
-	var newTabUrl = "?u=my-newtab";
-	if($("#box_tab ul li[url='"+url+"']").length>0) {
-		onTab($("#box_tab ul li[url='"+url+"']:first"));
-	}else if($("#box_tab ul li[url='"+newTabUrl+"']").length>0){
+function oneTab(urlKey) {
+	var newUrlKey = "my-newtab";
+	if($("#box_tab ul li[urlKey='"+urlKey+"']").length>0) {
+		onTab($("#box_tab ul li[urlKey='"+urlKey+"']:first"));
+	}else if($("#box_tab ul li[urlKey='"+newUrlKey+"']").length>0){
 		$("#box_tab ul li.on").removeClass("on");
-		var newTab = $("#box_tab ul li[url='"+newTabUrl+"']:first");
-		newTab.addClass("on").attr("url", url);
-		$("#box_frame iframe:eq("+newTab.index()+")").attr("src", url);
+		var newTab = $("#box_tab ul li[urlKey='"+newUrlKey+"']:first");
+		newTab.addClass("on").attr("urlKey", urlKey);
+		$("#box_frame iframe:eq("+newTab.index()+")").attr("src", "?u="+urlKey);
 	}else{
-		addTab("\u6b63\u5728\u52a0\u8f7d", url);
+		addTab("\u6b63\u5728\u52a0\u8f7d", urlKey);
 	}
 }
 
 //添加标签页
-function addTab(title, url) {
+function addTab(title, urlKey) {
 	title = !title ? '\u65b0\u6807\u7b7e\u9875' : title;
-	url = (!url ? '?u=my-newtab' : url);
+	urlKey = (!urlKey ? 'my-newtab' : urlKey);
 
 	$("#box_tab ul").width($("#box_tab ul").width()+200);
 	$("#box_tab ul li.on").removeClass("on");
-	$("#box_tab ul").append('<li url='+ url +' title="'+ title +'" class="on"><b>'+ title +'</b><i></i></li>');
+	$("#box_tab ul").append('<li urlKey='+ urlKey +' title="'+ title +'" class="on"><b>'+ title +'</b><i></i></li>');
 	$("#box_frame iframe:visible").hide();
-	$("#box_frame").append('<iframe src="'+ url+getR() +'" frameborder="0" scrolling="yes"></iframe>');
+	$("#box_frame").append('<iframe src="'+"?u="+urlKey+getR()+'" frameborder="0" scrolling="yes"></iframe>');
 
 	setUlwidth();
 	if($("#box_tab ul").width() > $("#box_tab").width()) {
@@ -78,10 +78,10 @@ function loadMenu(coKey, is) {
 
 	if(is == "select") {
 		$("#menu dd.x").removeAttr("class");
-		$("#menu dd[url='"+$("#box_tab ul li.on").attr("url")+"']").addClass("x");
+		$("#menu dd[urlKey='"+$("#box_tab ul li.on").attr("urlKey")+"']").addClass("x");
 	}else if(!$("#menu dd").is(".x")) {
 		$("#menu dd:first").addClass("x");
-		oneTab($("#menu dd:first").attr("url"));
+		oneTab($("#menu dd:first").attr("urlKey"));
 	}
 
 	$("#menu dd").hover(
@@ -89,7 +89,7 @@ function loadMenu(coKey, is) {
 	).click(function(){
 		$("#menu dd").removeAttr("class");
 		$(this).addClass("x");
-		oneTab($(this).attr("url"));
+		oneTab($(this).attr("urlKey"));
 	});
 }
 

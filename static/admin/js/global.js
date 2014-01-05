@@ -401,12 +401,10 @@ function loadTab() {
 	if(!parent.twRoot) return;
 
 	var title = $("title").html();
-	var stopNum = location.search.indexOf("&r=");
-	var urlSearch = (stopNum == -1) ? location.search : location.search.substring(0, stopNum);
 	var eq = P("#box_frame iframe[src='"+location.search+"']").index();
 
 	P("#box_tab ul").width(P("#box_tab ul").width()+200);
-	P("#box_tab ul li:eq("+eq+")").attr({"url":urlSearch, "coKey":coKey, "title":title, "place":place});
+	P("#box_tab ul li:eq("+eq+")").attr({"urlKey":urlKey, "coKey":coKey, "title":title, "place":place});
 	P("#box_tab ul li:eq("+eq+") b").html(title);
 	P("#box_place").html(place);
 
