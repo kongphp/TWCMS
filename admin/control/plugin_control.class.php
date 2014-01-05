@@ -16,7 +16,6 @@ class plugin_control extends admin_control {
 			if(isset($arr) && is_array($arr)) {
 				foreach($arr as $dir => &$v) {
 					is_file(PLUGIN_PATH.$dir.'/show.jpg') && $v['is_show'] = 1;
-					is_file(PLUGIN_PATH.$dir.'/setting.php') && $v['is_setting'] = 1;
 				}
 			}
 		}
@@ -95,20 +94,7 @@ class plugin_control extends admin_control {
 		}
 	}
 
-	// 插件设置
-	public function setting() {
-		$dir = R('dir');
-		$this->check_plugin($dir);
-		$this->assign('dir', $dir);
-		$setting = PLUGIN_PATH.$dir.'/setting.php';
-		if(is_file($setting)) {
-			include $setting;
-		}else{
-			echo 'setting.php 文件不存在！';
-		}
-	}
-
-	// 插件安装
+	// 本地插件安装
 	public function install() {
 		$dir = R('dir', 'P');
 		$this->check_plugin($dir);
