@@ -1,7 +1,7 @@
 {inc:header.htm}
 <div class="m">
 	<div class="p">
-		<form id="article_add" action="?u=article-{$_GET['action']}-ajax-1" method="post">
+		<form id="article_set" action="?u=article-{$_GET['action']}-ajax-1" method="post">
 		<input name="id" type="hidden" value="{$data[id]}" />
 		<input name="color" type="hidden" value="{$data[color]}" />
 		<input name="seo_title" type="hidden" value="{$data[seo_title]}" />
@@ -132,7 +132,7 @@ window.editor_api = {
 
 // 自动保存
 window.autoSave = function() {
-	var data = $("#article_add").serialize();
+	var data = $("#article_set").serialize();
 	twAjax.post("?u=article-auto_save-ajax-1", data, function(html) { });
 };
 
@@ -167,11 +167,11 @@ setPicBut();
 // 触发自动保存
 var action = "{$_GET['action']}";
 if(action == "add") {
-	$("#article_add input, #article_add textarea, #article_add select").change(autoSave);
+	$("#article_set input, #article_set textarea, #article_set select").change(autoSave);
 }
 
 // 提交表单
-twAjax.submit("#article_add", function(data){
+twAjax.submit("#article_set", function(data){
 	twAjax.alert(data);
 	if(window.twData.err==0) {
 		setTimeout(function(){
