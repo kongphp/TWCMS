@@ -401,11 +401,13 @@ function loadTab() {
 	if(!parent.twRoot) return;
 
 	var title = $("title").html();
-	var eq = P("#box_frame iframe[src='"+location.search+"']").index();
+	var url = location.search;
+	var i = P("#box_frame iframe[src='"+url+"']").index();
+	if(i == -1) return;
 
 	P("#box_tab ul").width(P("#box_tab ul").width()+200);
-	P("#box_tab ul li:eq("+eq+")").attr({"urlKey":urlKey, "pKey":pKey, "title":title, "place":place});
-	P("#box_tab ul li:eq("+eq+") b").html(title);
+	P("#box_tab ul li:eq("+ i +")").attr({"pKey":pKey, "urlKey":urlKey, "title":title, "place":place});
+	P("#box_tab ul li:eq("+ i +") b").html(title);
 	P("#box_place").html(place);
 
 	parent.setUlwidth();
