@@ -390,11 +390,11 @@ class core{
 	 * @return string
 	 */
 	public static function parse_hook($matches) {
-		if(!is_dir(PLUGIN_PATH) || !empty($_ENV['_config']['plugin_disable'])) return '';
-		$str = '';
+		$str = "\n";
+		if(!is_dir(PLUGIN_PATH) || !empty($_ENV['_config']['plugin_disable'])) return $str;
 
 		$plugins = core::get_plugins();
-		if(empty($plugins['enable'])) return '';
+		if(empty($plugins['enable'])) return $str;
 
 		$plugin_enable = array_keys($plugins['enable']);
 		foreach($plugin_enable as $p) {
