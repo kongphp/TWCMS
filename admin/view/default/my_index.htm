@@ -6,7 +6,7 @@
 				<div class="sort">
 					<h1>常用功能</h1>
 					<dl class="sc cf" id="used">
-						{loop:$used_array $v}<dd><a href="{$v[url]}" title="{$v[name]}"><img src="{$C[admin_static]}{$v[imgsrc]}">{$v[name]}</a></dd>{/loop}
+						{loop:$used_array $v}<dd><a urlKey="{$v[url]}" title="{$v[name]}"><img src="{$C[admin_static]}{$v[imgsrc]}">{$v[name]}</a></dd>{/loop}
 					</dl>
 				</div>
 				<div class="sort">
@@ -78,8 +78,8 @@ $(window).resize(setHomeWidth);
 
 $(function() {
 	$("#used a").click(function(){
-		parent.oneTab($(this).attr("href"), true);return false;
-	});
+		parent.oneTab($(this).attr("urlKey"), true);
+	}).attr("href", "javascript:;");
 
 	setHomeWidth();
 	getBrowser();
