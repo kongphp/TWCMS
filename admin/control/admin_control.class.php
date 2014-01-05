@@ -11,7 +11,8 @@ class admin_control extends control {
 	public $_group = array();	// 用户组
 
 	public $_navs = array();	// 导航
-	public $_cokey = '';		// 父级
+	public $_pkey = '';			// 父级
+	public $_ukey = '';			// 当前
 	public $_title = '';		// 标题
 	public $_place = '';		// 位置
 
@@ -66,7 +67,8 @@ class admin_control extends control {
 						$this->assign('_user', $this->_user);
 						$this->assign('_group', $this->_group);
 						$this->assign('_navs', $this->_navs);
-						$this->assign('_cokey', $this->_cokey);
+						$this->assign('_pkey', $this->_pkey);
+						$this->assign('_ukey', $this->_ukey);
 						$this->assign('_title', $this->_title);
 						$this->assign('_place', $this->_place);
 					}
@@ -128,9 +130,10 @@ class admin_control extends control {
 		$url = $_GET['control'].'-'.$_GET['action'];
 		if(!isset($this->_navs[1][$url])) return;
 
-		$this->_cokey = $this->_navs[1][$url]['p'];
+		$this->_pkey = $this->_navs[1][$url]['p'];
+		$this->_ukey = $url;
 		$this->_title = $this->_navs[1][$url]['name'];
-		$this->_place = $this->_navs[0][$this->_cokey].' &#187; '.$this->_title;
+		$this->_place = $this->_navs[0][$this->_pkey].' &#187; '.$this->_title;
 	}
 
 	// 清除缓存

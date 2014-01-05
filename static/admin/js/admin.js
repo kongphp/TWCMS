@@ -25,7 +25,7 @@ function setNav() {
 	$(".nav ul li").hover(
 		function(){$(this).children("b").addClass("on");$(this).children("dl").show();}, function(){$(this).children("b").removeClass("on");$(this).children("dl").hide();}
 	).click(function(){
-		loadMenu($(this).attr("coKey"));
+		loadMenu($(this).attr("pKey"));
 	});
 
 	$(".nav ul li dl dd").hover(
@@ -72,12 +72,12 @@ function addTab(title, urlKey) {
 }
 
 //加载左部菜单
-function loadMenu(coKey, is) {
+function loadMenu(pKey, is) {
 	$(".nav ul li b.x").removeAttr("class");
-	$(".nav ul li[coKey='"+coKey+"'] b").addClass("x");
+	$(".nav ul li[pKey='"+pKey+"'] b").addClass("x");
 
-	$("#menutit").html($(".nav ul li[coKey='"+coKey+"'] b").html());
-	$("#menu").html($(".nav ul li[coKey='"+coKey+"'] dl").html());
+	$("#menutit").html($(".nav ul li[pKey='"+pKey+"'] b").html());
+	$("#menu").html($(".nav ul li[pKey='"+pKey+"'] dl").html());
 	$("#menu dt").remove();
 
 	if(is == "select") {
@@ -146,7 +146,7 @@ function onTab(obj) {
 	var valLeft = (thisLeft<167) ? $("#box_tab ul").position().left+(167-thisLeft) : ((thisLeft>endLeft ? $("#box_tab ul").position().left-(thisLeft-endLeft) : "no"));
 	if(valLeft != "no") $("#box_tab ul").animate({left: valLeft}, "fast").css("left", valLeft);
 	setAdder();
-	loadMenu(obj.attr("coKey"), "select");
+	loadMenu(obj.attr("pKey"), "select");
 }
 
 //删除标签页
@@ -172,7 +172,7 @@ function rmTab() {
 			$("#box_tab ul").animate({left: 0}, "fast").css("left",0);
 		}
 		setAdder();
-		loadMenu($("#box_tab ul li.on").attr("coKey"), "select");
+		loadMenu($("#box_tab ul li.on").attr("pKey"), "select");
 		if($("#box_tab ul li").length<1) loadMenu("my");
 	});
 }
