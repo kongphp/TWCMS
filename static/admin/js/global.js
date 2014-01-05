@@ -403,11 +403,19 @@ function loadTab() {
 	var title = $("title").html();
 	var url = location.search;
 	var i = P("#box_frame iframe[src='"+url+"']").index();
-	if(i == -1) return;
+	if(i == -1) {
+		i = P("#box_tab ul li[urlKey='"+urlKey+"']").index();
+		if(i == -1) return;
+	}
 
-	P("#box_tab ul").width(P("#box_tab ul").width()+200);
-	P("#box_tab ul li:eq("+ i +")").attr({"pKey":pKey, "urlKey":urlKey, "title":title, "place":place});
-	P("#box_tab ul li:eq("+ i +") b").html(title);
+	var obj1 = P("#box_tab ul");
+	var obj2 = obj1.children("li").eq(i);
+	var stopNum = url.indexOf("&r=");
+	var newUrl = (stopNum == -1) ? url : url.substring(0, stopNum);
+
+	obj1.width(obj1.width()+200);
+	obj2.attr({"url":newUrl, "urlKey":urlKey, "pKey":pKey, "title":title, "place":place});
+	obj2.children("b").html(title);
 	P("#box_place").html(place);
 
 	parent.setUlwidth();

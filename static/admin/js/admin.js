@@ -13,14 +13,14 @@ $(function(){
 
 	$("#closeer,#adder,#leftbtn,#rightbtn").hover(function(){$(this).addClass("on");}, function(){$(this).removeAttr("class");});
 
-	$("#ifr_refresh").click(function(){ ifrRefresh($("#box_frame iframe:visible").index()); return false; });
+	$("#ifr_refresh").click(function(){ ifrRefresh($("#box_tab ul li.on").index()); return false; });
 	$("#full_screen").click(function(){$(".acp").toggleClass("fsn");return false;});
 });
 
 //刷新一个框架
 function ifrRefresh(i) {
-	var obj = $("#box_frame iframe").eq(i), newUrl = obj.attr("src"), stopNum = newUrl.indexOf("&r=");
-	obj.attr("src", ( (stopNum == -1) ? newUrl : newUrl.substring(0, stopNum) ) + getR() );
+	var newUrl = $("#box_tab ul li").eq(i).attr("url") + getR();
+	$("#box_frame iframe:visible").attr("src", newUrl);
 }
 
 //导航栏
