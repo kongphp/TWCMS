@@ -66,14 +66,14 @@ class my_control extends admin_control {
 	// 获取常用功能
 	private function get_used() {
 		$arr = array(
-			array('name'=>'发布文章', 'url'=>'?u=article-add', 'imgsrc'=>'admin/ico/article_add.jpg'),
-			array('name'=>'文章管理', 'url'=>'?u=article-index', 'imgsrc'=>'admin/ico/article_index.jpg'),
-			array('name'=>'发布产品', 'url'=>'?u=product-add', 'imgsrc'=>'admin/ico/product_add.jpg'),
-			array('name'=>'产品管理', 'url'=>'?u=product-index', 'imgsrc'=>'admin/ico/product_index.jpg'),
-			array('name'=>'发布图集', 'url'=>'?u=photo-add', 'imgsrc'=>'admin/ico/photo_add.jpg'),
-			array('name'=>'图集管理', 'url'=>'?u=photo-index', 'imgsrc'=>'admin/ico/photo_index.jpg'),
-			array('name'=>'评论管理', 'url'=>'?u=comment-index', 'imgsrc'=>'admin/ico/comment_index.jpg'),
-			array('name'=>'分类管理', 'url'=>'?u=category-index', 'imgsrc'=>'admin/ico/category_index.jpg'),
+			array('name'=>'发布文章', 'url'=>'article-add', 'imgsrc'=>'admin/ico/article_add.jpg'),
+			array('name'=>'文章管理', 'url'=>'article-index', 'imgsrc'=>'admin/ico/article_index.jpg'),
+			array('name'=>'发布产品', 'url'=>'product-add', 'imgsrc'=>'admin/ico/product_add.jpg'),
+			array('name'=>'产品管理', 'url'=>'product-index', 'imgsrc'=>'admin/ico/product_index.jpg'),
+			array('name'=>'发布图集', 'url'=>'photo-add', 'imgsrc'=>'admin/ico/photo_add.jpg'),
+			array('name'=>'图集管理', 'url'=>'photo-index', 'imgsrc'=>'admin/ico/photo_index.jpg'),
+			array('name'=>'评论管理', 'url'=>'comment-index', 'imgsrc'=>'admin/ico/comment_index.jpg'),
+			array('name'=>'分类管理', 'url'=>'category-index', 'imgsrc'=>'admin/ico/category_index.jpg'),
 		);
 
 		// hook admin_my_control_get_used_after.php
