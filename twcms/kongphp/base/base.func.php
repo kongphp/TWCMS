@@ -190,6 +190,49 @@ function _rmdir($dir, $keepdir = 0) {
 	return TRUE;
 }
 
+// 清理PHP代码中的空格和注释
+function _strip_whitespace($content) {
+	$tokens = token_get_all($content);
+	$last = FALSE;
+	$s = '';
+	for($i = 0, $j = count($tokens); $i < $j; $i++) {
+		if(is_string($tokens[$i])) {
+			$last = FALSE;
+			$s .= $tokens[$i];
+		}else{
+			switch($tokens[$i][0]) {
+				case T_COMMENT: //清理PHP注释
+				case T_DOC_COMMENT:
+					break;
+				case T_WHITESPACE: //清理多余空格
+					if(!$last) {
+						$s .= ' ';
+						$last = TRUE;
+					}
+					break;
+				case T_START_HEREDOC:
+					$s .= "<<<KONG\n";
+					break;
+				case T_END_HEREDOC: // 修正 HEREDOC
+					$s .= "KONG;\n";
+					for($k = $i+1; $k < $j; $k++) {
+						if(is_string($tokens[$k]) && $tokens[$k] == ';') {
+							$i = $k;
+							break;
+						}elseif($tokens[$k][0] == T_CLOSE_TAG) {
+							break;
+						}
+					}
+					break;
+				default:
+					$last = FALSE;
+					$s .= $tokens[$i][1];
+			}
+		}
+	}
+	return $s;
+}
+
 /**
  * 产生随机字符串
  * @param int	$length	输出长度
