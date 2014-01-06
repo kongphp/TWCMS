@@ -20,7 +20,7 @@ $(function(){
 //刷新一个框架
 function ifrRefresh(i) {
 	var newUrl = $("#box_tab ul li").eq(i).attr("url") + getR();
-	$("#box_frame iframe:visible").attr("src", newUrl);
+	$("#box_frame iframe").eq(i).attr("src", newUrl);
 }
 
 //导航栏
