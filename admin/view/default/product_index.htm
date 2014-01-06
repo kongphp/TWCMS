@@ -1,0 +1,122 @@
+{inc:header.htm}
+<div class="m">
+	<div class="head">
+		<dl>
+			<input id="add" type="button" value="发布" class="but1" />
+			<dt style="display:inline;float:left;margin-right:8px">{$cidhtml}</dt>
+		</dl>
+	</div>
+
+	<div class="p c2">
+		<div class="cc" id="">
+			{if:empty($cms_product_arr)}<div class="sky warning bnote"><i></i><b>暂无内容</b></div>{else}
+			<table class="tb2">
+				<tr class="tit">
+					<th class="th" width="25"><input type="checkbox" id="check_all"></th>
+					<th class="th">标题</th>
+					<th class="th" width="110">作者</th>
+					<th class="th" width="100">评论数</th>
+					<th class="th" width="150">发布时间</th>
+					<th class="th" width="150">操作</th>
+				</tr>
+
+				{loop:$cms_product_arr $v}
+				{php}
+					$v['flagstr'] = '';
+					if(!empty($v['imagenum'])) {
+						$v['flagstr'] .= ' [图片]';
+					}
+					if(!empty($v['flags'])) {
+						$flags = explode(',', $v['flags']);
+						$flag_arr = array(1=>'推荐', 2=>'热点', 3=>'头条', 4=>'精选', 5=>'幻灯');
+						foreach($flags as $flag) {
+							$v['flagstr'] .= ' ['.$flag_arr[$flag].']';
+						}
+					}
+					if($v['flagstr']) $v['flagstr'] = '<font color="BC0B0B">'.$v['flagstr'].'</font>';
+				{/php}
+				<tr class="li">
+					<td class="col"><input type="checkbox" name="chk_row" _id="{$v[id]}" _cid="{$v[cid]}"></td>
+					<td class="col">{$v[title]}{$v[flagstr]}</td>
+					<td class="col">{$v['author']}</td>
+					<td class="col">{$v[comments]}</td>
+					<td class="col">{php} echo date('Y-m-d H:i:s', $v['dateline']);{/php}</td>
+					<td class="col">
+						<a class="but3" href="javascript:edit({$v[id]}, {$v[cid]});">编辑</a>
+						<a class="but3" href="../index.php?show--cid-{$v[cid]}-id-{$v[id]}" target="_blank">查看</a>
+						<a class="but3 del" href="javascript:del({$v[id]}, {$v[cid]});">删除</a>
+					</td>
+				</tr>
+				{/loop}
+			</table>
+
+			<div class="page cf"><span>共 <font color="red">{$total}</font> 篇</span>{$pages}</div>
+			{/if}
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$("#add").click(function(){
+	parent.oneTab("product-add");
+});
+
+$("#cid").change(function(){
+	location.href = "?u=product-index-cid-"+ $(this).val();
+});
+
+//全选
+$("#check_all").click(function(){
+	var bool = $(this)[0].checked;
+	var len = $("input[name='chk_row']").length;
+	for(var i=0; i<len; i++) {
+		$("input[name='chk_row']").eq(i)[0].checked = bool;
+	}
+	bool ? buttonDis() : $("#batch_del").remove();
+});
+
+//是否显示删除按钮
+$("input[name='chk_row']").click(function(){
+	var len = $("input[name='chk_row']:checked").length;
+	len ? buttonDis() : $("#batch_del").remove();
+});
+
+//显示删除按钮
+function buttonDis() {
+	if(!$("#batch_del").length) $(".head>dl").append('<input id="batch_del" onclick="batch_del()" type="button" value="批量删除" class="but1" />');
+}
+
+//编辑
+function edit(id, cid) {
+	parent.oneTab("product-edit-cid-"+cid+"-id-"+id);
+}
+
+//删除
+function del(id, cid) {
+	twAjax.confirm("删除不可恢复，确定删除？", function(){
+		twAjax.postd("?u=product-del-ajax-1", {"id":id, "cid":cid}, function(data){
+			twAjax.alert(data);
+			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+
+//批量删除
+function batch_del() {
+	twAjax.confirm("删除不可恢复，确定删除？", function(){
+		var id_arr = {};
+		var len = $("input[name='chk_row']").length;
+		for(var i=0; i<len; i++) {
+			var obj = $("input[name='chk_row']").eq(i);
+			if(obj[0].checked) {
+				id_arr[i] = [obj.attr("_id"), obj.attr("_cid")];
+			}
+		}
+		twAjax.postd("?u=product-batch_del-ajax-1", {"id_arr":id_arr}, function(data){
+			twAjax.alert(data);
+			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
+		});
+	});
+}
+</script>
+</body>
+</html>

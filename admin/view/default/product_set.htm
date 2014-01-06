@@ -1,0 +1,191 @@
+{inc:header.htm}
+<div class="m">
+	<div class="p">
+		<form id="product_set" action="?u=product-{$_GET['action']}-ajax-1" method="post">
+		<input name="id" type="hidden" value="{$data[id]}" />
+		<input name="color" type="hidden" value="{$data[color]}" />
+		<input name="seo_title" type="hidden" value="{$data[seo_title]}" />
+		<div class="cc contadd">
+			<table><tr valign="top">
+				<td><table class="tb tl">
+					<tr>
+						<th class="th"><b>*</b>分类</th>
+						<td class="col">
+							{$cidhtml}
+						</td>
+					</tr>
+					<tr>
+						<th class="th"><b>*</b>标题</th>
+						<td class="col"><input name="title" type="text" value="{$data[title]}" class="inp w98" /></td>
+					</tr>
+					<tr>
+						<th class="th"><b>*</b>内容</th>
+						<td class="col">
+							<textarea id="content" class="inp w98" name="content" style="height:80px">{$data[content]}</textarea>
+							<div class="addition">
+								<label title="远程抓取图片比较消耗服务器资源，影响发布速度">
+									<input name="isremote" type="checkbox" value="1"> 远程图片本地化
+								</label>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th class="th">别名</th>
+						<td class="col"><input name="alias" type="text" value="{$data[alias]}" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">标签</th>
+						<td class="col"><input name="tags" type="text" value="{$data[tags]}" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">摘要</th>
+						<td class="col">
+							<textarea name="intro" class="inp w98" style="height:60px" titile="如果不填，程序自动生成摘要" maxlength="255">{$data[intro]}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<th class="th"></th>
+						<td class="col"><input type="submit" value="&#20445;&#23384;" class="but1" style="margin:0" /></td>
+					</tr>
+				</table></td>
+				<td width="398"><table class="tb">
+					<tr>
+						<th class="th">缩略图</th>
+						<td class="col">
+							<input id="tw_pic_val" name="pic" type="hidden" value="{$data[pic]}" />
+							<div class="picimg"><img id="tw_pic_img" src="{$data[pic_src]}" /></div>
+							<div class="picbut"><a id="tw_pic_but" class="but3" href="javascript:;">上传缩略图</a></div>
+						</td>
+					</tr>
+					<tr>
+						<th class="th">属性</th>
+						<td class="col">
+							<label><input class="mr3" name="flag[]" type="checkbox" value="1"{if:in_array(1,$data[flags])} checked{/if}>推荐</label>
+							<label><input class="mr3" name="flag[]" type="checkbox" value="2"{if:in_array(2,$data[flags])} checked{/if}>热点</label>
+							<label><input class="mr3" name="flag[]" type="checkbox" value="3"{if:in_array(3,$data[flags])} checked{/if}>头条</label>
+							<label><input class="mr3" name="flag[]" type="checkbox" value="4"{if:in_array(4,$data[flags])} checked{/if}>精选</label>
+							<label><input class="mr3" name="flag[]" type="checkbox" value="5"{if:in_array(5,$data[flags])} checked{/if}>幻灯</label>
+						</td>
+					</tr>
+					<tr>
+						<th class="th">作者</th>
+						<td class="col"><input name="author" type="text" value="{$data[author]}" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">来源</th>
+						<td class="col"><input name="source" type="text" value="{$data[source]}" class="inp w1" /></td>
+					</tr>
+					{if:$_GET['action'] == 'edit'}
+					<tr>
+						<th class="th">发布时间</th>
+						<td class="col"><input name="dateline" type="text" value="{$data[dateline]}" class="inp w1" /></td>
+					</tr>
+					{/if}
+					<tr>
+						<th class="th">浏览次数</th>
+						<td class="col"><input name="views" type="text" value="{$data[views]}" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">禁止评论</th>
+						<td class="col"><input name="iscomment" type="checkbox" value="1"{if:!empty($data['iscomment'])} checked="checked"{/if}></td>
+					</tr>
+					<tr>
+						<th class="th">SEO关键字</th>
+						<td class="col"><input name="seo_keywords" type="text" value="{$data[seo_keywords]}" class="inp w1" /></td>
+					</tr>
+					<tr>
+						<th class="th">SEO描述</th>
+						<td class="col"><input name="seo_description" type="text" value="{$data[seo_description]}" class="inp w1" /></td>
+					</tr>
+				</table></td>
+			</tr></table>
+		</div>
+		</form>
+	</div>
+</div>
+
+<iframe name="tw_upifr" style="display:none"></iframe>
+<form id="tw_pic_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="?u=attach-upload_image&type=pic">
+	<input id="tw_pic_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" />
+</form>
+<form id="tw_img_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="?u=attach-upload_image&type=img">
+	<input id="tw_img_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" multiple="multiple" />
+</form>
+
+<script type="text/javascript">
+// 编辑器API
+window.editor_api = {
+	// 内容
+	content : {
+		obj : $('#content'),
+		get : function() {
+			return this.obj.val();
+		},
+		set : function(s) {
+			return this.obj.val(s);
+		},
+		focus : function() {
+			return this.obj.focus();
+		}
+	}
+}
+
+// 自动保存
+var action = "{$_GET['action']}";
+window.autoSave = function() {
+	if(action != "add") return;
+	var data = $("#product_set").serialize();
+	twAjax.post("?u=product-auto_save-ajax-1", data, function(html) { });
+};
+
+// 传统上传缩略图
+document.getElementById("tw_pic_upfile").onchange = function() {
+	document.getElementById("tw_pic_upform").submit();
+};
+
+// 设置显示缩略图 (iframe使用)
+function setDisplayPic(path, thumb) {
+	$("#tw_pic_val").val(thumb);
+	$("#tw_pic_img").attr("src", "../"+thumb);
+	autoSave();
+}
+
+// 定位缩略图上传按钮
+function setPicBut() {
+	var obj = $("#tw_pic_but"),
+		p = obj.position(),
+		w = obj.outerWidth(true),
+		h = obj.outerHeight(true),
+		r = $(document).width() - w - p.left;
+	$("#tw_pic_upfile").hover(function(){
+		obj.addClass("but_on");
+	}, function(){
+		obj.removeClass("but_on");
+	}).show().css({"position":"absolute", "top":p.top, "right":r, "width":w, "height":h});
+}
+
+setPicBut();
+
+// 触发自动保存
+$("#product_set input, #product_set textarea, #product_set select").change(autoSave);
+
+// 提交表单
+twAjax.submit("#product_set", function(data){
+	twAjax.alert(data);
+	if(window.twData.err==0) {
+		setTimeout(function(){
+			var i = P("#box_tab ul li[urlKey='product-index']").index();
+			if(i != -1) parent.ifrRefresh(i);
+			parent.oneTab("product-index");
+
+			var j = P("#box_tab ul li[urlKey='"+urlKey+"']").index();
+			parent.rmTab(j);
+		}, 1200);
+	}
+});
+</script>
+
+{hook:admin_content_add_after.htm}
+
+</body>
+</html>
