@@ -70,6 +70,7 @@ class photo_control extends admin_control {
 				$data['author'] = $this->_user['username'];
 				$data['views'] = 0;
 			}
+			$data['content'] = htmlspecialchars($data['content']);
 			$this->assign('data', $data);
 
 			$cidhtml = $this->category->get_cidhtml_by_mid(4, $cid);
@@ -260,6 +261,7 @@ class photo_control extends admin_control {
 			$data2 = $this->cms_content_data->get($id);
 			$data3 = $this->cms_content_views->get($id);
 			$data = array_merge($data, $data2, $data3);
+			$data['images'] = (array)_json_decode($data['images']);
 			$data['content'] = htmlspecialchars($data['content']);
 			$data['tags'] = implode(',', (array)_json_decode($data['tags']));
 			$data['intro'] = str_replace('<br />', "\n", strip_tags($data['intro'], '<br>'));
@@ -275,6 +277,7 @@ class photo_control extends admin_control {
 			$title = trim(strip_tags(R('title', 'P')));
 			$flags = (array)R('flag', 'P');
 			$views = intval(R('views', 'P'));
+			$images = (array)R('images', 'P');
 			$contentstr = trim(R('content', 'P'));
 			$intro = trim(R('intro', 'P'));
 			$isremote = intval(R('isremote', 'P'));
@@ -284,6 +287,7 @@ class photo_control extends admin_control {
 			empty($id) && E(1, 'ID不能为空！');
 			empty($cid) && E(1, '亲，您没有选择分类哦！');
 			empty($title) && E(1, '亲，您的标题忘了填哦！');
+			empty($images) && E(1, '亲，您的图集忘上传图片了！');
 
 			$categorys = $this->category->read($cid);
 			if(empty($categorys)) E(1, '分类ID不存在！');
@@ -390,7 +394,7 @@ class photo_control extends admin_control {
 
 			// 写入内容数据表
 			$this->cms_content_data->table = 'cms_'.$table.'_data';
-			if(!$this->cms_content_data->set($id, array('content' => $contentstr))) {
+			if(!$this->cms_content_data->set($id, array('content' => $contentstr, 'images' => json_encode($images)))) {
 				E(1, '写入内容数据表出错');
 			}
 

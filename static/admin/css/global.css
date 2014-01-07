@@ -164,7 +164,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 /*内容发布*/
 #tw_pic_upfile,#tw_img_upfile{display:none;opacity:0;filter:alpha(opacity=0)}
 .contadd #tw_pic_img{border:1px solid #ccc;padding:3px;border-radius:5px}
-.contadd #tw_dropbox{width:100%;min-height:120px;padding-bottom:5px;border:3px dashed #E5E5E5}
+.contadd #tw_dropbox{width:100%;min-height:120px;padding:0 5px 5px 0;border:3px dashed #E5E5E5}
 .contadd #tw_dropbox .d_li{width:120px;height:120px;float:left;margin:5px 0 0 5px;border:1px solid #ccc}
 .contadd #tw_dropbox .d_li .d_img{height:100px;overflow:hidden}
 .contadd #tw_dropbox .d_li .d_img img{display:block;margin:auto}

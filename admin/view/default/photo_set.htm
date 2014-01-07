@@ -22,6 +22,16 @@
 						<th class="th"><b>*</b>图集</th>
 						<td class="col">
 							<div id="tw_dropbox" class="cf">
+								{loop:$data[images] $v $k}
+								<div class="d_li">
+									<div class="d_img"><img src="../{$v[thumb]}" height="120" width="120" style="margin-top: -10px;"></div>
+									<div class="d_txt">
+										<input name="images[{$k}][big]" value="{$v[big]}" type="hidden">
+										<input name="images[{$k}][thumb]" value="{$v[thumb]}" type="hidden">
+										<textarea name="images[{$k}][content]" placeholder="请输入描述">{php}echo htmlspecialchars($v['content']);{/php}</textarea>
+									</div>
+								</div>
+								{/loop}
 								<div id="tw_imgup" class="d_li">
 									<div><a id="tw_img_but" class="but3" href="javascript:;">上传图片</a></div>
 									<div id="tw_img_tips"></div>
@@ -320,6 +330,11 @@ var kpUpload = {
 	}
 };
 
+// 编辑时设置 count 值
+if(action != "add") {
+	kpUpload.count = {$k};
+}
+
 // 设置显示缩略图 (iframe使用)
 function setDisplayPic(path, thumb) {
 	$("#tw_pic_val").val(thumb);
@@ -350,6 +365,7 @@ function setPicBut() {
 
 // 定位图集上传按钮
 function setImgBut() {
+	if(!$("#tw_img_but").length) return;
 	var isIE = !!window.ActiveXObject;
 	var obj = $("#tw_img_but");
 	var p = obj.position();
