@@ -13,6 +13,8 @@ class attach_control extends admin_control {
 
 		$type = R('type');
 		$mid = max(2, (int)R('mid'));
+		$cid = (int)R('cid');
+		$id = (int)R('id');
 		$table = $this->models->get_table($mid);
 		$cfg = $this->runtime->xget();
 
@@ -23,7 +25,7 @@ class attach_control extends admin_control {
 			'upDir'=>TWCMS_PATH.$updir,
 		);
 		$this->cms_content_attach->table = 'cms_'.$table.'_attach';
-		$info = $this->cms_content_attach->upload($this->_user['uid'], $config);
+		$info = $this->cms_content_attach->uploads($config, $this->_user['uid'], $cid, $id);
 
 		if($info['state'] == 'SUCCESS') {
 			$path = $updir.$info['path'];

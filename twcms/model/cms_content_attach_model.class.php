@@ -14,15 +14,15 @@ class cms_content_attach extends model {
 	}
 
 	// 上传并记录到数据库
-	public function upload($uid, $config) {
+	public function uploads($config, $uid, $cid = 0, $id = 0) {
 		$up = new upload($config, 'upfile');
 		$info = $up->getFileInfo();
 
 		if($info['state'] == 'SUCCESS') {
 			$data = array(
-				'cid' => 0,
+				'cid' => $cid,
 				'uid' => $uid,
-				'id' => 0,
+				'id' => $id,
 				'filename' => $info['name'],
 				'filetype' => $info['ext'],
 				'filesize' => $info['size'],
