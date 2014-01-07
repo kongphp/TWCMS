@@ -130,7 +130,7 @@ class photo_control extends admin_control {
 			$endstr = '';
 			$this->cms_content_attach->table = 'cms_'.$table.'_attach';
 			if($isremote) {
-				$endstr .= $this->get_remote_img($table, $uid, $contentstr);
+				$endstr .= $this->get_remote_img($table, $contentstr, $uid);
 			}
 
 			// 计算图片数，和非图片文件数
@@ -358,7 +358,7 @@ class photo_control extends admin_control {
 			$endstr = '';
 			$this->cms_content_attach->table = 'cms_'.$table.'_attach';
 			if($isremote) {
-				$endstr .= $this->get_remote_img($table, $uid, $contentstr);
+				$endstr .= $this->get_remote_img($table, $contentstr, $uid, $cid, $id);
 			}
 
 			// 计算图片数，和非图片文件数
@@ -525,7 +525,7 @@ class photo_control extends admin_control {
 	}
 
 	// 获取远程图片
-	private function get_remote_img($table, $uid, &$content) {
+	private function get_remote_img($table, &$content, $uid, $cid = 0, $id = 0) {
 		function_exists('set_time_limit') && set_time_limit(0);
 		$cfg = $this->runtime->xget();
 		$updir = 'upload/'.$table.'/';
@@ -533,6 +533,8 @@ class photo_control extends admin_control {
 		$_ENV['_prc_arg'] = array(
 			'hosts'=>array('127.0.0.1', 'localhost', $_SERVER['HTTP_HOST'], $cfg['webdomain']),
 			'uid'=>$uid,
+			'cid'=>$cid,
+			'id'=>$id,
 			'maxSize'=>10000,
 			'upDir'=>TWCMS_PATH.$updir,
 			'preUri'=>$cfg['weburl'].$updir,
