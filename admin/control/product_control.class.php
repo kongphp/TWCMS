@@ -64,6 +64,8 @@ class product_control extends admin_control {
 				$data['pic_src'] = empty($data['pic']) ? '../static/img/nopic.gif' : '../'.$data['pic'];
 				empty($data['author']) && $data['author'] = $this->_user['username'];
 				$data['flags'] = empty($data['flag']) ? array() : $data['flag'];
+				!empty($data['images']) && $data['images'] = (array)$data['images'];
+				$data['content'] = htmlspecialchars($data['content']);
 			}else{
 				$data['flags'] = array();
 				$data['pic_src'] = '../static/img/nopic.gif';
@@ -90,7 +92,7 @@ class product_control extends admin_control {
 
 			empty($cid) && E(1, '亲，您没有选择分类哦！');
 			empty($title) && E(1, '亲，您的标题忘了填哦！');
-			empty($images) && E(1, '亲，您的图集忘上传图片了！');
+			empty($images) && E(1, '亲，您的产品忘上传图片了！');
 			if(strlen($contentstr) < 50) E(1, '亲，您的内容字数太少了哦！');
 
 			$categorys = $this->category->read($cid);
@@ -129,7 +131,7 @@ class product_control extends admin_control {
 			$endstr = '';
 			$this->cms_content_attach->table = 'cms_'.$table.'_attach';
 			if($isremote) {
-				$endstr .= $this->get_remote_img($table, $uid, $contentstr);
+				$endstr .= $this->get_remote_img($table, $contentstr, $uid);
 			}
 
 			// 计算图片数，和非图片文件数
@@ -258,9 +260,12 @@ class product_control extends admin_control {
 			$this->cms_content_data->table = 'cms_'.$table.'_data';
 			$this->cms_content_views->table = 'cms_'.$table.'_views';
 			$data = $this->cms_content->get($id);
+			if(empty($data)) $this->message(0, '内容不存在！', -1);
+
 			$data2 = $this->cms_content_data->get($id);
 			$data3 = $this->cms_content_views->get($id);
 			$data = array_merge($data, $data2, $data3);
+			$data['images'] = (array)_json_decode($data['images']);
 			$data['content'] = htmlspecialchars($data['content']);
 			$data['tags'] = implode(',', (array)_json_decode($data['tags']));
 			$data['intro'] = str_replace('<br />', "\n", strip_tags($data['intro'], '<br>'));
@@ -269,6 +274,9 @@ class product_control extends admin_control {
 			$data['dateline'] = date('Y-m-d H:i:s', $data['dateline']);
 			$this->assign('data', $data);
 
+			$edit_cid_id = '&cid='.$data['cid'].'&id='.$data['id'];
+			$this->assign('edit_cid_id', $edit_cid_id);
+
 			$this->display('product_set.htm');
 		}else{
 			$id = intval(R('id', 'P'));
@@ -276,6 +284,7 @@ class product_control extends admin_control {
 			$title = trim(strip_tags(R('title', 'P')));
 			$flags = (array)R('flag', 'P');
 			$views = intval(R('views', 'P'));
+			$images = (array)R('images', 'P');
 			$contentstr = trim(R('content', 'P'));
 			$intro = trim(R('intro', 'P'));
 			$isremote = intval(R('isremote', 'P'));
@@ -285,6 +294,7 @@ class product_control extends admin_control {
 			empty($id) && E(1, 'ID不能为空！');
 			empty($cid) && E(1, '亲，您没有选择分类哦！');
 			empty($title) && E(1, '亲，您的标题忘了填哦！');
+			empty($images) && E(1, '亲，您的产品忘上传图片了！');
 			if(strlen($contentstr) < 50) E(1, '亲，您的内容字数太少了哦！');
 
 			$categorys = $this->category->read($cid);
@@ -350,7 +360,7 @@ class product_control extends admin_control {
 			$endstr = '';
 			$this->cms_content_attach->table = 'cms_'.$table.'_attach';
 			if($isremote) {
-				$endstr .= $this->get_remote_img($table, $uid, $contentstr);
+				$endstr .= $this->get_remote_img($table, $contentstr, $uid, $cid, $id);
 			}
 
 			// 计算图片数，和非图片文件数
@@ -392,7 +402,7 @@ class product_control extends admin_control {
 
 			// 写入内容数据表
 			$this->cms_content_data->table = 'cms_'.$table.'_data';
-			if(!$this->cms_content_data->set($id, array('content' => $contentstr))) {
+			if(!$this->cms_content_data->set($id, array('content' => $contentstr, 'images' => json_encode($images)))) {
 				E(1, '写入内容数据表出错');
 			}
 
@@ -517,7 +527,7 @@ class product_control extends admin_control {
 	}
 
 	// 获取远程图片
-	private function get_remote_img($table, $uid, &$content) {
+	private function get_remote_img($table, &$content, $uid, $cid = 0, $id = 0) {
 		function_exists('set_time_limit') && set_time_limit(0);
 		$cfg = $this->runtime->xget();
 		$updir = 'upload/'.$table.'/';
@@ -525,6 +535,8 @@ class product_control extends admin_control {
 		$_ENV['_prc_arg'] = array(
 			'hosts'=>array('127.0.0.1', 'localhost', $_SERVER['HTTP_HOST'], $cfg['webdomain']),
 			'uid'=>$uid,
+			'cid'=>$cid,
+			'id'=>$id,
 			'maxSize'=>10000,
 			'upDir'=>TWCMS_PATH.$updir,
 			'preUri'=>$cfg['weburl'].$updir,
