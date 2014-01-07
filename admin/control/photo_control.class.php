@@ -259,6 +259,8 @@ class photo_control extends admin_control {
 			$this->cms_content_data->table = 'cms_'.$table.'_data';
 			$this->cms_content_views->table = 'cms_'.$table.'_views';
 			$data = $this->cms_content->get($id);
+			if(empty($data)) $this->message(0, '内容不存在！', -1);
+
 			$data2 = $this->cms_content_data->get($id);
 			$data3 = $this->cms_content_views->get($id);
 			$data = array_merge($data, $data2, $data3);
@@ -270,6 +272,9 @@ class photo_control extends admin_control {
 			$data['flags'] = explode(',', $data['flags']);
 			$data['dateline'] = date('Y-m-d H:i:s', $data['dateline']);
 			$this->assign('data', $data);
+
+			$edit_cid_id = '&cid='.$data['cid'].'&id='.$data['id'];
+			$this->assign('edit_cid_id', $edit_cid_id);
 
 			$this->display('photo_set.htm');
 		}else{
