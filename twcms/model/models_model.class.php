@@ -55,7 +55,7 @@ class models extends model {
 
 	// 根据 mid 获取模型的表名
 	public function get_table($mid) {
-		$table_arr = $this->get_table_arr();
-		return isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
+		$data = $this->get($mid);
+		return isset($data['tablename']) ? $data['tablename'] : 'article';
 	}
 }
