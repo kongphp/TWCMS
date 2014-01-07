@@ -41,7 +41,7 @@ class cms_content_attach extends model {
 		return $info;
 	}
 
-	// 远程图片下载并记录到数据库 ($conf 用到3个参数 uid maxSize upDir)
+	// 远程图片下载并记录到数据库 ($conf 用到5个参数 maxSize upDir cid uid id)
 	public function remote_down($uri, &$conf) {
 		// php.ini 中的 allow_url_fopen 关闭时不抓取远程图片
 		if(function_exists('ini_get') && !ini_get('allow_url_fopen')) return FALSE;
@@ -87,9 +87,9 @@ class cms_content_attach extends model {
 
 			// 记录到数据库
 			$data = array(
-				'cid' => 0,
+				'cid' => $conf['cid'],
 				'uid' => $conf['uid'],
-				'id' => 0,
+				'id' => $conf['id'],
 				'filename' => basename($uri),
 				'filetype' => $fileExt,
 				'filesize' => $filesize,
