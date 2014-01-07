@@ -81,6 +81,7 @@ class product_control extends admin_control {
 			$title = trim(strip_tags(R('title', 'P')));
 			$flags = (array)R('flag', 'P');
 			$views = intval(R('views', 'P'));
+			$images = (array)R('images', 'P');
 			$contentstr = trim(R('content', 'P'));
 			$intro = trim(R('intro', 'P'));
 			$dateline = trim(R('dateline', 'P'));
@@ -89,6 +90,7 @@ class product_control extends admin_control {
 
 			empty($cid) && E(1, '亲，您没有选择分类哦！');
 			empty($title) && E(1, '亲，您的标题忘了填哦！');
+			empty($images) && E(1, '亲，您的图集忘上传图片了！');
 			if(strlen($contentstr) < 50) E(1, '亲，您的内容字数太少了哦！');
 
 			$categorys = $this->category->read($cid);
@@ -174,7 +176,7 @@ class product_control extends admin_control {
 
 			// 写入内容数据表
 			$this->cms_content_data->table = 'cms_'.$table.'_data';
-			if(!$this->cms_content_data->set($id, array('content' => $contentstr))) {
+			if(!$this->cms_content_data->set($id, array('content' => $contentstr, 'images' => json_encode($images)))) {
 				E(1, '写入内容数据表出错');
 			}
 
