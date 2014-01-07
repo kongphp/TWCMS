@@ -64,13 +64,14 @@ class photo_control extends admin_control {
 				$data['pic_src'] = empty($data['pic']) ? '../static/img/nopic.gif' : '../'.$data['pic'];
 				empty($data['author']) && $data['author'] = $this->_user['username'];
 				$data['flags'] = empty($data['flag']) ? array() : $data['flag'];
+				!empty($data['images']) && $data['images'] = (array)$data['images'];
+				$data['content'] = htmlspecialchars($data['content']);
 			}else{
 				$data['flags'] = array();
 				$data['pic_src'] = '../static/img/nopic.gif';
 				$data['author'] = $this->_user['username'];
 				$data['views'] = 0;
 			}
-			$data['content'] = htmlspecialchars($data['content']);
 			$this->assign('data', $data);
 
 			$cidhtml = $this->category->get_cidhtml_by_mid(4, $cid);

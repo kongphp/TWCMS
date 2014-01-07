@@ -32,6 +32,7 @@
 									</div>
 								</div>
 								{/loop}
+								{php} $init_count = isset($k) ? $k : 0; // 初始化 count 值 {/php}
 								<div id="tw_imgup" class="d_li">
 									<div><a id="tw_img_but" class="but3" href="javascript:;">上传图片</a></div>
 									<div id="tw_img_tips"></div>
@@ -167,7 +168,7 @@ document.getElementById("tw_pic_upfile").onchange = function() {
 //====拖拽图片上传====
 window.isDrop = !!window.FileReader;
 var kpUpload = {
-	count : 0,
+	count : {$init_count},
 	init : function() {
 		if(!window.TW_UP) window.TW_UP = true;
 
@@ -260,6 +261,8 @@ var kpUpload = {
 		var d_li = $('<div class="d_li"><div class="d_txt">'+inps+'</div></div>').prepend(div);
 		$("#tw_imgup").before(d_li);
 
+		autoSave(); // 发布时会自动保存上传的图集
+
 		if(typeof file == "object") {
 			var reader = new FileReader();
 			reader.readAsDataURL(file);
@@ -329,11 +332,6 @@ var kpUpload = {
 		upload(0);
 	}
 };
-
-// 编辑时设置 count 值
-if(action != "add") {
-	kpUpload.count = {$k};
-}
 
 // 设置显示缩略图 (iframe使用)
 function setDisplayPic(path, thumb) {
