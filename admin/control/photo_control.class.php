@@ -77,6 +77,9 @@ class photo_control extends admin_control {
 			$cidhtml = $this->category->get_cidhtml_by_mid(4, $cid);
 			$this->assign('cidhtml', $cidhtml);
 
+			$edit_cid_id = '&mid=4';
+			$this->assign('edit_cid_id', $edit_cid_id);
+
 			$this->display('photo_set.htm');
 		}else{
 			$cid = intval(R('cid', 'P'));
@@ -273,7 +276,7 @@ class photo_control extends admin_control {
 			$data['dateline'] = date('Y-m-d H:i:s', $data['dateline']);
 			$this->assign('data', $data);
 
-			$edit_cid_id = '&cid='.$data['cid'].'&id='.$data['id'];
+			$edit_cid_id = '&mid=4&cid='.$data['cid'].'&id='.$data['id'];
 			$this->assign('edit_cid_id', $edit_cid_id);
 
 			$this->display('photo_set.htm');
@@ -367,7 +370,7 @@ class photo_control extends admin_control {
 
 			// 如果缩略图为空，并且内容含有图片，则将第一张图片设置为缩略图
 			if(empty($pic) && $imagenum) {
-				$pic = $this->auto_pic($table, $uid);
+				$pic = $this->auto_pic($table, $uid, $id = 0);
 			}
 
 			// 如果摘要为空，自动生成摘要
@@ -510,8 +513,8 @@ class photo_control extends admin_control {
 	}
 
 	// 自动生成缩略图
-	private function auto_pic($table, $uid) {
-		$pic_arr = $this->cms_content_attach->find_fetch(array('id'=>0, 'uid'=>$uid, 'isimage'=>1), array(), 0, 1);
+	private function auto_pic($table, $uid, $id = 0) {
+		$pic_arr = $this->cms_content_attach->find_fetch(array('id'=>$id, 'uid'=>$uid, 'isimage'=>1), array(), 0, 1);
 		$pic_arr = current($pic_arr);
 		$cfg = $this->runtime->xget();
 		$path = 'upload/'.$table.'/'.$pic_arr['filepath'];

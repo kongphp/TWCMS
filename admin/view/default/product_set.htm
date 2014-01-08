@@ -127,10 +127,10 @@
 </div>
 
 <iframe name="tw_upifr" style="display:none"></iframe>
-<form id="tw_pic_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="?u=attach-upload_image&type=pic&mid=3{$edit_cid_id}">
+<form id="tw_pic_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="?u=attach-upload_image&type=pic{$edit_cid_id}">
 	<input id="tw_pic_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" />
 </form>
-<form id="tw_img_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="?u=attach-upload_image&type=img&mid=3{$edit_cid_id}">
+<form id="tw_img_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="?u=attach-upload_image&type=img{$edit_cid_id}">
 	<input id="tw_img_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" multiple="multiple" />
 </form>
 
@@ -305,7 +305,7 @@ var kpUpload = {
 				}
 
 				var xhr = new XMLHttpRequest();
-				xhr.open("post", "?u=attach-upload_image&type=img&mid=3&ajax=1{$edit_cid_id}", true);
+				xhr.open("post", "?u=attach-upload_image&type=img&ajax=1{$edit_cid_id}", true);
 				xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
 				//模拟数据
