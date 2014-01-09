@@ -54,9 +54,6 @@ $_ENV['_config'] = array(
 	// 前台 (静态文件可以使用绝对路径做cdn加速)
 	'front_static' => 'static/',
 
-	// 后台
-	'admin_static' => '../static/',
-
 	'url_suffix' => '.html',
 	'version' => '2.0.0',			// 版本号
 	'release' => '20130902',		// 发布日期
