@@ -58,9 +58,36 @@ class my_control extends admin_control {
 
 	// 修改密码
 	public function password() {
-		// hook admin_my_control_password_after.php
+		if(empty($_POST)) {
+			// hook admin_my_control_password_after.php
 
-		$this->display();
+			$this->display();
+		}else{
+			$oldpw = trim(R('oldpw', 'P'));
+			$newpw = trim(R('newpw', 'P'));
+			$confirm_newpw = trim(R('confirm_newpw', 'P'));
+			$data = $this->_user;
+
+			if(empty($oldpw)) {
+				exit('{"err":1, "msg":"旧密码不能为空"}');
+			}elseif(strlen($newpw) < 8) {
+				exit('{"err":1, "msg":"新密码不能小于8位"}');
+			}elseif($confirm_newpw != $newpw) {
+				exit('{"err":1, "msg":"重复新密码不等于新密码"}');
+			}elseif(!$this->user->verify_password($oldpw, $data['salt'], $data['password'])) {
+				exit('{"err":1, "msg":"旧密码不正确"}');
+			}
+
+			// hook admin_my_control_password_post_after.php
+
+			$data['salt'] = random(16, 3, '0123456789abcdefghijklmnopqrstuvwxyz~!@#$%^&*()_+<>,.'); // 增加破解难度
+			$data['password'] = md5(md5($newpw).$data['salt']);
+			if(!$this->user->update($data)) {
+				exit('{"err":0, "msg":"修改失败"}');
+			}else{
+				exit('{"err":0, "msg":"修改成功"}');
+			}
+		}
 	}
 
 	// 获取常用功能
