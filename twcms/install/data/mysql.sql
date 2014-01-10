@@ -16,7 +16,6 @@ CREATE TABLE pre_user (
   lastip int(10) NOT NULL DEFAULT '0',			# 上次登陆IP
   lastdate int(10) unsigned NOT NULL DEFAULT '0',	# 上次登陆日期
   contents int(10) unsigned NOT NULL DEFAULT '0',	# 内容数
-  uploads int(10) unsigned NOT NULL DEFAULT '0',	# 上传数
   comments int(10) unsigned NOT NULL DEFAULT '0',	# 评论数
   logins int(10) unsigned NOT NULL DEFAULT '0',		# 登陆数
   PRIMARY KEY (uid),
