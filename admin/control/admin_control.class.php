@@ -155,7 +155,7 @@ class admin_control extends control {
 				'content'=>'内容',
 				'theme'=>'主题',
 				'plugin'=>'插件',
-				'user'=>'用户',
+				// 'user'=>'用户',
 				'tool'=>'工具',
 			),
 			array(
@@ -182,11 +182,11 @@ class admin_control extends control {
 
 				'plugin-index'=>array('name'=>'插件管理', 'p'=>'plugin'),
 
-				'user-index'=>array('name'=>'用户管理', 'p'=>'user'),
-				'user_group-index'=>array('name'=>'用户组管理', 'p'=>'user'),
+				// 'user-index'=>array('name'=>'用户管理', 'p'=>'user'),
+				// 'user_group-index'=>array('name'=>'用户组管理', 'p'=>'user'),
 
 				'tool-index'=>array('name'=>'清除缓存', 'p'=>'tool'),
-				'tool-rebuild'=>array('name'=>'重新统计', 'p'=>'tool'),
+				// 'tool-rebuild'=>array('name'=>'重新统计', 'p'=>'tool'),
 			),
 		);
 
