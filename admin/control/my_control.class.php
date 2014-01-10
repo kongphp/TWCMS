@@ -69,13 +69,15 @@ class my_control extends admin_control {
 			$data = $this->_user;
 
 			if(empty($oldpw)) {
-				exit('{"err":1, "msg":"旧密码不能为空"}');
+				E(1, '旧密码不能为空', 'oldpw');
 			}elseif(strlen($newpw) < 8) {
-				exit('{"err":1, "msg":"新密码不能小于8位"}');
+				E(1, '新密码不能小于8位', 'newpw');
 			}elseif($confirm_newpw != $newpw) {
-				exit('{"err":1, "msg":"重复新密码不等于新密码"}');
+				E(1, '确认密码不等于新密码', 'confirm_newpw');
+			}elseif($oldpw == $newpw) {
+				E(1, '新密码不能和旧密码相同', 'newpw');
 			}elseif(!$this->user->verify_password($oldpw, $data['salt'], $data['password'])) {
-				exit('{"err":1, "msg":"旧密码不正确"}');
+				E(1, '旧密码不正确', 'oldpw');
 			}
 
 			// hook admin_my_control_password_post_after.php
@@ -83,9 +85,9 @@ class my_control extends admin_control {
 			$data['salt'] = random(16, 3, '0123456789abcdefghijklmnopqrstuvwxyz~!@#$%^&*()_+<>,.'); // 增加破解难度
 			$data['password'] = md5(md5($newpw).$data['salt']);
 			if(!$this->user->update($data)) {
-				exit('{"err":0, "msg":"修改失败"}');
+				E(1, '修改失败');
 			}else{
-				exit('{"err":0, "msg":"修改成功"}');
+				E(0, '修改成功');
 			}
 		}
 	}
