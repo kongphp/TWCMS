@@ -83,8 +83,6 @@ class setting_control extends admin_control {
 			$input['up_img_max_size'] = form::get_number('up_img_max_size', $cfg['up_img_max_size'], 'inp ws');
 			$input['up_file_ext'] = form::get_text('up_file_ext', $cfg['up_file_ext'], 'inp wa');
 			$input['up_file_max_size'] = form::get_number('up_file_max_size', $cfg['up_file_max_size'], 'inp ws');
-			$input['get_file_ext'] = form::get_text('get_file_ext', $cfg['get_file_ext'], 'inp wa');
-			$input['get_file_max_size'] = form::get_number('get_file_max_size', $cfg['get_file_max_size'], 'inp ws');
 
 			// hook admin_setting_control_attach_after.php
 
@@ -96,8 +94,6 @@ class setting_control extends admin_control {
 			$this->kv->xset('up_img_max_size', R('up_img_max_size', 'P'), 'cfg');
 			$this->kv->xset('up_file_ext', R('up_file_ext', 'P'), 'cfg');
 			$this->kv->xset('up_file_max_size', R('up_file_max_size', 'P'), 'cfg');
-			$this->kv->xset('get_file_ext', R('get_file_ext', 'P'), 'cfg');
-			$this->kv->xset('get_file_max_size', R('get_file_max_size', 'P'), 'cfg');
 
 			// hook admin_setting_control_attach_post_after.php
 
