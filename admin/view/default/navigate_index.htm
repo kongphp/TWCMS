@@ -52,6 +52,9 @@
 	</div>
 
 	<div id="category">
+		{if:empty($category_arr)}
+		<div style="padding:10px 15px;font-size:14px">暂无分类，请先到分类管理增加分类。</div>
+		{else}
 		{loop:$category_arr $arr $mid}
 		<div class="category">
 			<dl class="cat_tit">
@@ -70,6 +73,7 @@
 			{/loop}
 		</div>
 		{/loop}
+		{/if}
 	</div>
 
 	<div id="outnav" style="display:none">
