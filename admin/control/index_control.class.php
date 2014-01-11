@@ -76,7 +76,7 @@ class index_control extends admin_control{
 	// 后台登出
 	public function logout(){
 		_setcookie('admauth', '', 1);
-		exit('<html><body><script>top.location="?u=index-login"</script></body></html>');
+		exit('<html><body><script>window.location="?u=index-login"</script></body></html>');
 	}
 
 	// hook admin_index_control_after.php
