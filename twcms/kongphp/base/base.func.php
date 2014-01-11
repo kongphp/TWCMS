@@ -190,6 +190,31 @@ function _rmdir($dir, $keepdir = 0) {
 	return TRUE;
 }
 
+// 检测文件或目录是否可写 (兼容 windows)
+function _is_writable($file) {
+	try{
+		if(is_dir($file)) {
+			$tmpfile = $file.'/_test.c';
+			$n = @file_put_contents($tmpfile, 't');
+			if($n > 0) {
+				unlink($tmpfile);
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		}elseif(is_file($file)) {
+			if(strpos(strtoupper(PHP_OS), 'WIN') === FALSE) {
+				return is_writable($file);
+			}else{
+				$fp = @fopen($file, 'rb+');
+				@fclose($fp);
+				return (bool)$fp;
+			}
+		}
+	}catch(Exception $e) {}
+	return FALSE;
+}
+
 // 清理PHP代码中的空格和注释
 function _strip_whitespace($content) {
 	$tokens = token_get_all($content);
