@@ -71,7 +71,34 @@ class setting_control extends admin_control {
 
 	// 链接设置
 	public function link() {
-		$this->display();
+		if(empty($_POST)) {
+			$cfg = $this->kv->xget('cfg');
+			$input = array();
+			$input['link_switch'] = form::loop('radio', 'link_switch', array('0'=>'动态', '1'=>'伪静态'), $cfg['link_switch'], ' &nbsp; &nbsp;');
+			$input['link_cate'] = form::get_text('link_cate', $cfg['link_cate']);
+			$input['link_show'] = form::get_text('link_show', $cfg['link_show']);
+			$input['link_tag'] = form::get_text('link_tag', $cfg['link_tag']);
+			$input['link_comment'] = form::get_text('link_comment', $cfg['link_comment']);
+
+			// hook admin_setting_control_link_after.php
+
+			$this->assign('input', $input);
+			$this->display();
+		}else{
+			_trim($_POST);
+			$this->kv->xset('link_switch', (int) R('link_switch', 'P'), 'cfg');
+			$this->kv->xset('link_cate', R('link_cate', 'P'), 'cfg');
+			$this->kv->xset('link_show', R('link_show', 'P'), 'cfg');
+			$this->kv->xset('link_tag', R('link_tag', 'P'), 'cfg');
+			$this->kv->xset('link_comment', R('link_comment', 'P'), 'cfg');
+
+			// hook admin_setting_control_link_post_after.php
+
+			$this->kv->save_changed();
+			$this->runtime->delete('cfg');
+
+			exit('{"err":0, "msg":"修改成功"}');
+		}
 	}
 
 	// 上传设置

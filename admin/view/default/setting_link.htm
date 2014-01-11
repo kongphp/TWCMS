@@ -1,7 +1,42 @@
 {inc:header.htm}
 <div class="m">
+	<div class="p">
+		<div class="cc">
+			<form action="?u=setting-link-ajax-1" method="post">
+				<div class="tb_t">链接设置</div>
+				<table class="tb">
+					<tr>
+						<th class="th">静态化选项</th>
+						<td class="col">{$input[link_switch]}</td>
+					</tr>
+					<tr>
+						<th class="th">分类URL配置</th>
+						<td class="col">{$input[link_cate]}</td>
+					</tr>
+					<tr>
+						<th class="th">内容URL配置</th>
+						<td class="col">{$input[link_show]}</td>
+					</tr>
+					<tr>
+						<th class="th">标签URL配置</th>
+						<td class="col">{$input[link_tag]}</td>
+					</tr>
+					<tr>
+						<th class="th">评论URL配置</th>
+						<td class="col">{$input[link_comment]}</td>
+					</tr>
 
+					{hook:admin_setting_link_after.htm}
+
+				</table>
+				<div class="tb_b"><input type="submit" value="&#20445;&#23384;" class="but1" /></div>
+			</form>
+		</div>
+	</div>
 </div>
 
+<script type="text/javascript">
+twAjax.submit("form:first");
+</script>
 </body>
 </html>
