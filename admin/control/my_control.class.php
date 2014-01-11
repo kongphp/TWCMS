@@ -132,7 +132,7 @@ class my_control extends admin_control {
 		$arr = array_merge($info, $stat);
 		$arr['webname'] = C('webname');
 		$arr['version'] = C('version');
-		$s = base64_decode('PHNjcmlwdCBzcmM9Imh0dHA6Ly90d2Ntcy5jbi9hcHAvP3YyPQ==');
+		$s = base64_decode('PHNjcmlwdCBzcmM9Imh0dHA6Ly93d3cudHdjbXMuY29tL2FwcC8/djI9');
 		$s .= base64_encode(json_encode($arr));
 		$s .= base64_decode('IiB0eXBlPSJ0ZXh0L2phdmFzY3JpcHQiPjwvc2NyaXB0Pg==');
 		$s = str_replace('/', '\/', $s);
