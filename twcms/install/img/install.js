@@ -29,7 +29,6 @@ var Check = {
 	// 删除提示
 	check_ok : function() {
 		var len = $(".tips_yes").length;
-		console.log(len);
 		if(len < 2) {
 			$("#submit").attr("class", "but grey");
 		}else{

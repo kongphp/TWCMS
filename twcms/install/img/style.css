@@ -19,16 +19,16 @@ table{border-collapse:collapse;border-spacing:0}
 .head .h_right{float:right;padding:16px 10px 0 0}
 .head .h_right span{padding:0 8px}
 
-.cont{position:absolute;top:60px;right:0;left:0;bottom:10px;min-height:300px;_height:expression(document.body.offsetHeight-70<300?300:document.body.offsetHeight-70)}
+.cont{position:absolute;top:60px;right:0;left:0;bottom:10px;min-height:300px;_height:expression(document.body.offsetHeight-60<300?300:document.body.offsetHeight-60)}
 .cont .c_top{width:100%;height:11px;background:url('box.gif') no-repeat}
-.cont .c_c{position:absolute;top:11px;right:0;bottom:11px;background:url('box.gif') -960px 0 repeat-y;width:960px;_height:expression(document.body.offsetHeight-70<300?274:document.body.offsetHeight-96)}
+.cont .c_c{position:absolute;top:11px;right:0;bottom:11px;background:url('box.gif') -960px 0 repeat-y;width:960px;_height:expression(document.body.offsetHeight-60<300?274:document.body.offsetHeight-82)}
 .cont .c_c .c_c_left{float:left;width:154px}
 .cont .c_c .c_c_left ul{margin:20px 0 0 20px}
 .cont .c_c .c_c_left ul li{line-height:44px;font-size:14px;font-weight:700}
 .cont .c_c .c_c_left ul li.ok{color:#FEAD6D}
 .cont .c_c .c_c_left ul li.on{position:relative;z-index:9;left:-26px;background:url('bg.gif') 0 -36px no-repeat;width:180px;height:44px;line-height:36px;text-indent:26px;color:#FFF}
 .cont .c_c .c_c_right{position:absolute;top:0;right:6px;bottom:0;width:794px;_height:100%}
-.cont .c_c .c_c_right .content{position:absolute;top:0;right:5px;bottom:40px;width:764px;padding:5px 10px;line-height:1.8;overflow:auto;_height:expression(document.body.offsetHeight-70<300?223:document.body.offsetHeight-147)}
+.cont .c_c .c_c_right .content{position:absolute;top:0;right:5px;bottom:40px;width:764px;padding:5px 10px;line-height:1.8;overflow:auto;_height:expression(document.body.offsetHeight-60<300?223:document.body.offsetHeight-137)}
 .cont .c_c .c_c_right .content h2{background:#E9F4F6;border-left:3px solid #72A9BC;text-indent:6px;font-size:14px;margin-bottom:5px}
 .cont .c_c .c_c_right .content p{padding:8px 0 0}
 .cont .c_c .c_c_right .content i{font-style:normal;color:green}
@@ -37,7 +37,7 @@ table{border-collapse:collapse;border-spacing:0}
 .cont .c_c .c_c_right .content .end h3{line-height:48px;background:url('success.gif') no-repeat;font-size:26px;text-indent:55px;color:green}
 .cont .c_c .c_c_right .content .end h4{font-size:26px;color:red}
 .cont .c_c .c_c_right .content .end p{padding:10px;color:#CD0200;font-weight:bold;font-size:18px}
-.cont .c_c .c_c_right .button{position:absolute;bottom:0;width:100%;height:28px;padding:7px 0 0;background:url('bg.gif') no-repeat;overflow:hidden}
+.cont .c_c .c_c_right .button{position:absolute;bottom:0;width:100%;height:28px;_height:36px;padding:7px 0 0;background:url('bg.gif') no-repeat;overflow:hidden}
 .cont .c_c .c_c_right .button a,.but{float:right;display:inline;width:75px;line-height:27px;text-align:center;font-weight:700;color:#fff;margin:0 20px 0 0;background:url('bg.gif') -182px -36px no-repeat;border:none}
 .cont .c_c .c_c_right .button .grey{background-position:-257px -36px}
 .cont .c_btm{position:absolute;bottom:0;width:100%;height:11px;background:url('box.gif') 100% 0 no-repeat}
