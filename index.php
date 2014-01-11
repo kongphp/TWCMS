@@ -8,5 +8,6 @@ define('DEBUG', 2);	//调试模式，分三种：0 关闭调试; 1 开启调试;
 define('APP_NAME', 'twcms');	//APP名称
 define('TWCMS_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');	//TWCMS目录
 define('APP_PATH', TWCMS_PATH.APP_NAME.'/');	//APP目录
+if(!is_file(APP_PATH.'config/config.inc.php')) exit('<html><body><script>location="'.APP_NAME.'/install/'.'"</script></body></html>');
 define('KONG_PATH', APP_PATH.'kongphp/');	//框架目录
 require KONG_PATH.'kongphp.php';
