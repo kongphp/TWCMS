@@ -25,7 +25,7 @@ table{border-collapse:collapse;border-spacing:0}
 .cont .c_c .c_c_left{float:left;width:154px}
 .cont .c_c .c_c_left ul{margin:20px 0 0 20px}
 .cont .c_c .c_c_left ul li{line-height:44px;font-size:14px;font-weight:700}
-.cont .c_c .c_c_left ul li.ok{color:#FEAD6D}
+.cont .c_c .c_c_left ul li.ok{color:#aaa}
 .cont .c_c .c_c_left ul li.on{position:relative;z-index:9;left:-26px;background:url('bg.gif') 0 -36px no-repeat;width:180px;height:44px;line-height:36px;text-indent:26px;color:#FFF}
 .cont .c_c .c_c_right{position:absolute;top:0;right:6px;bottom:0;width:794px;_height:100%}
 .cont .c_c .c_c_right .content{position:absolute;top:0;right:5px;bottom:40px;width:764px;padding:5px 10px;line-height:1.8;overflow:auto;_height:expression(document.body.offsetHeight-60<300?223:document.body.offsetHeight-137)}

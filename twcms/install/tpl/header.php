@@ -17,10 +17,10 @@
 			<div class="c_c">
 				<div class="c_c_left">
 					<ul>
-						<li<?php echo $do == 'license' ? ' class="on"' : ''; ?>>1、阅读协议</li>
-						<li<?php echo $do == 'check_env' ? ' class="on"' : ''; ?>>2、环境检测</li>
-						<li<?php echo $do == 'check_db' ? ' class="on"' : ''; ?>>3、参数配置</li>
-						<li<?php echo $do == 'complete' ? ' class="on"' : ''; ?>>4、安装结束</li>
+						<li class="<?php echo $do=='license'?'on':(in_array($do,array('check_env','check_db','complete'))?'ok':''); ?>">1、阅读协议</li>
+						<li class="<?php echo $do=='check_env'?'on':(in_array($do,array('check_db','complete'))?'ok':''); ?>">2、环境检测</li>
+						<li class="<?php echo $do=='check_db'?'on':(in_array($do,array('complete'))?'ok':''); ?>">3、参数配置</li>
+						<li class="<?php echo $do=='complete'?'on':''; ?>">4、安装结束</li>
 					</ul>
 				</div>
 				<div class="c_c_right">
