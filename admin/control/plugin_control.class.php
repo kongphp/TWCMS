@@ -43,7 +43,7 @@ class plugin_control extends admin_control {
 			$this->clear_cache();
 			E(0, '启用完成！');
 		}else{
-			E(1, '写入文件失败！');
+			E(1, '写入 plugin.inc.php 文件失败！');
 		}
 	}
 
@@ -59,7 +59,7 @@ class plugin_control extends admin_control {
 			$this->clear_cache();
 			E(0, '停用完成！');
 		}else{
-			E(1, '写入文件失败！');
+			E(1, '写入 plugin.inc.php 文件失败！');
 		}
 	}
 
@@ -82,7 +82,7 @@ class plugin_control extends admin_control {
 				if(isset($plugins[$dir])) {
 					unset($plugins[$dir]);
 					if(!$this->set_plugin_config($plugins)) {
-						E(1, '写入文件失败！');
+						E(1, '写入 plugin.inc.php 文件失败！');
 					}
 				}
 				E(0, '删除完成！');
@@ -110,7 +110,7 @@ class plugin_control extends admin_control {
 		if(is_file($install)) include $install;
 
 		$plugins[$dir] = array('enable' => 0);
-		if(!$this->set_plugin_config($plugins)) E(1, '写入文件失败！');
+		if(!$this->set_plugin_config($plugins)) E(1, '写入 plugin.inc.php 文件失败！');
 
 		E(0, '安装完成！');
 	}
