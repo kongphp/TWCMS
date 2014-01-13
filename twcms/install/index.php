@@ -196,8 +196,8 @@ if($do == 'license') {
 	$s = preg_replace("#'tablepre' => '\w*',#", "'tablepre' => '".addslashes($tablepre)."',", $s);
 	$s = preg_replace("#'pre' => '\w*',#", "'pre' => '".addslashes($tablepre)."',", $s);
 
-	$new_file = TWCMS_CORE.'/config/config.inc.php';
-	js_show('设置 config/config.inc.php ... '.(file_put_contents($new_file, $s) ? '<i>成功</i>' : '<u>失败</u>'));
+	$ret = file_put_contents(TWCMS_CORE.'/config/config.inc.php', $s);
+	js_show('设置 config/config.inc.php ... '.($ret ? '<i>成功</i>' : '<u>失败</u>'));
 	if(!$ret) exit;
 
 	// 清空缓存
