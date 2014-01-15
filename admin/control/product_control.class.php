@@ -12,6 +12,8 @@ class product_control extends admin_control {
 		// hook admin_product_control_index_before.php
 
 		$cid = intval(R('cid'));
+		$keyword = empty($_POST) ? R('keyword') : R('keyword', 'P');
+		$this->assign('keyword', $keyword);
 
 		// 获取分类下拉框
 		$cidhtml = $this->category->get_cidhtml_by_mid(3, $cid, '所有产品');
@@ -22,20 +24,27 @@ class product_control extends admin_control {
 
 		// 初始分页
 		$pagenum = 20;
-		if($cid) {
+		if($keyword) {
+			$where = array('title'=>array('LIKE'=>$keyword));
+			$total = $this->cms_content->find_count($where);
+			$urlstr = '-keyword-'.urlencode($keyword);
+		}elseif($cid) {
+			$where = array('cid' => $cid);
 			$categorys = $this->category->read($cid);
 			$total = isset($categorys['count']) ? $categorys['count'] : 0;
+			$urlstr = '-cid-'.$cid;
 		}else{
+			$where = array();
 			$total = $this->cms_content->count();
+			$urlstr = '';
 		}
 		$maxpage = max(1, ceil($total/$pagenum));
 		$page = min($maxpage, max(1, intval(R('page'))));
-		$pages = pages($page, $maxpage, '?u=product-index'.($cid ? '-cid-'.$cid : '').'-page-{page}');
+		$pages = pages($page, $maxpage, '?u=product-index'.$urlstr.'-page-{page}');
 		$this->assign('total', $total);
 		$this->assign('pages', $pages);
 
 		// 读取内容列表
-		$where = $cid ? array('cid' => $cid) : array();
 		$cms_product_arr = $this->cms_content->list_arr($where, 'id', -1, ($page-1)*$pagenum, $pagenum, $total);
 		$this->assign('cms_product_arr', $cms_product_arr);
 

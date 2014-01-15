@@ -4,6 +4,12 @@
 		<dl>
 			<input id="add" type="button" value="发布" class="but1" />
 			<dt style="display:inline;float:left;margin-right:8px">{$cidhtml}</dt>
+			<dt style="display:inline;float:right">
+				<form class="search" method="post" action="?u=product-index">
+				<input type="submit" value="搜索产品" class="but1" style="margin:0 8px 0 5px;float:right">
+				<input type="search" name="keyword" value="{$keyword}" style="width:150px;padding:1px">
+				</form>
+			</dt>
 		</dl>
 	</div>
 
