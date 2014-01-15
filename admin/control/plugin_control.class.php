@@ -242,6 +242,7 @@ class plugin_control extends admin_control {
 	// 设置插件配置信息
 	private function set_plugin_config($plugins) {
 		$file = CONFIG_PATH.'plugin.inc.php';
+		!is_file($file) && _is_writable(dirname($file)) && file_put_contents($file, '');
 		if(!_is_writable($file)) return FALSE;
 		return file_put_contents($file, "<?php\nreturn ".var_export($plugins, TRUE).";\n?>");
 	}
