@@ -71,7 +71,7 @@ class theme_control extends admin_control {
 			$timeout = 20;
 		}
 
-		$url = 'http://www.twcms.cn/app/download.php?theme='.$dir;
+		$url = 'http://www.twcms.com/app/download.php?theme='.$dir;
 		try{
 			$s = fetch_url($url, $timeout);
 		}catch(Exception $e) {

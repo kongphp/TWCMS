@@ -196,7 +196,7 @@ class plugin_control extends admin_control {
 			$timeout = 20;
 		}
 
-		$url = 'http://www.twcms.cn/app/download.php?plugin='.$dir.($is_upgrade ? '&upgrade=1' : '');
+		$url = 'http://www.twcms.com/app/download.php?plugin='.$dir.($is_upgrade ? '&upgrade=1' : '');
 		try{
 			$s = fetch_url($url, $timeout);
 			if(empty($s) || substr($s, 0, 2) != 'PK') throw new Exception();

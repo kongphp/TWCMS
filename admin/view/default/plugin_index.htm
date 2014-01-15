@@ -95,7 +95,7 @@ setTimeout(function() {
 		if(i >= 20) return;
 		plu_arr[i] = $(this).attr("plugin") + "-" + $(this).attr("version");
 	});
-	$.getScript("http://www.twcms.cn/app/?go=plugin_upgrade&s="+plu_arr.join(","));
+	$.getScript("http://www.twcms.com/app/?go=plugin_upgrade&s="+plu_arr.join(","));
 }, 1000)
 
 //停用
@@ -146,7 +146,7 @@ function loading() {
 //在线获取
 $(".head dd:eq(1)").one("click", function() {
 	loading();
-	$.getScript("http://www.twcms.cn/app/?go=plugin");
+	$.getScript("http://www.twcms.com/app/?go=plugin");
 });
 
 //在线安装
