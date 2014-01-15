@@ -66,21 +66,20 @@
 		<?php
 		$dirs = array(APP_NAME.'/config', APP_NAME.'/runtime', APP_NAME.'/plugin', APP_NAME.'/view', 'upload');
 		foreach($dirs as $dir) {
-			$GLOBALS['err_file'] = array();
-			$ret = _dir_write(TWCMS_ROOT.'/'.$dir);
-			echo '<tr><td>/'.$dir.'/*</td><td>可写 (*nix系统 0777)</td><td>';
+			$ret = _dir_write(TWCMS_ROOT.'/'.$dir, TRUE);
 
-			if($ret) {
-				echo '<i>可写[√]</i>';
-			}else{
+			echo '<tr><td>/'.$dir.'/*</td><td>可写 (*nix系统 0777)</td><td>';
+			if(!empty($ret['no'])) {
 				$err = 1;
 				echo '<u>不可写[×]';
-				foreach($GLOBALS['err_file'] as $i=>$file) {
-					echo '<br>'.str_replace(TWCMS_ROOT, '', $file);
+				foreach($ret['no'] as $i => $row) {
+					echo '<br>['.$row[1].'] '.str_replace(TWCMS_ROOT, '', $row[0]);
 					if($i>8) {
 						echo '<br>******'; break;
 					}
 				}
+			}else{
+				echo '<i>可写[√]</i>';
 			}
 			echo '</u></td></tr>';
 		}

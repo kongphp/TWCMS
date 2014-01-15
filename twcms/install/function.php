@@ -5,42 +5,44 @@
  */
 
 // 递归检测目录/文件是否写
-function _dir_write($dir) {
-	if(!is_dir($dir)) return false;
-	$ret = true;
-	// 尝试自动修复权限
-	if(!_is_writable($dir) && _chmod($dir) && !_is_writable($dir)) {
-		$GLOBALS['err_file'][] = $dir;
-		$ret = false;
-	}
+function _dir_write($dir, $clear = FALSE) {
+	static $ret = array();
 
-	if($dh = opendir($dir)) {
-		while (($file = readdir($dh)) !== false) {
+	if($clear) $ret = array('yes'=>array(), 'no'=>array());
+
+	if(!is_dir($dir) || _no_writable($dir) || !$dh = opendir($dir)) {
+		$ret['no'][] = array($dir, substr(sprintf('%o', fileperms($dir)), -4));
+	}else{
+		$ret['yes'][] = array($dir, substr(sprintf('%o', fileperms($dir)), -4));
+
+		while(($file = readdir($dh)) !== FALSE) {
 			if($file!='.' && $file!='..') {
 				$fileson = $dir.'/'.$file;
 				if(is_dir($fileson)) {
-					// 递归检测
-					if(!_dir_write($fileson)) {
-						$GLOBALS['err_file'][] = $fileson;
-						$ret = false;
-					}
-				}else{
-					// 尝试自动修复权限
-					if(!_is_writable($fileson) && _chmod($fileson) && !_is_writable($fileson)) {
-						$GLOBALS['err_file'][] = $fileson;
-						$ret = false;
+					_dir_write($fileson); // 递归检测
+				}elseif(is_file($fileson)) {
+					if(_no_writable($fileson)) {
+						$ret['no'][] = array($fileson, substr(sprintf('%o', fileperms($fileson)), -4));
+					}else{
+						$ret['yes'][] = array($fileson, substr(sprintf('%o', fileperms($fileson)), -4));
 					}
 				}
 			}
 		}
 		closedir($dh);
 	}
+
 	return $ret;
 }
 
-// 尝试自动修复权限
-function _chmod($file, $mode = 0777) {
-	return function_exists('chmod') && chmod($file, $mode) ? TRUE : FALSE;
+// 不可写返回 TRUE
+function _no_writable($dir) {
+	if(_is_writable($dir)) {
+		return FALSE;
+	}else{
+		function_exists('chmod') && chmod($file, 0777); // 尝试自动修复权限
+		return !_is_writable($dir);
+	}
 }
 
 // 获取所在目录
