@@ -157,7 +157,7 @@ function install_plugin(dir) {
 
 	$.getScript("?u=plugin-install_plugin-dir-" + dir, function(){
 		clearInterval(int);
-		if(!err && $("#install_enable").length == 0) {
+		if(typeof err == 'number' && !err && $("#install_enable").length == 0) {
 			$("#noA").after('<a id="install_enable" class="but3" href="javascript:;">启用</a>');
 			$("#install_enable").click(function() { enable(dir); });
 		}
