@@ -38,7 +38,7 @@ table{border-collapse:collapse;border-spacing:0}
 .cont .c_c .c_c_right .content .end h4{font-size:26px;color:red}
 .cont .c_c .c_c_right .content .end p{padding:10px;color:#CD0200;font-weight:bold;font-size:18px}
 .cont .c_c .c_c_right .button{position:absolute;bottom:0;width:100%;height:28px;_height:36px;padding:7px 0 0;background:url('bg.gif') no-repeat;overflow:hidden}
-.cont .c_c .c_c_right .button a,.but{float:right;display:inline;width:75px;line-height:27px;text-align:center;font-weight:700;color:#fff;margin:0 20px 0 0;background:url('bg.gif') -182px -36px no-repeat;border:none}
+.cont .c_c .c_c_right .button a,.but{float:right;display:inline;width:75px;height:27px;line-height:27px;text-align:center;font-weight:700;color:#fff;margin:0 20px 0 0;background:url('bg.gif') -182px -36px no-repeat;border:none;cursor:pointer}
 .cont .c_c .c_c_right .button .grey{background-position:-257px -36px}
 .cont .c_btm{position:absolute;bottom:0;width:100%;height:11px;background:url('box.gif') 100% 0 no-repeat}
 
