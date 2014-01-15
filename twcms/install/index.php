@@ -177,6 +177,34 @@ if($do == 'license') {
 	js_show('初始网站设置 ... '.($ret ? '<i>成功</i>' : '<u>失败</u>'));
 	if(!$ret) exit;
 
+	// 清空缓存
+	$runtime = TWCMS_CORE.'/runtime/';
+	$file = $runtime.'_runtime.php';
+	if(is_file($file)) {
+		$ret = unlink($runtime.'_runtime.php');
+		js_show('清除 runtime/_runtime.php ... <i>完成</i>');
+	}
+	$tpmdir = array('_control', '_model', '_view');
+	foreach($tpmdir as $dir) {
+		$ret = _rmdir($runtime.'twcms'.$dir);
+		js_show('清除 runtime/twcms'.$dir.' ... <i>完成</i>');
+	}
+	foreach($tpmdir as $dir) {
+		if($dir == '_model') continue;
+		$ret = _rmdir($runtime.'twcms_admin'.$dir);
+		js_show('清除 runtime/twcms_admin'.$dir.' ... <i>完成</i>');
+	}
+
+	// 初始插件配置
+	$file = TWCMS_INST.'/plugin.sample.php';
+	if(!is_file($file)) {
+		js_show('plugin.sample.php 文件 <u>丢失</u>');
+		exit;
+	}
+	$ret = file_put_contents(TWCMS_CORE.'/config/plugin.inc.php', file_get_contents($file));
+	js_show('设置 config/plugin.inc.php ... '.($ret ? '<i>成功</i>' : '<u>失败</u>'));
+	if(!$ret) exit;
+
 	// 生成配置文件
 	$file = TWCMS_INST.'/config.sample.php';
 	if(!is_file($file)) {
@@ -199,24 +227,6 @@ if($do == 'license') {
 	$ret = file_put_contents(TWCMS_CORE.'/config/config.inc.php', $s);
 	js_show('设置 config/config.inc.php ... '.($ret ? '<i>成功</i>' : '<u>失败</u>'));
 	if(!$ret) exit;
-
-	// 清空缓存
-	$runtime = TWCMS_CORE.'/runtime/';
-	$file = $runtime.'_runtime.php';
-	if(is_file($file)) {
-		$ret = unlink($runtime.'_runtime.php');
-		js_show('清除 runtime/_runtime.php ... <i>完成</i>');
-	}
-	$tpmdir = array('_control', '_model', '_view');
-	foreach($tpmdir as $dir) {
-		$ret = _rmdir($runtime.'twcms'.$dir);
-		js_show('清除 runtime/twcms'.$dir.' ... <i>完成</i>');
-	}
-	foreach($tpmdir as $dir) {
-		if($dir == '_model') continue;
-		$ret = _rmdir($runtime.'twcms_admin'.$dir);
-		js_show('清除 runtime/twcms_admin'.$dir.' ... <i>完成</i>');
-	}
 
 	// 安装结束提示
 	$s = '<div class="end"><h3>恭喜！您的网站已安装完成啦！</h3><p>';
