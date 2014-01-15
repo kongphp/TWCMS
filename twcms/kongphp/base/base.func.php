@@ -199,7 +199,7 @@ function _is_writable($file) {
 			if($n > 0) {
 				unlink($tmpfile);
 				return TRUE;
-			} else {
+			}else{
 				return FALSE;
 			}
 		}elseif(is_file($file)) {
