@@ -20,6 +20,7 @@ class my_control extends admin_control {
 		$is_ini_get = function_exists('ini_get');	// 考虑禁用 ini_get 的服务器
 		$info['os'] = function_exists('php_uname') ? php_uname() : '未知';
 		$info['software'] = R('SERVER_SOFTWARE', 'S');
+		$info['php'] = PHP_VERSION;
 		$info['mysql'] = $this->user->db->version();
 		$info['filesize'] = $is_ini_get ? ini_get('upload_max_filesize') : '未知';
 		$info['exectime'] = $is_ini_get ? ini_get('max_execution_time') : '未知';
