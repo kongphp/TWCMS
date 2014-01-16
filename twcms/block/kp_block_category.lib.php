@@ -3,6 +3,7 @@ defined('KONG_PATH') || exit;
 
 /**
  * 分类展示模块
+ * @param int cid 分类ID 如果不填：自动识别
  * @param string type 显示类型   同级(sibling)、子级(child)、父级(parent)、顶级(top)
  * @param int mid 模型ID (默认自动识别)
  * @return array
@@ -12,7 +13,7 @@ function kp_block_category($conf) {
 
 	// hook kp_block_category_before.php
 
-	$cid = _int($_GET, 'cid');
+	$cid = isset($conf['cid']) ? intval($conf['cid']) : _int($_GET, 'cid');
 	$mid = isset($conf['mid']) ? intval($conf['mid']) : (isset($run->_var['mid']) ? $run->_var['mid'] : 2);
 	$type = isset($conf['type']) && in_array($conf['type'], array('sibling', 'child', 'parent', 'top')) ? $conf['type'] : 'sibling';
 
