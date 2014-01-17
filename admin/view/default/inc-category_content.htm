@@ -11,10 +11,14 @@
 		</dl>
 
 		{loop:$arr $v}
-		<dl class="cat_col" cid="{$v[cid]}" mid="{$v[mid]}">
+		{php}
+			$v['prestr'] = str_repeat("　　", $v['pre']-1);
+			$v['url'] = $_ENV['_category_class']->format_url($v['cid'], $v['alias'], $_cfg);
+		{/php}
+		<dl class="cat_col" cid="{$v[cid]}" mid="{$v[mid]}" url="{$v[url]}">
 			<dd class="cat_c_1">
 				<div class="c_name" title="编号(cid): {$v[cid]}&#10;分类名称: {$v[name]}">
-					　{php} echo str_repeat("　　", $v['pre']-1);{/php}
+					　{$v[prestr]}
 					{if:$v[mid] == 1}
 						<span class="mtype">单页</span>
 					{elseif:$v[type] == 1}

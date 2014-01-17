@@ -151,10 +151,11 @@ function load_event() {
 			if($(".more_but").length < 1) {
 				var cid = $(this).attr("cid");
 				var mid = $(this).attr("mid");
+				var url = $(this).attr("url");
 
 				var s = '<div class="more_but">';
 				s += '<a class="but2" href="javascript:edit('+cid+');">编辑</a>';
-				s += '<a class="but2" href="../index.php?cate--cid-'+cid+'" target="_blank">查看</a>';
+				s += '<a class="but2" href="'+url+'" target="_blank">查看</a>';
 				s += '<a class="but2 del" href="javascript:del('+cid+');">删除</a>';
 				s += '</div>';
 

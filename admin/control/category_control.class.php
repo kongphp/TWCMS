@@ -12,6 +12,10 @@ class category_control extends admin_control {
 		$mod_name = $this->models->get_name();
 		$this->assign('mod_name', $mod_name);
 
+		$_ENV['_category_class'] = &$this->category;
+		$_cfg = $this->runtime->xget();
+		$this->assign('_cfg', $_cfg);
+
 		$category_arr = $this->category->get_category();
 		$this->assign('category_arr', $category_arr);
 
@@ -191,6 +195,10 @@ class category_control extends admin_control {
 
 	// 读取分类 (JSON)
 	public function get_category_content() {
+		$_ENV['_category_class'] = &$this->category;
+		$_cfg = $this->runtime->xget();
+		$this->assign('_cfg', $_cfg);
+
 		$mod_name = $this->models->get_name();
 		$category_arr = $this->category->get_category();
 
