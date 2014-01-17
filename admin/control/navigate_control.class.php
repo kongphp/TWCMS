@@ -48,11 +48,18 @@ class navigate_control extends admin_control {
 				$url = $cid ? $cid : htmlspecialchars(trim($v[2]));
 				$target = $v[3] ? '_blank' : '_self';
 				$rank = intval($v[4]);
+
+				$alias = '';
+				if($cid) {
+					$row = $this->category->get($cid);
+					$alias = $row['alias'];
+				}
+
 				if($rank > 1) {
-					$nav_arr[$i]['son'][] = array('cid'=>$cid, 'name'=>$name, 'url'=>$url, 'target'=>$target);
+					$nav_arr[$i]['son'][] = array('cid'=>$cid, 'alias'=>$alias, 'name'=>$name, 'url'=>$url, 'target'=>$target);
 				}else{
 					$i++;
-					$nav_arr[$i] = array('cid'=>$cid, 'name'=>$name, 'url'=>$url, 'target'=>$target);
+					$nav_arr[$i] = array('cid'=>$cid, 'alias'=>$alias, 'name'=>$name, 'url'=>$url, 'target'=>$target);
 				}
 			}
 			$this->kv->set('navigate', $nav_arr);
@@ -71,7 +78,11 @@ class navigate_control extends admin_control {
 			$nav_arr = $this->kv->xget('navigate');
 			foreach($cate as $arr) {
 				if(isset($arr[0]) && isset($arr[1])) {
-					$nav_arr[] = array('cid'=>intval($arr[1]), 'name'=>htmlspecialchars(trim($arr[0])), 'url'=>'', 'target'=>'_self');
+					$name = htmlspecialchars(trim($arr[0]));
+					$cid = intval($arr[1]);
+					$row = $this->category->get($cid);
+					$alias = $row['alias'];
+					$nav_arr[] = array('cid'=>$cid, 'alias'=>$alias, 'name'=>$name, 'url'=>'', 'target'=>'_self');
 				}
 			}
 			$this->kv->set('navigate', $nav_arr);
@@ -92,7 +103,7 @@ class navigate_control extends admin_control {
 		!$url && E(1, '链接不能为空！', 'url');
 
 		$nav_arr = $this->kv->xget('navigate');
-		$nav_arr[] = array('cid'=>0, 'name'=>$name, 'url'=>$url, 'target'=>($target ? '_blank' : '_self'));
+		$nav_arr[] = array('cid'=>0, 'alias'=>'', 'name'=>$name, 'url'=>$url, 'target'=>($target ? '_blank' : '_self'));
 		$this->kv->set('navigate', $nav_arr);
 
 		E(0, '添加成功！');
