@@ -82,8 +82,23 @@ class category_control extends admin_control {
 				}
 
 				// 别名被修改过才检查是否被使用
-				if($post['alias'] != $data['alias'] && $err = $category->check_alias($post['alias'])) {
-					E(1, $err['msg'], $err['name']);
+				if($post['alias'] != $data['alias']) {
+					$err = $category->check_alias($post['alias']);
+					if($err) {
+						E(1, $err['msg'], $err['name']);
+					}
+
+					// 修改导航中的分类的别名
+					$navigate = $this->kv->xget('navigate');
+					foreach($navigate as $k=>$v) {
+						if($v['cid'] == $post['cid']) $navigate[$k]['alias'] = $post['alias'];
+						if(isset($v['son'])) {
+							foreach($v['son'] as $k2=>$v2) {
+								if($v2['cid'] == $post['cid']) $navigate[$k]['son'][$k2]['alias'] = $post['alias'];
+							}
+						}
+					}
+					$this->kv->set('navigate', $navigate);
 				}
 
 				// 这里赋值，是为了开启缓存后，编辑时更新缓存
@@ -106,8 +121,8 @@ class category_control extends admin_control {
 				}
 			}
 
-			// 删除分类缓存
-			$this->category->delete_cache();
+			// 删除缓存
+			$this->runtime->truncate();
 
 			if(empty($msg)) {
 				E(0, '保存成功');
@@ -146,8 +161,8 @@ class category_control extends admin_control {
 		}
 		$this->kv->set('navigate', $navigate);
 
-		// 删除分类缓存
-		$this->category->delete_cache();
+		// 删除缓存
+		$this->runtime->truncate();
 
 		E(0, '删除完成');
 	}
