@@ -60,6 +60,10 @@ class comment_control extends control{
 		empty($content) && $this->message(0, '评论内容不能为空！');
 		strlen($content)>3000 && $this->message(0, '评论内容太长了！');
 
+		// 关闭全站评论
+		$_cfg = $this->runtime->xget();
+		!empty($_cfg['dis_comment']) && $this->message(0, '已关闭全站评论，无法发表评论！');
+
 		$cates = $this->category->get_cache($cid);
 		empty($cates) && $this->message(0, '分类ID不正确！');
 
@@ -103,6 +107,7 @@ class comment_control extends control{
 		$this->message(1, '发表评论成功！');
 	}
 
+	// 获取评论JSON
 	public function json() {
 		$cid = (int)R('cid');
 		$id = (int)R('id');

@@ -18,6 +18,7 @@ class setting_control extends admin_control {
 			$input['webmail'] = form::get_text('webmail', $cfg['webmail']);
 			$input['tongji'] = form::get_textarea('tongji', $cfg['tongji']);
 			$input['beian'] = form::get_text('beian', $cfg['beian']);
+			$input['dis_comment'] = empty($cfg['dis_comment']) ? 0 : 1;
 
 			// hook admin_setting_control_index_after.php
 
@@ -31,6 +32,7 @@ class setting_control extends admin_control {
 			$this->kv->xset('webmail', R('webmail', 'P'), 'cfg');
 			$this->kv->xset('tongji', R('tongji', 'P'), 'cfg');
 			$this->kv->xset('beian', R('beian', 'P'), 'cfg');
+			$this->kv->xset('dis_comment', (int)R('dis_comment', 'P'), 'cfg');
 
 			// hook admin_setting_control_index_post_after.php
 

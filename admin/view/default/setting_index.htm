@@ -29,6 +29,10 @@
 						<th class="th">备案号</th>
 						<td class="col">{$input[beian]}</td>
 					</tr>
+					<tr>
+						<th class="th">关闭全站评论</th>
+						<td class="col"><input type="checkbox" name="dis_comment" value="1" {if:$input['dis_comment']} checked="checked"{/if}title="关闭全站的评论功能"></td>
+					</tr>
 
 					{hook:admin_setting_index_after.htm}
 
