@@ -13,6 +13,10 @@ class photo_control extends admin_control {
 
 		$cid = intval(R('cid'));
 		$keyword = empty($_POST) ? R('keyword') : R('keyword', 'P');
+		if($keyword) {
+			$keyword = urldecode($keyword);
+			$keyword = safe_str($keyword);
+		}
 		$this->assign('keyword', $keyword);
 
 		// 获取分类下拉框
