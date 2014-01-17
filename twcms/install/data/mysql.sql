@@ -73,8 +73,10 @@ DROP TABLE IF EXISTS pre_only_alias;
 CREATE TABLE pre_only_alias (
   alias char(50) NOT NULL,				# 唯一别名 (只能是英文、数字、下划线)
   mid tinyint(1) unsigned NOT NULL DEFAULT '0',		# 模型ID
+  cid smallint(5) unsigned NOT NULL DEFAULT '0',	# 分类ID
   id int(10) unsigned NOT NULL DEFAULT '0',		# 内容ID
-  PRIMARY KEY (alias)
+  PRIMARY KEY (alias),
+  KEY mid_id (mid,id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 单页表
