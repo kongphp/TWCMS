@@ -114,7 +114,8 @@ CREATE TABLE pre_cms_article (
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
   PRIMARY KEY  (id),
   KEY cid_id (cid,id),
-  KEY cid_dateline (cid,dateline)
+  KEY cid_dateline (cid,dateline),
+  UNIQUE KEY alias (alias)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 文章数据表 (大内容字段表，可根据 id 范围分区)
@@ -242,7 +243,8 @@ CREATE TABLE pre_cms_product (
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
   PRIMARY KEY  (id),
   KEY cid_id (cid,id),
-  KEY cid_dateline (cid,dateline)
+  KEY cid_dateline (cid,dateline),
+  UNIQUE KEY alias (alias)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 产品数据表 (大内容字段表，可根据 id 范围分区)
@@ -371,7 +373,8 @@ CREATE TABLE pre_cms_photo (
   seo_description varchar(255) NOT NULL DEFAULT '',	# SEO描述 (没填写时读取内容摘要)
   PRIMARY KEY  (id),
   KEY cid_id (cid,id),
-  KEY cid_dateline (cid,dateline)
+  KEY cid_dateline (cid,dateline),
+  UNIQUE KEY alias (alias)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 # 图集数据表 (大内容字段表，可根据 id 范围分区)
