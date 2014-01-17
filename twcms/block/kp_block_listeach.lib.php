@@ -32,11 +32,14 @@ function kp_block_listeach($conf) {
 
 		$table_arr = &$run->_cfg['table_arr'];
 		$table = isset($table_arr[$mid]) ? $table_arr[$mid] : 'article';
-	}elseif(isset($run->_var['son_list'])){
-		$cid_arr = $run->_var['son_list'];
-		$table = &$run->_var['table'];
 	}else{
-		return FALSE;
+		$_var = $run->category->get_cache($cid);
+		if(isset($_var['son_list'])) {
+			$cid_arr = $_var['son_list'];
+			$table = $_var['table'];
+		}else{
+			return array();
+		}
 	}
 
 	// 初始模型表名
