@@ -18,7 +18,16 @@ class navigate_control extends admin_control {
 		$this->assign('category_arr', $category_arr);
 
 		// 导航数组
+		$_cfg = $this->runtime->xget();
 		$nav_arr = $this->kv->xget('navigate');
+		foreach($nav_arr as $k=>$v) {
+			if($v['cid']) $nav_arr[$k]['url'] = $this->category->format_url($v['cid'], $v['alias'], $_cfg);
+			if(isset($v['son'])) {
+				foreach($v['son'] as $k2=>$v2) {
+					if($v2['cid']) $nav_arr[$k]['son'][$k2]['url'] = $this->category->format_url($v2['cid'], $v2['alias'], $_cfg);
+				}
+			}
+		}
 		$this->assign('nav_arr', $nav_arr);
 
 		// hook admin_navigate_control_index_after.php
