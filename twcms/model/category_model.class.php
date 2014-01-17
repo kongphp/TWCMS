@@ -229,10 +229,10 @@ class category extends model {
 		if(empty($category_arr)) {
 			$s .= '<option value="0">没有分类</option>';
 		}else{
+			$s .= '<option value="0">'.$tips.'</option>';
 			foreach($category_arr as $mid => $arr) {
 				if($mid != $_mid) continue;
 
-				$s .= '<option value="0">'.$tips.'</option>';
 				foreach($arr as $v) {
 					$disabled = $v['type'] == 1 ? ' disabled="disabled"' : '';
 					$s .= '<option value="'.$v['cid'].'"'.($v['type'] == 0 && $v['cid'] == $cid ? ' selected="selected"' : '').$disabled.'>';
