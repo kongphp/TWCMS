@@ -364,13 +364,11 @@ class category extends model {
 	}
 
 	// 分类链接格式化
-	public function format_url(&$cid, &$alias, &$cfg) {
+	public function format_url(&$cid, &$alias, &$cfg, $page = FALSE) {
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
-			return $cfg['webdir'].'index.php?cate--cid-'.$cid.$_ENV['_config']['url_suffix'];
+			return $cfg['webdir'].'index.php?cate--cid-'.$cid.($page ? '-page-{page}' : '').$_ENV['_config']['url_suffix'];
 		}else{
-			$s = str_replace('{cid}', $cid, $cfg['link_cate']);
-			$s = str_replace('{cate_alias}', $alias, $s);
-			return $cfg['webdir'].$s;
+			return $cfg['webdir'].str_replace('{cate_alias}', $page ? $alias.'/page_{page}' : $alias, $cfg['link_cate']);
 		}
 	}
 }
