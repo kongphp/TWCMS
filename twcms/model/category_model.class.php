@@ -291,7 +291,7 @@ class category extends model {
 	}
 
 	// 获取分类当前位置
-	public function get_place($cid, $path = '') {
+	public function get_place($cid, &$cfg) {
 		$p = array();
 		$tmp = $this->get_category_db();
 
@@ -299,7 +299,7 @@ class category extends model {
 			array_unshift($p, array(
 				'cid'=> $v['cid'],
 				'name'=> $v['name'],
-				'url'=> $path.'index.php?cate--cid-'.$v['cid'].$_ENV['_config']['url_suffix']
+				'url'=> $this->format_url($v['cid'], $v['alias'], $cfg)
 			));
 			$cid = $v['upid'];
 		}
@@ -327,7 +327,7 @@ class category extends model {
 		if(empty($arr)) return FALSE;
 
 		$cfg = $this->runtime->xget();
-		$arr['place'] = $this->get_place($cid, $cfg['webdir']);	// 分类当前位置
+		$arr['place'] = $this->get_place($cid, $cfg);	// 分类当前位置
 		$arr['topcid'] = $arr['place'][0]['cid'];	// 顶级分类CID
 		$arr['table'] = $cfg['table_arr'][$arr['mid']];	// 分类模型表名
 
@@ -368,7 +368,7 @@ class category extends model {
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			return $cfg['webdir'].'index.php?cate--cid-'.$cid.($page ? '-page-{page}' : '').$_ENV['_config']['url_suffix'];
 		}else{
-			return $cfg['webdir'].str_replace('{cate_alias}', $page ? $alias.'/page_{page}' : $alias, $cfg['link_cate']);
+			return $cfg['webdir'].str_replace('{cate_alias}', $page ? $alias.'_page_{page}' : $alias, $cfg['link_cate']);
 		}
 	}
 }

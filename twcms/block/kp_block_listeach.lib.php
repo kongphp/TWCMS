@@ -51,7 +51,7 @@ function kp_block_listeach($conf) {
 		// 读取分类内容
 		$cate_arr = $run->category->get_cache($_cid);
 		$ret[$_cid]['cate_name'] = $cate_arr['name'];
-		$ret[$_cid]['cate_url'] = 'index.php?cate--cid-'.$_cid.C('url_suffix');
+		$ret[$_cid]['cate_url'] = $run->category->format_url($cate_arr['cid'], $cate_arr['alias'], $run->_cfg);
 
 		if(!$cids) continue;
 
