@@ -14,7 +14,7 @@ class cms_content extends model {
 	}
 
 	// 格式化内容数组
-	public function format(&$v, $mid, $webdir = '', $dateformat = 'Y-m-d H:i:s', $titlenum = 0, $intronum = 0) {
+	public function format(&$v, $mid, &$cfg, $dateformat = 'Y-m-d H:i:s', $titlenum = 0, $intronum = 0) {
 		// hook cms_content_model_format_before.php
 
 		if(empty($v)) return FALSE;
@@ -26,12 +26,12 @@ class cms_content extends model {
 		if($v['tags']) {
 			$v['tag_arr'] = array();
 			foreach($v['tags'] as $name) {
-				$v['tag_arr'][] = array('name'=>$name, 'url'=>'index.php?tag--mid-'.$mid.'-name-'.urlencode($name).C('url_suffix'));
+				$v['tag_arr'][] = array('name'=>$name, 'url'=> $this->format_tagurl($mid, $name, $cfg));
 			}
 		}
 
 		$intronum && $v['intro'] = utf8::cutstr_cn($v['intro'], $intronum);
-		$v['pic'] = $webdir.(empty($v['pic']) ? 'static/img/nopic.gif' : $v['pic']);
+		$v['pic'] = $cfg['webdir'].(empty($v['pic']) ? 'static/img/nopic.gif' : $v['pic']);
 
 		// hook cms_content_model_format_after.php
 	}
@@ -114,5 +114,16 @@ class cms_content extends model {
 		$this->cms_content_flag->find_delete(array('id'=>$id));
 		$ret = $this->delete($id);
 		return $ret ? '' : '删除失败！';
+	}
+
+	// 标签链接格式化
+	public function format_tagurl(&$mid, &$name, &$cfg, $page = FALSE) {
+		if(empty($_ENV['_config']['twcms_parseurl'])) {
+			$s = $page ? '-page-{page}' : '';
+			return $cfg['webdir'].'index.php?tag--mid-'.$mid.'-name-'.urlencode($name).$s.$_ENV['_config']['url_suffix'];
+		}else{
+			$s = $page ? '_page_{page}' : '';
+			return $cfg['webdir'].'tag/'.$mid.'_'.urlencode($name).$s.'.html';
+		}
 	}
 }
