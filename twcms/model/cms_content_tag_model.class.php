@@ -13,11 +13,6 @@ class cms_content_tag extends model {
 		$this->maxid = 'tagid';			// 自增字段
 	}
 
-	// 格式化标签数组
-	public function format(&$v, $mid) {
-		$v['url'] = 'index.php?tag--mid-'.$mid.'-name-'.urlencode($v['name']).C('url_suffix');
-	}
-
 	// 获取标签列表
 	public function list_arr($orderway, $start, $limit, $total) {
 		// 优化大数据量翻页
