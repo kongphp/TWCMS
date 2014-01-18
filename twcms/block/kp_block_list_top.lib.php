@@ -56,7 +56,7 @@ function kp_block_list_top($conf) {
 		$run->cms_content->table = 'cms_'.$table;
 		$list_arr = $run->cms_content->mget($keys);
 		foreach($list_arr as &$v) {
-			$run->cms_content->format($v, $mid, $run->_cfg['webdir'], $dateformat, $titlenum, $intronum);
+			$run->cms_content->format($v, $mid, $run->_cfg, $dateformat, $titlenum, $intronum);
 			isset($v['id']) && $v['views'] = $key_arr[$table_key.$v['id']]['views'];
 		}
 	}else{
@@ -73,7 +73,7 @@ function kp_block_list_top($conf) {
 		$run->cms_content->table = 'cms_'.$table;
 		$list_arr = $run->cms_content->mget($keys);
 		foreach($list_arr as &$v) {
-			$run->cms_content->format($v, $mid, $run->_cfg['webdir'], $dateformat, $titlenum, $intronum);
+			$run->cms_content->format($v, $mid, $run->_cfg, $dateformat, $titlenum, $intronum);
 		}
 	}
 

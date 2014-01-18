@@ -64,7 +64,7 @@ function kp_block_listeach($conf) {
 
 		$ret[$_cid]['list'] = $run->cms_content->find_fetch($where, array($orderby => $orderway), 0, $limit);
 		foreach($ret[$_cid]['list'] as &$v) {
-			$run->cms_content->format($v, $mid, $run->_cfg['webdir'], $dateformat, $titlenum, $intronum);
+			$run->cms_content->format($v, $mid, $run->_cfg, $dateformat, $titlenum, $intronum);
 		}
 	}
 

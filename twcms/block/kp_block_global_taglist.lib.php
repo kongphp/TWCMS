@@ -26,7 +26,7 @@ function kp_block_global_taglist($conf) {
 	$total = $tags['count'];
 	$maxpage = max(1, ceil($total/$pagenum));
 	$page = min($maxpage, max(1, intval(R('page'))));
-	$pages = pages($page, $maxpage, 'index.php?tag--mid-'.$mid.'-name-'.urlencode($tags['name']).'-page-{page}'.C('url_suffix'));
+	$pages = pages($page, $maxpage, $run->cms_content->format_tagurl($mid, $tags['name'], $run->_cfg, TRUE));
 
 	// 读取内容ID
 	$run->cms_content_tag_data->table = 'cms_'.$table.'_tag_data';
@@ -40,7 +40,7 @@ function kp_block_global_taglist($conf) {
 	$run->cms_content->table = 'cms_'.$table;
 	$list_arr = $run->cms_content->mget($keys);
 	foreach($list_arr as &$v) {
-		$run->cms_content->format($v, $mid, $run->_cfg['webdir'], $dateformat, $titlenum, $intronum);
+		$run->cms_content->format($v, $mid, $run->_cfg, $dateformat, $titlenum, $intronum);
 	}
 
 	// hook kp_block_global_taglist_after.php

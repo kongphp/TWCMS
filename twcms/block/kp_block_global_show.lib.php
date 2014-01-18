@@ -23,7 +23,7 @@ function kp_block_global_show($conf) {
 	$run->cms_content_data->table = 'cms_'.$run->_var['table'].'_data';
 
 	// 格式化
-	$run->cms_content->format($_show, $mid, $run->_cfg['webdir'], $dateformat);
+	$run->cms_content->format($_show, $mid, $run->_cfg, $dateformat);
 
 	// 合并大数据字段
 	$id = &$_show['id'];
@@ -45,12 +45,12 @@ function kp_block_global_show($conf) {
 		// 上一页
 		$_show['prev'] = $run->cms_content->find_fetch(array('cid' => $run->_var['cid'], 'id'=>array('<'=> $id)), array('id'=>-1), 0 , 1);
 		$_show['prev'] = current($_show['prev']);
-		$run->cms_content->format($_show['prev'], $mid, $run->_cfg['webdir'], $dateformat);
+		$run->cms_content->format($_show['prev'], $mid, $run->_cfg, $dateformat);
 
 		// 下一页
 		$_show['next'] = $run->cms_content->find_fetch(array('cid' => $run->_var['cid'], 'id'=>array('>'=> $id)), array('id'=>1), 0 , 1);
 		$_show['next'] = current($_show['next']);
-		$run->cms_content->format($_show['next'], $mid, $run->_cfg['webdir'], $dateformat);
+		$run->cms_content->format($_show['next'], $mid, $run->_cfg, $dateformat);
 	}
 
 	// hook kp_block_global_show_after.php

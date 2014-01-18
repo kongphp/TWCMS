@@ -26,7 +26,7 @@ function kp_block_global_comment($conf) {
 	if($mid == 1) return FALSE;
 
 	// 格式化
-	$run->cms_content->format($_show, $mid, $run->_cfg['webdir'], $dateformat);
+	$run->cms_content->format($_show, $mid, $run->_cfg, $dateformat);
 
 	// 分页相关
 	$total = &$_show['comments'];

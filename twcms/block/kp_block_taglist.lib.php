@@ -18,7 +18,7 @@ function kp_block_taglist($conf) {
 	$run->cms_content_tag->table = 'cms_'.$table.'_tag';
 	$list_arr = $run->cms_content_tag->find_fetch(array(), array('count'=>-1), 0, $limit);
 	foreach($list_arr as &$v) {
-		$run->cms_content_tag->format($v, $mid);
+		$v['url'] = $run->cms_content->format_tagurl($v['mid'], $v['name'], $run->_cfg);
 	}
 
 	// hook kp_block_taglist_after.php
