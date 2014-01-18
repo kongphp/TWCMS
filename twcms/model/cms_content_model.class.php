@@ -122,8 +122,17 @@ class cms_content extends model {
 			$s = $page ? '-page-{page}' : '';
 			return $cfg['webdir'].'index.php?tag--mid-'.$mid.'-name-'.urlencode($name).$s.$_ENV['_config']['url_suffix'];
 		}else{
-			$s = $page ? '_page_{page}' : '';
-			return $cfg['webdir'].'tag/'.$mid.'_'.urlencode($name).$s.'.html';
+			return $cfg['webdir'].'tag/'.$mid.'_'.urlencode($name).($page ? '_{page}' : '').'.html';
+		}
+	}
+
+	// 评论链接格式化
+	public function format_commenturl(&$cid, &$id, &$cfg, $page = FALSE) {
+		if(empty($_ENV['_config']['twcms_parseurl'])) {
+			$s = $page ? '-page-{page}' : '';
+			return $cfg['webdir'].'index.php?comment--cid-'.$cid.'-id-'.$id.$s.$_ENV['_config']['url_suffix'];
+		}else{
+			return $cfg['webdir'].'comment/'.$cid.'_'.$id.($page ? '_{page}' : '').'.html';
 		}
 	}
 }
