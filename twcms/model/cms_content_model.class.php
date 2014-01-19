@@ -21,7 +21,7 @@ class cms_content extends model {
 
 		$v['date'] = date($dateformat, $v['dateline']);
 		$v['subject'] = $titlenum ? utf8::cutstr_cn($v['title'], $titlenum) : $v['title'];
-		$v['url'] = 'index.php?show--cid-'.$v['cid'].'-id-'.$v['id'].C('url_suffix');
+		$v['url'] = $this->format_url($v['cid'], $v['id'], $v['alias'], $v['dateline'], $cfg);
 		$v['tags'] = _json_decode($v['tags']);
 		if($v['tags']) {
 			$v['tag_arr'] = array();
@@ -133,6 +133,22 @@ class cms_content extends model {
 			return $cfg['webdir'].'index.php?comment--cid-'.$cid.'-id-'.$id.$s.$_ENV['_config']['url_suffix'];
 		}else{
 			return $cfg['webdir'].'comment/'.$cid.'_'.$id.($page ? '_{page}' : '').'.html';
+		}
+	}
+
+	// 链接转换
+	public function format_url(&$cid, &$id, &$alias, &$dateline, &$cfg) {
+		if(empty($_ENV['_config']['twcms_parseurl'])) {
+			return $cfg['webdir'].'index.php?show--cid-'.$cid.'-id-'.$id.$_ENV['_config']['url_suffix'];
+		}else{
+			$s = str_replace('{cid}', $cid, $cfg['link_show']);
+			$s = str_replace('{id}', $id, $s);
+			$s = str_replace('{alias}', $alias, $s);
+			$s = str_replace('{cate_alias}', $cfg['cate_arr'][$cid], $s);
+			$s = str_replace('{y}', date('Y', $dateline), $s);
+			$s = str_replace('{m}', date('m', $dateline), $s);
+			$s = str_replace('{d}', date('d', $dateline), $s);
+			return $cfg['webdir'].$s;
 		}
 	}
 }
