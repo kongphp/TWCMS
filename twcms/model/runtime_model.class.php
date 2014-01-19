@@ -56,7 +56,7 @@ class runtime extends model {
 				$categorys = $this->category->get_category_db();
 				$cate_arr = array();
 				foreach($categorys as $row) {
-					$cate_arr[$row['alias']] = $row['cid'];
+					$cate_arr[$row['cid']] = $row['alias'];
 				}
 				$cfg['cate_arr'] = $cate_arr;
 
