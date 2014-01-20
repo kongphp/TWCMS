@@ -27,29 +27,15 @@
 				</tr>
 
 				{loop:$cms_product_arr $v}
-				{php}
-					$v['flagstr'] = '';
-					if(!empty($v['imagenum'])) {
-						$v['flagstr'] .= ' [图片]';
-					}
-					if(!empty($v['flags'])) {
-						$flags = explode(',', $v['flags']);
-						$flag_arr = array(1=>'推荐', 2=>'热点', 3=>'头条', 4=>'精选', 5=>'幻灯');
-						foreach($flags as $flag) {
-							$v['flagstr'] .= ' ['.$flag_arr[$flag].']';
-						}
-					}
-					if($v['flagstr']) $v['flagstr'] = '<font color="BC0B0B">'.$v['flagstr'].'</font>';
-				{/php}
 				<tr class="li">
 					<td class="col"><input type="checkbox" name="chk_row" _id="{$v[id]}" _cid="{$v[cid]}"></td>
 					<td class="col">{$v[title]}{$v[flagstr]}</td>
-					<td class="col">{$v['author']}</td>
+					<td class="col">{$v[author]}</td>
 					<td class="col">{$v[comments]}</td>
 					<td class="col">{php} echo date('Y-m-d H:i:s', $v['dateline']);{/php}</td>
 					<td class="col">
 						<a class="but3" href="javascript:edit({$v[id]}, {$v[cid]});">编辑</a>
-						<a class="but3" href="../index.php?show--cid-{$v[cid]}-id-{$v[id]}" target="_blank">查看</a>
+						<a class="but3" href="{$v[url]}" target="_blank">查看</a>
 						<a class="but3 del" href="javascript:del({$v[id]}, {$v[cid]});">删除</a>
 					</td>
 				</tr>

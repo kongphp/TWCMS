@@ -49,7 +49,25 @@ class product_control extends admin_control {
 		$this->assign('pages', $pages);
 
 		// 读取内容列表
+		$cfg = $this->runtime->xget();
+		$flag_arr = array(1=>'推荐', 2=>'热点', 3=>'头条', 4=>'精选', 5=>'幻灯');
 		$cms_product_arr = $this->cms_content->list_arr($where, 'id', -1, ($page-1)*$pagenum, $pagenum, $total);
+		foreach($cms_product_arr as &$v) {
+			$this->cms_content->format($v, 2, $cfg);
+
+			// 属性
+			$v['flagstr'] = '';
+			if(!empty($v['imagenum'])) {
+				$v['flagstr'] .= ' [图片]';
+			}
+			if(!empty($v['flags'])) {
+				$flags = explode(',', $v['flags']);
+				foreach($flags as $flag) {
+					$v['flagstr'] .= ' ['.$flag_arr[$flag].']';
+				}
+			}
+			if($v['flagstr']) $v['flagstr'] = '<font color="BC0B0B">'.$v['flagstr'].'</font>';
+		}
 		$this->assign('cms_product_arr', $cms_product_arr);
 
 		// hook admin_product_control_index_after.php
