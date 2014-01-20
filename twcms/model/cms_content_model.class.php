@@ -118,6 +118,8 @@ class cms_content extends model {
 
 	// 标签链接格式化
 	public function tag_url(&$mid, &$name, &$cfg, $page = FALSE) {
+		// hook cms_content_model_tag_url_before.php
+
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			$s = $page ? '-page-{page}' : '';
 			return $cfg['webdir'].'index.php?tag--mid-'.$mid.'-name-'.urlencode($name).$s.$_ENV['_config']['url_suffix'];
@@ -128,6 +130,8 @@ class cms_content extends model {
 
 	// 评论链接格式化
 	public function comment_url(&$cid, &$id, &$cfg, $page = FALSE) {
+		// hook cms_content_model_comment_url_before.php
+
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			$s = $page ? '-page-{page}' : '';
 			return $cfg['webdir'].'index.php?comment--cid-'.$cid.'-id-'.$id.$s.$_ENV['_config']['url_suffix'];
@@ -138,6 +142,8 @@ class cms_content extends model {
 
 	// 首页分页链接格式化
 	public function index_url(&$mid, &$cfg) {
+		// hook cms_content_model_index_url_before.php
+
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			return $cfg['webdir'].'index.php?index-index-mid-'.$mid.'-page-{page}'.$_ENV['_config']['url_suffix'];
 		}else{
@@ -147,6 +153,8 @@ class cms_content extends model {
 
 	// 内容链接格式化
 	public function content_url(&$cid, &$id, &$alias, &$dateline, &$cfg) {
+		// hook cms_content_model_content_url_before.php
+
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			return $cfg['webdir'].'index.php?show--cid-'.$cid.'-id-'.$id.$_ENV['_config']['url_suffix'];
 		}else{

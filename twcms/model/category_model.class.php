@@ -365,6 +365,8 @@ class category extends model {
 
 	// 分类链接格式化
 	public function category_url(&$cid, &$alias, &$cfg, $page = FALSE) {
+		// hook category_model_category_url_before.php
+
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			return $cfg['webdir'].'index.php?cate--cid-'.$cid.($page ? '-page-{page}' : '').$_ENV['_config']['url_suffix'];
 		}else{
