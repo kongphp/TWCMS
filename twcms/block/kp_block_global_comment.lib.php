@@ -42,7 +42,6 @@ function kp_block_global_comment($conf) {
 	foreach($_show['list'] as &$v) {
 		$run->cms_content_comment->format($v, $dateformat, $humandate);
 	}
-	$_show['content_url'] = 'index.php?show--cid-'.$run->_var['cid'].'-id-'.$id.C('url_suffix');
 
 	// hook kp_block_global_comment_after.php
 
