@@ -32,7 +32,7 @@ function kp_block_global_comment($conf) {
 	$total = &$_show['comments'];
 	$maxpage = max(1, ceil($total/$pagenum));
 	$page = min($maxpage, max(1, (int) R('page')));
-	$_show['pages'] = pages($page, $maxpage, $run->cms_content->format_url_comment($run->_var['cid'], $id, $run->_cfg, TRUE));
+	$_show['pages'] = pages($page, $maxpage, $run->cms_content->comment_url($run->_var['cid'], $id, $run->_cfg, TRUE));
 
 	// 初始模型表名
 	$run->cms_content_comment->table = 'cms_'.$run->_var['table'].'_comment';
