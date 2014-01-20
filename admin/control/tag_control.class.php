@@ -35,7 +35,7 @@ class tag_control extends admin_control {
 		$_cfg = $this->runtime->xget();
 		$list_arr = $this->cms_content_tag->list_arr(-1, ($page-1)*$pagenum, $pagenum, $total);
 		foreach($list_arr as &$v) {
-			$v['url'] = $this->cms_content->format_tagurl($v['mid'], $v['name'], $_cfg);
+			$v['url'] = $this->cms_content->format_url_tag($v['mid'], $v['name'], $_cfg);
 		}
 
 		$this->assign('list_arr', $list_arr);
