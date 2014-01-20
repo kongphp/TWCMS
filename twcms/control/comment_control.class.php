@@ -25,7 +25,7 @@ class comment_control extends control{
 
 		// 读取内容
 		$_show = $this->cms_content->read($_GET['id']);
-		empty($_show) && core::error404();
+		if(empty($_show['cid']) || $_show['cid'] != $_GET['cid']) core::error404();
 
 		// SEO 相关
 		$this->_cfg['titles'] = $_show['title'];
