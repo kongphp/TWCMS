@@ -13,6 +13,7 @@ class comment_control extends admin_control {
 
 		$mid = max(2, (int)R('mid'));
 		$table = $this->models->get_table($mid);
+		$cfg = $this->runtime->xget();
 
 		// 模型名称
 		$mod_name = $this->models->get_name();
@@ -39,15 +40,14 @@ class comment_control extends admin_control {
 			$id_arr[] = $v['id'];
 		}
 
-		$content_arr = array();
 		$id_arr = array_unique($id_arr);
 		$this->cms_content->table = 'cms_'.$table;
 		$key_pre = 'cms_'.$table.'-id-';
 		$tmp = $this->cms_content->mget($id_arr);
 		foreach($comment_arr as &$v) {
-			$content = $tmp[$key_pre.$v['id']];
-			$v['title'] = $content['title'];
-			$v['url'] = '../index.php?show--cid-'.$content['cid'].'-id-'.$content['id'];
+			$row = $tmp[$key_pre.$v['id']];
+			$v['title'] = $row['title'];
+			$v['url'] = $this->cms_content->format_url($row['cid'], $row['id'], $row['alias'], $row['dateline'], $cfg);
 		}
 		$this->assign('comment_arr', $comment_arr);
 
@@ -63,6 +63,7 @@ class comment_control extends admin_control {
 		$id = (int) R('id');
 		$mid = max(2, (int)R('mid'));
 		$table = $this->models->get_table($mid);
+		$cfg = $this->runtime->xget();
 
 		// 模型名称
 		$mod_name = $this->models->get_name();
@@ -72,16 +73,16 @@ class comment_control extends admin_control {
 
 		// 读取内容
 		$this->cms_content->table = 'cms_'.$table;
-		$content_arr = $this->cms_content->read($id);
+		$row = $this->cms_content->read($id);
 
 		// 初始化标题、位置
 		$this->_pkey = 'content';
 		$this->_title = '评论管理';
-		$this->_place = '内容 &#187; 评论管理 &#187; '.$content_arr['title'];
+		$this->_place = '内容 &#187; 评论管理 &#187; '.$row['title'];
 
 		// 初始分页
 		$pagenum = 20;
-		$total = $content_arr['comments'];
+		$total = $row['comments'];
 		$maxpage = max(1, ceil($total/$pagenum));
 		$page = min($maxpage, max(1, intval(R('page'))));
 		$pages = pages($page, $maxpage, '?u=comment-content-mid-'.$mid.'-id-'.$id.'-page-{page}');
@@ -93,8 +94,8 @@ class comment_control extends admin_control {
 		$comment_arr = $this->cms_content_comment->list_arr(array('id' => $id), -1, ($page-1)*$pagenum, $pagenum, $total);
 		foreach($comment_arr as &$v) {
 			$this->cms_content_comment->format($v, 'Y-m-d H:i:s', 0);
-			$v['title'] = $content_arr['title'];
-			$v['url'] = '../index.php?show--cid-'.$content_arr['cid'].'-id-'.$content_arr['id'];
+			$v['title'] = $row['title'];
+			$v['url'] = $this->cms_content->format_url($row['cid'], $row['id'], $row['alias'], $row['dateline'], $cfg);
 		}
 		$this->assign('comment_arr', $comment_arr);
 
