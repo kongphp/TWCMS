@@ -113,7 +113,7 @@ if($do == 'license') {
 		$ret = mysql_query($sql);
 		if(substr($sql, 0, 6) == 'CREATE') {
 			$name = preg_replace("/CREATE TABLE ([`a-z0-9_]+) .*/is", "\\1", $sql);
-			js_show('创建数据表 '.$name.' ... '.($ret ? '<i>成功</i>' : '<u>失败</u> (您的数据库没有写权限？)'));
+			js_show('创建数据表 '.$name.' ... '.($ret ? '<i>成功</i>' : '<u>失败</u> (您的数据库没有写权限？)<br><u>'.mysql_error().'</u>'));
 		}
 		if(!$ret) exit;
 	}
