@@ -64,6 +64,15 @@
 			<th>当前状态</th>
 		</tr>
 		<?php
+		echo '<tr><td>/</td><td>可写 (*nix系统 0777)</td><td>';
+		if(_is_writable(TWCMS_ROOT)) {
+			echo '<i>可写[√]</i>';
+		}else{
+			$err = 1;
+			echo '<u>不可写[×]</u>';
+		}
+		echo '</td></tr>';
+
 		$dirs = array(APP_NAME.'/config', APP_NAME.'/runtime', APP_NAME.'/plugin', APP_NAME.'/view', 'upload');
 		foreach($dirs as $dir) {
 			$ret = _dir_write(TWCMS_ROOT.'/'.$dir, TRUE);
