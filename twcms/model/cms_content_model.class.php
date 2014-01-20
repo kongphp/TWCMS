@@ -127,7 +127,7 @@ class cms_content extends model {
 	}
 
 	// 评论链接格式化
-	public function format_commenturl(&$cid, &$id, &$cfg, $page = FALSE) {
+	public function format_url_comment(&$cid, &$id, &$cfg, $page = FALSE) {
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			$s = $page ? '-page-{page}' : '';
 			return $cfg['webdir'].'index.php?comment--cid-'.$cid.'-id-'.$id.$s.$_ENV['_config']['url_suffix'];
