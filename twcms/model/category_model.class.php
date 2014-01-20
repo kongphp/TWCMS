@@ -299,7 +299,7 @@ class category extends model {
 			array_unshift($p, array(
 				'cid'=> $v['cid'],
 				'name'=> $v['name'],
-				'url'=> $this->format_url($v['cid'], $v['alias'], $cfg)
+				'url'=> $this->category_url($v['cid'], $v['alias'], $cfg)
 			));
 			$cid = $v['upid'];
 		}
@@ -364,7 +364,7 @@ class category extends model {
 	}
 
 	// 分类链接格式化
-	public function format_url(&$cid, &$alias, &$cfg, $page = FALSE) {
+	public function category_url(&$cid, &$alias, &$cfg, $page = FALSE) {
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			return $cfg['webdir'].'index.php?cate--cid-'.$cid.($page ? '-page-{page}' : '').$_ENV['_config']['url_suffix'];
 		}else{

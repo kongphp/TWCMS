@@ -13,7 +13,7 @@
 		{loop:$arr $v}
 		{php}
 			$v['prestr'] = str_repeat("　　", $v['pre']-1);
-			$v['url'] = $_ENV['_category_class']->format_url($v['cid'], $v['alias'], $_cfg);
+			$v['url'] = $_ENV['_category_class']->category_url($v['cid'], $v['alias'], $_cfg);
 		{/php}
 		<dl class="cat_col" cid="{$v[cid]}" mid="{$v[mid]}" url="{$v[url]}">
 			<dd class="cat_c_1">
