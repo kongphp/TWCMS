@@ -26,7 +26,7 @@ class cms_content extends model {
 		if($v['tags']) {
 			$v['tag_arr'] = array();
 			foreach($v['tags'] as $name) {
-				$v['tag_arr'][] = array('name'=>$name, 'url'=> $this->format_url_tag($mid, $name, $cfg));
+				$v['tag_arr'][] = array('name'=>$name, 'url'=> $this->tag_url($mid, $name, $cfg));
 			}
 		}
 
@@ -117,7 +117,7 @@ class cms_content extends model {
 	}
 
 	// 标签链接格式化
-	public function format_url_tag(&$mid, &$name, &$cfg, $page = FALSE) {
+	public function tag_url(&$mid, &$name, &$cfg, $page = FALSE) {
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			$s = $page ? '-page-{page}' : '';
 			return $cfg['webdir'].'index.php?tag--mid-'.$mid.'-name-'.urlencode($name).$s.$_ENV['_config']['url_suffix'];
