@@ -21,7 +21,7 @@ class cms_content extends model {
 
 		$v['date'] = date($dateformat, $v['dateline']);
 		$v['subject'] = $titlenum ? utf8::cutstr_cn($v['title'], $titlenum) : $v['title'];
-		$v['url'] = $this->format_url($v['cid'], $v['id'], $v['alias'], $v['dateline'], $cfg);
+		$v['url'] = $this->content_url($v['cid'], $v['id'], $v['alias'], $v['dateline'], $cfg);
 		$v['tags'] = _json_decode($v['tags']);
 		if($v['tags']) {
 			$v['tag_arr'] = array();
@@ -136,8 +136,8 @@ class cms_content extends model {
 		}
 	}
 
-	// 链接转换
-	public function format_url(&$cid, &$id, &$alias, &$dateline, &$cfg) {
+	// 内容链接格式化
+	public function content_url(&$cid, &$id, &$alias, &$dateline, &$cfg) {
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			return $cfg['webdir'].'index.php?show--cid-'.$cid.'-id-'.$id.$_ENV['_config']['url_suffix'];
 		}else{

@@ -47,7 +47,7 @@ class comment_control extends admin_control {
 		foreach($comment_arr as &$v) {
 			$row = $tmp[$key_pre.$v['id']];
 			$v['title'] = $row['title'];
-			$v['url'] = $this->cms_content->format_url($row['cid'], $row['id'], $row['alias'], $row['dateline'], $cfg);
+			$v['url'] = $this->cms_content->content_url($row['cid'], $row['id'], $row['alias'], $row['dateline'], $cfg);
 		}
 		$this->assign('comment_arr', $comment_arr);
 
@@ -95,7 +95,7 @@ class comment_control extends admin_control {
 		foreach($comment_arr as &$v) {
 			$this->cms_content_comment->format($v, 'Y-m-d H:i:s', 0);
 			$v['title'] = $row['title'];
-			$v['url'] = $this->cms_content->format_url($row['cid'], $row['id'], $row['alias'], $row['dateline'], $cfg);
+			$v['url'] = $this->cms_content->content_url($row['cid'], $row['id'], $row['alias'], $row['dateline'], $cfg);
 		}
 		$this->assign('comment_arr', $comment_arr);
 
