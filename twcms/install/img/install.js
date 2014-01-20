@@ -69,8 +69,8 @@ $(".inp").focusin(function() {
 	Check.remove($(this));
 });
 
-$("#adm_user").focusout(Check.adm_user); // 检测创始人用户名
-$("#adm_pass").focusout(Check.adm_pass); // 检测创始人密码
+$("#adm_user").focusout(Check.adm_user).keydown(Check.adm_user); // 检测创始人用户名
+$("#adm_pass").focusout(Check.adm_pass).keydown(Check.adm_pass); // 检测创始人密码
 
 // 阻止提交
 $("#form").submit(function(){
