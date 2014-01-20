@@ -136,6 +136,15 @@ class cms_content extends model {
 		}
 	}
 
+	// 首页分页链接格式化
+	public function index_url(&$mid, &$cfg) {
+		if(empty($_ENV['_config']['twcms_parseurl'])) {
+			return $cfg['webdir'].'index.php?index-index-mid-'.$mid.'-page-{page}'.$_ENV['_config']['url_suffix'];
+		}else{
+			return $cfg['webdir'].'index_'.$mid.'_{page}.html';
+		}
+	}
+
 	// 内容链接格式化
 	public function content_url(&$cid, &$id, &$alias, &$dateline, &$cfg) {
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
