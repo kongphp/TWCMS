@@ -25,19 +25,18 @@ class only_alias extends model {
 		$cfg = $this->runtime->xget();
 		$keywords = $this->kv->xget('link_keywords'); // 保留关键词
 
-		$msg = '';
 		if(isset($cfg['link_tag_pre']) && $alias == $cfg['link_tag_pre']) {
-			$msg = '已经被标签URL使用';
+			return '已经被标签URL使用';
 		}elseif(isset($cfg['link_comment_pre']) && $alias == $cfg['link_comment_pre']) {
-			$msg = '已经被评论URL使用';
+			return '已经被评论URL使用';
 		}elseif(in_array($alias, $keywords)) {
-			$msg = '不允许使用保留关键词';
+			return '不允许使用保留关键词';
 		}elseif($this->category->find_fetch_key(array('alias'=> $alias))) {
-			$msg = '已经被其它分类别名使用';
+			return '已经被其它分类别名使用';
 		}elseif($this->find_fetch_key(array('alias'=> $alias))) {
-			$msg = '已经被其它内容别名使用';
+			return '已经被其它内容别名使用';
 		}
 
-		return $msg;
+		return '';
 	}
 }
