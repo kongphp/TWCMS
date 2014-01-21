@@ -77,6 +77,7 @@ class setting_control extends admin_control {
 			$cfg = $this->kv->xget('cfg');
 			$input = array();
 			$input['link_switch'] = form::loop('radio', 'link_switch', array('0'=>'动态', '1'=>'伪静态'), $cfg['link_switch'], ' &nbsp; &nbsp;');
+			$input['link_index_end'] = form::get_text('link_index_end', $cfg['link_index_end']);
 			$input['link_cate_end'] = form::get_text('link_cate_end', $cfg['link_cate_end']);
 			$input['link_cate_page_pre'] = form::get_text('link_cate_page_pre', $cfg['link_cate_page_pre']);
 			$input['link_cate_page_end'] = form::get_text('link_cate_page_end', $cfg['link_cate_page_end']);
@@ -93,6 +94,7 @@ class setting_control extends admin_control {
 		}else{
 			_trim($_POST);
 			$this->kv->xset('link_switch', (int) R('link_switch', 'P'), 'cfg');
+			$this->kv->xset('link_index_end', R('link_index_end', 'P'), 'cfg');
 			$this->kv->xset('link_cate_end', R('link_cate_end', 'P'), 'cfg');
 			$this->kv->xset('link_cate_page_pre', R('link_cate_page_pre', 'P'), 'cfg');
 			$this->kv->xset('link_cate_page_end', R('link_cate_page_end', 'P'), 'cfg');
