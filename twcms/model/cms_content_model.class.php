@@ -147,7 +147,7 @@ class cms_content extends model {
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			return $cfg['webdir'].'index.php?index-index-mid-'.$mid.'-page-{page}'.$_ENV['_config']['url_suffix'];
 		}else{
-			return $cfg['webdir'].'index_'.$mid.'_{page}.html';
+			return $cfg['webdir'].'index_'.$mid.'_{page}'.$cfg['link_index_end'];
 		}
 	}
 
