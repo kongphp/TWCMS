@@ -26,9 +26,9 @@ class only_alias extends model {
 		$keywords = $this->kv->xget('link_keywords'); // 保留关键词
 
 		$msg = '';
-		if($alias == $cfg['link_tag_pre']) {
+		if(isset($cfg['link_tag_pre']) && $alias == $cfg['link_tag_pre']) {
 			$msg = '已经被标签URL使用';
-		}elseif($alias == $cfg['link_comment_pre']) {
+		}elseif(isset($cfg['link_comment_pre']) && $alias == $cfg['link_comment_pre']) {
 			$msg = '已经被评论URL使用';
 		}elseif(in_array($alias, $keywords)) {
 			$msg = '不允许使用保留关键词';
