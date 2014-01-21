@@ -212,6 +212,11 @@ class article_control extends admin_control {
 				E(1, '写入内容表出错');
 			}
 
+			// 写入全站唯一别名表
+			if(!$this->only_alias->set($alias, array('mid' => $mid, 'cid' => $cid, 'id' => $id))) {
+				E(1, '写入全站唯一别名表出错');
+			}
+
 			// 写入内容数据表
 			$this->cms_content_data->table = 'cms_'.$table.'_data';
 			if(!$this->cms_content_data->set($id, array('content' => $contentstr))) {
@@ -437,6 +442,11 @@ class article_control extends admin_control {
 			$data['seo_description'] = trim(strip_tags(R('seo_description', 'P')));
 			if(!$this->cms_content->update($data)) {
 				E(1, '更新内容表出错');
+			}
+
+			// 写入全站唯一别名表
+			if(!$this->only_alias->set($alias, array('mid' => $mid, 'cid' => $cid, 'id' => $id))) {
+				E(1, '写入全站唯一别名表出错');
 			}
 
 			// 写入内容数据表
