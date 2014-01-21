@@ -82,26 +82,30 @@ if($do == 'license') {
 	if(!$link) {
 		js_show('MySQL 主机、账号或密码不正确！<br><u>'.mysql_error().'</u>', TRUE);
 	}
-	mysql_select_db($dbname, $link);
-	if(mysql_errno() == 1049) {
-		mysql_query("CREATE DATABASE $dbname DEFAULT CHARACTER SET UTF8");
-		if(!mysql_select_db($dbname, $link)) {
-			js_show('自动创建数据库失败鸟！您的MySQL账号是否有权限创建数据库？<br><u>'.mysql_error().'</u>', TRUE);
-		}
-	}
 
-	// 为防止意外，让用户自己做选择
-	if(empty($_POST['cover'])) {
-		$query = mysql_query("SHOW TABLES FROM $dbname");
-		while($row = mysql_fetch_row($query)) {
-			if(preg_match("#^{$tablepre}#", $row[0])) {
-				js_show('<u>发现有相同表前缀，请返回选择“覆盖安装”或“修改表前缀”。</u>', TRUE);
+	try{
+		mysql_select_db($dbname, $link);
+		if(mysql_errno() == 1049) {
+			mysql_query("CREATE DATABASE $dbname DEFAULT CHARACTER SET UTF8");
+			if(!mysql_select_db($dbname, $link)) {
+				js_show('自动创建数据库失败鸟！您的MySQL账号是否有权限创建数据库？<br><u>'.mysql_error().'</u>', TRUE);
 			}
 		}
-	}
+		// 为防止意外，让用户自己做选择
+		if(empty($_POST['cover'])) {
+			$query = mysql_query("SHOW TABLES FROM $dbname");
+			while($row = mysql_fetch_row($query)) {
+				if(preg_match("#^{$tablepre}#", $row[0])) {
+					js_show('<u>发现有相同表前缀，请返回选择“覆盖安装”或“修改表前缀”。</u>', TRUE);
+				}
+			}
+		}
 
-	// 设置编码
-	mysql_query("SET names utf8, sql_mode=''");
+		// 设置编码
+		mysql_query("SET names utf8, sql_mode=''");
+	}catch(Exception $e) {
+		js_show('<u>未知错误！</u><br><u>'.mysql_error().'</u>', TRUE);
+	}
 
 	// 创建数据表
 	$file = TWCMS_INST.'/data/mysql.sql';
