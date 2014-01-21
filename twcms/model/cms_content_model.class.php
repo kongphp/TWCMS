@@ -124,7 +124,7 @@ class cms_content extends model {
 			$s = $page ? '-page-{page}' : '';
 			return $cfg['webdir'].'index.php?tag--mid-'.$mid.'-name-'.urlencode($name).$s.$_ENV['_config']['url_suffix'];
 		}else{
-			return $cfg['webdir'].'tag/'.$mid.'_'.urlencode($name).($page ? '_{page}' : '').'.html';
+			return $cfg['webdir'].$cfg['link_tag_pre'].$mid.'_'.urlencode($name).($page ? '_{page}' : '').$cfg['link_tag_end'];
 		}
 	}
 
@@ -136,7 +136,7 @@ class cms_content extends model {
 			$s = $page ? '-page-{page}' : '';
 			return $cfg['webdir'].'index.php?comment--cid-'.$cid.'-id-'.$id.$s.$_ENV['_config']['url_suffix'];
 		}else{
-			return $cfg['webdir'].'comment/'.$cid.'_'.$id.($page ? '_{page}' : '').'.html';
+			return $cfg['webdir'].$cfg['link_comment_pre'].$cid.'_'.$id.($page ? '_{page}' : '').$cfg['link_comment_end'];
 		}
 	}
 
