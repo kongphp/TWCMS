@@ -62,8 +62,8 @@ if($do == 'license') {
 		js_show('<u>数据库主机不能为空！</u>', TRUE);
 	}elseif(empty($dbuser)) {
 		js_show('<u>数据库用户名不能为空！</u>', TRUE);
-	}elseif(empty($dbname)) {
-		js_show('<u>数据库名不能为空！</u>', TRUE);
+	}elseif(!preg_match('/^\w+$/', $dbname)) {
+		js_show('<u>数据库名不正确！</u>', TRUE);
 	}elseif(empty($tablepre)) {
 		js_show('<u>数据库表前辍不能为空！</u>', TRUE);
 	}elseif(empty($adm_user)) {
