@@ -66,6 +66,8 @@ if($do == 'license') {
 		js_show('<u>数据库名不正确！</u>', TRUE);
 	}elseif(empty($tablepre)) {
 		js_show('<u>数据库表前辍不能为空！</u>', TRUE);
+	}elseif(!preg_match('/^\w+$/', $tablepre)) {
+		js_show('<u>数据库表前辍不正确！</u>', TRUE);
 	}elseif(empty($adm_user)) {
 		js_show('<u>创始人用户名不能为空！</u>', TRUE);
 	}elseif(strlen($adm_pass) < 8) {
