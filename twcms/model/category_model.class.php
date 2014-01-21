@@ -363,7 +363,11 @@ class category extends model {
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			return $cfg['webdir'].'index.php?cate--cid-'.$cid.($page ? '-page-{page}' : '').$_ENV['_config']['url_suffix'];
 		}else{
-			return $cfg['webdir'].str_replace('{cate_alias}', $page ? $alias.'_page_{page}' : $alias, $cfg['link_cate']);
+			if($page) {
+				return $cfg['webdir'].$alias.$cfg['link_cate_page_pre'].'{page}'.$cfg['link_cate_page_end'];
+			}else{
+				return $cfg['webdir'].$alias.$cfg['link_cate_end'];
+			}
 		}
 	}
 }
