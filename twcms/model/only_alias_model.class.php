@@ -23,7 +23,6 @@ class only_alias extends model {
 		}
 
 		$cfg = $this->runtime->xget();
-		$this->kv->set('link_keywords', array('tag', 'tag_top', 'comment', 'index', 'sitemap', 'admin', 'user', 'space'));
 		$keywords = $this->kv->xget('link_keywords'); // 保留关键词
 
 		$msg = '';
