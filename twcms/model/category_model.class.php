@@ -35,9 +35,6 @@ class category extends model {
 		}elseif(strlen($post['alias']) > 50) {
 			$name = 'alias';
 			$msg = '分类别名不能超过50个字符';
-		}elseif(!preg_match('/^\w+$/', $post['alias'])) {
-			$name = 'alias';
-			$msg = '分类别名只能是 英文 数字 _';
 		}elseif(empty($post['cate_tpl'])) {
 			$name = 'cate_tpl';
 			$msg = '请填写分类页模板';
@@ -50,11 +47,7 @@ class category extends model {
 
 	// 检查别名是否被使用
 	public function check_alias($alias) {
-		if($this->find_fetch_key(array('alias'=> $alias))) {
-			$msg = '分类别名已经被使用';
-		}elseif($err_msg = $this->only_alias->check_alias($alias)) {
-			$msg = $err_msg;
-		}
+		$msg = $this->only_alias->check_alias($alias);
 		return empty($msg) ? FALSE : array('name' => 'alias', 'msg' => $msg);
 	}
 
