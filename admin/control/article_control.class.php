@@ -113,6 +113,7 @@ class article_control extends admin_control {
 		}else{
 			$cid = intval(R('cid', 'P'));
 			$title = trim(strip_tags(R('title', 'P')));
+			$alias = trim(R('alias', 'P'));
 			$flags = (array)R('flag', 'P');
 			$views = intval(R('views', 'P'));
 			$contentstr = trim(R('content', 'P'));
@@ -133,6 +134,11 @@ class article_control extends admin_control {
 
 			// 防止提交到其他模型的分类
 			if($table != 'article') E(1, '分类ID非法！');
+
+			// 检测别名是否能用
+			if($alias && $err_msg = $this->only_alias->check_alias($alias)) {
+				E(1, $err_msg);
+			}
 
 			// 标签预处理，最多支持5个标签
 			$tags = trim(R('tags', 'P'), ", \t\n\r\0\x0B");
@@ -181,7 +187,7 @@ class article_control extends admin_control {
 				'cid' => $cid,
 				'title' => $title,
 				'color' => trim(R('color', 'P')),
-				'alias' => trim(R('alias', 'P')),
+				'alias' => $alias,
 				'tags' => _json_encode($tags),
 				'intro' => $intro,
 				'pic' => $pic,
@@ -311,6 +317,7 @@ class article_control extends admin_control {
 			$id = intval(R('id', 'P'));
 			$cid = intval(R('cid', 'P'));
 			$title = trim(strip_tags(R('title', 'P')));
+			$alias = trim(R('alias', 'P'));
 			$flags = (array)R('flag', 'P');
 			$views = intval(R('views', 'P'));
 			$contentstr = trim(R('content', 'P'));
@@ -336,6 +343,11 @@ class article_control extends admin_control {
 			$this->cms_content->table = 'cms_'.$table;
 			$data = $this->cms_content->get($id);
 			if(empty($data)) E(1, '内容不存在！');
+
+			// 检测别名是否能用
+			if($alias && $err_msg = $this->only_alias->check_alias($alias)) {
+				E(1, $err_msg);
+			}
 
 			// 比较属性变化
 			$flags_old = array();
@@ -407,7 +419,7 @@ class article_control extends admin_control {
 			$data['id'] = $id;
 			$data['title'] = $title;
 			$data['color'] = trim(R('color', 'P'));
-			$data['alias'] = trim(R('alias', 'P'));
+			$data['alias'] = $alias;
 			$data['tags'] = _json_encode($tags);
 			$data['intro'] = $intro;
 			$data['pic'] = $pic;
