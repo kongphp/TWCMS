@@ -160,7 +160,7 @@ class cms_content extends model {
 		}else{
 			$s = str_replace('{cid}', $cid, $cfg['link_show']);
 			$s = str_replace('{id}', $id, $s);
-			$s = str_replace('{alias}', $alias, $s);
+			$s = str_replace('{alias}', $alias ? $alias : $cid.'_'.$id, $s);
 			$s = str_replace('{cate_alias}', $cfg['cate_arr'][$cid], $s);
 			$s = str_replace('{y}', date('Y', $dateline), $s);
 			$s = str_replace('{m}', date('m', $dateline), $s);
