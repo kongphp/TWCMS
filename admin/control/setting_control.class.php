@@ -77,10 +77,14 @@ class setting_control extends admin_control {
 			$cfg = $this->kv->xget('cfg');
 			$input = array();
 			$input['link_switch'] = form::loop('radio', 'link_switch', array('0'=>'动态', '1'=>'伪静态'), $cfg['link_switch'], ' &nbsp; &nbsp;');
-			$input['link_cate'] = form::get_text('link_cate', $cfg['link_cate']);
+			$input['link_cate_end'] = form::get_text('link_cate_end', $cfg['link_cate_end']);
+			$input['link_cate_page_pre'] = form::get_text('link_cate_page_pre', $cfg['link_cate_page_pre']);
+			$input['link_cate_page_end'] = form::get_text('link_cate_page_end', $cfg['link_cate_page_end']);
 			$input['link_show'] = form::get_text('link_show', $cfg['link_show']);
-			$input['link_tag'] = form::get_text('link_tag', $cfg['link_tag']);
-			$input['link_comment'] = form::get_text('link_comment', $cfg['link_comment']);
+			$input['link_tag_pre'] = form::get_text('link_tag_pre', $cfg['link_tag_pre']);
+			$input['link_tag_end'] = form::get_text('link_tag_end', $cfg['link_tag_end']);
+			$input['link_comment_pre'] = form::get_text('link_comment_pre', $cfg['link_comment_pre']);
+			$input['link_comment_end'] = form::get_text('link_comment_end', $cfg['link_comment_end']);
 
 			// hook admin_setting_control_link_after.php
 
@@ -89,10 +93,14 @@ class setting_control extends admin_control {
 		}else{
 			_trim($_POST);
 			$this->kv->xset('link_switch', (int) R('link_switch', 'P'), 'cfg');
-			$this->kv->xset('link_cate', R('link_cate', 'P'), 'cfg');
+			$this->kv->xset('link_cate_end', R('link_cate_end', 'P'), 'cfg');
+			$this->kv->xset('link_cate_page_pre', R('link_cate_page_pre', 'P'), 'cfg');
+			$this->kv->xset('link_cate_page_end', R('link_cate_page_end', 'P'), 'cfg');
 			$this->kv->xset('link_show', R('link_show', 'P'), 'cfg');
-			$this->kv->xset('link_tag', R('link_tag', 'P'), 'cfg');
-			$this->kv->xset('link_comment', R('link_comment', 'P'), 'cfg');
+			$this->kv->xset('link_tag_pre', R('link_tag_pre', 'P'), 'cfg');
+			$this->kv->xset('link_tag_end', R('link_tag_end', 'P'), 'cfg');
+			$this->kv->xset('link_comment_pre', R('link_comment_pre', 'P'), 'cfg');
+			$this->kv->xset('link_comment_end', R('link_comment_end', 'P'), 'cfg');
 
 			// hook admin_setting_control_link_post_after.php
 
