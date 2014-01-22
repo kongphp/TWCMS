@@ -74,10 +74,10 @@ class setting_control extends admin_control {
 	// 链接设置
 	public function link() {
 		if(empty($_POST)) {
-			$link_switch = $_ENV['_config']['twcms_parseurl'];
+			$parseurl = $_ENV['_config']['twcms_parseurl'];
 			$cfg = $this->kv->xget('cfg');
 			$input = array();
-			$input['link_switch'] = form::loop('radio', 'link_switch', array('0'=>'动态', '1'=>'伪静态'), $link_switch, ' &nbsp; &nbsp;');
+			$input['parseurl'] = form::loop('radio', 'parseurl', array('0'=>'动态', '1'=>'伪静态'), $parseurl, ' &nbsp; &nbsp;');
 			$input['link_show'] = form::get_text('link_show', $cfg['link_show']);
 			$input['link_index_end'] = form::get_text('link_index_end', $cfg['link_index_end']);
 			$input['link_cate_end'] = form::get_text('link_cate_end', $cfg['link_cate_end']);
@@ -95,11 +95,11 @@ class setting_control extends admin_control {
 		}else{
 			_trim($_POST);
 			// 伪静态开关
-			$link_switch = (int)R('link_switch', 'P');
+			$parseurl = (int)R('parseurl', 'P');
 			$file = APP_PATH.'config/config.inc.php';
 			if(!_is_writable($file)) exit('{"err":1, "msg":"配置文件 twcms/config/config.inc.php 不可写！"}');
 			$s = file_get_contents($file);
-			$s = preg_replace("#'twcms_parseurl'\s*=>\s*\d,#", "'twcms_parseurl' => {$link_switch},", $s);
+			$s = preg_replace("#'twcms_parseurl'\s*=>\s*\d,#", "'twcms_parseurl' => {$parseurl},", $s);
 			if(!file_put_contents($file, $s)) exit('{"err":1, "msg":"写入 config.inc.php 失败"}');
 
 			// 智能生成内容链接参数 (四种情况，性能方面依次排列)
