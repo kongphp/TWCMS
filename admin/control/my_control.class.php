@@ -30,13 +30,27 @@ class my_control extends admin_control {
 
 		// 综合统计
 		$stat = array();
+		// $stat['user'] = $this->user->count();
 		$stat['category'] = $this->category->count();
-		$stat['user'] = $this->user->count();
-		//$stat['attach'] = $this->attach->count();
-		//$stat['article'] = $this->cms_article->count();
-		//$stat['article_comment'] = $this->article_comment->count();
-		//$stat['product'] = $this->product->count();
-		//$stat['product_comment'] = $this->product_comment->count();
+
+		$this->cms_content->table = 'cms_article';
+		$stat['article'] = $this->cms_content->count();
+
+		$this->cms_content_comment->table = 'cms_article_comment';
+		$stat['article_comment'] = $this->cms_content_comment->count();
+
+		$this->cms_content->table = 'cms_product';
+		$stat['product'] = $this->cms_content->count();
+
+		$this->cms_content_comment->table = 'cms_article_comment';
+		$stat['product_comment'] = $this->cms_content_comment->count();
+
+		$this->cms_content->table = 'cms_photo';
+		$stat['photo'] = $this->cms_content->count();
+
+		$this->cms_content_comment->table = 'cms_article_comment';
+		$stat['photo_comment'] = $this->cms_content_comment->count();
+
 		$stat['space'] = function_exists('disk_free_space') ? get_byte(disk_free_space(TWCMS_PATH)) : '未知';
 		$response_info = $this->response_info($info, $stat);
 
