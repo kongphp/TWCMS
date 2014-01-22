@@ -42,13 +42,13 @@ class my_control extends admin_control {
 		$this->cms_content->table = 'cms_product';
 		$stat['product'] = $this->cms_content->count();
 
-		$this->cms_content_comment->table = 'cms_article_comment';
+		$this->cms_content_comment->table = 'cms_product_comment';
 		$stat['product_comment'] = $this->cms_content_comment->count();
 
 		$this->cms_content->table = 'cms_photo';
 		$stat['photo'] = $this->cms_content->count();
 
-		$this->cms_content_comment->table = 'cms_article_comment';
+		$this->cms_content_comment->table = 'cms_photo_comment';
 		$stat['photo_comment'] = $this->cms_content_comment->count();
 
 		$stat['space'] = function_exists('disk_free_space') ? get_byte(disk_free_space(TWCMS_PATH)) : '未知';
