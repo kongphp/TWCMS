@@ -4,7 +4,7 @@
  * Author: wuzhaohuan <kongphp@gmail.com>
  */
 
-define('DEBUG', 2);	//调试模式，分三种：0 关闭调试; 1 开启调试; 2 开发调试   注意：开启调试会暴露绝对路径和表前缀
+define('DEBUG', 0);	//调试模式，分三种：0 关闭调试; 1 开启调试; 2 开发调试   注意：开启调试会暴露绝对路径和表前缀
 define('APP_NAME', 'twcms_admin');	//APP名称
 define('F_APP_NAME', 'twcms');	//前台APP名称
 define('ADM_PATH', dirname($_SERVER['SCRIPT_FILENAME']).'/');	//后台目录
