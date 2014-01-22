@@ -79,7 +79,6 @@ class setting_control extends admin_control {
 			$input = array();
 			$input['parseurl'] = form::loop('radio', 'parseurl', array('0'=>'动态', '1'=>'伪静态'), $parseurl, ' &nbsp; &nbsp;');
 			$input['link_show'] = form::get_text('link_show', $cfg['link_show'], 'inp wa');
-			$input['link_index_end'] = form::get_text('link_index_end', $cfg['link_index_end'], 'inp wb');
 			$input['link_cate_end'] = form::get_text('link_cate_end', $cfg['link_cate_end'], 'inp wb');
 			$input['link_cate_page_pre'] = form::get_text('link_cate_page_pre', $cfg['link_cate_page_pre'], 'inp wb');
 			$input['link_cate_page_end'] = form::get_text('link_cate_page_end', $cfg['link_cate_page_end'], 'inp wb');
@@ -87,6 +86,7 @@ class setting_control extends admin_control {
 			$input['link_tag_end'] = form::get_text('link_tag_end', $cfg['link_tag_end'], 'inp wb');
 			$input['link_comment_pre'] = form::get_text('link_comment_pre', $cfg['link_comment_pre'], 'inp wb');
 			$input['link_comment_end'] = form::get_text('link_comment_end', $cfg['link_comment_end'], 'inp wb');
+			$input['link_index_end'] = form::get_text('link_index_end', $cfg['link_index_end'], 'inp wb');
 
 			// hook admin_setting_control_link_after.php
 
@@ -98,7 +98,7 @@ class setting_control extends admin_control {
 			// 伪静态开关
 			$parseurl = (int)R('parseurl', 'P');
 			$file = APP_PATH.'config/config.inc.php';
-			if(!_is_writable($file)) exit('{"err":1, "msg":"配置文件 twcms/config/config.inc.php 不可写！"}');
+			if(!_is_writable($file)) exit('{"err":1, "msg":"配置文件 twcms/config/config.inc.php 不可写"}');
 			$s = file_get_contents($file);
 			$s = preg_replace("#'twcms_parseurl'\s*=>\s*\d,#", "'twcms_parseurl' => {$parseurl},", $s);
 			if(!file_put_contents($file, $s)) exit('{"err":1, "msg":"写入 config.inc.php 失败"}');
@@ -128,14 +128,33 @@ class setting_control extends admin_control {
 			$this->kv->xset('link_show_type', $link_show_type, 'cfg');
 			$this->kv->xset('link_show_end', $link_show_end, 'cfg');
 
-			$this->kv->xset('link_index_end', R('link_index_end', 'P'), 'cfg');
-			$this->kv->xset('link_cate_end', R('link_cate_end', 'P'), 'cfg');
-			$this->kv->xset('link_cate_page_pre', R('link_cate_page_pre', 'P'), 'cfg');
-			$this->kv->xset('link_cate_page_end', R('link_cate_page_end', 'P'), 'cfg');
-			$this->kv->xset('link_tag_pre', R('link_tag_pre', 'P'), 'cfg');
-			$this->kv->xset('link_tag_end', R('link_tag_end', 'P'), 'cfg');
-			$this->kv->xset('link_comment_pre', R('link_comment_pre', 'P'), 'cfg');
-			$this->kv->xset('link_comment_end', R('link_comment_end', 'P'), 'cfg');
+			$link_cate_page_pre = R('link_cate_page_pre', 'P');
+			$link_cate_page_end = R('link_cate_page_end', 'P');
+			$link_cate_end = R('link_cate_end', 'P');
+			$link_tag_pre = R('link_tag_pre', 'P');
+			$link_tag_end = R('link_tag_end', 'P');
+			$link_comment_pre = R('link_comment_pre', 'P');
+			$link_comment_end = R('link_comment_end', 'P');
+			$link_index_end = R('link_index_end', 'P');
+
+			// 暂时不考虑过滤 标签URL前缀 和 评论URL后缀 重复问题
+			if(empty($link_cate_page_pre)) exit('{"err":1, "msg":"分类URL前缀不能为空"}');
+			if(empty($link_cate_page_end)) exit('{"err":1, "msg":"分类URL后缀不能为空"}');
+			if(empty($link_cate_end)) exit('{"err":1, "msg":"分类URL首页后缀不能为空"}');
+			if(empty($link_tag_pre)) exit('{"err":1, "msg":"标签URL前缀不能为空"}');
+			if(empty($link_tag_end)) exit('{"err":1, "msg":"标签URL后缀不能为空"}');
+			if(empty($link_comment_pre)) exit('{"err":1, "msg":"评论URL前缀不能为空"}');
+			if(empty($link_comment_end)) exit('{"err":1, "msg":"评论URL后缀不能为空"}');
+			if(empty($link_index_end)) exit('{"err":1, "msg":"首页分页URL后缀不能为空"}');
+
+			$this->kv->xset('link_index_end', $link_index_end, 'cfg');
+			$this->kv->xset('link_cate_page_pre', $link_cate_page_pre, 'cfg');
+			$this->kv->xset('link_cate_page_end', $link_cate_page_end, 'cfg');
+			$this->kv->xset('link_cate_end', $link_cate_end, 'cfg');
+			$this->kv->xset('link_tag_pre', $link_tag_pre, 'cfg');
+			$this->kv->xset('link_tag_end', $link_tag_end, 'cfg');
+			$this->kv->xset('link_comment_pre', $link_comment_pre, 'cfg');
+			$this->kv->xset('link_comment_end', $link_comment_end, 'cfg');
 
 			// hook admin_setting_control_link_post_after.php
 
