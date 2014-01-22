@@ -78,11 +78,11 @@ class setting_control extends admin_control {
 			$cfg = $this->kv->xget('cfg');
 			$input = array();
 			$input['link_switch'] = form::loop('radio', 'link_switch', array('0'=>'动态', '1'=>'伪静态'), $link_switch, ' &nbsp; &nbsp;');
+			$input['link_show'] = form::get_text('link_show', $cfg['link_show']);
 			$input['link_index_end'] = form::get_text('link_index_end', $cfg['link_index_end']);
 			$input['link_cate_end'] = form::get_text('link_cate_end', $cfg['link_cate_end']);
 			$input['link_cate_page_pre'] = form::get_text('link_cate_page_pre', $cfg['link_cate_page_pre']);
 			$input['link_cate_page_end'] = form::get_text('link_cate_page_end', $cfg['link_cate_page_end']);
-			$input['link_show'] = form::get_text('link_show', $cfg['link_show']);
 			$input['link_tag_pre'] = form::get_text('link_tag_pre', $cfg['link_tag_pre']);
 			$input['link_tag_end'] = form::get_text('link_tag_end', $cfg['link_tag_end']);
 			$input['link_comment_pre'] = form::get_text('link_comment_pre', $cfg['link_comment_pre']);
@@ -102,11 +102,29 @@ class setting_control extends admin_control {
 			$s = preg_replace("#'twcms_parseurl'\s*=>\s*\d,#", "'twcms_parseurl' => {$link_switch},", $s);
 			if(!file_put_contents($file, $s)) exit('{"err":1, "msg":"写入 config.inc.php 失败"}');
 
+			// 智能生成内容链接参数 (四种情况，性能方面依次排列)
+			$link_show = R('link_show', 'P');
+			if(substr($link_show, 0, 10) == '{cid}/{id}' && strpos($link_show, '{', 10) === FALSE) {
+				$link_show_type = 1;
+				$link_show_end = (string)substr($link_show, 10);
+			}elseif(substr($link_show, 0, 17) == '{cate_alias}/{id}' && strpos($link_show, '{', 17) === FALSE) {
+				$link_show_type = 2;
+				$link_show_end = (string)substr($link_show, 17);
+			}elseif(substr($link_show, 0, 7) == '{alias}' && strpos($link_show, '{', 7) === FALSE) {
+				$link_show_type = 3;
+				$link_show_end = (string)substr($link_show, 7);
+			}else{
+				$link_show_type = 4;
+				$link_show_end = '';
+			}
+			$this->kv->xset('link_show', $link_show, 'cfg');
+			$this->kv->xset('link_show_type', $link_show_type, 'cfg');
+			$this->kv->xset('link_show_end', $link_show_end, 'cfg');
+
 			$this->kv->xset('link_index_end', R('link_index_end', 'P'), 'cfg');
 			$this->kv->xset('link_cate_end', R('link_cate_end', 'P'), 'cfg');
 			$this->kv->xset('link_cate_page_pre', R('link_cate_page_pre', 'P'), 'cfg');
 			$this->kv->xset('link_cate_page_end', R('link_cate_page_end', 'P'), 'cfg');
-			$this->kv->xset('link_show', R('link_show', 'P'), 'cfg');
 			$this->kv->xset('link_tag_pre', R('link_tag_pre', 'P'), 'cfg');
 			$this->kv->xset('link_tag_end', R('link_tag_end', 'P'), 'cfg');
 			$this->kv->xset('link_comment_pre', R('link_comment_pre', 'P'), 'cfg');
