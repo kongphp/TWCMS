@@ -49,11 +49,10 @@ class article_control extends admin_control {
 		$this->assign('pages', $pages);
 
 		// 读取内容列表
-		$cfg = $this->runtime->xget();
 		$flag_arr = array(1=>'推荐', 2=>'热点', 3=>'头条', 4=>'精选', 5=>'幻灯');
 		$cms_article_arr = $this->cms_content->list_arr($where, 'id', -1, ($page-1)*$pagenum, $pagenum, $total);
 		foreach($cms_article_arr as &$v) {
-			$this->cms_content->format($v, 2, $cfg);
+			$this->cms_content->format($v, 2);
 
 			// 属性
 			$v['flagstr'] = '';

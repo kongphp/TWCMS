@@ -61,7 +61,7 @@ function kp_block_list_flag($conf) {
 	$run->cms_content->table = 'cms_'.$table;
 	$list_arr = $run->cms_content->mget($keys);
 	foreach($list_arr as &$v) {
-		$run->cms_content->format($v, $mid, $run->_cfg, $dateformat, $titlenum, $intronum);
+		$run->cms_content->format($v, $mid, $dateformat, $titlenum, $intronum);
 	}
 
 	// hook kp_block_list_after.php

@@ -11,27 +11,31 @@ class cms_content extends model {
 		$this->table = '';			// 表名 (可以是 cms_article、cms_product、cms_photo 等)
 		$this->pri = array('id');	// 主键
 		$this->maxid = 'id';		// 自增字段
+
+		if(empty($this->cfg)) {
+			$this->cfg = $this->runtime->xget();
+		}
 	}
 
 	// 格式化内容数组
-	public function format(&$v, $mid, &$cfg, $dateformat = 'Y-m-d H:i:s', $titlenum = 0, $intronum = 0) {
+	public function format(&$v, $mid, $dateformat = 'Y-m-d H:i:s', $titlenum = 0, $intronum = 0) {
 		// hook cms_content_model_format_before.php
 
 		if(empty($v)) return FALSE;
 
 		$v['date'] = date($dateformat, $v['dateline']);
 		$v['subject'] = $titlenum ? utf8::cutstr_cn($v['title'], $titlenum) : $v['title'];
-		$v['url'] = $this->content_url($v['cid'], $v['id'], $v['alias'], $v['dateline'], $cfg);
+		$v['url'] = $this->content_url($v['cid'], $v['id'], $v['alias'], $v['dateline']);
 		$v['tags'] = _json_decode($v['tags']);
 		if($v['tags']) {
 			$v['tag_arr'] = array();
 			foreach($v['tags'] as $name) {
-				$v['tag_arr'][] = array('name'=>$name, 'url'=> $this->tag_url($mid, $name, $cfg));
+				$v['tag_arr'][] = array('name'=>$name, 'url'=> $this->tag_url($mid, $name));
 			}
 		}
 
 		$intronum && $v['intro'] = utf8::cutstr_cn($v['intro'], $intronum);
-		$v['pic'] = $cfg['webdir'].(empty($v['pic']) ? 'static/img/nopic.gif' : $v['pic']);
+		$v['pic'] = $this->cfg['webdir'].(empty($v['pic']) ? 'static/img/nopic.gif' : $v['pic']);
 
 		// hook cms_content_model_format_after.php
 	}
@@ -117,55 +121,55 @@ class cms_content extends model {
 	}
 
 	// 标签链接格式化
-	public function tag_url(&$mid, &$name, &$cfg, $page = FALSE) {
+	public function tag_url(&$mid, &$name, $page = FALSE) {
 		// hook cms_content_model_tag_url_before.php
 
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			$s = $page ? '-page-{page}' : '';
-			return $cfg['webdir'].'index.php?tag--mid-'.$mid.'-name-'.urlencode($name).$s.$_ENV['_config']['url_suffix'];
+			return $this->cfg['webdir'].'index.php?tag--mid-'.$mid.'-name-'.urlencode($name).$s.$_ENV['_config']['url_suffix'];
 		}else{
-			return $cfg['webdir'].$cfg['link_tag_pre'].$mid.'_'.urlencode($name).($page ? '_{page}' : '').$cfg['link_tag_end'];
+			return $this->cfg['webdir'].$this->cfg['link_tag_pre'].$mid.'_'.urlencode($name).($page ? '_{page}' : '').$this->cfg['link_tag_end'];
 		}
 	}
 
 	// 评论链接格式化
-	public function comment_url(&$cid, &$id, &$cfg, $page = FALSE) {
+	public function comment_url(&$cid, &$id, $page = FALSE) {
 		// hook cms_content_model_comment_url_before.php
 
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			$s = $page ? '-page-{page}' : '';
-			return $cfg['webdir'].'index.php?comment--cid-'.$cid.'-id-'.$id.$s.$_ENV['_config']['url_suffix'];
+			return $this->cfg['webdir'].'index.php?comment--cid-'.$cid.'-id-'.$id.$s.$_ENV['_config']['url_suffix'];
 		}else{
-			return $cfg['webdir'].$cfg['link_comment_pre'].$cid.'_'.$id.($page ? '_{page}' : '').$cfg['link_comment_end'];
+			return $this->cfg['webdir'].$this->cfg['link_comment_pre'].$cid.'_'.$id.($page ? '_{page}' : '').$this->cfg['link_comment_end'];
 		}
 	}
 
 	// 首页分页链接格式化
-	public function index_url(&$mid, &$cfg) {
+	public function index_url(&$mid) {
 		// hook cms_content_model_index_url_before.php
 
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
-			return $cfg['webdir'].'index.php?index-index-mid-'.$mid.'-page-{page}'.$_ENV['_config']['url_suffix'];
+			return $this->cfg['webdir'].'index.php?index-index-mid-'.$mid.'-page-{page}'.$_ENV['_config']['url_suffix'];
 		}else{
-			return $cfg['webdir'].'index_'.$mid.'_{page}'.$cfg['link_index_end'];
+			return $this->cfg['webdir'].'index_'.$mid.'_{page}'.$this->cfg['link_index_end'];
 		}
 	}
 
 	// 内容链接格式化
-	public function content_url(&$cid, &$id, &$alias, &$dateline, &$cfg) {
+	public function content_url(&$cid, &$id, &$alias, &$dateline) {
 		// hook cms_content_model_content_url_before.php
 
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
-			return $cfg['webdir'].'index.php?show--cid-'.$cid.'-id-'.$id.$_ENV['_config']['url_suffix'];
+			return $this->cfg['webdir'].'index.php?show--cid-'.$cid.'-id-'.$id.$_ENV['_config']['url_suffix'];
 		}else{
-			$s = str_replace('{cid}', $cid, $cfg['link_show']);
+			$s = str_replace('{cid}', $cid, $this->cfg['link_show']);
 			$s = str_replace('{id}', $id, $s);
 			$s = str_replace('{alias}', $alias ? $alias : $cid.'_'.$id, $s);
-			$s = str_replace('{cate_alias}', $cfg['cate_arr'][$cid], $s);
+			$s = str_replace('{cate_alias}', $this->cfg['cate_arr'][$cid], $s);
 			$s = str_replace('{y}', date('Y', $dateline), $s);
 			$s = str_replace('{m}', date('m', $dateline), $s);
 			$s = str_replace('{d}', date('d', $dateline), $s);
-			return $cfg['webdir'].$s;
+			return $this->cfg['webdir'].$s;
 		}
 	}
 }

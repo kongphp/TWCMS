@@ -53,7 +53,7 @@ function kp_block_global_cate($conf) {
 	// 获取内容列表
 	$list_arr = $run->cms_content->list_arr($where, $orderby, $orderway, ($page-1)*$pagenum, $pagenum, $total);
 	foreach($list_arr as &$v) {
-		$run->cms_content->format($v, $mid, $run->_cfg, $dateformat, $titlenum, $intronum);
+		$run->cms_content->format($v, $mid, $dateformat, $titlenum, $intronum);
 		if(isset($cate_arr)) {
 			$v['cate_name'] = $cate_arr[$v['cid']]['name'];
 			$v['cate_url'] = $run->category->category_url($cate_arr[$v['cid']]['cid'], $cate_arr[$v['cid']]['alias']);

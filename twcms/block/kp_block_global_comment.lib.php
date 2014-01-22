@@ -26,13 +26,13 @@ function kp_block_global_comment($conf) {
 	if($mid == 1) return FALSE;
 
 	// 格式化
-	$run->cms_content->format($_show, $mid, $run->_cfg, $dateformat);
+	$run->cms_content->format($_show, $mid, $dateformat);
 
 	// 分页相关
 	$total = &$_show['comments'];
 	$maxpage = max(1, ceil($total/$pagenum));
 	$page = min($maxpage, max(1, (int) R('page')));
-	$_show['pages'] = pages($page, $maxpage, $run->cms_content->comment_url($run->_var['cid'], $id, $run->_cfg, TRUE));
+	$_show['pages'] = pages($page, $maxpage, $run->cms_content->comment_url($run->_var['cid'], $id, TRUE));
 
 	// 初始模型表名
 	$run->cms_content_comment->table = 'cms_'.$run->_var['table'].'_comment';

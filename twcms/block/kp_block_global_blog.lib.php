@@ -35,12 +35,12 @@ function kp_block_global_blog($conf) {
 	// 分页相关
 	$maxpage = max(1, ceil($total/$pagenum));
 	$page = min($maxpage, max(1, intval(R('page'))));
-	$pages = pages($page, $maxpage, $run->cms_content->index_url($mid, $run->_cfg));
+	$pages = pages($page, $maxpage, $run->cms_content->index_url($mid));
 
 	// 读取内容列表
 	$list_arr = $run->cms_content->list_arr(array(), 'id', -1, ($page-1)*$pagenum, $pagenum, $total);
 	foreach($list_arr as &$v) {
-		$run->cms_content->format($v, $mid, $run->_cfg, $dateformat, $titlenum, $intronum);
+		$run->cms_content->format($v, $mid, $dateformat, $titlenum, $intronum);
 	}
 
 	// hook kp_block_global_blog_after.php

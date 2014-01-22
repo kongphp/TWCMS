@@ -13,7 +13,6 @@ class comment_control extends admin_control {
 
 		$mid = max(2, (int)R('mid'));
 		$table = $this->models->get_table($mid);
-		$cfg = $this->runtime->xget();
 
 		// 模型名称
 		$mod_name = $this->models->get_name();
@@ -47,7 +46,7 @@ class comment_control extends admin_control {
 		foreach($comment_arr as &$v) {
 			$row = $tmp[$key_pre.$v['id']];
 			$v['title'] = $row['title'];
-			$v['url'] = $this->cms_content->content_url($row['cid'], $row['id'], $row['alias'], $row['dateline'], $cfg);
+			$v['url'] = $this->cms_content->content_url($row['cid'], $row['id'], $row['alias'], $row['dateline']);
 		}
 		$this->assign('comment_arr', $comment_arr);
 
@@ -63,7 +62,6 @@ class comment_control extends admin_control {
 		$id = (int) R('id');
 		$mid = max(2, (int)R('mid'));
 		$table = $this->models->get_table($mid);
-		$cfg = $this->runtime->xget();
 
 		// 模型名称
 		$mod_name = $this->models->get_name();
@@ -95,7 +93,7 @@ class comment_control extends admin_control {
 		foreach($comment_arr as &$v) {
 			$this->cms_content_comment->format($v, 'Y-m-d H:i:s', 0);
 			$v['title'] = $row['title'];
-			$v['url'] = $this->cms_content->content_url($row['cid'], $row['id'], $row['alias'], $row['dateline'], $cfg);
+			$v['url'] = $this->cms_content->content_url($row['cid'], $row['id'], $row['alias'], $row['dateline']);
 		}
 		$this->assign('comment_arr', $comment_arr);
 

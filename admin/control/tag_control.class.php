@@ -32,10 +32,9 @@ class tag_control extends admin_control {
 		$this->assign('total', $total);
 
 		// 获取标签列表
-		$_cfg = $this->runtime->xget();
 		$list_arr = $this->cms_content_tag->list_arr(-1, ($page-1)*$pagenum, $pagenum, $total);
 		foreach($list_arr as &$v) {
-			$v['url'] = $this->cms_content->tag_url($v['mid'], $v['name'], $_cfg);
+			$v['url'] = $this->cms_content->tag_url($v['mid'], $v['name']);
 		}
 
 		$this->assign('list_arr', $list_arr);

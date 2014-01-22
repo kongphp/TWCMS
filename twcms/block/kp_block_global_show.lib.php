@@ -23,11 +23,11 @@ function kp_block_global_show($conf) {
 	$run->cms_content_data->table = 'cms_'.$run->_var['table'].'_data';
 
 	// 格式化
-	$run->cms_content->format($_show, $mid, $run->_cfg, $dateformat);
+	$run->cms_content->format($_show, $mid, $dateformat);
 
 	// 合并大数据字段
 	$id = &$_show['id'];
-	$_show['comment_url'] = $run->cms_content->comment_url($run->_var['cid'], $id, $run->_cfg);
+	$_show['comment_url'] = $run->cms_content->comment_url($run->_var['cid'], $id);
 	$_show['views_url'] = $run->_cfg['webdir'].'index.php?u=views--cid-'.$run->_var['cid'].'-id-'.$id;
 	$_show += $run->cms_content_data->read($id);
 
@@ -45,12 +45,12 @@ function kp_block_global_show($conf) {
 		// 上一页
 		$_show['prev'] = $run->cms_content->find_fetch(array('cid' => $run->_var['cid'], 'id'=>array('<'=> $id)), array('id'=>-1), 0 , 1);
 		$_show['prev'] = current($_show['prev']);
-		$run->cms_content->format($_show['prev'], $mid, $run->_cfg, $dateformat);
+		$run->cms_content->format($_show['prev'], $mid, $dateformat);
 
 		// 下一页
 		$_show['next'] = $run->cms_content->find_fetch(array('cid' => $run->_var['cid'], 'id'=>array('>'=> $id)), array('id'=>1), 0 , 1);
 		$_show['next'] = current($_show['next']);
-		$run->cms_content->format($_show['next'], $mid, $run->_cfg, $dateformat);
+		$run->cms_content->format($_show['next'], $mid, $dateformat);
 	}
 
 	// hook kp_block_global_show_after.php
