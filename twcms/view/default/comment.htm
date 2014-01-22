@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>评论：{$tw[titles]}</title>
+	<meta name="keywords" content="{$tw[seo_keywords]}" />
+	<meta name="description" content="{$tw[seo_description]}" />
+	<link rel="shortcut icon" type="image/x-icon" href= "{$tw[webdir]}favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="{$tw[tpl]}css/global.css" />
+</head>
+
+{inc:header.htm}
+
+	<!--两列开始-->
+	<div class="cont cf">
+		<div class="m_l">
+			{block:global_comment humandate="1"}
+			<div class="b1_top">
+				<div class="b1_tit">
+					<div class="ct_p"></div>
+					<div class="ct_c">
+						<a href="{$tw[weburl]}">首页</a>
+						{loop:$tw_var[place] $v} &#187; <a href="{$v[url]}">{$v[name]}</a>{/loop}
+					</div>
+					<div class="ct_n"></div>
+				</div>
+				<div class="b1_cont art_show comment_show cf">
+					<h1><a href="{$gdata[url]}">评论：{$gdata[title]}</a></h1>
+					<div class="content">
+						<p>{$gdata[intro]} [<a href="{$gdata[url]}" style="color:red">更多>></a>]</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="t10">
+				<div class="b2_tit">
+					<b>网友评论</b> （<font color="red">{$gdata[comments]}</font> 条评论）
+				</div>
+				<div class="b2_cont comment">
+					{loop:$gdata[list] $v}
+					<div class="li">
+						<div class="avatar"><img src="{$tw[tpl]}img/avatar.png" /></div>
+						<div class="post_body">
+							<div class="post_header"><b>{$v[author]} ({$v[ip]})</b> {$v[date]}</div>
+							<div class="post_message">{$v[content]}</div>
+						</div>
+					</div>
+					{/loop}
+					<div class="pages cf">{if:$gdata[comments]}<span>共 <font color="red">{$gdata[comments]}</font> 条评论</span>{/if}{$gdata[pages]}</div>
+				</div>
+			</div>
+
+			<div class="t10">
+				<div class="b2_tit">
+					<b>发表评论</b>
+				</div>
+				<div class="b2_cont comment_form cf">
+					<form id="ctf_form" action="{$tw[webdir]}index.php?u=comment-post-ajax-1" method="post">
+						<div class="ctf_cont"><textarea name="content" id="ctf_content" tabindex="1">文明上网，理性发言</textarea></div>
+						<div class="ctf_body">
+							<div class="ctf_txt" title="请填写昵称"><input name="author" id="ctf_author" type="text" value="访客" /></div>
+							<div class="ctf_sub"><input type="submit" id="ctf_submit" value="发表评论" /></div>
+							<div id="ctf_tips"></div>
+						</div>
+						<input type="hidden" name="cid" value="{$gdata[cid]}" />
+						<input type="hidden" name="id" value="{$gdata[id]}" />
+					</form>
+				</div>
+			</div>
+			{/block}
+		</div>
+
+		<div class="m_r">
+			{block:list_top orderby="comments" cid="0"}
+			<div class="b10">
+				<h2 class="b2_tit">
+					<b>热门评论</b>
+				</h2>
+				<ul class="b2_cont lists cf">
+					{loop:$data[list] $v}<li><a href="{$v[url]}" title="{$v[title]}&#10;发表于:{$v[date]}&#10;评论数:{$v[comments]}" target="_blank">{$v[subject]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+
+			{inc:right.htm}
+		</div>
+	</div>
+	<!--两列结束-->
+
+{inc:footer.htm}
+
+<script type="text/javascript" src="{$tw[webdir]}static/js/jquery.js"></script>
+<script type="text/javascript" src="{$tw[tpl]}js/main.js"></script>
+</body>
+</html>

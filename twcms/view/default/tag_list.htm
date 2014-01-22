@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>{$tw[titles]}</title>
+	<meta name="keywords" content="{$tw[seo_keywords]}" />
+	<meta name="description" content="{$tw[seo_description]}" />
+	<link rel="shortcut icon" type="image/x-icon" href= "{$tw[webdir]}favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="{$tw[tpl]}css/global.css" />
+</head>
+
+{inc:header.htm}
+
+	<!--两列开始-->
+	<div class="cont cf">
+		<div class="m_l">
+			{block:global_taglist pagenum="20"}
+			<div class="b1_top">
+				<div class="b1_tit">
+					<div class="ct_p"></div>
+					<div class="ct_c"><a href="{$tw[weburl]}">首页</a> &#187; {$tw[titles]}</div>
+					<div class="ct_n"></div>
+				</div>
+				{if:isset($_GET['mid']) && $_GET['mid']==3}
+				<div class="b1_cont cf">
+					<div class="pro_list">
+						<ul class="cf">
+							{loop:$gdata[list] $v}<li><a href="{$v[url]}" title="{$v[title]}&#10;发表于：{$v[date]}{if:isset($v['tag_arr'])}&#10;标签：{loop:$v[tag_arr] $v2}{$v2[name]} {/loop}{/if}" target="_blank"><img src="{$v[pic]}" /><u>{$v[subject]}</u></a></li>{/loop}
+						</ul>
+						<div class="pages cf"><span>共 <font color="red">{$gdata[total]}</font> 篇</span>{$gdata[pages]}</div>
+					</div>
+				</div>
+				{elseif:isset($_GET['mid']) && $_GET['mid']==4}
+				<div class="b1_cont cf">
+					<div class="pho_list">
+						<ul class="cf">
+							{loop:$gdata[list] $v}<li><a href="{$v[url]}" title="{$v[title]}&#10;发表于：{$v[date]}{if:isset($v['tag_arr'])}&#10;标签：{loop:$v[tag_arr] $v2}{$v2[name]} {/loop}{/if}" target="_blank"><img src="{$v[pic]}" /><u>{$v[subject]}</u></a></li>{/loop}
+						</ul>
+						<div class="pages cf"><span>共 <font color="red">{$gdata[total]}</font> 篇</span>{$gdata[pages]}</div>
+					</div>
+				</div>
+				{else}
+				<div class="b1_cont art_pic cf">
+					{loop:$gdata[list] $v}
+					<dl class="cf">
+						<dt><a href="{$v[url]}" title="{$v[title]}&#10;发表于：{$v[date]}" target="_blank"><img src="{$v[pic]}" /></a></dt>
+						<dd>
+							<h3 class="cf"><a href="{$v[url]}" title="{$v[title]}&#10;发表于：{$v[date]}" target="_blank">{$v[subject]}</a></h3>
+							<div>{$v[intro]}</div>
+							{if:isset($v['tag_arr'])}
+							<div class="news_tag">{loop:$v[tag_arr] $v2}<a href="{$v2[url]}">{$v2[name]}</a>{/loop}</div>
+							{/if}
+							<div class="news_info"><span>作者：{$v[author]}</span><span>发表于：{$v[date]}</span></div>
+						</dd>
+					</dl>
+					{/loop}
+					<div class="pages cf"><span>共 <font color="red">{$gdata[total]}</font> 篇</span>{$gdata[pages]}</div>
+				</div>
+				{/if}
+			</div>
+			{/block}
+		</div>
+
+		<div class="m_r">
+			{inc:right.htm}
+		</div>
+	</div>
+	<!--两列结束-->
+
+{inc:footer.htm}
+
+<script type="text/javascript" src="{$tw[webdir]}static/js/jquery.js"></script>
+<script type="text/javascript" src="{$tw[tpl]}js/main.js"></script>
+</body>
+</html>

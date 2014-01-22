@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>{$tw[titles]}</title>
+	<meta name="keywords" content="{$tw[seo_keywords]}" />
+	<meta name="description" content="{$tw[seo_description]}" />
+	<link rel="shortcut icon" type="image/x-icon" href= "{$tw[webdir]}favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="{$tw[tpl]}css/global.css" />
+</head>
+
+{inc:header.htm}
+
+	<!--两列开始-->
+	<div class="cont cf">
+		<div class="m_l">
+			<h2 class="b2_tit b10">
+				<a href="{$tw[weburl]}">首页</a>
+				{loop:$tw_var[place] $v} &#187; <a href="{$v[url]}">{$v[name]}</a>{/loop}
+			</h2>
+
+			<!--待完成：幻灯片和频道头条-->
+
+			{block:listeach limit="8"}
+			{loop:$data $v}
+			<h2 class="b2_tit">
+				<a class="more" href="{$v[cate_url]}">更多</a>
+				<b>{$v[cate_name]}</b>
+			</h2>
+			<ul class="b2_cont lists cf b10">
+				{loop:$v[list] $lv}
+				<li><span>{$lv[data]}</span><a href="{$lv[url]}" target="_blank">{$lv[subject]}</a></li>
+				{/loop}
+			</ul>
+			{/loop}
+			{/block}
+		</div>
+
+		<div class="m_r">
+			{block:category type="sibling"}
+			<div class="b10">
+				<h2 class="b2_tit">
+					<b>相关分类</b>
+				</h2>
+				<ul class="b2_cont cat_r cf">
+					{loop:$data $v}<li><a href="{$v[url]}"{if:$v['cid'] == $_GET['cid']} style="font-weight:bold"{/if}>{$v[name]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+
+			{inc:right.htm}
+		</div>
+	</div>
+	<!--两列结束-->
+
+{inc:footer.htm}
+
+<script type="text/javascript" src="{$tw[webdir]}static/js/jquery.js"></script>
+<script type="text/javascript" src="{$tw[tpl]}js/main.js"></script>
+</body>
+</html>

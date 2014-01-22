@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>{$tw[titles]}</title>
+	<meta name="keywords" content="{$tw[seo_keywords]}" />
+	<meta name="description" content="{$tw[seo_description]}" />
+	<link rel="shortcut icon" type="image/x-icon" href= "{$tw[webdir]}favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="{$tw[tpl]}css/global.css" />
+</head>
+
+{inc:header.htm}
+
+	<!--两列开始-->
+	<div class="cont cf">
+		<div class="m_l">
+			{block:global_show show_prev_next="1"}
+			<div class="b1_top">
+				<div class="b1_tit">
+					<div class="ct_p"></div>
+					<div class="ct_c">
+						<a href="{$tw[weburl]}">首页</a>
+						{loop:$tw_var[place] $v} &#187; <a href="{$v[url]}">{$v[name]}</a>{/loop}
+					</div>
+					<div class="ct_n"></div>
+				</div>
+				<div class="b1_cont art_show cf">
+					<h1>{$gdata[title]}</h1>
+					<div class="info">
+						<span>作者: {$gdata[author]}</span>
+						{if:!empty($gdata['source'])}<span>来源: {$gdata[source]}</span>{/if}
+						<span>日期: {$gdata[date]}</span>
+						<span>人气: <font id="views">-</font></span>
+						<span>评论: <a href="{$gdata[comment_url]}">{$gdata[comments]}</a></span>
+					</div>
+
+					<div class="content">{$gdata[content]}</div>
+
+					<div class="share_tag" style="margin:0 5px">
+						{if:isset($gdata['tag_arr'])}
+						<div class="sh_l">标签：{loop:$gdata[tag_arr] $v} <a href="{$v[url]}">{$v[name]}</a>{/loop}</div>
+						{/if}
+
+						<!-- Baidu Button BEGIN -->
+						<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare">
+						<span class="bds_more">分享到：</span>
+						<a class="bds_qzone"></a>
+						<a class="bds_tsina"></a>
+						<a class="bds_tqq"></a>
+						<a class="bds_renren"></a>
+						<a class="bds_t163"></a>
+						<a class="shareCount"></a>
+						</div>
+						<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=696260" ></script>
+						<script type="text/javascript" id="bdshell_js"></script>
+						<script type="text/javascript">
+						document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+						</script>
+						<!-- Baidu Button END -->
+					</div>
+
+					{if:isset($gdata[prev][url]) || isset($gdata[next][url])}
+					<div class="turn">
+						<ul>
+							<li>上一篇：{if:isset($gdata[prev][url])}<a href="{$gdata[prev][url]}">{$gdata[prev][title]}</a>{else}没有了{/if}</li>
+							<li>下一篇：{if:isset($gdata[next][url])}<a href="{$gdata[next][url]}">{$gdata[next][title]}</a>{else}没有了{/if}</li>
+						</ul>
+					</div>
+					{/if}
+				</div>
+			</div>
+			{/block}
+
+			{block:taglike type="1"}
+			<div class="t10">
+				<h2 class="b2_tit">
+					<b>相关内容</b>
+				</h2>
+				<ul class="b2_cont lists cf">
+					{loop:$data[list] $v}<li><span>{$v[date]}</span><a href="{$v[url]}" title="{$v[title]}&#10;发表于:{$v[date]}" target="_blank">{$v[subject]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+
+			{block:comment pagenum="20" firstnum="20"}
+			<div class="t10" id="ctf">
+				<div class="b2_tit">
+					<b>发表评论</b>
+				</div>
+				<div class="b2_cont comment_form cf">
+					<form id="ctf_form" action="{$tw[webdir]}index.php?u=comment-post-ajax-1" method="post">
+						<div class="ctf_cont"><textarea name="content" id="ctf_content" tabindex="1">文明上网，理性发言</textarea></div>
+						<div class="ctf_body">
+							<div class="ctf_txt" title="请填写昵称"><input name="author" id="ctf_author" type="text" value="访客" /></div>
+							<div class="ctf_sub"><input type="submit" id="ctf_submit" value="发表评论" /></div>
+							<div id="ctf_tips"></div>
+						</div>
+						<input type="hidden" name="cid" value="{$gdata[cid]}" />
+						<input type="hidden" name="id" value="{$gdata[id]}" />
+					</form>
+				</div>
+			</div>
+
+			<div class="t10">
+				<div class="b2_tit">
+					<a class="more" href="{$gdata[comment_url]}">更多</a>
+					<b>网友评论</b> （<font color="red">{$gdata[comments]}</font> 条评论）
+				</div>
+				<div id="comment_cont" class="b2_cont comment">
+					{if:empty($data[list])}
+						暂无评论
+					{else}
+					{loop:$data[list] $v $k}
+					<div class="li">
+						<div class="avatar"><img src="{$tw[tpl]}img/avatar.png" /></div>
+						<div class="post_body">
+							<div class="post_header"><b>{$v[author]} ({$v[ip]})</b> {$v[date]}</div>
+							<div class="post_message">{$v[content]}</div>
+						</div>
+					</div>
+					{/loop}
+					<a id="load_more" href="javascript:;" next_url="{$data[next_url]}" isnext="{$data[isnext]}">更多评论</a>
+					{/if}
+				</div>
+			</div>
+			{/block}
+		</div>
+
+		<div class="m_r">
+			{block:list_top orderby="views"}
+			<div class="b10">
+				<h2 class="b2_tit">
+					<b>访问排行</b>
+				</h2>
+				<ul class="b2_cont lists cf">
+					{loop:$data[list] $v}<li><a href="{$v[url]}" title="{$v[title]}&#10;发表于:{$v[date]}&#10;访问数:{$v[views]}" target="_blank">{$v[subject]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+
+			{inc:right.htm}
+		</div>
+	</div>
+	<!--两列结束-->
+
+{inc:footer.htm}
+
+<script type="text/javascript" src="{$tw[webdir]}static/js/jquery.js"></script>
+<script type="text/javascript" src="{$tw[tpl]}js/main.js"></script>
+<script type="text/javascript">
+$.getScript("{$gdata[views_url]}", function(){ $("#views").html(views); });
+</script>
+<script type="text/javascript">
+//加载更多评论
+(function(){
+	var obj = $("#load_more");
+	var next_url = obj.attr("next_url");
+	var isnext = obj.attr("isnext");
+
+	var no_more = function() {
+		obj.html("没有更多了");
+		if(typeof load_more != "undefined") obj.off("click", load_more);
+		if(typeof auto_load_more != "undefined") $(window).off("scroll", auto_load_more);
+	}
+
+	if(isnext < 1) { no_more(); return; }
+
+	var twJosnLock = false;
+	var load_more = function() {
+		if(!next_url || twJosnLock) return;
+		obj.html("玩命加载中...");
+		twJosnLock = true;
+
+		$.get(next_url, function(data) {
+			try{
+				var json = eval("("+data+")");
+				next_url = json.next_url;
+				$.each(json.list_arr, function(i,item) {
+					var s = '<div class="li">';
+						s += '<div class="avatar"><img src="{$tw[tpl]}img/avatar.png" /></div>';
+						s += '<div class="post_body">';
+						s += '<div class="post_header"><b>'+item.author+' ('+item.ip+')</b> '+item.date+'</div>';
+						s += '<div class="post_message">'+item.content+'</div>';
+						s += '</div></div>';
+					$("#comment_cont>.li:last").after(s);
+				});
+
+				obj.html("更多评论");
+				twJosnLock = false;
+				if(json.isnext < 1) no_more();
+			}catch(e){
+				alert(data);
+			}
+		});
+	}
+	obj.click(load_more);
+
+	//滚动到底部时自动加载 (如果觉得这个功能讨厌，可删除这段代码)
+	var auto_load_more = function() {
+		var h = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight;
+		if($(window).scrollTop() >= $(document).height()-h) load_more();
+	}
+	$(window).scroll(auto_load_more);
+})();
+</script>
+</body>
+</html>
+

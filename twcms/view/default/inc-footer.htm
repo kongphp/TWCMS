@@ -1,0 +1,15 @@
+
+	<!--底部开始-->
+	<div class="foot">
+		<p>
+			Copyright &#169; 2012-2014 <a href="{$tw[weburl]}">{$tw[webname]}</a> Inc. 保留所有权利。
+
+			<!-- 感谢您使用TWCMS,通王因您更精彩!为支持TWCMS的发展,请保留TWCMS的链接信息. -->
+			Powered by <a href="http://www.twcms.com" target="_blank" title="TWCMS">TWCMS {$_ENV[_config][version]}</a>
+		</p>
+		<p>{php} echo '页面耗时'.runtime().'秒, 内存占用'.runmem().', 访问数据库'.$_ENV['_sqlnum'].'次'; {/php}</p>
+		<p>{$tw[beian]}</p>
+		<p>{$tw[tongji]}</p>
+	</div>
+	<!--底部结束-->
+</div>

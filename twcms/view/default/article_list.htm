@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>{$tw[titles]}</title>
+	<meta name="keywords" content="{$tw[seo_keywords]}" />
+	<meta name="description" content="{$tw[seo_description]}" />
+	<link rel="shortcut icon" type="image/x-icon" href= "{$tw[webdir]}favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="{$tw[tpl]}css/global.css" />
+</head>
+
+{inc:header.htm}
+
+	<!--两列开始-->
+	<div class="cont cf">
+		<div class="m_l">
+			{block:global_cate pagenum="10"}
+			<div class="b1_top">
+				<div class="b1_tit">
+					<div class="ct_p"></div>
+					<div class="ct_c">
+						<a href="{$tw[weburl]}">首页</a>
+						{loop:$tw_var[place] $v} &#187; <a href="{$v[url]}">{$v[name]}</a>{/loop}
+					</div>
+					<div class="ct_n"></div>
+				</div>
+
+				<div class="b1_cont art_pic cf">
+					{loop:$gdata[list] $v}
+					<dl class="cf">
+						<dt><a href="{$v[url]}" title="{$v[title]}&#10;发表于：{$v[date]}" target="_blank"><img src="{$v[pic]}" /></a></dt>
+						<dd>
+							<h3 class="cf"><a href="{$v[url]}" title="{$v[title]}&#10;发表于：{$v[date]}" target="_blank">{$v[subject]}</a></h3>
+							<div>{$v[intro]}</div>
+							{if:isset($v['tag_arr'])}
+							<div class="news_tag">{loop:$v[tag_arr] $v2}<a href="{$v2[url]}">{$v2[name]}</a>{/loop}</div>
+							{/if}
+							<div class="news_info"><span>作者：{$v[author]}</span><span>发表于：{$v[date]}</span></div>
+						</dd>
+					</dl>
+					{/loop}
+
+					<div class="pages cf"><span>共 <font color="red">{$gdata[total]}</font> 篇</span>{$gdata[pages]}</div>
+				</div>
+			</div>
+			{/block}
+		</div>
+
+		<div class="m_r">
+			{block:category type="sibling"}
+			<div class="b10">
+				<h2 class="b2_tit">
+					<b>相关分类</b>
+				</h2>
+				<ul class="b2_cont cat_r cf">
+					{loop:$data $v}<li><a href="{$v[url]}"{if:$v['cid'] == $_GET['cid']} style="font-weight:bold"{/if}>{$v[name]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+
+			{block:list_flag flag="1" limit="8" orderby="time" titlenum="28"}
+			<div class="b10">
+				<h2 class="b2_tit">
+					<b>推荐文章</b>
+				</h2>
+				<ul class="b2_cont cat_r cf">
+					{loop:$data[list] $v}<li><a href="{$v[url]}" title="{$v[title]}&#10;发表于:{$v[date]}" target="_blank">{$v[subject]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+
+			{block:list limit="8" orderby="time" titlenum="28"}
+			<div class="b10">
+				<h2 class="b2_tit">
+					<a class="more" href="{$data[cate_url]}">更多</a>
+					<b>本分类最新文章</b>
+				</h2>
+				<ul class="b2_cont cat_r cf">
+					{loop:$data[list] $v}<li><a href="{$v[url]}" title="{$v[title]}&#10;发表于:{$v[date]}" target="_blank">{$v[subject]}</a></li>{/loop}
+				</ul>
+			</div>
+			{/block}
+
+			{inc:right.htm}
+		</div>
+	</div>
+	<!--两列结束-->
+
+{inc:footer.htm}
+
+<script type="text/javascript" src="{$tw[webdir]}static/js/jquery.js"></script>
+<script type="text/javascript" src="{$tw[tpl]}js/main.js"></script>
+</body>
+</html>
