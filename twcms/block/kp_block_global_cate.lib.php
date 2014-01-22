@@ -45,7 +45,7 @@ function kp_block_global_cate($conf) {
 	// 分页相关
 	$maxpage = max(1, ceil($total/$pagenum));
 	$page = min($maxpage, max(1, intval(R('page'))));
-	$pages = pages($page, $maxpage, $run->category->category_url($cid, $run->_var['alias'], $run->_cfg, TRUE));
+	$pages = pages($page, $maxpage, $run->category->category_url($cid, $run->_var['alias'], TRUE));
 
 	// 初始模型表名
 	$run->cms_content->table = 'cms_'.$run->_var['table'];
@@ -56,7 +56,7 @@ function kp_block_global_cate($conf) {
 		$run->cms_content->format($v, $mid, $run->_cfg, $dateformat, $titlenum, $intronum);
 		if(isset($cate_arr)) {
 			$v['cate_name'] = $cate_arr[$v['cid']]['name'];
-			$v['cate_url'] = $run->category->category_url($cate_arr[$v['cid']]['cid'], $cate_arr[$v['cid']]['alias'], $run->_cfg);
+			$v['cate_url'] = $run->category->category_url($cate_arr[$v['cid']]['cid'], $cate_arr[$v['cid']]['alias']);
 		}
 	}
 

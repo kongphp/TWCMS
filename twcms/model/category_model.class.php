@@ -13,6 +13,10 @@ class category extends model {
 		$this->table = 'category';	// 表名
 		$this->pri = array('cid');	// 主键
 		$this->maxid = 'cid';		// 自增字段
+
+		if(empty($this->cfg)) {
+			$this->cfg = $this->runtime->xget();
+		}
 	}
 
 	// 检查基本参数是否填写
@@ -284,7 +288,7 @@ class category extends model {
 	}
 
 	// 获取分类当前位置
-	public function get_place($cid, &$cfg) {
+	public function get_place($cid) {
 		$p = array();
 		$tmp = $this->get_category_db();
 
@@ -292,7 +296,7 @@ class category extends model {
 			array_unshift($p, array(
 				'cid'=> $v['cid'],
 				'name'=> $v['name'],
-				'url'=> $this->category_url($v['cid'], $v['alias'], $cfg)
+				'url'=> $this->category_url($v['cid'], $v['alias'])
 			));
 			$cid = $v['upid'];
 		}
@@ -319,10 +323,9 @@ class category extends model {
 		$arr = $this->read($cid);
 		if(empty($arr)) return FALSE;
 
-		$cfg = $this->runtime->xget();
-		$arr['place'] = $this->get_place($cid, $cfg);	// 分类当前位置
+		$arr['place'] = $this->get_place($cid);	// 分类当前位置
 		$arr['topcid'] = $arr['place'][0]['cid'];	// 顶级分类CID
-		$arr['table'] = $cfg['table_arr'][$arr['mid']];	// 分类模型表名
+		$arr['table'] = $this->cfg['table_arr'][$arr['mid']];	// 分类模型表名
 
 		// 如果为频道，获取频道分类下级CID
 		if($arr['type'] == 1) {
@@ -357,16 +360,16 @@ class category extends model {
 	}
 
 	// 分类链接格式化
-	public function category_url(&$cid, &$alias, &$cfg, $page = FALSE) {
+	public function category_url(&$cid, &$alias, $page = FALSE) {
 		// hook category_model_category_url_before.php
 
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
-			return $cfg['webdir'].'index.php?cate--cid-'.$cid.($page ? '-page-{page}' : '').$_ENV['_config']['url_suffix'];
+			return $this->cfg['webdir'].'index.php?cate--cid-'.$cid.($page ? '-page-{page}' : '').$_ENV['_config']['url_suffix'];
 		}else{
 			if($page) {
-				return $cfg['webdir'].$alias.$cfg['link_cate_page_pre'].'{page}'.$cfg['link_cate_page_end'];
+				return $this->cfg['webdir'].$alias.$this->cfg['link_cate_page_pre'].'{page}'.$this->cfg['link_cate_page_end'];
 			}else{
-				return $cfg['webdir'].$alias.$cfg['link_cate_end'];
+				return $this->cfg['webdir'].$alias.$this->cfg['link_cate_end'];
 			}
 		}
 	}

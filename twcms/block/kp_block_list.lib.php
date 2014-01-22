@@ -41,7 +41,7 @@ function kp_block_list($conf) {
 	}else{
 		$cate_arr = $run->category->get_cache($cid);
 		$cate_name = $cate_arr['name'];
-		$cate_url = $run->category->category_url($cid, $cate_arr['alias'], $run->_cfg);
+		$cate_url = $run->category->category_url($cid, $cate_arr['alias']);
 		$table = &$cate_arr['table'];
 
 		if(!empty($cate_arr['son_cids']) && is_array($cate_arr['son_cids'])) {

@@ -38,7 +38,7 @@ function kp_block_category($conf) {
 		if($v['upid'] != $upid || $v['mid'] != $mid) {
 			unset($cate_arr[$k]);
 		}else{
-			$v['url'] = $run->category->category_url($v['cid'], $v['alias'], $run->_cfg);
+			$v['url'] = $run->category->category_url($v['cid'], $v['alias']);
 		}
 	}
 
