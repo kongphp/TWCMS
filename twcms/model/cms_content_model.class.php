@@ -162,14 +162,24 @@ class cms_content extends model {
 		if(empty($_ENV['_config']['twcms_parseurl'])) {
 			return $this->cfg['webdir'].'index.php?show--cid-'.$cid.'-id-'.$id.$_ENV['_config']['url_suffix'];
 		}else{
-			$s = str_replace('{cid}', $cid, $this->cfg['link_show']);
-			$s = str_replace('{id}', $id, $s);
-			$s = str_replace('{alias}', $alias ? $alias : $cid.'_'.$id, $s);
-			$s = str_replace('{cate_alias}', $this->cfg['cate_arr'][$cid], $s);
-			$s = str_replace('{y}', date('Y', $dateline), $s);
-			$s = str_replace('{m}', date('m', $dateline), $s);
-			$s = str_replace('{d}', date('d', $dateline), $s);
-			return $this->cfg['webdir'].$s;
+			// 性能方面，最后一个最差
+			switch($this->cfg['link_show_type']) {
+				case 1:
+					return $this->cfg['webdir'].$cid.'/'.$id.$this->cfg['link_show_end'];
+				case 2:
+					return $this->cfg['webdir'].$this->cfg['cate_arr'][$cid].'/'.$id.$this->cfg['link_show_end'];
+				case 3:
+					return $this->cfg['webdir'].($alias ? $alias : $cid.'_'.$id).$this->cfg['link_show_end'];
+				default:
+					$s = str_replace('{cid}', $cid, $this->cfg['link_show']);
+					$s = str_replace('{id}', $id, $s);
+					$s = str_replace('{alias}', $alias ? $alias : $cid.'_'.$id, $s);
+					$s = str_replace('{cate_alias}', $this->cfg['cate_arr'][$cid], $s);
+					$s = str_replace('{y}', date('Y', $dateline), $s);
+					$s = str_replace('{m}', date('m', $dateline), $s);
+					$s = str_replace('{d}', date('d', $dateline), $s);
+					return $this->cfg['webdir'].$s;
+			}
 		}
 	}
 }
