@@ -17,6 +17,8 @@ class index_control extends control{
 		$this->_cfg['titles'] = $this->_cfg['webname'].(empty($this->_cfg['seo_title']) ? '' : ' - '.$this->_cfg['seo_title']);
 		$this->_var['topcid'] = 0;
 
+		var_export($this->_cfg);
+
 		$this->assign('tw', $this->_cfg);
 		$this->assign('tw_var', $this->_var);
 
