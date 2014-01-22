@@ -133,7 +133,7 @@ class setting_control extends admin_control {
 			// hook admin_setting_control_link_post_after.php
 
 			$this->kv->save_changed();
-			$this->runtime->delete('cfg');
+			$this->runtime->truncate();
 
 			exit('{"err":0, "msg":"修改成功"}');
 		}
