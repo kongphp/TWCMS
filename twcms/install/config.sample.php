@@ -59,5 +59,5 @@ $_ENV['_config'] = array(
 
 	'url_suffix' => '.html',
 	'version' => '2.0.0',			// 版本号
-	'release' => '20140111',		// 发布日期
+	'release' => '20140122',		// 发布日期
 );
