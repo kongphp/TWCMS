@@ -74,9 +74,10 @@ class setting_control extends admin_control {
 	// 链接设置
 	public function link() {
 		if(empty($_POST)) {
+			$link_switch = $_ENV['_config']['twcms_parseurl'];
 			$cfg = $this->kv->xget('cfg');
 			$input = array();
-			$input['link_switch'] = form::loop('radio', 'link_switch', array('0'=>'动态', '1'=>'伪静态'), $cfg['link_switch'], ' &nbsp; &nbsp;');
+			$input['link_switch'] = form::loop('radio', 'link_switch', array('0'=>'动态', '1'=>'伪静态'), $link_switch, ' &nbsp; &nbsp;');
 			$input['link_index_end'] = form::get_text('link_index_end', $cfg['link_index_end']);
 			$input['link_cate_end'] = form::get_text('link_cate_end', $cfg['link_cate_end']);
 			$input['link_cate_page_pre'] = form::get_text('link_cate_page_pre', $cfg['link_cate_page_pre']);
@@ -93,7 +94,14 @@ class setting_control extends admin_control {
 			$this->display();
 		}else{
 			_trim($_POST);
-			$this->kv->xset('link_switch', (int) R('link_switch', 'P'), 'cfg');
+			// 伪静态开关
+			$link_switch = (int)R('link_switch', 'P');
+			$file = APP_PATH.'config/config.inc.php';
+			if(!_is_writable($file)) exit('{"err":1, "msg":"配置文件 twcms/config/config.inc.php 不可写！"}');
+			$s = file_get_contents($file);
+			$s = preg_replace("#'twcms_parseurl'\s*=>\s*\d,#", "'twcms_parseurl' => {$link_switch},", $s);
+			if(!file_put_contents($file, $s)) exit('{"err":1, "msg":"写入 config.inc.php 失败"}');
+
 			$this->kv->xset('link_index_end', R('link_index_end', 'P'), 'cfg');
 			$this->kv->xset('link_cate_end', R('link_cate_end', 'P'), 'cfg');
 			$this->kv->xset('link_cate_page_pre', R('link_cate_page_pre', 'P'), 'cfg');
