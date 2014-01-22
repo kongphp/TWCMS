@@ -5,46 +5,59 @@
 			<form action="?u=setting-link-ajax-1" method="post">
 				<div class="tb_t">链接设置</div>
 				<table class="tb">
-					<tr>
-						<th class="th">静态化选项</th>
-						<td class="col">{$input[parseurl]}</td>
-					</tr>
-					<tr>
-						<th class="th">内容URL配置</th>
-						<td class="col">{$input[link_show]}</td>
-					</tr>
-					<tr>
-						<th class="th">首页URL分页后缀</th>
-						<td class="col">{$input[link_index_end]}</td>
-					</tr>
-					<tr>
-						<th class="th">分类URL首页后缀</th>
-						<td class="col">{$input[link_cate_end]}</td>
-					</tr>
-					<tr>
-						<th class="th">分类URL分页前缀</th>
-						<td class="col">{$input[link_cate_page_pre]}</td>
-					</tr>
-					<tr>
-						<th class="th">分类URL分页后缀</th>
-						<td class="col">{$input[link_cate_page_end]}</td>
-					</tr>
-					<tr>
-						<th class="th">标签URL前缀</th>
-						<td class="col">{$input[link_tag_pre]}</td>
-					</tr>
-					<tr>
-						<th class="th">标签URL后缀</th>
-						<td class="col">{$input[link_tag_end]}</td>
-					</tr>
-					<tr>
-						<th class="th">评论URL前缀</th>
-						<td class="col">{$input[link_comment_pre]}</td>
-					</tr>
-					<tr>
-						<th class="th">评论URL后缀</th>
-						<td class="col">{$input[link_comment_end]}</td>
-					</tr>
+					<thead>
+						<tr>
+							<th class="th">静态化选项</th>
+							<td class="col">{$input[parseurl]}（友情提示：开启伪静态前，请向空间商确认主机是否支持）</td>
+						</tr>
+					</thead>
+
+					<tbody id="parseurl_dis" style="display:none">
+						<tr>
+							<th class="th">内容URL</th>
+							<td class="col">
+								<div>
+									<label><input name="selection" type="radio" value="{cid}/{id}.html"{if:$cfg['link_show_type']==1} checked="checked"{/if}> 数字型</label>
+									<code>http://{$cfg[webdomain]}{$cfg[webdir]}520/123.html</code>
+								</div>
+
+								<div style="padding-top:8px">
+									<label><input name="selection" type="radio" value="{cate_alias}/{id}.html"{if:$cfg['link_show_type']==2} checked="checked"{/if}> 推荐型</label>
+									<code>http://{$cfg[webdomain]}{$cfg[webdir]}fenlei/123.html</code>
+								</div>
+
+								<div style="padding-top:8px">
+									<label><input name="selection" type="radio" value="{alias}.html"{if:$cfg['link_show_type']==3} checked="checked"{/if}> 别名型</label>
+									<code>http://{$cfg[webdomain]}{$cfg[webdir]}bieming.html</code>
+								</div>
+
+								<div style="padding-top:8px">
+									<label><input name="selection" type="radio" value="{y}{m}{d}/{alias}.html"{if:$cfg['link_show_type']==4} checked="checked"{/if}> 灵活型</label>
+									<code>http://{$cfg[webdomain]}{$cfg[webdir]}{php} echo date('Ymd');{/php}/bieming.html</code>
+								</div>
+
+								<div style="padding-top:8px">
+									http://{$cfg[webdomain]}{$cfg[webdir]}{$input[link_show]}
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th class="th">分类URL</th>
+							<td class="col">前缀{$input[link_cate_page_pre]} 后缀{$input[link_cate_page_end]} 首页后缀{$input[link_cate_end]}</td>
+						</tr>
+						<tr>
+							<th class="th">标签URL</th>
+							<td class="col">前缀{$input[link_tag_pre]} 后缀{$input[link_tag_end]}</td>
+						</tr>
+						<tr>
+							<th class="th">评论URL</th>
+							<td class="col">前缀{$input[link_comment_pre]} 后缀{$input[link_comment_end]}</td>
+						</tr>
+						<tr>
+							<th class="th">首页分页URL</th>
+							<td class="col">后缀{$input[link_index_end]}</td>
+						</tr>
+					</tbody>
 
 					{hook:admin_setting_link_after.htm}
 
@@ -56,6 +69,24 @@
 </div>
 
 <script type="text/javascript">
+$("input[name='selection']").change(function(){
+	var s = $(this).val();
+	$("input[name='link_show']").val(s);
+});
+
+// 是否显示伪静态设置
+function dis_parseurl(v) {
+	if(typeof v != "undefined" && parseInt(v) == 1) {
+		$("#parseurl_dis").show();
+	}else{
+		$("#parseurl_dis").hide();
+	}
+}
+dis_parseurl($("input[name='parseurl'][checked]").val());
+$("input[name='parseurl']").change(function(){
+	dis_parseurl($(this).val());
+});
+
 twAjax.submit("form:first");
 </script>
 </body>

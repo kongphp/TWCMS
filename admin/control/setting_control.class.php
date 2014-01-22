@@ -78,18 +78,19 @@ class setting_control extends admin_control {
 			$cfg = $this->kv->xget('cfg');
 			$input = array();
 			$input['parseurl'] = form::loop('radio', 'parseurl', array('0'=>'动态', '1'=>'伪静态'), $parseurl, ' &nbsp; &nbsp;');
-			$input['link_show'] = form::get_text('link_show', $cfg['link_show']);
-			$input['link_index_end'] = form::get_text('link_index_end', $cfg['link_index_end']);
-			$input['link_cate_end'] = form::get_text('link_cate_end', $cfg['link_cate_end']);
-			$input['link_cate_page_pre'] = form::get_text('link_cate_page_pre', $cfg['link_cate_page_pre']);
-			$input['link_cate_page_end'] = form::get_text('link_cate_page_end', $cfg['link_cate_page_end']);
-			$input['link_tag_pre'] = form::get_text('link_tag_pre', $cfg['link_tag_pre']);
-			$input['link_tag_end'] = form::get_text('link_tag_end', $cfg['link_tag_end']);
-			$input['link_comment_pre'] = form::get_text('link_comment_pre', $cfg['link_comment_pre']);
-			$input['link_comment_end'] = form::get_text('link_comment_end', $cfg['link_comment_end']);
+			$input['link_show'] = form::get_text('link_show', $cfg['link_show'], 'inp wa');
+			$input['link_index_end'] = form::get_text('link_index_end', $cfg['link_index_end'], 'inp wb');
+			$input['link_cate_end'] = form::get_text('link_cate_end', $cfg['link_cate_end'], 'inp wb');
+			$input['link_cate_page_pre'] = form::get_text('link_cate_page_pre', $cfg['link_cate_page_pre'], 'inp wb');
+			$input['link_cate_page_end'] = form::get_text('link_cate_page_end', $cfg['link_cate_page_end'], 'inp wb');
+			$input['link_tag_pre'] = form::get_text('link_tag_pre', $cfg['link_tag_pre'], 'inp wb');
+			$input['link_tag_end'] = form::get_text('link_tag_end', $cfg['link_tag_end'], 'inp wb');
+			$input['link_comment_pre'] = form::get_text('link_comment_pre', $cfg['link_comment_pre'], 'inp wb');
+			$input['link_comment_end'] = form::get_text('link_comment_end', $cfg['link_comment_end'], 'inp wb');
 
 			// hook admin_setting_control_link_after.php
 
+			$this->assign('cfg', $cfg);
 			$this->assign('input', $input);
 			$this->display();
 		}else{
@@ -101,6 +102,12 @@ class setting_control extends admin_control {
 			$s = file_get_contents($file);
 			$s = preg_replace("#'twcms_parseurl'\s*=>\s*\d,#", "'twcms_parseurl' => {$parseurl},", $s);
 			if(!file_put_contents($file, $s)) exit('{"err":1, "msg":"写入 config.inc.php 失败"}');
+
+			// 关闭伪静态时，不需要更改伪静态参数
+			if($parseurl == 0) {
+				$this->runtime->truncate();
+				exit('{"err":0, "msg":"修改成功"}');
+			}
 
 			// 智能生成内容链接参数 (四种情况，性能方面依次排列)
 			$link_show = R('link_show', 'P');

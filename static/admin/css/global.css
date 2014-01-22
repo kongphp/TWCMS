@@ -32,6 +32,7 @@ select,.inp{padding:2px;border:1px solid #8E8F8F;background:#FBFBFB;border-radiu
 .w4{width:30em}
 .ws{width:7em;margin:0 5px}
 .wa{width:20em;margin:0 17px 0 5px}
+.wb{width:8em;margin:0 17px 0 5px}
 
 /*按钮*/
 .but1,.but2,.sele1{display:inline;float:left;margin-left:8px}
