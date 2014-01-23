@@ -57,7 +57,7 @@ class view{
 		$s = preg_replace_callback('#\{inc\:([\w\.]+)\}#', array($this, 'parse_inc'), $s);
 
 		//第2步 解析模板hook
-		$s = preg_replace_callback('#\{hook\:([\w\.]+)\}#', 'core::parse_hook', $s);
+		$s = preg_replace_callback('#\{hook\:([\w\.]+)\}#', array('core', 'parse_hook'), $s);
 
 		//第3步 解析php代码
 		$s = preg_replace('#(?:\<\?.*?\?\>|\<\?.*)#s', '', $s);	//清理掉PHP语法(目的统一规范)
@@ -111,7 +111,7 @@ class view{
 
 		//为减少IO，把需要用到的函数代码放到模板解析代码头部
 		$lib_str = file_get_contents($lib_file);
-		$lib_str = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $lib_str);
+		$lib_str = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', array('core', 'parse_hook'), $lib_str);
 		if(!DEBUG) $lib_str = _strip_whitespace($lib_str);
 		$lib_str = core::clear_code($lib_str);
 		$this->head_arr['kp_block_'.$func] = $lib_str;

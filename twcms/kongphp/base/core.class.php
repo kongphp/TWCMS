@@ -256,7 +256,7 @@ class core{
 	public static function parse_all($readfile, $writefile, $errorstr) {
 		$s = file_get_contents($readfile);
 		$s = self::parse_extends($s);
-		$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
+		$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', array('core', 'parse_hook'), $s);	// 处理 hook
 		if(!FW($writefile, $s)) {
 			throw new Exception($errorstr);
 		}
@@ -305,7 +305,7 @@ class core{
 			}
 
 			$s = file_get_contents($modelfile);
-			$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', 'core::parse_hook', $s);	// 处理 hook
+			$s = preg_replace_callback('#\t*\/\/\s*hook\s+([\w\.]+)[\r\n]#', array('core', 'parse_hook'), $s);	// 处理 hook
 			if(!FW($objfile, $s)) {
 				throw new Exception("写入 model 编译文件 $modelname 失败");
 			}
