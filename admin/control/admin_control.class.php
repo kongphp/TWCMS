@@ -53,7 +53,7 @@ class admin_control extends control {
 						$err = 1;
 					}elseif($_ENV['_ip'] != $ip) {
 						_setcookie('admauth', '', 1);
-						$this->message(0, '您的IP已经改变，为了安全考虑，请重新登录！', '?u=index-login');
+						$this->message(0, '您的IP已经改变，为了安全考虑，请重新登录！', 'index.php?u=index-login');
 					}else{
 						// 初始化导航数组
 						$this->init_navigation();
@@ -82,7 +82,7 @@ class admin_control extends control {
 			}
 		}elseif($err) {
 			if(R('ajax')) {
-				$this->message(0, '非法访问，请登陆后再试！', '?u=index-login');
+				$this->message(0, '非法访问，请登陆后再试！', 'index.php?u=index-login');
 			}
 			exit('<html><body><script>top.location="index.php?u=index-login"</script></body></html>');
 		}

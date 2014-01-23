@@ -27,7 +27,7 @@ class tag_control extends admin_control {
 		$total = $this->cms_content_tag->count();
 		$maxpage = max(1, ceil($total/$pagenum));
 		$page = min($maxpage, max(1, intval(R('page'))));
-		$pages = pages($page, $maxpage, '?u=tag-index-mid-'.$mid.'-page-{page}');
+		$pages = pages($page, $maxpage, 'index.php?u=tag-index-mid-'.$mid.'-page-{page}');
 		$this->assign('pages', $pages);
 		$this->assign('total', $total);
 

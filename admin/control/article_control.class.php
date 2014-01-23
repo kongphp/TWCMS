@@ -44,7 +44,7 @@ class article_control extends admin_control {
 		}
 		$maxpage = max(1, ceil($total/$pagenum));
 		$page = min($maxpage, max(1, intval(R('page'))));
-		$pages = pages($page, $maxpage, '?u=article-index'.$urlstr.'-page-{page}');
+		$pages = pages($page, $maxpage, 'index.php?u=article-index'.$urlstr.'-page-{page}');
 		$this->assign('total', $total);
 		$this->assign('pages', $pages);
 
