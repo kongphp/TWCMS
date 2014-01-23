@@ -83,8 +83,8 @@ class parseurl_control extends control{
 					if(count($u_arr) > 1) {
 						$_GET['control'] = 'comment';
 						$_GET['action'] = 'index';
-						$_GET['mid'] = $u_arr[0];
-						$_GET['name'] = $u_arr[1];
+						$_GET['cid'] = $u_arr[0];
+						$_GET['id'] = $u_arr[1];
 						isset($u_arr[2]) && $_GET['page'] = $u_arr[2];
 						return;
 					}
