@@ -11,9 +11,14 @@ class cms_content extends model {
 		$this->table = '';			// 表名 (可以是 cms_article、cms_product、cms_photo 等)
 		$this->pri = array('id');	// 主键
 		$this->maxid = 'id';		// 自增字段
+	}
 
-		if(empty($this->cfg)) {
-			$this->cfg = $this->runtime->xget();
+	// 暂时用些方法解决获取 cfg 值
+	function __get($var) {
+		if($var == 'cfg') {
+			return $this->cfg = $this->runtime->xget();
+		}else{
+			return parent::__get($var);
 		}
 	}
 
