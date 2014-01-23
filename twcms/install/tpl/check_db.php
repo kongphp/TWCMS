@@ -1,4 +1,4 @@
-<form id="form" method="post" action="?do=complete">
+<form id="form" method="post" action="index.php?do=complete">
 <div class="content">
 	<h2>数据库信息请从空间商获取</h2>
 	<table class="tb">
@@ -44,5 +44,5 @@
 		</tr>
 	</table>
 </div>
-<div class="button"><input id="submit" type="submit" value="下一步" class="but grey" /><a href="?do=check_env">上一步</a></div>
+<div class="button"><input id="submit" type="submit" value="下一步" class="but grey" /><a href="index.php?do=check_env">上一步</a></div>
 </form>

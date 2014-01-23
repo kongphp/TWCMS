@@ -97,8 +97,8 @@
 </div>
 <div class="button">
 	<?php if($err) { ?>
-	<a href="javascript:;" class="grey">下一步</a><a href="?do=license">上一步</a>
+	<a href="javascript:;" class="grey">下一步</a><a href="index.php?do=license">上一步</a>
 	<?php }else{ ?>
-	<a href="?do=check_db">下一步</a><a href="?do=license">上一步</a>
+	<a href="index.php?do=check_db">下一步</a><a href="?do=license">上一步</a>
 	<?php } ?>
 </div>

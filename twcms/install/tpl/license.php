@@ -15,4 +15,4 @@
 
 	<p>TWCMS遵循GPL开源协议（主题和插件除外），在遵守GPL协议、保留TWCMS版权的情况下，您可以免费使用本系统。</p>
 </div>
-<div class="button"><a href="?do=check_env">同意</a></div>
+<div class="button"><a href="index.php?do=check_env">同意</a></div>
