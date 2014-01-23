@@ -51,7 +51,7 @@ function oneTab(urlKey, url) {
 		$("#box_tab ul li.on").removeClass("on");
 		var newTab = $("#box_tab ul li[urlKey='"+newUrlKey+"']:first");
 		newTab.addClass("on").attr("urlKey", urlKey);
-		$("#box_frame iframe:eq("+newTab.index()+")").attr("src", "?u="+url);
+		$("#box_frame iframe:eq("+newTab.index()+")").attr("src", "index.php?u="+url);
 	}else{
 		addTab("\u6b63\u5728\u52a0\u8f7d", urlKey, url);
 	}
@@ -67,7 +67,7 @@ function addTab(title, urlKey, url) {
 	$("#box_tab ul li.on").removeClass("on");
 	$("#box_tab ul").append('<li urlKey='+ urlKey +' title="'+ title +'" class="on"><b>'+ title +'</b><i></i></li>');
 	$("#box_frame iframe:visible").hide();
-	$("#box_frame").append('<iframe src="?u='+ url + getR() +'" frameborder="0" scrolling="yes"></iframe>');
+	$("#box_frame").append('<iframe src="index.php?u='+ url + getR() +'" frameborder="0" scrolling="yes"></iframe>');
 
 	setUlwidth();
 	if($("#box_tab ul").width() > $("#box_tab").width()) {

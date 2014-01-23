@@ -91,7 +91,7 @@ function batch_del() {
 				id_arr[i] = [obj.attr("_id"), obj.attr("_commentid")];
 			}
 		}
-		twAjax.postd("?u=comment-batch_del-ajax-1", {"mid":_mid, "id_arr":id_arr}, function(data){
+		twAjax.postd("index.php?u=comment-batch_del-ajax-1", {"mid":_mid, "id_arr":id_arr}, function(data){
 			twAjax.alert(data);
 			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
 		});
@@ -103,7 +103,7 @@ function edit(commentid) {
 	$.twDialog({content:$("#edit_comment").html(), resizable:true, open:true, modal:true, width:900, height:280, minW:500, minH:280});
 
 	//读取
-	twAjax.postd("?u=comment-get_json-ajax-1", {"mid":_mid, "commentid":commentid}, function(data){
+	twAjax.postd("index.php?u=comment-get_json-ajax-1", {"mid":_mid, "commentid":commentid}, function(data){
 		var json = toJson(data);
 		$("#c_author").val(json.author);
 		$("#c_content").val(json.content);
@@ -114,7 +114,7 @@ function edit(commentid) {
 	$("#twdialog_button>.ok").click(function(){
 		var author = $("#c_author").val();
 		var content = $("#c_content").val();
-		twAjax.postd("?u=comment-edit-ajax-1", {"mid":_mid, "commentid":commentid, "author":author, "content":content}, function(data){
+		twAjax.postd("index.php?u=comment-edit-ajax-1", {"mid":_mid, "commentid":commentid, "author":author, "content":content}, function(data){
 			twAjax.alert(data);
 			$.twDialog("remove");
 			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
@@ -125,7 +125,7 @@ function edit(commentid) {
 //删除
 function del(id, commentid) {
 	twAjax.confirm("删除不可恢复，确定删除？", function(){
-		twAjax.postd("?u=comment-del-ajax-1", {"mid":_mid, "id":id, "commentid":commentid}, function(data){
+		twAjax.postd("index.php?u=comment-del-ajax-1", {"mid":_mid, "id":id, "commentid":commentid}, function(data){
 			twAjax.alert(data);
 			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
 		});

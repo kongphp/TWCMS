@@ -58,7 +58,7 @@ function load() {
 	$(".del").off("click").click(function(){
 		var theme = $(this).parent().attr("theme");
 		twAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+$(this).parent().parent().children("h1").html()+"</font>”？", function(){
-			twAjax.postd("?u=theme-delete-ajax-1", {"theme" : theme}, function(data){
+			twAjax.postd("index.php?u=theme-delete-ajax-1", {"theme" : theme}, function(data){
 				window.twErr = true;
 				twAjax.alert(data);
 				$(".ajaxtips u").click(function(){window.location.reload();});
@@ -82,7 +82,7 @@ function install_theme(dir) {
 	loading();
 	$("#okA").remove();
 
-	$.getScript("?u=theme-install_theme-dir-" + dir, function(){
+	$.getScript("index.php?u=theme-install_theme-dir-" + dir, function(){
 		clearInterval(int);
 		if(typeof err == 'number' && !err && $("#install_enable").length == 0) {
 			$("#noA").after('<a id="install_enable" class="but3" href="javascript:;">启用</a>');
@@ -106,7 +106,7 @@ function loading() {
 
 // 启用
 function enable(theme) {
-	twAjax.postd("?u=theme-enable-ajax-1", {"theme" : theme}, function(data){
+	twAjax.postd("index.php?u=theme-enable-ajax-1", {"theme" : theme}, function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
 	});

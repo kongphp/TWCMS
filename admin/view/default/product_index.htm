@@ -5,7 +5,7 @@
 			<input id="add" type="button" value="发布" class="but1" />
 			<dt style="display:inline;float:left;margin-right:8px">{$cidhtml}</dt>
 			<dt style="display:inline;float:right">
-				<form class="search" method="post" action="?u=product-index">
+				<form class="search" method="post" action="index.php?u=product-index">
 				<input type="submit" value="搜索产品" class="but1" style="float:right;margin:0 8px 0 5px">
 				<input type="search" name="keyword" value="{$keyword}" style="float:right;width:150px;padding:1px">
 				</form>
@@ -53,7 +53,7 @@ $("#add").click(function(){
 });
 
 $("#cid").change(function(){
-	location.href = "?u=product-index-cid-"+ $(this).val();
+	location.href = "index.php?u=product-index-cid-"+ $(this).val();
 });
 
 //全选
@@ -85,7 +85,7 @@ function edit(id, cid) {
 //删除
 function del(id, cid) {
 	twAjax.confirm("删除不可恢复，确定删除？", function(){
-		twAjax.postd("?u=product-del-ajax-1", {"id":id, "cid":cid}, function(data){
+		twAjax.postd("index.php?u=product-del-ajax-1", {"id":id, "cid":cid}, function(data){
 			twAjax.alert(data);
 			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
 		});
@@ -103,7 +103,7 @@ function batch_del() {
 				id_arr[i] = [obj.attr("_id"), obj.attr("_cid")];
 			}
 		}
-		twAjax.postd("?u=product-batch_del-ajax-1", {"id_arr":id_arr}, function(data){
+		twAjax.postd("index.php?u=product-batch_del-ajax-1", {"id_arr":id_arr}, function(data){
 			twAjax.alert(data);
 			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
 		});

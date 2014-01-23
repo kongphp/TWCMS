@@ -278,7 +278,7 @@ $("#add").click(function(){
 					cate[i] = [$(this).parent().text(), $(this).val()];
 				}
 			});
-			twAjax.postd("?u=navigate-add_cate-ajax-1", {"cate":cate}, function(data){
+			twAjax.postd("index.php?u=navigate-add_cate-ajax-1", {"cate":cate}, function(data){
 				twAjax.alert(data);
 				nav_reload();
 			});
@@ -287,7 +287,7 @@ $("#add").click(function(){
 			var name = $("#outnav input[name='name']").val();
 			var url = $("#outnav input[name='url']").val();
 			var target = $("#outnav input[name='target']")[0].checked ? 1 : 0;
-			twAjax.postd("?u=navigate-add_link-ajax-1", {"name":name, "url":url, "target":target}, function(data){
+			twAjax.postd("index.php?u=navigate-add_link-ajax-1", {"name":name, "url":url, "target":target}, function(data){
 				twAjax.alert(data);
 				nav_reload();
 			});
@@ -302,7 +302,7 @@ function nav_del(obj) {
 	var key = o.attr("_key");
 	var s_end = (!o.is(".nav_rank_2") && o.next().is(".nav_rank_2")) ? "及下级导航" : "";
 	twAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+name+"</font>”" + s_end +"？", function(){
-		twAjax.postd("?u=navigate-del-ajax-1", {"key":key}, function(data){
+		twAjax.postd("index.php?u=navigate-del-ajax-1", {"key":key}, function(data){
 			twAjax.alert(data);
 			nav_reload();
 		});
@@ -314,7 +314,7 @@ function nav_reload() {
 	if(window.twData.err==0) {
 		$.twDialog("remove");
 		setTimeout(function() {
-			twAjax.get("?u=navigate-get_navigate_content&r="+time(), function(html){
+			twAjax.get("index.php?u=navigate-get_navigate_content&r="+time(), function(html){
 				$(".sky").remove();
 				$("#nav_cont").html(html);
 				init_load();
@@ -338,7 +338,7 @@ function nav_change() {
 
 //保存修改
 function nav_save() {
-	twAjax.postd("?u=navigate-nav_save-ajax-1", {"navi":get_navi()}, function(data){
+	twAjax.postd("index.php?u=navigate-nav_save-ajax-1", {"navi":get_navi()}, function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
 	});

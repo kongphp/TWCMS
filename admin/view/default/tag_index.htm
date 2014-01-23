@@ -92,7 +92,7 @@ function batch_del() {
 				id_arr[i] = obj.attr("_tagid");
 			}
 		}
-		twAjax.postd("?u=tag-batch_del-ajax-1", {"mid":_mid, "id_arr":id_arr}, function(data){
+		twAjax.postd("index.php?u=tag-batch_del-ajax-1", {"mid":_mid, "id_arr":id_arr}, function(data){
 			twAjax.alert(data);
 			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
 		});
@@ -112,7 +112,7 @@ function add() {
 	$("#twdialog_button>.ok").click(function(){
 		var name = $("#t_name").val();
 		var content = $("#t_content").val();
-		twAjax.postd("?u=tag-add-ajax-1", {"mid":_mid, "name":name, "content":content}, function(data){
+		twAjax.postd("index.php?u=tag-add-ajax-1", {"mid":_mid, "name":name, "content":content}, function(data){
 			twAjax.alert(data);
 			$.twDialog("remove");
 			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
@@ -125,7 +125,7 @@ function edit(tagid) {
 	twDialog();
 
 	//读取
-	twAjax.postd("?u=tag-get_json-ajax-1", {"mid":_mid, "tagid":tagid}, function(data){
+	twAjax.postd("index.php?u=tag-get_json-ajax-1", {"mid":_mid, "tagid":tagid}, function(data){
 		var json = toJson(data);
 		$("#t_name").val(json.name);
 		$("#t_content").val(json.content);
@@ -136,7 +136,7 @@ function edit(tagid) {
 	$("#twdialog_button>.ok").click(function(){
 		var name = $("#t_name").val();
 		var content = $("#t_content").val();
-		twAjax.postd("?u=tag-edit-ajax-1", {"mid":_mid, "tagid":tagid, "name":name, "content":content}, function(data){
+		twAjax.postd("index.php?u=tag-edit-ajax-1", {"mid":_mid, "tagid":tagid, "name":name, "content":content}, function(data){
 			twAjax.alert(data);
 			$.twDialog("remove");
 			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
@@ -147,7 +147,7 @@ function edit(tagid) {
 //删除
 function del(tagid) {
 	twAjax.confirm("删除不可恢复，确定删除？", function(){
-		twAjax.postd("?u=tag-del-ajax-1", {"mid":_mid, "tagid":tagid}, function(data){
+		twAjax.postd("index.php?u=tag-del-ajax-1", {"mid":_mid, "tagid":tagid}, function(data){
 			twAjax.alert(data);
 			if(window.twData.err==0) setTimeout(function(){ window.location.reload(); }, 1000);
 		});

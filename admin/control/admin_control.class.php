@@ -84,7 +84,7 @@ class admin_control extends control {
 			if(R('ajax')) {
 				$this->message(0, '非法访问，请登陆后再试！', '?u=index-login');
 			}
-			exit('<html><body><script>top.location="?u=index-login"</script></body></html>');
+			exit('<html><body><script>top.location="index.php?u=index-login"</script></body></html>');
 		}
 
 		// hook admin_admin_control_construct_after.php

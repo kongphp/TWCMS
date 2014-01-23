@@ -100,7 +100,7 @@ setTimeout(function() {
 
 //停用
 $(".disabled").click(function(){
-	twAjax.postd("?u=plugin-disabled-ajax-1", {"dir" : $(this).parent().attr("plugin")}, function(data){
+	twAjax.postd("index.php?u=plugin-disabled-ajax-1", {"dir" : $(this).parent().attr("plugin")}, function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
 	});
@@ -113,7 +113,7 @@ $(".enable").click(function(){
 
 //安装
 $(".install").click(function(){
-	twAjax.postd("?u=plugin-install-ajax-1", {"dir" : $(this).parent().attr("plugin")}, function(data){
+	twAjax.postd("index.php?u=plugin-install-ajax-1", {"dir" : $(this).parent().attr("plugin")}, function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
 	});
@@ -123,7 +123,7 @@ $(".install").click(function(){
 $(".del").click(function(){
 	var dir = $(this).parent().attr("plugin");
 	twAjax.confirm("删除不可恢复，确定删除“<font color='red'>"+$(this).parent().parent().children(".plu_b").html()+"</font>”？", function(){
-		twAjax.postd("?u=plugin-delete-ajax-1", {"dir" : dir}, function(data){
+		twAjax.postd("index.php?u=plugin-delete-ajax-1", {"dir" : dir}, function(data){
 			window.twErr = true;
 			twAjax.alert(data);
 			$(".ajaxtips u").click(function(){window.location.reload();});
@@ -155,7 +155,7 @@ function install_plugin(dir) {
 	loading();
 	$("#okA").remove();
 
-	$.getScript("?u=plugin-install_plugin-dir-" + dir, function(){
+	$.getScript("index.php?u=plugin-install_plugin-dir-" + dir, function(){
 		clearInterval(int);
 		if(typeof err == 'number' && !err && $("#install_enable").length == 0) {
 			$("#noA").after('<a id="install_enable" class="but3" href="javascript:;">启用</a>');
@@ -172,7 +172,7 @@ function upgrade(dir) {
 	loading();
 	$("#okA").remove();
 
-	$.getScript("?u=plugin-upgrade-dir-" + dir, function(){
+	$.getScript("index.php?u=plugin-upgrade-dir-" + dir, function(){
 		clearInterval(int);
 		$("#noA").html("我知道了");
 		setTimeout(function(){window.location.reload();}, 2000);
@@ -186,7 +186,7 @@ function setPlurWidth() {
 
 //启用
 function enable(dir) {
-	twAjax.postd("?u=plugin-enable-ajax-1", {"dir" : dir}, function(data){
+	twAjax.postd("index.php?u=plugin-enable-ajax-1", {"dir" : dir}, function(data){
 		twAjax.alert(data);
 		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
 	});

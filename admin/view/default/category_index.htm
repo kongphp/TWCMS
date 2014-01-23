@@ -22,7 +22,7 @@
 </div>
 
 <script id="set_dialog" type="text/html" _mid="2" _type="0" _upid="0">
-	<form method="post" action="?u=category-set-ajax-1">
+	<form method="post" action="index.php?u=category-set-ajax-1">
 		<input name="cid" type="hidden" />
 		<table class="tb">
 			<tr>
@@ -178,7 +178,7 @@ function load_event() {
 		var old_orderby = $(this).attr("v");
 		if(orderby == old_orderby) return;
 		var cid = $(this).parent().parent().attr("cid");
-		twAjax.post("?u=category-edit_orderby-ajax-1", {cid:cid, orderby:orderby}, function(data){
+		twAjax.post("index.php?u=category-edit_orderby-ajax-1", {cid:cid, orderby:orderby}, function(data){
 			var data = toJson(data);
 			if(window.twExit) return;
 			if(data.err==0) getAllCate();
@@ -282,7 +282,7 @@ function setFormVal(mid, type) {
 
 // 编辑分类
 function edit(cid) {
-	twAjax.postd("?u=category-get_category_json-ajax-1", {cid:cid}, function(data){
+	twAjax.postd("index.php?u=category-get_category_json-ajax-1", {cid:cid}, function(data){
 		data = toJson(data);
 		if(window.twEixt) return;
 		twAjax.remove();
@@ -328,7 +328,7 @@ function edit(cid) {
 // 删除分类
 function del(cid) {
 	twAjax.confirm("删除不可恢复，确定删除？", function(){
-		twAjax.postd("?u=category-del-ajax-1", {cid:cid}, function(data){
+		twAjax.postd("index.php?u=category-del-ajax-1", {cid:cid}, function(data){
 			twAjax.alert(data);
 			if(window.twData.err==0) $(".category dl[cid='"+cid+"']").remove();
 		});
@@ -337,7 +337,7 @@ function del(cid) {
 
 // 加载所属频道
 function loadCategoryUpid(mid, upid, noid) {
-	twAjax.get("?u=category-get_category_upid-ajax-1-mid-"+mid+"-upid-"+Math.max(0, upid)+"-noid-"+Math.max(0, noid)+"&r="+time(), function(data){
+	twAjax.get("index.php?u=category-get_category_upid-ajax-1-mid-"+mid+"-upid-"+Math.max(0, upid)+"-noid-"+Math.max(0, noid)+"&r="+time(), function(data){
 		data = toJson(data);
 		if(window.twEixt) return;
 		$("#upid").html(data.upid);
@@ -347,7 +347,7 @@ function loadCategoryUpid(mid, upid, noid) {
 // 获取所有分类列表
 function getAllCate() {
 	setTimeout(function() {
-		twAjax.get("?u=category-get_category_content&r="+time(), function(html){
+		twAjax.get("index.php?u=category-get_category_content&r="+time(), function(html){
 			$("#category_content").html(html);
 			load_event();
 		});

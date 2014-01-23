@@ -1,7 +1,7 @@
 {inc:header.htm}
 <div class="m">
 	<div class="p">
-		<form id="product_set" action="?u=product-{$_GET['action']}-ajax-1" method="post">
+		<form id="product_set" action="index.php?u=product-{$_GET['action']}-ajax-1" method="post">
 		<input name="id" type="hidden" value="{$data[id]}" />
 		<input name="color" type="hidden" value="{$data[color]}" />
 		<input name="seo_title" type="hidden" value="{$data[seo_title]}" />
@@ -127,10 +127,10 @@
 </div>
 
 <iframe name="tw_upifr" style="display:none"></iframe>
-<form id="tw_pic_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="?u=attach-upload_image&type=pic{$edit_cid_id}">
+<form id="tw_pic_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="index.php?u=attach-upload_image&type=pic{$edit_cid_id}">
 	<input id="tw_pic_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" />
 </form>
-<form id="tw_img_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="?u=attach-upload_image&type=img{$edit_cid_id}">
+<form id="tw_img_upform" target="tw_upifr" method="post" enctype="multipart/form-data" action="index.php?u=attach-upload_image&type=img{$edit_cid_id}">
 	<input id="tw_img_upfile" type="file" name="upfile" accept="image/jpg,image/jpeg,image/png,image/gif" multiple="multiple" />
 </form>
 
@@ -157,7 +157,7 @@ var action = "{$_GET['action']}";
 window.autoSave = function() {
 	if(action != "add") return;
 	var data = $("#product_set").serialize();
-	twAjax.post("?u=product-auto_save-ajax-1", data, function(html) { });
+	twAjax.post("index.php?u=product-auto_save-ajax-1", data, function(html) { });
 };
 
 // 传统上传缩略图
@@ -305,7 +305,7 @@ var kpUpload = {
 				}
 
 				var xhr = new XMLHttpRequest();
-				xhr.open("post", "?u=attach-upload_image&type=img&ajax=1{$edit_cid_id}", true);
+				xhr.open("post", "index.php?u=attach-upload_image&type=img&ajax=1{$edit_cid_id}", true);
 				xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
 				//模拟数据
