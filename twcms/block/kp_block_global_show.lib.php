@@ -29,7 +29,8 @@ function kp_block_global_show($conf) {
 	$id = &$_show['id'];
 	$_show['comment_url'] = $run->cms_content->comment_url($run->_var['cid'], $id);
 	$_show['views_url'] = $run->_cfg['webdir'].'index.php?u=views--cid-'.$run->_var['cid'].'-id-'.$id;
-	$_show += $run->cms_content_data->read($id);
+	$data = $run->cms_content_data->read($id);
+	if($data) $_show += $data;
 
 	// 提示：文章模型没有图集
 	if(isset($_show['images'])) {
