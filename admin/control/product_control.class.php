@@ -62,7 +62,8 @@ class product_control extends admin_control {
 			if(!empty($v['flags'])) {
 				$flags = explode(',', $v['flags']);
 				foreach($flags as $flag) {
-					$v['flagstr'] .= ' ['.$flag_arr[$flag].']';
+					$flag = intval($flag);
+					if($flag) $v['flagstr'] .= ' ['.$flag_arr[$flag].']';
 				}
 			}
 			if($v['flagstr']) $v['flagstr'] = '<font color="BC0B0B">'.$v['flagstr'].'</font>';
