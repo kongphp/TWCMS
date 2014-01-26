@@ -1,8 +1,25 @@
 {inc:header.htm}
+
+<style type="text/css">
+#tab_tit{height:32px;margin-top:10px}
+#tab_tit ul li{float:left;_display:inline;height:32px;line-height:32px;margin-right:10px}
+#tab_tit ul li a{display:block;background:#E3F1F4;padding:0 10px}
+#tab_tit ul li a.on{display:block;background:#B4DBF2}
+#tab_main .tab_cont textarea{border:1px solid #9BCBE8;width:99%;height:200px;padding:5px}
+#tab_main .tab_cont .tabtop{margin-top:8px}
+</style>
+
 <div class="m">
-	<div class="p">
-		<div class="cc">
-			<form action="?u=setting-link-ajax-1" method="post">
+	<div class="head">
+		<dl>
+			<dd{if:$do == 0} class="on"{/if}>链接设置</dd>
+			<dd{if:$do == 1} class="on"{/if}>伪静态规则</dd>
+		</dl>
+	</div>
+
+	<div class="p c2">
+		<div class="cc{if:$do == 1} un{/if}">
+			<form action="index.php?u=setting-link-ajax-1" method="post">
 				<div class="tb_t">链接设置</div>
 				<table class="tb">
 					<thead>
@@ -65,6 +82,53 @@
 				<div class="tb_b"><input type="submit" value="&#20445;&#23384;" class="but1" /></div>
 			</form>
 		</div>
+
+		<div class="cc{if:$do == 0} un{/if}">
+			<div class="sky warning bnote"><i></i><b>友情提示：您的服务器为 {$software}</b></div>
+			<div id="tab_tit">
+				<ul>
+					<li><a href="javascript:;" class="on">Nginx</a></li>
+					<li><a href="javascript:;">Apache</a></li>
+					<li><a href="javascript:;">IIS7,8</a></li>
+				</ul>
+			</div>
+			<div id="tab_main">
+				<div class="tab_cont">
+					<textarea readonly="">{$nginx}</textarea>
+					<div class="tabtop">请修改 nginx.conf，在 location / { } 节点间加入上述规则。</div>
+				</div>
+
+				<div class="tab_cont un">
+					<textarea readonly="">{$apache}</textarea>
+					<div class="tabtop">
+						<a class="but3" href="javascript:mk_rewrite('htaccess');">创建.htaccess</a>
+						<a class="but3" href="javascript:del_rewrite('htaccess');">删除.htaccess</a>
+					</div>
+					<div class="tabtop">
+						{if:empty($is_file_apache)}
+							<b style="color:#BD0A01">未检测到 .htaccess 文件，您可点击“创建.htaccess”按钮，也可手工在TWCMS根目录创建 .htaccess 文件并把上面内容复制进去</b>
+						{else}
+							<b style="color:green">已检测到 .htaccess 文件，如果您不想使用伪静态，请点击“删除.htaccess”按钮删除 .htaccess 文件</b>
+						{/if}
+					</div>
+				</div>
+
+				<div class="tab_cont un">
+					<textarea readonly="" style="height:400px">{$iis}</textarea>
+					<div class="tabtop">
+						<a class="but3" href="javascript:mk_rewrite('web_config');">创建web.config</a>
+						<a class="but3" href="javascript:del_rewrite('web_config');">删除web.config</a>
+					</div>
+					<div class="tabtop">
+						{if:empty($is_file_iis)}
+							<b style="color:#BD0A01">未检测到 web.config 文件，您可点击“创建web.config”按钮，也可手工在TWCMS根目录创建 web.config 文件并把上面内容复制进去</b>
+						{else}
+							<b style="color:green">已检测到 web.config 文件，如果您不想使用伪静态，请点击“删除web.config”按钮删除 web.config 文件</b>
+						{/if}
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -87,7 +151,51 @@ $("input[name='parseurl']").change(function(){
 	dis_parseurl($(this).val());
 });
 
-twAjax.submit("form:first");
+// 伪静态规则切换
+$("#tab_tit>ul>li>a").click(function(){
+	$("#tab_tit>ul>li>a").removeAttr("class");
+	$(this).addClass("on");
+
+	var i = $(this).parent().index();
+	$("#tab_main>.tab_cont").hide();
+	$("#tab_main>.tab_cont").eq(i).show();
+});
+
+// 创建伪静态文件
+function mk_rewrite(mk) {
+	twAjax.postd("index.php?u=setting-link-mk-"+mk+"-ajax-1", {}, function(data){
+		twAjax.alert(data);
+		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+	});
+}
+
+// 删除伪静态文件
+function del_rewrite(del) {
+	twAjax.postd("index.php?u=setting-link-del-"+del+"-ajax-1", {}, function(data){
+		twAjax.alert(data);
+		if(window.twData.err==0) setTimeout(function(){window.location.reload();}, 1000);
+	});
+}
+
+// 提交表单
+$("form:first").submit(function(){
+	var obj = $(this);
+	var d = obj.serializeArray();
+	var parseurl;
+
+	for(i in d) {
+		if(d[i]['name'] == "parseurl") {
+			parseurl = d[i]['value'];
+			break;
+		}
+	}
+
+	twAjax.postd(obj.attr("action"), d, function(data){
+		twAjax.alert(data);
+		if(window.twData.err==0 && parseurl == "1") setTimeout(function(){ window.location = 'index.php?u=setting-link-do-1'; }, 1000);
+	});
+	return false;
+});
 </script>
 </body>
 </html>

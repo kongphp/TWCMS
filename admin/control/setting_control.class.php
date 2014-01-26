@@ -74,8 +74,119 @@ class setting_control extends admin_control {
 	// 链接设置
 	public function link() {
 		if(empty($_POST)) {
+			$software = R('SERVER_SOFTWARE', 'S');
+			$this->assign('software', $software);
+
 			$parseurl = $_ENV['_config']['twcms_parseurl'];
 			$cfg = $this->kv->xget('cfg');
+			$this->assign('cfg', $cfg);
+			$mk = R('mk');
+			$del = R('del');
+			$do = (int) R('do');
+			$this->assign('do', $do);
+
+			// 伪静态规则
+			$nginx = 'if(-f $request_filename/index.php) {'."\n";
+			$nginx .= "\t".'rewrite (.*) $1/index.php break;'."\n";
+			$nginx .= '}'."\n";
+			$nginx .= 'if(!-f $request_filename) {'."\n";
+			$nginx .= "\t".'rewrite '.$cfg['webdir'].'(.*) '.$cfg['webdir'].'index.php?rewrite=$1 break;'."\n";
+			$nginx .= '}';
+			$this->assign('nginx', $nginx);
+
+			$apache = '<IfModule mod_rewrite.c>'."\n";
+			$apache .= 'RewriteEngine On'."\n";
+			$apache .= 'RewriteBase '.$cfg['webdir']."\n";
+			$apache .= 'RewriteRule ^index\.php$ - [L]'."\n";
+			$apache .= 'RewriteCond %{REQUEST_FILENAME} !-f'."\n";
+			$apache .= 'RewriteCond %{REQUEST_FILENAME} !-d'."\n";
+			$apache .= 'RewriteRule (.*) index.php?rewrite=$1 [L]'."\n";
+			$apache .= '</IfModule>';
+			$this->assign('apache', $apache);
+
+			// 创建.htaccess
+			$file_apache = TWCMS_PATH.'.htaccess';
+			$is_file_apache = is_file($file_apache);
+			$this->assign('is_file_apache', $is_file_apache);
+			if($mk == 'htaccess') {
+				$f = @fopen($file_apache, 'w');
+				if (!$f) {
+					exit('{"err":1, "msg":"无写入权限"}');
+				} else {
+					$bytes = fwrite($f, $apache);
+					fclose($f);
+					if($bytes > 0) {
+						exit('{"err":0, "msg":"创建 .htaccess 成功"}');
+					}else{
+						exit('{"err":1, "msg":"创建 .htaccess 失败"}');
+					}
+				}
+			}
+
+			// 删除.htaccess
+			if($del == 'htaccess') {
+				$ret = FALSE;
+				try{ $ret = unlink($file_apache); }catch(Exception $e) {}
+				if($ret) {
+					exit('{"err":0, "msg":"删除 .htaccess 成功"}');
+				}else{
+					exit('{"err":1, "msg":"删除 .htaccess 失败"}');
+				}
+			}
+
+			$iis = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+			$iis .= '<configuration>'."\n";
+			$iis .= "\t".'<system.webServer>'."\n";
+			$iis .= "\t\t".'<rewrite>'."\n";
+			$iis .= "\t\t\t".'<rules>'."\n";
+			$iis .= "\t\t\t\t".'<rule name="Rule 1" stopProcessing="true">'."\n";
+			$iis .= "\t\t\t\t\t".'<match url="^index\.php$" ignoreCase="false" />'."\n";
+			$iis .= "\t\t\t\t\t".'<action type="None" />'."\n";
+			$iis .= "\t\t\t\t".'</rule>'."\n";
+			$iis .= "\t\t\t\t".'<rule name="Rule 2" stopProcessing="true">'."\n";
+			$iis .= "\t\t\t\t\t".'<match url="'.$cfg['webdir'].'(.*)" ignoreCase="false" />'."\n";
+			$iis .= "\t\t\t\t\t".'<conditions logicalGrouping="MatchAll">'."\n";
+			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" negate="true" />'."\n";
+			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" negate="true" />'."\n";
+			$iis .= "\t\t\t\t\t".'</conditions>'."\n";
+			$iis .= "\t\t\t\t\t".'<action type="Rewrite" url="'.$cfg['webdir'].'index.php?rewrite={R:1}" appendQueryString="false" />'."\n";
+			$iis .= "\t\t\t\t".'</rule>'."\n";
+			$iis .= "\t\t\t".'</rules>'."\n";
+			$iis .= "\t\t".'</rewrite>'."\n";
+			$iis .= "\t".'</system.webServer>'."\n";
+			$iis .= '</configuration>';
+			$this->assign('iis', $iis);
+
+			// 创建web.config
+			$file_iis = TWCMS_PATH.'web.config';
+			$is_file_iis = is_file($file_iis);
+			$this->assign('is_file_iis', $is_file_iis);
+			if($mk == 'web_config') {
+				$f = @fopen($file_iis, 'w');
+				if (!$f) {
+					exit('{"err":1, "msg":"无写入权限"}');
+				} else {
+					$bytes = fwrite($f, $iis);
+					fclose($f);
+					if($bytes > 0) {
+						exit('{"err":0, "msg":"创建 web.config 成功"}');
+					}else{
+						exit('{"err":1, "msg":"创建 web.config 失败"}');
+					}
+				}
+			}
+
+			// 删除web.config
+			if($del == 'web_config') {
+				$ret = FALSE;
+				try{ $ret = unlink($file_iis); }catch(Exception $e) {}
+				if($ret) {
+					exit('{"err":0, "msg":"删除 web.config 成功"}');
+				}else{
+					exit('{"err":1, "msg":"删除 web.config 失败"}');
+				}
+			}
+
 			$input = array();
 			$input['parseurl'] = form::loop('radio', 'parseurl', array('0'=>'动态', '1'=>'伪静态'), $parseurl, ' &nbsp; &nbsp;');
 			$input['link_show'] = form::get_text('link_show', $cfg['link_show'], 'inp wa');
@@ -87,11 +198,10 @@ class setting_control extends admin_control {
 			$input['link_comment_pre'] = form::get_text('link_comment_pre', $cfg['link_comment_pre'], 'inp wb');
 			$input['link_comment_end'] = form::get_text('link_comment_end', $cfg['link_comment_end'], 'inp wb');
 			$input['link_index_end'] = form::get_text('link_index_end', $cfg['link_index_end'], 'inp wb');
+			$this->assign('input', $input);
 
 			// hook admin_setting_control_link_after.php
 
-			$this->assign('cfg', $cfg);
-			$this->assign('input', $input);
 			$this->display();
 		}else{
 			_trim($_POST);
