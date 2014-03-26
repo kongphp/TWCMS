@@ -73,7 +73,7 @@
 		}
 		echo '</td></tr>';
 
-		$dirs = array(APP_NAME.'/config', APP_NAME.'/runtime', APP_NAME.'/plugin', APP_NAME.'/view', 'upload');
+		$dirs = array(APP_NAME.'/config', APP_NAME.'/log', APP_NAME.'/runtime', APP_NAME.'/plugin', APP_NAME.'/view', 'upload');
 		foreach($dirs as $dir) {
 			$ret = _dir_write(TWCMS_ROOT.'/'.$dir, TRUE);
 
