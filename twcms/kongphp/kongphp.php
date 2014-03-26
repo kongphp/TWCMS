@@ -24,6 +24,7 @@ defined('CONTROL_PATH') || define('CONTROL_PATH', APP_PATH.'control/');	//控制
 defined('BLOCK_PATH') || define('BLOCK_PATH', APP_PATH.'block/');	//模块目录
 defined('MODEL_PATH') || define('MODEL_PATH', APP_PATH.'model/');	//模型目录
 defined('VIEW_PATH') || define('VIEW_PATH', APP_PATH.'view/');	//视图目录
+defined('LOG_PATH') || define('LOG_PATH', APP_PATH.'log/');	//日志目录
 defined('PLUGIN_PATH') || define('PLUGIN_PATH', APP_PATH.'plugin/');	//插件目录
 defined('RUNTIME_PATH') || define('RUNTIME_PATH', APP_PATH.'runtime/');	//运行缓存目录
 defined('RUNTIME_MODEL') || define('RUNTIME_MODEL', RUNTIME_PATH.APP_NAME.'_model/');	//模型缓存目录

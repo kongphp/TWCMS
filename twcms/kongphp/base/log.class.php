@@ -37,7 +37,7 @@ class log {
 	 * @return boot
 	 */
 	public static function write_log($s, $file) {
-		$logfile = RUNTIME_PATH.'logs/'.$file;
+		$logfile = LOG_PATH.$file;
 		try{
 			$fp = fopen($logfile, 'ab+');
 			if(!$fp) {
