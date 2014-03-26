@@ -86,31 +86,43 @@ function _setcookie($name, $value='', $expire=0, $path='', $domain='', $secure=f
 }
 
 // 递归加反斜线
-function _addslashes(&$val) {
-	if(!is_array($val)) return addslashes($val);
-	foreach($val as $k => &$v) $val[$k] = _addslashes($v);
-	return $val;
+function _addslashes(&$var) {
+	if(is_array($var)) {
+		foreach($var as $k=>&$v) _addslashes($v);
+	}else{
+		$var = addslashes($var);
+	}
+	return $var;
 }
 
 // 递归清理反斜线
-function _stripslashes(&$val) {
-	if(!is_array($val)) return stripslashes($val);
-	foreach($val as $k => &$v) $val[$k] = _stripslashes($v);
-	return $val;
+function _stripslashes(&$var) {
+	if(is_array($var)) {
+		foreach($var as $k=>&$v) _stripslashes($v);
+	}else{
+		$var = stripslashes($var);
+	}
+	return $var;
 }
 
 // 递归转换为HTML实体代码
-function _htmls(&$val) {
-	if(!is_array($val)) return htmlspecialchars($val);
-	foreach($val as $k => &$v) $val[$k] = _htmls($v);
-	return $val;
+function _htmls(&$var) {
+	if(is_array($var)) {
+		foreach($var as $k=>&$v) _htmls($v);
+	}else{
+		$var = htmlspecialchars($var);
+	}
+	return $var;
 }
 
 // 递归清理两端空白字符
-function _trim(&$val) {
-	if(!is_array($val)) return trim($val);
-	foreach($val as $k => &$v) $val[$k] = _trim($v);
-	return $val;
+function _trim(&$var) {
+	if(is_array($var)) {
+		foreach($var as $k=>&$v) _trim($v);
+	}else{
+		$var = trim($var);
+	}
+	return $var;
 }
 
 // 编码 URL 字符串
