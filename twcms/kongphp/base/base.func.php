@@ -92,7 +92,6 @@ function _addslashes(&$var) {
 	}else{
 		$var = addslashes($var);
 	}
-	return $var;
 }
 
 // 递归清理反斜线
@@ -102,7 +101,6 @@ function _stripslashes(&$var) {
 	}else{
 		$var = stripslashes($var);
 	}
-	return $var;
 }
 
 // 递归转换为HTML实体代码
@@ -112,7 +110,6 @@ function _htmls(&$var) {
 	}else{
 		$var = htmlspecialchars($var);
 	}
-	return $var;
 }
 
 // 递归清理两端空白字符
@@ -122,7 +119,6 @@ function _trim(&$var) {
 	}else{
 		$var = trim($var);
 	}
-	return $var;
 }
 
 // 编码 URL 字符串
