@@ -236,7 +236,7 @@ class parseurl_control extends control{
 			}
 
 			$uarr = explode('-', $u);
-			if(count($uarr) < 2) core::error404(); // 错误URL直接404
+			if(count($uarr) < 2) return;
 
 			if(isset($uarr[0])) {
 				$_GET['control'] = $uarr[0];
