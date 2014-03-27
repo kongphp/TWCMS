@@ -86,7 +86,10 @@ class setting_control extends admin_control {
 			$this->assign('do', $do);
 
 			// 伪静态规则
-			$nginx = 'if(-f $request_filename/index.php) {'."\n";
+			$nginx = 'if(-f $request_filename/index.html) {'."\n";
+			$nginx .= "\t".'rewrite (.*) $1/index.html break;'."\n";
+			$nginx .= '}'."\n";
+			$nginx .= 'if(-f $request_filename/index.php) {'."\n";
 			$nginx .= "\t".'rewrite (.*) $1/index.php break;'."\n";
 			$nginx .= '}'."\n";
 			$nginx .= 'if(!-f $request_filename) {'."\n";
@@ -139,17 +142,13 @@ class setting_control extends admin_control {
 			$iis .= "\t".'<system.webServer>'."\n";
 			$iis .= "\t\t".'<rewrite>'."\n";
 			$iis .= "\t\t\t".'<rules>'."\n";
-			$iis .= "\t\t\t\t".'<rule name="Rule 1" stopProcessing="true">'."\n";
-			$iis .= "\t\t\t\t\t".'<match url="^index\.php$" ignoreCase="false" />'."\n";
-			$iis .= "\t\t\t\t\t".'<action type="None" />'."\n";
-			$iis .= "\t\t\t\t".'</rule>'."\n";
-			$iis .= "\t\t\t\t".'<rule name="Rule 2" stopProcessing="true">'."\n";
-			$iis .= "\t\t\t\t\t".'<match url="'.$cfg['webdir'].'(.*)" ignoreCase="false" />'."\n";
+			$iis .= "\t\t\t\t".'<rule name="'.$cfg['webdir'].' TWCMS Rule" stopProcessing="true">'."\n";
+			$iis .= "\t\t\t\t\t".'<match url="(.*)" ignoreCase="false" />'."\n";
 			$iis .= "\t\t\t\t\t".'<conditions logicalGrouping="MatchAll">'."\n";
-			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" negate="true" />'."\n";
-			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" negate="true" />'."\n";
+			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />'."\n";
+			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />'."\n";
 			$iis .= "\t\t\t\t\t".'</conditions>'."\n";
-			$iis .= "\t\t\t\t\t".'<action type="Rewrite" url="'.$cfg['webdir'].'index.php?rewrite={R:1}" appendQueryString="false" />'."\n";
+			$iis .= "\t\t\t\t\t".'<action type="Rewrite" url="index.php?rewrite={R:1}" />'."\n";
 			$iis .= "\t\t\t\t".'</rule>'."\n";
 			$iis .= "\t\t\t".'</rules>'."\n";
 			$iis .= "\t\t".'</rewrite>'."\n";
