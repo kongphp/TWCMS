@@ -86,7 +86,7 @@ class setting_control extends admin_control {
 			$this->assign('do', $do);
 
 			// 伪静态规则
-			$nginx = 'if(!-e $request_filename) {'."\n";
+			$nginx = 'if (!-e $request_filename) {'."\n";
 			$nginx .= "\t".'rewrite ^'.preg_quote($cfg['webdir']).'(.+) '.preg_quote($cfg['webdir']).'index.php?rewrite=$1 last;'."\n";
 			$nginx .= '}';
 			$this->assign('nginx', $nginx);
