@@ -86,24 +86,17 @@ class setting_control extends admin_control {
 			$this->assign('do', $do);
 
 			// 伪静态规则
-			$nginx = 'if(-f $request_filename/index.html) {'."\n";
-			$nginx .= "\t".'rewrite (.*) $1/index.html break;'."\n";
-			$nginx .= '}'."\n";
-			$nginx .= 'if(-f $request_filename/index.php) {'."\n";
-			$nginx .= "\t".'rewrite (.*) $1/index.php break;'."\n";
-			$nginx .= '}'."\n";
-			$nginx .= 'if(!-f $request_filename) {'."\n";
-			$nginx .= "\t".'rewrite '.$cfg['webdir'].'(.*) '.$cfg['webdir'].'index.php?rewrite=$1 break;'."\n";
+			$nginx = 'if(!-e $request_filename) {'."\n";
+			$nginx .= "\t".'rewrite ^'.preg_quote($cfg['webdir']).'(.+) '.preg_quote($cfg['webdir']).'index.php?rewrite=$1 last;'."\n";
 			$nginx .= '}';
 			$this->assign('nginx', $nginx);
 
 			$apache = '<IfModule mod_rewrite.c>'."\n";
 			$apache .= 'RewriteEngine On'."\n";
 			$apache .= 'RewriteBase '.$cfg['webdir']."\n";
-			$apache .= 'RewriteRule ^index\.php$ - [L]'."\n";
 			$apache .= 'RewriteCond %{REQUEST_FILENAME} !-f'."\n";
 			$apache .= 'RewriteCond %{REQUEST_FILENAME} !-d'."\n";
-			$apache .= 'RewriteRule (.*) index.php?rewrite=$1 [L]'."\n";
+			$apache .= 'RewriteRule (.+) index.php?rewrite=$1 [L]'."\n";
 			$apache .= '</IfModule>';
 			$this->assign('apache', $apache);
 
@@ -142,8 +135,8 @@ class setting_control extends admin_control {
 			$iis .= "\t".'<system.webServer>'."\n";
 			$iis .= "\t\t".'<rewrite>'."\n";
 			$iis .= "\t\t\t".'<rules>'."\n";
-			$iis .= "\t\t\t\t".'<rule name="'.$cfg['webdir'].' TWCMS Rule" stopProcessing="true">'."\n";
-			$iis .= "\t\t\t\t\t".'<match url="(.*)" ignoreCase="false" />'."\n";
+			$iis .= "\t\t\t\t".'<rule name="TWCMS Rule '.$cfg['webdir'].'" stopProcessing="true">'."\n";
+			$iis .= "\t\t\t\t\t".'<match url="(.+)" ignoreCase="false" />'."\n";
 			$iis .= "\t\t\t\t\t".'<conditions logicalGrouping="MatchAll">'."\n";
 			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />'."\n";
 			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />'."\n";
