@@ -202,8 +202,8 @@ function _rmdir($dir, $keepdir = 0) {
 function _is_writable($file) {
 	try{
 		if(is_dir($file)) {
-			$tmpfile = $file.'/_test.c';
-			$n = @file_put_contents($tmpfile, 't');
+			$tmpfile = $file.'/_test.tmp';
+			$n = @file_put_contents($tmpfile, 'test');
 			if($n > 0) {
 				unlink($tmpfile);
 				return TRUE;
@@ -211,12 +211,12 @@ function _is_writable($file) {
 				return FALSE;
 			}
 		}elseif(is_file($file)) {
-			if(strpos(strtoupper(PHP_OS), 'WIN') === FALSE) {
-				return is_writable($file);
-			}else{
-				$fp = @fopen($file, 'rb+');
+			if(strpos(strtoupper(PHP_OS), 'WIN') !== FALSE) {
+				$fp = @fopen($file, 'a'); // 写入方式打开，将文件指针指向文件末尾。如果文件不存在则尝试创建之。
 				@fclose($fp);
 				return (bool)$fp;
+			}else{
+				return is_writable($file);
 			}
 		}
 	}catch(Exception $e) {}
