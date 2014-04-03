@@ -357,7 +357,8 @@ class product_control extends admin_control {
 			if(empty($data)) E(1, '内容不存在！');
 
 			// 检测别名是否能用
-			if($alias && $alias != $data['alias'] && $err_msg = $this->only_alias->check_alias($alias)) {
+			$alias_old = $data['alias'];
+			if($alias && $alias != $alias_old && $err_msg = $this->only_alias->check_alias($alias)) {
 				E(1, $err_msg);
 			}
 
@@ -441,6 +442,29 @@ class product_control extends admin_control {
 				$this->category->delete_cache();
 			}
 
+			// 编辑时，别名有三种情况需要处理
+			if($alias && $alias_old && $alias != $alias_old) {
+				// 写入新别名
+				if(!$this->only_alias->set($alias, array('mid' => $mid, 'cid' => $cid, 'id' => $id))) {
+					E(1, '写入全站唯一别名表出错');
+				}
+
+				// 删除旧别名
+				if(!$this->only_alias->delete($alias_old)) {
+					E(1, '删除别名表数据时出错');
+				}
+			}elseif($alias && empty($alias_old)) {
+				// 写入新别名
+				if(!$this->only_alias->set($alias, array('mid' => $mid, 'cid' => $cid, 'id' => $id))) {
+					E(1, '写入全站唯一别名表出错');
+				}
+			}elseif(empty($alias) && $alias_old) {
+				// 删除旧别名
+				if(!$this->only_alias->delete($alias_old)) {
+					E(1, '删除别名表数据时出错');
+				}
+			}
+
 			// 写入内容表
 			$data['cid'] = $cid;
 			$data['id'] = $id;
@@ -464,11 +488,6 @@ class product_control extends admin_control {
 			$data['seo_description'] = trim(strip_tags(R('seo_description', 'P')));
 			if(!$this->cms_content->update($data)) {
 				E(1, '更新内容表出错');
-			}
-
-			// 写入全站唯一别名表
-			if(!$this->only_alias->set($alias, array('mid' => $mid, 'cid' => $cid, 'id' => $id))) {
-				E(1, '写入全站唯一别名表出错');
 			}
 
 			// 写入内容数据表
