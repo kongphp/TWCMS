@@ -179,6 +179,54 @@ class setting_control extends admin_control {
 				}
 			}
 
+			// IIS6
+			$path_file = $path_dir = '';
+			$dh = opendir(TWCMS_PATH);
+			while($file = readdir($dh)) {
+				if(preg_match('#^[\w]+$#', $file) && is_dir(TWCMS_PATH.$file)) {
+					$path_dir .= $file.'|';
+				}elseif(preg_match('#^\w[\w\.]+$#', $file) && is_file(TWCMS_PATH.$file)) {
+					$path_file .= preg_quote($file).'|';
+				}
+			}
+
+			$webdir = preg_quote($cfg['webdir']);
+			$iis6 = '[ISAPI_Rewrite]'."\r\n\r\n";
+			$iis6 .= 'RewriteRule '.$webdir.'('.trim($path_file, '|').') '.$webdir.'$1 [L]'."\r\n";
+			$iis6 .= 'RewriteRule '.$webdir.'('.trim($path_dir, '|').')/(.*) '.$webdir.'$1/$2 [L]'."\r\n";
+			$iis6 .= 'RewriteRule '.$webdir.'(.+) '.$webdir.'index\.php\?rewrite=$1 [L]';
+			$this->assign('iis6', $iis6);
+
+			// 创建httpd.ini
+			$file_iis6 = $_SERVER["DOCUMENT_ROOT"].'/httpd.ini';
+			$is_file_iis6 = is_file($file_iis6);
+			$this->assign('is_file_iis6', $is_file_iis6);
+			if($mk == 'httpd_ini') {
+				$f = @fopen($file_iis6, 'w');
+				if (!$f) {
+					exit('{"err":1, "msg":"无写入权限"}');
+				} else {
+					$bytes = fwrite($f, $iis6);
+					fclose($f);
+					if($bytes > 0) {
+						exit('{"err":0, "msg":"创建 httpd.ini 成功"}');
+					}else{
+						exit('{"err":1, "msg":"创建 httpd.ini 失败"}');
+					}
+				}
+			}
+
+			// 删除httpd.ini
+			if($del == 'httpd_ini') {
+				$ret = FALSE;
+				try{ $is_file_iis6 && $ret = unlink($file_iis6); }catch(Exception $e) {}
+				if($ret) {
+					exit('{"err":0, "msg":"删除 httpd.ini 成功"}');
+				}else{
+					exit('{"err":1, "msg":"删除 httpd.ini 失败"}');
+				}
+			}
+
 			$input = array();
 			$input['parseurl'] = form::loop('radio', 'parseurl', array('0'=>'动态', '1'=>'伪静态'), $parseurl, ' &nbsp; &nbsp;');
 			$input['link_show'] = form::get_text('link_show', $cfg['link_show'], 'inp wa');

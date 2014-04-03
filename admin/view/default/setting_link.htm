@@ -90,6 +90,7 @@
 					<li><a href="javascript:;" class="on">Nginx</a></li>
 					<li><a href="javascript:;">Apache</a></li>
 					<li><a href="javascript:;">IIS7,8</a></li>
+					<li><a href="javascript:;">IIS6</a></li>
 				</ul>
 			</div>
 			<div id="tab_main">
@@ -114,7 +115,7 @@
 				</div>
 
 				<div class="tab_cont un">
-					<textarea readonly="" style="height:400px">{$iis}</textarea>
+					<textarea readonly="" style="height:320px">{$iis}</textarea>
 					<div class="tabtop">
 						<a class="but3" href="javascript:mk_rewrite('web_config');">创建web.config</a>
 						<a class="but3" href="javascript:del_rewrite('web_config');">删除web.config</a>
@@ -124,6 +125,21 @@
 							<b style="color:#BD0A01">未检测到 web.config 文件，您可点击“创建web.config”按钮，也可手工在TWCMS根目录创建 web.config 文件并把上面内容复制进去</b>
 						{else}
 							<b style="color:green">已检测到 web.config 文件，如果您不想使用伪静态，请点击“删除web.config”按钮删除 web.config 文件</b>
+						{/if}
+					</div>
+				</div>
+
+				<div class="tab_cont un">
+					<textarea readonly="">{$iis6}</textarea>
+					<div class="tabtop">
+						<a class="but3" href="javascript:mk_rewrite('httpd_ini');">创建httpd.ini</a>
+						<a class="but3" href="javascript:del_rewrite('httpd_ini');">删除httpd.ini</a>
+					</div>
+					<div class="tabtop">
+						{if:empty($is_file_iis6)}
+							<b style="color:#BD0A01">未检测到 httpd.ini 文件，您可点击“创建httpd.ini”按钮，也可手工在网站根目录创建 httpd.ini 文件并把上面内容复制进去</b>
+						{else}
+							<b style="color:green">已检测到 httpd.ini 文件，如果您不想使用伪静态，请点击“删除httpd.ini”按钮删除 httpd.ini 文件</b>
 						{/if}
 					</div>
 				</div>
