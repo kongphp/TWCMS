@@ -44,6 +44,8 @@ class debug{
 			E_USER_NOTICE			=> '用户定义的通知',
 			E_STRICT				=> '代码标准建议',
 			E_RECOVERABLE_ERROR		=> '致命错误',
+			E_DEPRECATED			=> '代码警告',
+			E_USER_DEPRECATED		=> '用户定义的代码警告',
 		);
 
 		$errno_str = isset($error_type[$errno]) ? $error_type[$errno] : '未知错误';
@@ -51,11 +53,11 @@ class debug{
 		if(DEBUG) {
 			throw new Exception($s);
 		}else{
-			// 线上模式放宽一些，但要记录日志，方便发现问题
-			if($errno != E_NOTICE && $errno != E_USER_NOTICE) {
-				throw new Exception($s);
-			}else{
+			// 线上模式放宽一些，只记录日志，不中断程序执行
+			if(in_array($errno, array(E_NOTICE, E_USER_NOTICE, E_DEPRECATED))) {
 				log::write($s);
+			}else{
+				throw new Exception($s);
 			}
 		}
 	}
@@ -215,7 +217,7 @@ class debug{
 	public static function to_message($s) {
 		$s = strip_tags($s);
 		if(strpos($s, 'mysql_connect') !== false) {
-			$s = '连接数据库出错！请查看 config.inc.php 文件中的用户名和密码是否正确？';
+			$s .= ' [连接数据库出错！配置信息见 config.inc.php]';
 		}
 		return $s;
 	}
