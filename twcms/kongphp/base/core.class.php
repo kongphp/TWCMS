@@ -40,12 +40,12 @@ class core{
 				$s = gzencode($s, 5);
 				if($isfirst) {
 					header("Content-Encoding: gzip");
-					header("Content-Length: ".strlen($s));
+					// header("Content-Length: ".strlen($s));
 				}
 			}
 		}elseif($isfirst) {
 			header("Content-Encoding: none");
-			header("Content-Length: ".strlen($s));
+			// header("Content-Length: ".strlen($s));
 		}
 		$isfirst && $_ENV['_isgzip'] = 1;
 		return $s;
@@ -56,6 +56,13 @@ class core{
 	 */
 	public static function ob_clean() {
 		$_ENV['_config']['gzip'] && ob_clean();
+	}
+
+	/**
+	 * 清空缓冲区并关闭输出缓冲
+	 */
+	public static function ob_end_clean() {
+		$_ENV['_config']['gzip'] && ob_end_clean();
 	}
 
 	/**
