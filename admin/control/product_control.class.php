@@ -217,7 +217,7 @@ class product_control extends admin_control {
 			}
 
 			// 写入全站唯一别名表
-			if(!$this->only_alias->set($alias, array('mid' => $mid, 'cid' => $cid, 'id' => $id))) {
+			if($alias && !$this->only_alias->set($alias, array('mid' => $mid, 'cid' => $cid, 'id' => $id))) {
 				E(1, '写入全站唯一别名表出错');
 			}
 
