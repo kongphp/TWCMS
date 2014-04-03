@@ -419,6 +419,21 @@ class article_control extends admin_control {
 			// 如果摘要为空，自动生成摘要
 			$intro = $this->auto_intro($intro, $contentstr);
 
+			// 如果分类ID发生变化，更新分类内容数
+			if($cid != $data['cid']) {
+				// 旧的分类内容数减1
+				$categorys_old = $this->category->read($data['cid']);
+				$categorys_old['count'] = max(0, $categorys_old['count']-1);
+				$this->category->update($categorys_old);
+
+
+				// 新的分类内容数加1
+				$categorys['count']++;
+				$this->category->update($categorys);
+
+				$this->category->delete_cache();
+			}
+
 			// 写入内容表
 			$data['cid'] = $cid;
 			$data['id'] = $id;
