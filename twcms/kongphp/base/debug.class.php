@@ -30,6 +30,11 @@ class debug{
 	 */
 	public static function error_handler($errno, $errstr, $errfile, $errline) {
 		if(!empty($_ENV['_exception'])) return;
+
+		// 兼容 php 5.3 以下版本
+		defined('E_DEPRECATED') || define('E_DEPRECATED', 8192);
+		defined('E_USER_DEPRECATED') || define('E_USER_DEPRECATED', 16384);
+
 		$error_type = array(
 			E_ERROR					=> '运行错误',
 			E_WARNING				=> '运行警告',
