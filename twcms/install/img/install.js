@@ -69,8 +69,12 @@ $(".inp").focusin(function() {
 	Check.remove($(this));
 });
 
-$("#adm_user").focusout(Check.adm_user).keydown(Check.adm_user); // 检测创始人用户名
-$("#adm_pass").focusout(Check.adm_pass).keydown(Check.adm_pass); // 检测创始人密码
+// 检测创始人用户名是否填写正确
+$("#adm_user").focusout(Check.adm_user).keypress(Check.adm_user);
+
+// 检测创始人密码是否填写正确
+$("#adm_pass").focusout(Check.adm_pass).keypress(Check.adm_pass);
+// setInterval("Check.adm_pass()", 200);
 
 // 阻止提交
 $("#form").submit(function(){
