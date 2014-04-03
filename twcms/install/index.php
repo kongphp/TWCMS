@@ -46,7 +46,7 @@ if($do == 'license') {
 	include TWCMS_INST.'/tpl/footer.php';
 
 	if(!isset($_POST['dbhost'])) {
-		js_show('<u>非法访问！</u>', TRUE);
+		js_back('<u>非法访问！</u>');
 	}
 
 	$dbhost = isset($_POST['dbhost']) ? trim($_POST['dbhost']) : '';
@@ -59,28 +59,28 @@ if($do == 'license') {
 	$adm_pass = isset($_POST['adm_pass']) ? trim(str_replace(' ', '', $_POST['adm_pass'])) : '';
 
 	if(empty($dbhost)) {
-		js_show('<u>数据库主机不能为空！</u>', TRUE);
+		js_back('<u>数据库主机不能为空！</u>');
 	}elseif(empty($dbuser)) {
-		js_show('<u>数据库用户名不能为空！</u>', TRUE);
+		js_back('<u>数据库用户名不能为空！</u>');
 	}elseif(!preg_match('/^\w+$/', $dbname)) {
-		js_show('<u>数据库名不正确！</u>', TRUE);
+		js_back('<u>数据库名不正确！</u>');
 	}elseif(empty($tablepre)) {
-		js_show('<u>数据库表前辍不能为空！</u>', TRUE);
+		js_back('<u>数据库表前辍不能为空！</u>');
 	}elseif(!preg_match('/^\w+$/', $tablepre)) {
-		js_show('<u>数据库表前辍不正确！</u>', TRUE);
+		js_back('<u>数据库表前辍不正确！</u>');
 	}elseif(empty($adm_user)) {
-		js_show('<u>创始人用户名不能为空！</u>', TRUE);
+		js_back('<u>创始人用户名不能为空！</u>');
 	}elseif(strlen($adm_pass) < 8) {
-		js_show('<u>密码不能小于8位数！</u>', TRUE);
+		js_back('<u>密码不能小于8位数！</u>');
 	}
 
 	// 连接数据库
 	if(!function_exists('mysql_connect')) {
-		js_show('函数 mysql_connect() 不存在，请检查 php.ini 是否加载了 mysql 模块！', TRUE);
+		js_back('函数 mysql_connect() 不存在，请检查 php.ini 是否加载了 mysql 模块！');
 	}
-	$link = mysql_connect($dbhost, $dbuser, $dbpw, TRUE);
+	$link = mysql_connect($dbhost, $dbuser, $dbpw);
 	if(!$link) {
-		js_show('MySQL 主机、账号或密码不正确！<br><u>'.mysql_error().'</u>', TRUE);
+		js_back('MySQL 主机、账号或密码不正确！<br><u>'.mysql_error().'</u>');
 	}
 
 	try{
@@ -88,7 +88,7 @@ if($do == 'license') {
 		if(mysql_errno() == 1049) {
 			mysql_query("CREATE DATABASE $dbname DEFAULT CHARACTER SET UTF8");
 			if(!mysql_select_db($dbname, $link)) {
-				js_show('自动创建数据库失败鸟！您的MySQL账号是否有权限创建数据库？<br><u>'.mysql_error().'</u>', TRUE);
+				js_back('自动创建数据库失败鸟！您的MySQL账号是否有权限创建数据库？<br><u>'.mysql_error().'</u>');
 			}
 		}
 		// 为防止意外，让用户自己做选择
@@ -96,7 +96,7 @@ if($do == 'license') {
 			$query = mysql_query("SHOW TABLES FROM $dbname");
 			while($row = mysql_fetch_row($query)) {
 				if(preg_match("#^{$tablepre}#", $row[0])) {
-					js_show('<u>发现有相同表前缀，请返回选择“覆盖安装”或“修改表前缀”。</u>', TRUE);
+					js_back('<u>发现有相同表前缀，请返回选择“覆盖安装”或“修改表前缀”。</u>');
 				}
 			}
 		}
@@ -104,13 +104,13 @@ if($do == 'license') {
 		// 设置编码
 		mysql_query("SET names utf8, sql_mode=''");
 	}catch(Exception $e) {
-		js_show('<u>未知错误！</u><br><u>'.mysql_error().'</u>', TRUE);
+		js_back('<u>未知错误！</u><br><u>'.mysql_error().'</u>');
 	}
 
 	// 创建数据表
 	$file = TWCMS_INST.'/data/mysql.sql';
 	if(!is_file($file)) {
-		js_show('mysql.sql 文件 <u>丢失</u>', TRUE);
+		js_back('mysql.sql 文件 <u>丢失</u>');
 	}
 	$s = file_get_contents($file);
 	$sqls = split_sql($s, $tablepre);
@@ -119,16 +119,23 @@ if($do == 'license') {
 		$ret = mysql_query($sql);
 		if(substr($sql, 0, 6) == 'CREATE') {
 			$name = preg_replace("/CREATE TABLE ([`a-z0-9_]+) .*/is", "\\1", $sql);
-			js_show('创建数据表 '.$name.' ... '.($ret ? '<i>成功</i>' : '<u>失败</u> (您的数据库没有写权限？)<br><u>'.mysql_error().'</u>'));
+
+			if($ret) {
+				js_show('创建数据表 '.$name.' ... <i>成功</i>');
+			}else{
+				js_back('创建数据表 '.$name.' ... <u>失败</u> (您的数据库没有写权限？)<br><u>'.mysql_error().'</u>');
+			}
 		}
-		if(!$ret) exit;
+
+		if(!$ret) {
+			js_back('创建数据表失败</u> (您的数据库没有权限？)<br><u>'.mysql_error().'</u>');
+		}
 	}
 
 	// 创建基本数据
 	$file = TWCMS_INST.'/data/mysql_data.sql';
 	if(!is_file($file)) {
-		js_show('mysql_data.sql 文件 <u>丢失</u>');
-		exit;
+		js_back('mysql_data.sql 文件 <u>丢失</u>');
 	}
 	$s = file_get_contents($file);
 	$sqls = split_sql($s, $tablepre);
@@ -217,8 +224,7 @@ if($do == 'license') {
 	// 初始插件配置
 	$file = TWCMS_INST.'/plugin.sample.php';
 	if(!is_file($file)) {
-		js_show('plugin.sample.php 文件 <u>丢失</u>');
-		exit;
+		js_back('plugin.sample.php 文件 <u>丢失</u>');
 	}
 	$ret = file_put_contents(TWCMS_CORE.'/config/plugin.inc.php', file_get_contents($file));
 	js_show('设置 config/plugin.inc.php ... '.($ret ? '<i>成功</i>' : '<u>失败</u>'));
@@ -227,8 +233,7 @@ if($do == 'license') {
 	// 生成配置文件
 	$file = TWCMS_INST.'/config.sample.php';
 	if(!is_file($file)) {
-		js_show('config.sample.php 文件 <u>丢失</u>');
-		exit;
+		js_back('config.sample.php 文件 <u>丢失</u>');
 	}
 	$auth_key = random(32, 3);
 	$cookie_pre = 'tw'.random(5, 3).'_';

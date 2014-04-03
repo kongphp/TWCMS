@@ -72,11 +72,15 @@ function split_sql($sql, $tablepre) {
 	return $ret;
 }
 
-// 显示进度
-function js_show($s, $back = FALSE) {
-	if($back) $s .= ' <a href="javascript:history.back();">[返回]</a>';
+// JS输出
+function js_show($s) {
 	echo '<script type="text/javascript">jsShow(\''.addslashes($s).'\');</script>'."\r\n";
 	flush();
 	ob_flush();
-	if($back) exit;
+}
+
+// JS输出提示返回
+function js_back($s) {
+	js_show($s.' <a href="javascript:history.back();">[返回]</a>');
+	exit;
 }
