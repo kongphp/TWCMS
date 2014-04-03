@@ -91,17 +91,17 @@ class setting_control extends admin_control {
 			$nginx .= '}';
 			$this->assign('nginx', $nginx);
 
-			$apache = '<IfModule mod_rewrite.c>'."\n";
-			$apache .= 'RewriteEngine On'."\n";
-			$apache .= 'RewriteBase '.$cfg['webdir']."\n";
-			$apache .= 'RewriteCond %{REQUEST_FILENAME} !-f'."\n";
-			$apache .= 'RewriteCond %{REQUEST_FILENAME} !-d'."\n";
-			$apache .= 'RewriteRule (.+) index.php?rewrite=$1 [L]'."\n";
+			$apache = '<IfModule mod_rewrite.c>'."\r\n";
+			$apache .= 'RewriteEngine On'."\r\n";
+			$apache .= 'RewriteBase '.$cfg['webdir']."\r\n";
+			$apache .= 'RewriteCond %{REQUEST_FILENAME} !-f'."\r\n";
+			$apache .= 'RewriteCond %{REQUEST_FILENAME} !-d'."\r\n";
+			$apache .= 'RewriteRule (.+) index.php?rewrite=$1 [L]'."\r\n";
 			$apache .= '</IfModule>';
 			$this->assign('apache', $apache);
 
 			// 创建.htaccess
-			$file_apache = TWCMS_PATH.'.htaccess';
+			$file_apache = $_SERVER["DOCUMENT_ROOT"].'/.htaccess';
 			$is_file_apache = is_file($file_apache);
 			$this->assign('is_file_apache', $is_file_apache);
 			if($mk == 'htaccess') {
@@ -122,7 +122,7 @@ class setting_control extends admin_control {
 			// 删除.htaccess
 			if($del == 'htaccess') {
 				$ret = FALSE;
-				try{ $ret = unlink($file_apache); }catch(Exception $e) {}
+				try{ $is_file_apache && $ret = unlink($file_apache); }catch(Exception $e) {}
 				if($ret) {
 					exit('{"err":0, "msg":"删除 .htaccess 成功"}');
 				}else{
@@ -130,27 +130,27 @@ class setting_control extends admin_control {
 				}
 			}
 
-			$iis = '<?xml version="1.0" encoding="UTF-8"?>'."\n";
-			$iis .= '<configuration>'."\n";
-			$iis .= "\t".'<system.webServer>'."\n";
-			$iis .= "\t\t".'<rewrite>'."\n";
-			$iis .= "\t\t\t".'<rules>'."\n";
-			$iis .= "\t\t\t\t".'<rule name="TWCMS Rule '.$cfg['webdir'].'" stopProcessing="true">'."\n";
-			$iis .= "\t\t\t\t\t".'<match url="(.+)" ignoreCase="false" />'."\n";
-			$iis .= "\t\t\t\t\t".'<conditions logicalGrouping="MatchAll">'."\n";
-			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />'."\n";
-			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />'."\n";
-			$iis .= "\t\t\t\t\t".'</conditions>'."\n";
-			$iis .= "\t\t\t\t\t".'<action type="Rewrite" url="index.php?rewrite={R:1}" />'."\n";
-			$iis .= "\t\t\t\t".'</rule>'."\n";
-			$iis .= "\t\t\t".'</rules>'."\n";
-			$iis .= "\t\t".'</rewrite>'."\n";
-			$iis .= "\t".'</system.webServer>'."\n";
+			$iis = '<?xml version="1.0" encoding="UTF-8"?>'."\r\n";
+			$iis .= '<configuration>'."\r\n";
+			$iis .= "\t".'<system.webServer>'."\r\n";
+			$iis .= "\t\t".'<rewrite>'."\r\n";
+			$iis .= "\t\t\t".'<rules>'."\r\n";
+			$iis .= "\t\t\t\t".'<rule name="TWCMS Rule '.$cfg['webdir'].'" stopProcessing="true">'."\r\n";
+			$iis .= "\t\t\t\t\t".'<match url="(.+)" ignoreCase="false" />'."\r\n";
+			$iis .= "\t\t\t\t\t".'<conditions logicalGrouping="MatchAll">'."\r\n";
+			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />'."\r\n";
+			$iis .= "\t\t\t\t\t\t".'<add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />'."\r\n";
+			$iis .= "\t\t\t\t\t".'</conditions>'."\r\n";
+			$iis .= "\t\t\t\t\t".'<action type="Rewrite" url="index.php?rewrite={R:1}" />'."\r\n";
+			$iis .= "\t\t\t\t".'</rule>'."\r\n";
+			$iis .= "\t\t\t".'</rules>'."\r\n";
+			$iis .= "\t\t".'</rewrite>'."\r\n";
+			$iis .= "\t".'</system.webServer>'."\r\n";
 			$iis .= '</configuration>';
 			$this->assign('iis', $iis);
 
 			// 创建web.config
-			$file_iis = TWCMS_PATH.'web.config';
+			$file_iis = $_SERVER["DOCUMENT_ROOT"].'/web.config';
 			$is_file_iis = is_file($file_iis);
 			$this->assign('is_file_iis', $is_file_iis);
 			if($mk == 'web_config') {
@@ -171,7 +171,7 @@ class setting_control extends admin_control {
 			// 删除web.config
 			if($del == 'web_config') {
 				$ret = FALSE;
-				try{ $ret = unlink($file_iis); }catch(Exception $e) {}
+				try{ $is_file_iis && $ret = unlink($file_iis); }catch(Exception $e) {}
 				if($ret) {
 					exit('{"err":0, "msg":"删除 web.config 成功"}');
 				}else{
