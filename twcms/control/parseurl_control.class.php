@@ -216,6 +216,11 @@ class parseurl_control extends control{
 			}
 		}
 
+		// 伪静态时，如果 $uri 有值，但没有解析到相关 $_GET 时，就提示404
+		if(empty($_GET) && !empty($uri)) {
+			core::error404();
+		}
+
 		// 上面都不符合到这里解析
 		if(!isset($_GET['control'])) {
 			if(isset($_GET['u'])) {
