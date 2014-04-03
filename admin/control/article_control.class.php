@@ -350,7 +350,7 @@ class article_control extends admin_control {
 			if(empty($data)) E(1, '内容不存在！');
 
 			// 检测别名是否能用
-			if($alias && $err_msg = $this->only_alias->check_alias($alias)) {
+			if($alias && $alias != $data['alias'] && $err_msg = $this->only_alias->check_alias($alias)) {
 				E(1, $err_msg);
 			}
 
