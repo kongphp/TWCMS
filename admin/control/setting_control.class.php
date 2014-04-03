@@ -101,7 +101,7 @@ class setting_control extends admin_control {
 			$this->assign('apache', $apache);
 
 			// 创建.htaccess
-			$file_apache = $_SERVER["DOCUMENT_ROOT"].'/.htaccess';
+			$file_apache = TWCMS_PATH.'.htaccess';
 			$is_file_apache = is_file($file_apache);
 			$this->assign('is_file_apache', $is_file_apache);
 			if($mk == 'htaccess') {
@@ -150,7 +150,7 @@ class setting_control extends admin_control {
 			$this->assign('iis', $iis);
 
 			// 创建web.config
-			$file_iis = $_SERVER["DOCUMENT_ROOT"].'/web.config';
+			$file_iis = TWCMS_PATH.'web.config';
 			$is_file_iis = is_file($file_iis);
 			$this->assign('is_file_iis', $is_file_iis);
 			if($mk == 'web_config') {
