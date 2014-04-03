@@ -121,6 +121,7 @@ class cms_content extends model {
 		$this->cms_content_data->delete($id);
 		$this->cms_content_views->delete($id);
 		$this->cms_content_flag->find_delete(array('id'=>$id));
+		$this->only_alias->delete($data['alias']);
 		$ret = $this->delete($id);
 		return $ret ? '' : '删除失败！';
 	}
