@@ -110,7 +110,8 @@ window.twAjax = {
 		$("#noA").click(twAjax.close);
 		$("#okA").click(function(){ twAjax.remove(); func(); });
 
-		document.onkeydown = function() {
+		document.onkeydown = function(e) {
+			var e = window.event || e;
 			var k = e.which || e.keyCode;
 			if(k == 27) {
 				twAjax.close();
