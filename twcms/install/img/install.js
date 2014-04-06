@@ -70,11 +70,22 @@ $(".inp").focusin(function() {
 });
 
 // 检测创始人用户名是否填写正确
-$("#adm_user").focusout(Check.adm_user).keypress(Check.adm_user);
+$("#adm_user").focusin(function(){
+	document.onkeyup = function(e) {
+		Check.adm_user();
+	}
+}).focusout(function(){
+	document.onkeyup = null;
+});
 
 // 检测创始人密码是否填写正确
-$("#adm_pass").focusout(Check.adm_pass).keypress(Check.adm_pass);
-// setInterval("Check.adm_pass()", 200);
+$("#adm_pass").focusin(function(){
+	document.onkeyup = function(e) {
+		Check.adm_pass();
+	}
+}).focusout(function(){
+	document.onkeyup = null;
+});
 
 // 阻止提交
 $("#form").submit(function(){
