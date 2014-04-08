@@ -186,7 +186,7 @@ class admin_control extends control {
 				// 'user_group-index'=>array('name'=>'用户组管理', 'p'=>'user'),
 
 				'tool-index'=>array('name'=>'清除缓存', 'p'=>'tool'),
-				// 'tool-rebuild'=>array('name'=>'重新统计', 'p'=>'tool'),
+				'tool-rebuild'=>array('name'=>'重新统计', 'p'=>'tool'),
 			),
 		);
 

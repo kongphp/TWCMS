@@ -20,7 +20,29 @@ class tool_control extends admin_control {
 
 	// 重新统计
 	public function rebuild() {
-		// hook admin_tool_control_rebuild_after.php
+		if(!empty($_POST)) {
+			// 重新统计分类的内容数量
+			if(!empty($_POST['re_cate'])) {
+				$tables = $this->models->get_table_arr();
+				$cids = $this->category->get_category_db();
+
+				foreach($cids as $row) {
+					$this->cms_content->table = 'cms_'.(isset($tables[$row['mid']]) ? $tables[$row['mid']] : 'article');
+					$count = $this->cms_content->find_count(array('cid'=>$row['cid']));
+
+					$this->category->update(array('cid'=>$row['cid'], 'count'=>$count));
+				}
+			}
+
+			// 清空数据表的 count max 值，让其重新统计
+			if(!empty($_POST['re_table'])) {
+				$this->db->truncate('framework_count');
+				$this->db->truncate('framework_maxid');
+			}
+
+			E(0, '重新统计完成！');
+		}
+
 		$this->display();
 	}
 
