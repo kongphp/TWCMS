@@ -105,4 +105,21 @@ class cms_content_attach extends model {
 			return FALSE;
 		}
 	}
+
+	// 删除单个附件
+	public function xdelete($aid) {
+		$data = $this->read($aid);
+		$updir = TWCMS_PATH.'upload/'.substr($this->table, 4, -7).'/';
+
+		$file = $updir.$data['filepath'];
+		$thumb = image::thumb_name($file);
+
+		try{
+			is_file($file) && unlink($file);
+			is_file($thumb) && unlink($thumb);
+			return $this->delete($aid);
+		}catch(Exception $e) {
+			return FALSE;
+		}
+	}
 }
