@@ -586,6 +586,24 @@ class product_control extends admin_control {
 		}
 	}
 
+	// 删除单个附件
+	public function del_attach() {
+		// hook admin_product_control_del_attach_before.php
+
+		$aid = (int) R('aid', 'P');
+
+		empty($aid) && E(1, 'AID不能为空！');
+
+		// hook admin_product_control_del_attach_after.php
+
+		$this->cms_content_attach->table = 'cms_product_attach';
+		if($this->cms_content_attach->xdelete($aid)) {
+			E(0, '删除成功！');
+		}else{
+			E(1, '删除失败！');
+		}
+	}
+
 	// 自动保存产品
 	public function auto_save() {
 		$this->kv->set('auto_save_product_uid_'.$this->_user['uid'], $_POST) ? E(0, '自动保存成功！') : E(1, '自动保存失败！');
