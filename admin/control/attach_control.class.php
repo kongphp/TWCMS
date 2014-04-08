@@ -43,9 +43,9 @@ class attach_control extends admin_control {
 
 			if($type == 'img') { // 图集
 				if(R('ajax')) {
-					echo '{"path":"'.$path.'","thumb":"'.$thumb.'","state":"'.$info['state'].'"}';
+					echo '{"path":"'.$path.'","thumb":"'.$thumb.'","state":"'.$info['state'].'","aid":"'.$info['maxid'].'"}';
 				}else{
-					echo '<script>parent.setDisplayImg("'.$path.'","'.$thumb.'");</script>';
+					echo '<script>parent.setDisplayImg("'.$path.'","'.$thumb.'","'.$info['maxid'].'");</script>';
 				}
 			}else{ // 缩略图
 				echo '<script>parent.setDisplayPic("'.$path.'","'.$thumb.'");</script>';
