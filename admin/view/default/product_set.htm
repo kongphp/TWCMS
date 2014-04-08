@@ -333,6 +333,90 @@ var kpUpload = {
 	}
 };
 
+//拖拽插件
+$.fn.kpdragsort = function(options) {
+	var container = this;
+
+	$(container).children().off("mousedown").mousedown(function(e) {
+		if(e.which != 1 || $(e.target).is("input, textarea, a") || window.kp_only) return; // 排除非左击和其他元素
+		e.preventDefault(); // 阻止选中文本
+
+		var x = e.pageX;
+		var y = e.pageY;
+		var _this = $(this); // 点击选中块
+		var w = _this.width();
+		var h = _this.height();
+		var w2 = w/2;
+		var h2 = h/2;
+		var p = _this.position();
+		var left = p.left;
+		var top = p.top;
+		var sTop = $(".p:first").scrollTop();
+		window.kp_only = true;
+
+		// 添加虚线框
+		_this.before('<div id="kp_widget_holder"></div>');
+		var wid = $("#kp_widget_holder");
+		wid.css({"border":"1px dashed #ccc", "float":"left", "width":"120px", "height":"120px", "margin":"5px 0 0 5px"});
+
+		// 保持原来的宽高
+		_this.css({"width":w, "height":h, "position":"absolute", opacity: 0.8, "z-index": 999, "left":left, "top":top});
+
+		// 绑定mousemove事件
+		$(document).mousemove(function(e) {
+			e.preventDefault();
+
+			// 移动选中块
+			var l = left + e.pageX - x;
+			var t = top + ($(".p:first").scrollTop() - sTop) + e.pageY - y;
+			_this.css({"left":l, "top":t});
+
+			// 选中块的中心坐标
+			var ml = l+w2;
+			var mt = t+h2;
+
+			// 遍历所有块的坐标
+			$(container).children().not(_this).not(wid).each(function(i) {
+				var obj = $(this);
+				var p = obj.position();
+				var a1 = p.left;
+				var a2 = p.left + obj.width();
+				var a3 = p.top;
+				var a4 = p.top + obj.height();
+
+				// 移动虚线框
+				if(a1 < ml && ml < a2 && a3 < mt && mt < a4) {
+					if(!obj.next("#kp_widget_holder").length) {
+						wid.insertAfter(this);
+					}else{
+						wid.insertBefore(this);
+					}
+					return;
+				}
+			});
+		});
+
+		// 绑定mouseup事件
+		var _mouseup = function() {
+			$(document).off('mouseup').off('mousemove');
+
+			// 拖拽回位，并删除虚线框
+			var p = wid.position();
+			_this.animate({"left":p.left, "top":p.top}, 100, function() {
+				_this.removeAttr("style");
+				wid.replaceWith(_this);
+
+				// check_sort(); // 检查排序是否已修改
+
+				window.kp_only = null;
+				if(parent) parent.document.onmouseup = null;
+			});
+		};
+		$(document).mouseup(_mouseup);
+		if(parent) parent.document.onmouseup = _mouseup;
+	});
+}
+
 // 设置显示缩略图 (iframe使用)
 function setDisplayPic(path, thumb) {
 	$("#tw_pic_val").val(thumb);
@@ -379,6 +463,7 @@ function setImgBut() {
 setPicBut();
 setImgBut();
 kpUpload.init();
+$("#tw_dropbox").kpdragsort();
 
 // 触发自动保存
 $("#product_set input, #product_set textarea, #product_set select").change(autoSave);
