@@ -416,6 +416,7 @@ $.fn.kpdragsort = function(options) {
 				wid.replaceWith(_this);
 
 				setImgBut(); // 重新定位上传按钮
+				autoSave(); // 拖拽时也保存一下状态
 
 				window.kp_only = null;
 				if(parent) parent.document.onmouseup = null;
