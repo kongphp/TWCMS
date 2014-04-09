@@ -167,6 +167,13 @@ window.autoSave = function() {
 	twAjax.post("index.php?u=product-auto_save-ajax-1", data, function(html) { });
 };
 
+// 编辑时保存图集
+window.editSaveImg = function() {
+	if(action != "edit") return;
+	var data = $("#product_set").serialize();
+	twAjax.post("index.php?u=product-save_images-ajax-1", data, function(html) { });
+};
+
 // 传统上传缩略图
 document.getElementById("tw_pic_upfile").onchange = function() {
 	document.getElementById("tw_pic_upform").submit();
@@ -271,6 +278,7 @@ var kpUpload = {
 		setdelImg(); // 重新绑定删除事件
 
 		autoSave(); // 发布时会自动保存上传的图集
+		editSaveImg(); // 在编辑时，保存一下
 
 		if(typeof file == "object") {
 			var reader = new FileReader();
@@ -416,7 +424,8 @@ $.fn.kpdragsort = function(options) {
 				wid.replaceWith(_this);
 
 				setImgBut(); // 重新定位上传按钮
-				autoSave(); // 拖拽时也保存一下状态
+				autoSave(); // 在发表时，保存一下
+				editSaveImg(); // 在编辑时，保存一下
 
 				window.kp_only = null;
 				if(parent) parent.document.onmouseup = null;
@@ -485,7 +494,8 @@ function setdelImg() {
 			// }
 
 			setImgBut(); // 重新定位上传按钮
-			autoSave(); // 删除时保存一下状态
+			autoSave(); // 在发表时，保存一下
+			editSaveImg(); // 在编辑时，保存一下
 		});
 	});
 }
