@@ -27,6 +27,8 @@ class tool_control extends admin_control {
 				$cids = $this->category->get_category_db();
 
 				foreach($cids as $row) {
+					if($row['mid'] == 1) continue;
+
 					$this->cms_content->table = 'cms_'.(isset($tables[$row['mid']]) ? $tables[$row['mid']] : 'article');
 					$count = $this->cms_content->find_count(array('cid'=>$row['cid']));
 
