@@ -28,12 +28,13 @@
 									<div class="d_txt">
 										<input name="images[{$k}][big]" value="{$v[big]}" type="hidden">
 										<input name="images[{$k}][thumb]" value="{$v[thumb]}" type="hidden">
+										<input name="images[{$k}][aid]" value="{$v[aid]}" type="hidden">
 										<textarea name="images[{$k}][content]" placeholder="请输入描述">{php}echo htmlspecialchars($v['content']);{/php}</textarea>
 									</div>
+									<div class="d_del" aid="{$v[aid]}">删除</div>
 								</div>
 								{/loop}
-								{php} $init_count = isset($k) ? $k : 0; // 初始化 count 值 {/php}
-								<div id="tw_imgup" class="d_li">
+								<div id="tw_imgup" class="d_li2">
 									<div><a id="tw_img_but" class="but3" href="javascript:;">上传图片</a></div>
 									<div id="tw_img_tips"></div>
 								</div>
@@ -160,6 +161,13 @@ window.autoSave = function() {
 	twAjax.post("index.php?u=photo-auto_save-ajax-1", data, function(html) { });
 };
 
+// 编辑时保存图集
+window.editSaveImg = function() {
+	if(action != "edit") return;
+	var data = $("#photo_set").serialize();
+	twAjax.post("index.php?u=photo-save_images-ajax-1", data, function(html) { });
+};
+
 // 传统上传缩略图
 document.getElementById("tw_pic_upfile").onchange = function() {
 	document.getElementById("tw_pic_upform").submit();
@@ -168,7 +176,6 @@ document.getElementById("tw_pic_upfile").onchange = function() {
 //====拖拽图片上传====
 window.isDrop = !!window.FileReader;
 var kpUpload = {
-	count : {$init_count},
 	init : function() {
 		if(!window.TW_UP) window.TW_UP = true;
 
@@ -251,17 +258,21 @@ var kpUpload = {
 	},
 
 	//增加图片显示
-	boxAdd : function(file, big, thumb) {
-		kpUpload.count++;
+	boxAdd : function(file, big, thumb, aid) {
 		var img = document.createElement("img");
 		var div = $('<div class="d_img"></div>').append(img);
-		var inps = '<input name="images['+kpUpload.count+'][big]" value="'+big+'" type="hidden" />';
-			inps += '<input name="images['+kpUpload.count+'][thumb]" value="'+thumb+'" type="hidden" />';
-			inps += '<textarea name="images['+kpUpload.count+'][content]" placeholder="请输入描述"></textarea>';
-		var d_li = $('<div class="d_li"><div class="d_txt">'+inps+'</div></div>').prepend(div);
+		var inps = '<input name="images['+aid+'][big]" value="'+big+'" type="hidden" />';
+			inps += '<input name="images['+aid+'][thumb]" value="'+thumb+'" type="hidden" />';
+			inps += '<input name="images['+aid+'][aid]" value="'+aid+'" type="hidden" />'; // 用来删除时使用
+			inps += '<textarea name="images['+aid+'][content]" placeholder="请输入描述"></textarea>';
+		var d_li = $('<div class="d_li"><div class="d_txt">'+inps+'</div><div class="d_del" aid="'+aid+'">删除</div></div>').prepend(div);
 		$("#tw_imgup").before(d_li);
 
+		$("#tw_dropbox").kpdragsort(); // 重新绑定拖拽事件
+		setdelImg(); // 重新绑定删除事件
+
 		autoSave(); // 发布时会自动保存上传的图集
+		editSaveImg(); // 在编辑时，保存一下
 
 		if(typeof file == "object") {
 			var reader = new FileReader();
@@ -317,7 +328,7 @@ var kpUpload = {
 					var data = toJson(e.target.response);
 
 					if(data.state == "SUCCESS") {
-						kpUpload.boxAdd("../"+data.thumb, data.path, data.thumb);
+						kpUpload.boxAdd("../"+data.thumb, data.path, data.thumb, data.aid);
 						setTimeout(function(){ upload(i+1); }, 50);
 
 						if(i == files.length - 1) {
@@ -333,6 +344,92 @@ var kpUpload = {
 	}
 };
 
+//拖拽插件
+$.fn.kpdragsort = function(options) {
+	var container = this;
+
+	$(container).children(".d_li").off("mousedown").mousedown(function(e) {
+		if(e.which != 1 || $(e.target).is("input, textarea, a") || window.kp_only) return; // 排除非左击和其他元素
+		e.preventDefault(); // 阻止选中文本
+
+		var x = e.pageX;
+		var y = e.pageY;
+		var _this = $(this); // 点击选中块
+		var w = _this.width();
+		var h = _this.height();
+		var w2 = w/2;
+		var h2 = h/2;
+		var p = _this.position();
+		var left = p.left;
+		var top = p.top;
+		var sTop = $(".p:first").scrollTop();
+		window.kp_only = true;
+
+		// 添加虚线框
+		_this.before('<div id="kp_widget_holder"></div>');
+		var wid = $("#kp_widget_holder");
+		wid.css({"border":"1px dashed #ccc", "float":"left", "width":"120px", "height":"120px", "margin":"5px 0 0 5px"});
+
+		// 保持原来的宽高
+		_this.css({"width":w, "height":h, "position":"absolute", opacity: 0.8, "z-index": 999, "left":left, "top":top});
+
+		// 绑定mousemove事件
+		$(document).mousemove(function(e) {
+			e.preventDefault();
+
+			// 移动选中块
+			var l = left + e.pageX - x;
+			var t = top + ($(".p:first").scrollTop() - sTop) + e.pageY - y;
+			_this.css({"left":l, "top":t});
+
+			// 选中块的中心坐标
+			var ml = l+w2;
+			var mt = t+h2;
+
+			// 遍历所有块的坐标
+			$(container).children(".d_li").not(_this).not(wid).each(function(i) {
+				var obj = $(this);
+				var p = obj.position();
+				var a1 = p.left;
+				var a2 = p.left + obj.width();
+				var a3 = p.top;
+				var a4 = p.top + obj.height();
+
+				// 移动虚线框
+				if(a1 < ml && ml < a2 && a3 < mt && mt < a4) {
+					if(!obj.next("#kp_widget_holder").length) {
+						wid.insertAfter(this);
+					}else{
+						wid.insertBefore(this);
+					}
+					return;
+				}
+			});
+		});
+
+		// 绑定mouseup事件
+		var _mouseup = function() {
+			$(document).off('mouseup').off('mousemove');
+
+			// 拖拽回位，并删除虚线框
+			var p = wid.position();
+			_this.animate({"left":p.left, "top":p.top}, 100, function() {
+				_this.removeAttr("style");
+				wid.replaceWith(_this);
+
+				setImgBut(); // 重新定位上传按钮
+				autoSave(); // 在发表时，保存一下
+				editSaveImg(); // 在编辑时，保存一下
+
+				window.kp_only = null;
+				if(parent) parent.document.onmouseup = null;
+			});
+		};
+		$(document).mouseup(_mouseup);
+		if(parent) parent.document.onmouseup = _mouseup;
+	});
+}
+
 // 设置显示缩略图 (iframe使用)
 function setDisplayPic(path, thumb) {
 	$("#tw_pic_val").val(thumb);
@@ -341,9 +438,9 @@ function setDisplayPic(path, thumb) {
 }
 
 // 图集中插入新图 (iframe使用)
-function setDisplayImg(path, thumb) {
+function setDisplayImg(path, thumb, aid) {
 	$("#tw_img_upfile").hide();
-	kpUpload.boxAdd("../"+thumb, path, thumb);
+	kpUpload.boxAdd("../"+thumb, path, thumb, aid);
 	setImgBut(); // 重新定位上传按钮
 }
 
@@ -375,10 +472,34 @@ function setImgBut() {
 	}).show().css({"position":"absolute", "top":p.top, "left":p.left, "width":obj.outerWidth(true), "height":obj.outerHeight(true)});
 }
 
+// 删除单张图集的图片
+function setdelImg() {
+	$(".d_del").off("mousedown").mousedown(function(e) {
+		e.stopPropagation(); // 清除事件冒泡，以免影响拖拽插件
+	}).off("click").click(function() {
+		var _me = $(this);
+		var aid = _me.attr("aid");
+		twAjax.post("index.php?u=photo-del_attach-ajax-1", {"aid":aid}, function(html) {
+			// var data = toJson(html);
+
+			// 历史遗留问题，以前是没有aid的，会导致删除失败
+			// if(data.err == 0) {
+				_me.parent().remove();
+			// }
+
+			setImgBut(); // 重新定位上传按钮
+			autoSave(); // 在发表时，保存一下
+			editSaveImg(); // 在编辑时，保存一下
+		});
+	});
+}
+
 // 定位按钮和加载图集上传
 setPicBut();
 setImgBut();
 kpUpload.init();
+$("#tw_dropbox").kpdragsort();
+setdelImg();
 
 // 触发自动保存
 $("#photo_set input, #photo_set textarea, #photo_set select").change(autoSave);

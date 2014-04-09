@@ -432,7 +432,6 @@ class photo_control extends admin_control {
 				$categorys_old['count'] = max(0, $categorys_old['count']-1);
 				$this->category->update($categorys_old);
 
-
 				// 新的分类内容数加1
 				$categorys['count']++;
 				$this->category->update($categorys);
@@ -581,6 +580,46 @@ class photo_control extends admin_control {
 			}
 		}else{
 			E(1, '参数不能为空！');
+		}
+	}
+
+	// 删除单个附件
+	public function del_attach() {
+		// hook admin_photo_control_del_attach_before.php
+
+		$aid = (int) R('aid', 'P');
+
+		empty($aid) && E(1, 'AID不能为空！');
+
+		// hook admin_photo_control_del_attach_after.php
+
+		$this->cms_content_attach->table = 'cms_photo_attach';
+		if($this->cms_content_attach->xdelete($aid)) {
+			E(0, '删除成功！');
+		}else{
+			E(1, '删除失败！');
+		}
+	}
+
+	// 单独保存图集
+	public function save_images() {
+		$id = intval(R('id', 'P'));
+		$images = (array)R('images', 'P');
+
+		empty($id) && E(1, 'ID不能为空！');
+		empty($images) && E(1, '亲，您的图集忘上传图片了！');
+
+		// 写入内容数据表
+		$this->cms_content_data->table = 'cms_photo_data';
+		$data = $this->cms_content_data->read($id);
+		if(empty($data)) {
+			E(1, '内容不存在！');
+		}
+		$data['images'] = json_encode($images);
+		if($this->cms_content_data->set($id, $data)) {
+			E(0, '保存成功！');
+		}else{
+			E(1, '写入内容数据表出错！');
 		}
 	}
 
