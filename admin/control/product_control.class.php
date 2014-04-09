@@ -604,6 +604,28 @@ class product_control extends admin_control {
 		}
 	}
 
+	// 单独保存图集
+	public function save_images() {
+		$id = intval(R('id', 'P'));
+		$images = (array)R('images', 'P');
+
+		empty($id) && E(1, 'ID不能为空！');
+		empty($images) && E(1, '亲，您的产品忘上传图片了！');
+
+		// 写入内容数据表
+		$this->cms_content_data->table = 'cms_product_data';
+		$data = $this->cms_content_data->read($id);
+		if(empty($data)) {
+			E(1, '内容不存在！');
+		}
+		$data['images'] = json_encode($images);
+		if($this->cms_content_data->set($id, $data)) {
+			E(0, '保存成功！');
+		}else{
+			E(1, '写入内容数据表出错！');
+		}
+	}
+
 	// 自动保存产品
 	public function auto_save() {
 		$this->kv->set('auto_save_product_uid_'.$this->_user['uid'], $_POST) ? E(0, '自动保存成功！') : E(1, '自动保存失败！');
