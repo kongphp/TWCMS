@@ -434,7 +434,6 @@ class product_control extends admin_control {
 				$categorys_old['count'] = max(0, $categorys_old['count']-1);
 				$this->category->update($categorys_old);
 
-
 				// 新的分类内容数加1
 				$categorys['count']++;
 				$this->category->update($categorys);
