@@ -339,7 +339,7 @@ class model{
 			}else{
 				$keys = $this->find_fetch_key($where);
 				foreach($keys as $key) {
-					$this->db_cache_delete($key);
+					$this->cache_db_delete($key);
 				}
 			}
 		}
