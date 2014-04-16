@@ -474,11 +474,11 @@ class db_mysql implements db_interface {
 		}
 
 		if(!$result && $isthrow) {
-			if(DEBUG) {
-				throw new Exception('MySQL Query Error: <b>'.$sql.'</b>. '.mysql_error());
-			}else{
-				throw new Exception('MySQL Query Error: <b>'.str_replace($this->tablepre, '***', $sql).'</b>. '.mysql_error()); // 不确定 mysql_error 会不会泄露敏感！
-			}
+			$s = 'MySQL Query Error: <b>'.$sql.'</b>. '.mysql_error();
+
+			if(defined('DEBUG') && !DEBUG) $s = str_replace($this->tablepre, '***', $s); // 防止泄露敏感信息
+
+			throw new Exception($s);
 		}
 		$_ENV['_sqlnum']++;
 		return $result;
