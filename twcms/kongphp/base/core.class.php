@@ -55,14 +55,14 @@ class core{
 	 * 清空输出缓冲区
 	 */
 	public static function ob_clean() {
-		$_ENV['_config']['gzip'] && ob_clean();
+		!empty($_ENV['_isgzip']) && ob_clean();
 	}
 
 	/**
 	 * 清空缓冲区并关闭输出缓冲
 	 */
 	public static function ob_end_clean() {
-		$_ENV['_config']['gzip'] && ob_end_clean();
+		!empty($_ENV['_isgzip']) && ob_end_clean();
 	}
 
 	/**

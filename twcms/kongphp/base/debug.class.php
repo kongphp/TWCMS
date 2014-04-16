@@ -92,7 +92,7 @@ class debug{
 
 		// 第3步根据情况输出错误信息
 		try{
-			ob_clean();
+			core::ob_clean();
 			if(R('ajax', 'R')) {
 				if(DEBUG) {
 					$kp_error = "$message File: $file [$line]<br><br>".str_replace("\n", '<br>', $e->getTraceAsString());
@@ -164,7 +164,7 @@ class debug{
 	public static function shutdown_handler() {
 		if(empty($_ENV['_exception'])) {
 			if($e = error_get_last()) {
-				ob_clean();
+				core::ob_clean();
 				$message = $e['message'];
 				$file = $e['file'];
 				$line = $e['line'];
