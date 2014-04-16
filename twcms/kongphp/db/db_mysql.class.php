@@ -477,7 +477,7 @@ class db_mysql implements db_interface {
 			if(DEBUG) {
 				throw new Exception('MySQL Query Error: <b>'.$sql.'</b>. '.mysql_error());
 			}else{
-				throw new Exception('MySQL Query Error: <b>'.str_replace($this->tablepre, '***', $sql).'</b>');
+				throw new Exception('MySQL Query Error: <b>'.str_replace($this->tablepre, '***', $sql).'</b>. '.mysql_error()); // 不确定 mysql_error 会不会泄露敏感！
 			}
 		}
 		$_ENV['_sqlnum']++;
