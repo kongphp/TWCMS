@@ -76,6 +76,7 @@ $("#adm_user").focusin(function(){
 	}
 }).focusout(function(){
 	document.onkeyup = null;
+	Check.adm_user();
 });
 
 // 检测创始人密码是否填写正确
@@ -85,6 +86,7 @@ $("#adm_pass").focusin(function(){
 	}
 }).focusout(function(){
 	document.onkeyup = null;
+	Check.adm_pass();
 });
 
 // 阻止提交
