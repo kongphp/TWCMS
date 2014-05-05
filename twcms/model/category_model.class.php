@@ -15,7 +15,7 @@ class category extends model {
 		$this->maxid = 'cid';		// 自增字段
 	}
 
-	// 暂时用些方法解决获取 cfg 值
+	// 暂时用此方法解决获取 cfg 值
 	function __get($var) {
 		if($var == 'cfg') {
 			return $this->cfg = $this->runtime->xget();
