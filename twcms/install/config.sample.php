@@ -58,6 +58,6 @@ $_ENV['_config'] = array(
 	'admin_static' => '../static/',
 
 	'url_suffix' => '.html',
-	'version' => '2.0.2',			// 版本号
-	'release' => '20140409',		// 发布日期
+	'version' => '2.0.3',			// 版本号
+	'release' => '20140505',		// 发布日期
 );
