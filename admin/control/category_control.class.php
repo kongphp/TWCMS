@@ -174,8 +174,11 @@ class category_control extends admin_control {
 	// 修改分类排序
 	public function edit_orderby() {
 		if(!empty($_POST)) {
-			$post['cid'] = intval(R('cid', 'P'));
-			$post['orderby'] = intval(R('orderby', 'P'));
+			$cid = intval(R('cid', 'P'));
+			$orderby = intval(R('orderby', 'P'));
+
+			$post = $this->category->read($cid);
+			$post['orderby'] = $orderby;
 
 			if(!$this->category->update($post)) {
 				E(1, '修改分类排序出错');

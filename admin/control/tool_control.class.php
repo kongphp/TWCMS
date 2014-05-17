@@ -30,9 +30,10 @@ class tool_control extends admin_control {
 					if($row['mid'] == 1) continue;
 
 					$this->cms_content->table = 'cms_'.(isset($tables[$row['mid']]) ? $tables[$row['mid']] : 'article');
-					$count = $this->cms_content->find_count(array('cid'=>$row['cid']));
 
-					$this->category->update(array('cid'=>$row['cid'], 'count'=>$count));
+					$catelist = $this->category->read($row['cid']);
+					$catelist['count'] = $this->cms_content->find_count(array('cid'=>$row['cid']));
+					$this->category->update($catelist);
 				}
 			}
 
