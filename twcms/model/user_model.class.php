@@ -16,7 +16,7 @@ class user extends model {
 	// 根据用户名获取用户数据
 	public function get_user_by_username($username) {
 		$data = $this->find_fetch(array('username'=>$username), array(), 0, 1);
-		return $data ? current($data) : array();
+		return $data ? array_pop($data) : array();
 	}
 
 	// 检查用户名是否合格
