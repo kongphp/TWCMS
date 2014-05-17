@@ -111,7 +111,7 @@ class cache_file implements cache_interface{
 		$dh = opendir(RUNTIME_PATH.'cache_file/');
 		for ($i=0; $i < 2000 && ($file = readdir($dh)); $i++) {
 			if($file == '.' || $file == '..') continue;
-			try { unlink(RUNTIME_PATH."cache_file/$file.php"); } catch (Exception $e) { }
+			try { unlink(RUNTIME_PATH."cache_file/$file"); } catch (Exception $e) { }
 		}
 		closedir($dh);
 		return TRUE;
