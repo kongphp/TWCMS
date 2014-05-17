@@ -94,6 +94,7 @@ class comment_control extends control{
 
 		$this->cms_content_comment_sort->table = 'cms_'.$cates['table'].'_comment_sort';
 		$ret = $this->cms_content_comment_sort->set($id, array(
+			'id' => $id,
 			'cid' => $cid,
 			'comments' => $data['comments'],
 			'lastdate' => $_ENV['_time'],
