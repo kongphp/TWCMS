@@ -493,7 +493,10 @@ class model{
 	 * @return boot
 	 */
 	public function cache_db_set($key, $data, $life = 0) {
-		$this->cache_conf['enable'] && $this->cache->set($key, $data, $life);
+		if($this->cache_conf['enable']) {
+			$this->cache_conf['l2_cache'] === 1 && $this->cache->l2_cache_expired();
+			$this->cache->set($key, $data, $life);
+		}
 		return $this->db->set($key, $data);
 	}
 
@@ -505,7 +508,10 @@ class model{
 	 * @return boot
 	 */
 	public function cache_db_update($key, $data, $life = 0) {
-		$this->cache_conf['enable'] && $this->cache->update($key, $data, $life);
+		if($this->cache_conf['enable']) {
+			$this->cache_conf['l2_cache'] === 1 && $this->cache->l2_cache_expired();
+			$this->cache->update($key, $data, $life);
+		}
 		return $this->db->update($key, $data);
 	}
 
@@ -515,7 +521,10 @@ class model{
 	 * @return boot
 	 */
 	public function cache_db_delete($key) {
-		$this->cache_conf['enable'] && $this->cache->delete($key);
+		if($this->cache_conf['enable']) {
+			$this->cache_conf['l2_cache'] === 1 && $this->cache->l2_cache_expired();
+			$this->cache->delete($key);
+		}
 		return $this->db->delete($key);
 	}
 
@@ -524,7 +533,10 @@ class model{
 	 * @return boot
 	 */
 	public function cache_db_truncate() {
-		$this->cache_conf['enable'] && $this->cache->truncate($this->table);
+		if($this->cache_conf['enable']) {
+			$this->cache_conf['l2_cache'] === 1 && $this->cache->l2_cache_expired();
+			$this->cache->truncate($this->table);
+		}
 		return $this->db->truncate($this->table);
 	}
 
