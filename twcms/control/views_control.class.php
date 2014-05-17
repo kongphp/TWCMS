@@ -19,11 +19,12 @@ class views_control extends control{
 		$mviews = &$this->models->cms_content_views;
 		$mviews->table = 'cms_'.$_var['table'].'_views';
 
-		$data = $mviews->get($id);
+		$key = $mviews->arr2key($id);
+		$data = $mviews->db->get($key);
 		if(!$data) $data = array('id'=>$id, 'cid'=>$cid, 'views'=>0);
 		$data['views']++;
 		echo 'var views='.$data['views'].';';
-		$mviews->set($id, $data);
+		$mviews->db->set($key, $data);
 		exit;
 	}
 }
