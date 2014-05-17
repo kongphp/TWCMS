@@ -612,7 +612,8 @@ class model{
 		if($this->cache_conf['enable'] && $this->cache_conf['l2_cache'] === 1) {
 			$key = $table.'_'.md5(serialize(array($pri, $where, $order, $start, $limit)));
 			$keys = $this->cache->l2_cache_get($key);
-			if(empty($keys)) {
+			// 返回 FALSE 时表示缓存不存在, 这里非常重要，需要 === 判断，不能换成别的值。
+			if($keys === FALSE) {
 				$keys = $this->db->find_fetch_key($table, $pri, $where, $order, $start, $limit);
 				$this->cache->l2_cache_set($key, $keys, $life);
 			}
