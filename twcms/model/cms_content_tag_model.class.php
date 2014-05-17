@@ -30,6 +30,12 @@ class cms_content_tag extends model {
 		}
 	}
 
+	// 根据标签名称获取标签
+	public function get_tag_by_name($name) {
+		$taglist = $this->find_fetch(array('name'=>$name), array(), 0, 1);
+		return $taglist ? array_pop($taglist) : array();
+	}
+
 	// 标签关联删除 (需要删除三个表: cms_content_tag cms_content_tag_data cms_content)
 	public function xdelete($table, $tagid) {
 		$this->table = 'cms_'.$table.'_tag';
