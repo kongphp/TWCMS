@@ -446,7 +446,8 @@ class model{
 	public function cache_db_get($key) {
 		if($this->cache_conf['enable']) {
 			$data = $this->cache->get($key);
-			if(empty($data)) {
+			// 返回 FALSE 时表示缓存不存在, 这里非常重要，需要 === 判断，不能换成别的值。
+			if($data === FALSE) {
 				$data = $this->db->get($key);
 				$this->cache->set($key, $data);
 			}
@@ -471,7 +472,8 @@ class model{
 				}
 			}else{
 				foreach($data as $k=>&$v) {
-					if($v === FALSE) {	// 等于 FALSE 时表示缓存不存在
+					// 返回 FALSE 时表示缓存不存在, 这里非常重要，需要 === 判断，不能换成别的值。
+					if($v === FALSE) {
 						$v = $this->db->get($k);
 						$this->cache->set($k, $v);
 					}
