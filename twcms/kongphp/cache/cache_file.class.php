@@ -25,8 +25,7 @@ class cache_file implements cache_interface{
 	public function multi_get($keys) {
 		$data = array();
 		foreach($keys as $k) {
-			$arr = $this->get($k);
-			$data[$k] = $arr;
+			$data[$k] = $this->get($k);
 		}
 		return $data;
 	}
@@ -51,7 +50,11 @@ class cache_file implements cache_interface{
 	 */
 	public function update($key, $data, $life = 0) {
 		$arr = $this->get($key);
-		!empty($arr) && is_array($arr) && is_array($data) && $data = array_merge($arr, $data);
+
+		// 缓存不存在时，更新失败
+		if($arr === FALSE) return FALSE;
+
+		is_array($arr) && is_array($data) && $data = array_merge($arr, $data);
 		return $this->set($key, $data, $life);
 	}
 
@@ -144,7 +147,10 @@ class cache_file implements cache_interface{
 		return $this->write($l2_key, $data);	// 把数据写入缓存
 	}
 
-	// 让二级缓存过期
+	/**
+	 * 设置二级缓存过期
+	 * @return boot
+	 */
 	public function l2_cache_expired() {
 		try {
 			return unlink(RUNTIME_PATH.'cache_file/l2_cache_time.php');
@@ -153,7 +159,12 @@ class cache_file implements cache_interface{
 		}
 	}
 
-	// 写入缓存文件
+	/**
+	 * 写入缓存文件
+	 * @param string $key	键名
+	 * @param array $data	数据
+	 * @return boot
+	 */
 	public function write($key, $data) {
 		is_dir(RUNTIME_PATH.'cache_file/') OR mkdir(RUNTIME_PATH.'cache_file/', 0777, 1);
 		return file_put_contents(RUNTIME_PATH."cache_file/$key.php", '<?php return '.var_export($data, 1).';') ? TRUE : FALSE;
