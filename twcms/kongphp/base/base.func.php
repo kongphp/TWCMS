@@ -108,7 +108,7 @@ function _htmls(&$var) {
 	if(is_array($var)) {
 		foreach($var as $k=>&$v) _htmls($v);
 	}else{
-		$var = htmlspecialchars($var);
+		$var = str_replace(array('&', '"', '<', '>'), array('&amp;', '&quot;', '&lt;', '&gt;'), $var);
 	}
 }
 
