@@ -122,6 +122,8 @@ class category_control extends admin_control {
 			}
 
 			// 删除缓存
+			$this->runtime->delete('cfg');
+			$this->category->delete_cache();
 			$this->runtime->truncate();
 
 			if(empty($msg)) {
@@ -162,6 +164,8 @@ class category_control extends admin_control {
 		$this->kv->set('navigate', $navigate);
 
 		// 删除缓存
+		$this->runtime->delete('cfg');
+		$this->category->delete_cache();
 		$this->runtime->truncate();
 
 		E(0, '删除完成');
