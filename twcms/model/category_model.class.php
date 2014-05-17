@@ -174,7 +174,7 @@ class category extends model {
 		$arr = $this->runtime->xget($k);
 		if(empty($arr)) {
 			$arr = $this->get_cids_by_upid(0, $mid);
-			$this->runtime->set($k, $arr);
+			$arr && $this->runtime->set($k, $arr);
 		}
 		$this->data[$k] = $arr;
 		return $arr;
@@ -285,7 +285,7 @@ class category extends model {
 		}else{
 			$arr = $this->get_category();
 			if(empty($arr)) return 2;
-			
+
 			// 二级数组
 			$arr = array_shift($arr);
 			$arr = array_shift($arr);
