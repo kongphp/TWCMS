@@ -10,8 +10,8 @@ class tool_control extends admin_control {
 	// 清除缓存
 	public function index() {
 		if(!empty($_POST)) {
-			!empty($_POST['dbcache']) && $this->runtime->truncate();
-			!empty($_POST['filecache']) && $this->un_filecache();
+			!empty($_POST['runtime_db']) && $this->runtime->truncate();
+			!empty($_POST['runtime_file']) && $this->un_filecache();
 			E(0, '清除完成！');
 		}
 

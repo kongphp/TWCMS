@@ -4,8 +4,8 @@
 		<div class="cc">
 			<div class="tb_t">清除缓存</div>
 			<ul class="marginbot">
-				<li><label><input type="checkbox" checked="checked" id="dbcache"> <span title="清空 runtime 数据表">数据库缓存</span></label></li>
-				<li><label><input type="checkbox" checked="checked" id="filecache"> <span title="删除 runtime 目录中的文件缓存">文件缓存</span></label></li>
+				<li><label><input type="checkbox" checked="checked" id="runtime_db"> <span title="清空 runtime 数据表">清空 runtime 数据表</span></label></li>
+				<li><label><input type="checkbox" checked="checked" id="runtime_file"> <span title="清空 runtime 目录中的编译文件">清空编译文件</span></label></li>
 			</ul>
 			<div class="tb_b" style="padding-left:0"><input type="submit" value="确定" class="but1" /></div>
 		</div>
@@ -13,9 +13,9 @@
 </div>
 <script type="text/javascript">
 $(".but1").click(function(){
-	var v1 = $("#dbcache")[0].checked ? 1 : 0;
-	var v2 = $("#filecache")[0].checked ? 1 : 0;
-	twAjax.postd("index.php?u=tool-index-ajax-1", {"dbcache":v1, "filecache":v2}, function(data){
+	var v1 = $("#runtime_db")[0].checked ? 1 : 0;
+	var v2 = $("#runtime_file")[0].checked ? 1 : 0;
+	twAjax.postd("index.php?u=tool-index-ajax-1", {"runtime_db":v1, "runtime_file":v2}, function(data){
 		twAjax.alert(data);
 	});
 });
