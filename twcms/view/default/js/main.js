@@ -69,6 +69,10 @@ $.cookie = function(name, value, options) {
 };
 
 $(function() {
+	// 设置搜索下拉框选项
+	var mid_v = $("select[name='mid']").attr("value");
+	$("select[name='mid']").val(mid_v ? mid_v : 2);
+
 	// 导航JS效果
 	(function() {
 		if($(".n_c dl").length < 1) return false;

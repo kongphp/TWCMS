@@ -6,8 +6,10 @@
 		<div class="search">
 			<form id="search_form" method="get" action="{$tw[webdir]}index.php">
 				<input type="hidden" name="u" value="search-index" />
-				<select name="mid" class="s_set">
-					{loop:$tw[mod_name] $v $k}<option value="{$k}"{if:isset($_GET['mid']) && $_GET['mid']==$k} selected="selected"{/if}>{$v}</option>{/loop}
+				<select name="mid" value="{$_GET[mid]}" class="s_set">
+					<option value="2">文章</option>
+					<option value="3">产品</option>
+					<option value="4">图集</option>
 				</select>
 				<input class="s_tit" type="text" name="keyword" value="{$keyword}" />
 				<input class="s_sub" type="submit" value="" />
