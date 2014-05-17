@@ -24,9 +24,8 @@ class tag_control extends control{
 		$name = substr(urldecode($name), 0, 30);
 		$name = safe_str($name); // 牺牲一点性能
 		$this->cms_content_tag->table = 'cms_'.$table.'_tag';
-		$tags = $this->cms_content_tag->find_fetch(array('name'=>$name), array(), 0, 1);
+		$tags = $this->cms_content_tag->get_tag_by_name($name);
 		empty($tags) && core::error404();
-		$tags = current($tags);
 
 		$this->_cfg['titles'] = $tags['name'];
 		$this->_var['topcid'] = -1;

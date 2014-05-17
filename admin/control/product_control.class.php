@@ -152,10 +152,8 @@ class product_control extends admin_control {
 			for($i=0; isset($tags_arr[$i]) && $i<5; $i++) {
 				$name = trim($tags_arr[$i]);
 				if($name) {
-					$tagdata = $this->cms_content_tag->find_fetch(array('name'=>$name), array(), 0, 1);
-					if($tagdata) {
-						$tagdata = current($tagdata);
-					}else{
+					$tagdata = $this->cms_content_tag->get_tag_by_name($name);
+					if(!$tagdata) {
 						$tagid = $this->cms_content_tag->create(array('name'=>$name, 'count'=>0, 'content'=>''));
 						if(!$tagid) E(1, '写入标签表出错');
 						$tagdata = $this->cms_content_tag->get($tagid);
@@ -393,10 +391,8 @@ class product_control extends admin_control {
 			for($i=0; isset($tags_arr[$i]) && $i<5; $i++) {
 				$name = trim($tags_arr[$i]);
 				if($name) {
-					$tagdata = $this->cms_content_tag->find_fetch(array('name'=>$name), array(), 0, 1);
-					if($tagdata) {
-						$tagdata = current($tagdata);
-					}else{
+					$tagdata = $this->cms_content_tag->get_tag_by_name($name);
+					if(!$tagdata) {
 						$tagid = $this->cms_content_tag->create(array('name'=>$name, 'count'=>0, 'content'=>''));
 						if(!$tagid) E(1, '写入标签表出错');
 						$tagdata = $this->cms_content_tag->get($tagid);
@@ -643,7 +639,7 @@ class product_control extends admin_control {
 	// 自动生成缩略图
 	private function auto_pic($table, $uid, $id = 0) {
 		$pic_arr = $this->cms_content_attach->find_fetch(array('id'=>$id, 'uid'=>$uid, 'isimage'=>1), array(), 0, 1);
-		$pic_arr = current($pic_arr);
+		$pic_arr = array_pop($pic_arr);
 		$cfg = $this->runtime->xget();
 		$path = 'upload/'.$table.'/'.$pic_arr['filepath'];
 		$pic = image::thumb_name($path);
