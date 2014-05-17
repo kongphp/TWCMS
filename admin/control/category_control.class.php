@@ -68,7 +68,7 @@ class category_control extends admin_control {
 
 				// 单页时
 				if($post['mid'] == 1) {
-					$pagedata = array('content' => R('page_content', 'P'));
+					$pagedata = array('cid' => $maxid, 'content' => R('page_content', 'P'));
 					if(!$this->cms_page->set($maxid, $pagedata)) {
 						E(1, '写入单页数据表出错');
 					}
@@ -114,7 +114,7 @@ class category_control extends admin_control {
 
 				// 单页时
 				if($post['mid'] == 1) {
-					$pagedata = array('content' => R('page_content', 'P'));
+					$pagedata = array('cid' => $post['cid'], 'content' => R('page_content', 'P'));
 					if(!$this->cms_page->set($post['cid'], $pagedata)) {
 						E(1, '写入单页数据表出错');
 					}

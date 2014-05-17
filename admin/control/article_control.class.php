@@ -211,19 +211,19 @@ class article_control extends admin_control {
 			}
 
 			// 写入全站唯一别名表
-			if($alias && !$this->only_alias->set($alias, array('mid' => $mid, 'cid' => $cid, 'id' => $id))) {
+			if($alias && !$this->only_alias->set($alias, array('alias' => $alias, 'mid' => $mid, 'cid' => $cid, 'id' => $id))) {
 				E(1, '写入全站唯一别名表出错');
 			}
 
 			// 写入内容数据表
 			$this->cms_content_data->table = 'cms_'.$table.'_data';
-			if(!$this->cms_content_data->set($id, array('content' => $contentstr))) {
+			if(!$this->cms_content_data->set($id, array('id' => $id, 'content' => $contentstr))) {
 				E(1, '写入内容数据表出错');
 			}
 
 			// 写入内容查看数表
 			$this->cms_content_views->table = 'cms_'.$table.'_views';
-			if(!$this->cms_content_views->set($id, array('cid' => $cid, 'views' => $views))) {
+			if(!$this->cms_content_views->set($id, array('id' => $id, 'cid' => $cid, 'views' => $views))) {
 				E(1, '写入内容查看数表出错');
 			}
 
@@ -237,13 +237,13 @@ class article_control extends admin_control {
 			// 写入内容属性标记表
 			$this->cms_content_flag->table = 'cms_'.$table.'_flag';
 			foreach($flags as $flag) {
-				if(!$this->cms_content_flag->set(array($flag, $id), array('cid'=>$cid))) {
+				if(!$this->cms_content_flag->set(array($flag, $id), array('flag' => $flag, 'id' => $id, 'cid'=>$cid))) {
 					E(1, '写入内容属性标记表出错');
 				}
 			}
 
 			// 如果内容含有图片附件，则标记图片属性
-			if($imagenum && !$this->cms_content_flag->set(array(0, $id), array('cid'=>$cid))) {
+			if($imagenum && !$this->cms_content_flag->set(array(0, $id), array('flag' => 0, 'id' => $id, 'cid'=>$cid))) {
 				E(1, '写入内容属性标记表出错');
 			}
 
@@ -251,7 +251,7 @@ class article_control extends admin_control {
 			$this->cms_content_tag_data->table = 'cms_'.$table.'_tag_data';
 			foreach($tagdatas as $tagdata) {
 				$this->cms_content_tag->update($tagdata);
-				$this->cms_content_tag_data->set(array($tagdata['tagid'], $id), array('id'=>$id));
+				$this->cms_content_tag_data->set(array($tagdata['tagid'], $id), array('tagid' => $tagdata['tagid'], 'id'=>$id));
 			}
 
 			// 更新用户发布的内容条数
@@ -434,7 +434,7 @@ class article_control extends admin_control {
 			// 编辑时，别名有三种情况需要处理
 			if($alias && $alias_old && $alias != $alias_old) {
 				// 写入新别名
-				if(!$this->only_alias->set($alias, array('mid' => $mid, 'cid' => $cid, 'id' => $id))) {
+				if(!$this->only_alias->set($alias, array('alias' => $alias, 'mid' => $mid, 'cid' => $cid, 'id' => $id))) {
 					E(1, '写入全站唯一别名表出错');
 				}
 
@@ -444,7 +444,7 @@ class article_control extends admin_control {
 				}
 			}elseif($alias && empty($alias_old)) {
 				// 写入新别名
-				if(!$this->only_alias->set($alias, array('mid' => $mid, 'cid' => $cid, 'id' => $id))) {
+				if(!$this->only_alias->set($alias, array('alias' => $alias, 'mid' => $mid, 'cid' => $cid, 'id' => $id))) {
 					E(1, '写入全站唯一别名表出错');
 				}
 			}elseif(empty($alias) && $alias_old) {
@@ -481,27 +481,27 @@ class article_control extends admin_control {
 
 			// 写入内容数据表
 			$this->cms_content_data->table = 'cms_'.$table.'_data';
-			if(!$this->cms_content_data->set($id, array('content' => $contentstr))) {
+			if(!$this->cms_content_data->set($id, array('id' => $id, 'content' => $contentstr))) {
 				E(1, '写入内容数据表出错');
 			}
 
 			// 写入内容查看数表
 			$this->cms_content_views->table = 'cms_'.$table.'_views';
-			if(!$this->cms_content_views->set($id, array('cid' => $cid, 'views' => $views))) {
+			if(!$this->cms_content_views->set($id, array('id' => $id, 'cid' => $cid, 'views' => $views))) {
 				E(1, '写入内容查看数表出错');
 			}
 
 			// 写入内容属性标记表
 			$this->cms_content_flag->table = 'cms_'.$table.'_flag';
 			foreach($flags as $flag) {
-				if(!$this->cms_content_flag->set(array($flag, $id), array('cid'=>$cid))) {
+				if(!$this->cms_content_flag->set(array($flag, $id), array('flag' => $flag, 'id' => $id, 'cid'=>$cid))) {
 					E(1, '写入内容属性标记表出错');
 				}
 			}
 
 			// 如果内容含有图片附件，则标记图片属性，否则删除图片属性
 			if($imagenum) {
-				$this->cms_content_flag->set(array(0, $id), array('cid'=>$cid));
+				$this->cms_content_flag->set(array(0, $id), array('flag' => 0, 'id' => $id, 'cid'=>$cid));
 			}else{
 				$this->cms_content_flag->delete(0, $id);
 			}
@@ -516,7 +516,7 @@ class article_control extends admin_control {
 			$this->cms_content_tag_data->table = 'cms_'.$table.'_tag_data';
 			foreach($tagdatas as $tagdata) {
 				$this->cms_content_tag->update($tagdata);
-				$this->cms_content_tag_data->set(array($tagdata['tagid'], $id), array('id'=>$id));
+				$this->cms_content_tag_data->set(array($tagdata['tagid'], $id), array('tagid' => $tagdata['tagid'], 'id'=>$id));
 			}
 
 			// 删除不用的标签
