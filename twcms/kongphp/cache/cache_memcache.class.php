@@ -66,22 +66,15 @@ class cache_memcache implements cache_interface{
 			foreach ($keys as $i=>$k) {
 				$m_keys[$i] = $this->pre.$k;
 			}
-			$m_data = $this->memcache->getMulti($m_keys);
+
+			// 获取多条
+			$data = $this->memcache->getMulti($m_keys);
 			foreach($keys as $k) {
-				if(empty($m_data[$this->pre.$k])) {
-					$data[$k] = FALSE;
-				}else{
-					$data[$k] = $m_data[$this->pre.$k];
-				}
+				!isset($data[$k]) && $data[$k] = FALSE;
 			}
 		}else{
 			foreach($keys as $k) {
-				$arr = $this->memcache->get($this->pre.$k);
-				if(empty($arr)) {
-					$data[$k] = FALSE;
-				}else{
-					$data[$k] = $arr;
-				}
+				$data[$k] = $this->memcache->get($this->pre.$k);
 			}
 		}
 		return $data;
@@ -95,10 +88,6 @@ class cache_memcache implements cache_interface{
 	 * @return bool
 	 */
 	public function set($key, $data, $life = 0) {
-		// 二级缓存开启时，写入最新微秒时间
-		if($this->conf['l2_cache'] === 1) {
-			$this->memcache->delete($this->pre.'_l2_cache_time');
-		}
 		return $this->memcache->set($this->pre.$key, $data, 0, $life);
 	}
 
@@ -112,11 +101,12 @@ class cache_memcache implements cache_interface{
 	public function update($key, $data, $life = 0) {
 		$key = $this->pre.$key;
 		$arr = $this->get($key);
-		if($arr !== FALSE) {
-			is_array($arr) && is_array($data) && $arr = array_merge($arr, $data);
-			return $this->set($key, $arr, $life);
-		}
-		return FALSE;
+
+		// 缓存不存在时，更新失败
+		if($arr === FALSE) return FALSE;
+
+		is_array($arr) && is_array($data) && $data = array_merge($arr, $data);
+		return $this->set($key, $data, $life);
 	}
 
 	/**
@@ -125,10 +115,6 @@ class cache_memcache implements cache_interface{
 	 * @return bool
 	 */
 	public function delete($key) {
-		// 二级缓存开启时，写入最新微秒时间
-		if($this->conf['l2_cache'] === 1) {
-			$this->memcache->delete($this->pre.'_l2_cache_time');
-		}
 		return $this->memcache->delete($this->pre.$key);
 	}
 
@@ -139,7 +125,7 @@ class cache_memcache implements cache_interface{
 	 * @return int
 	 */
 	public function maxid($table, $val = FALSE) {
-		$key = $table.'-Auto_increment';
+		$key = $table.'-maxid';
 		if($val === FALSE) {
 			return intval($this->get($key));
 		}else{
@@ -155,7 +141,7 @@ class cache_memcache implements cache_interface{
 	 * @return int
 	 */
 	public function count($table, $val = FALSE) {
-		$key = $table.'-Rows';
+		$key = $table.'-count';
 		if($val === FALSE) {
 			return intval($this->get($key));
 		}else{
@@ -200,6 +186,15 @@ class cache_memcache implements cache_interface{
 		}
 		$this->memcache->set($this->pre.$l2_key.'_time', $l2_cache_time, 0, $life);	// 把最后更新数据微秒时间写入缓存
 		return $this->memcache->set($this->pre.$l2_key, $keys, 0, $life);	// 把数据写入缓存
+	}
+
+	/**
+	 * 设置二级缓存过期
+	 * @return boot
+	 */
+	public function l2_cache_expired() {
+		return $this->memcache->delete($this->pre.'_l2_cache_time');
+
 	}
 }
 ?>
