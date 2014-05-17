@@ -285,9 +285,10 @@ class category extends model {
 		}else{
 			$arr = $this->get_category();
 			if(empty($arr)) return 2;
-
-			$arr = current($arr);
-			$arr = current($arr);
+			
+			// 二级数组
+			$arr = array_shift($arr);
+			$arr = array_shift($arr);
 		}
 		return $arr['mid'];
 	}
