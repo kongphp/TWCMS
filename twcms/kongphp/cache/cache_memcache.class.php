@@ -166,10 +166,9 @@ class cache_memcache implements cache_interface{
 
 	/**
 	 * 清空缓存
-	 * @param string $pre	前缀
 	 * @return boot
 	 */
-	public function truncate($pre = '') {
+	public function truncate() {
 		return $this->memcache->flush();
 	}
 

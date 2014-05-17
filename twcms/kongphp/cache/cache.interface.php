@@ -14,7 +14,7 @@ interface cache_interface {
 	public function delete($key);
 	public function maxid($table, $val = FALSE);
 	public function count($table, $val = FALSE);
-	public function truncate($pre = '');
+	public function truncate();
 
 	public function l2_cache_get($l2_key);
 	public function l2_cache_set($l2_key, $keys, $life = 0);
