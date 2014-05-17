@@ -67,7 +67,8 @@ class db_mysql implements db_interface {
 	public function get($key) {
 		list($table, $keyarr, $keystr) = $this->key2arr($key);
 		$query = $this->query("SELECT * FROM {$this->tablepre}$table WHERE $keystr LIMIT 1", $this->rlink);
-		return mysql_fetch_assoc($query);
+		$data = mysql_fetch_assoc($query);
+		return $data ? $data : array();
 	}
 
 	/**
