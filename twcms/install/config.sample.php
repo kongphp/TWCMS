@@ -39,10 +39,11 @@ $_ENV['_config'] = array(
 		*/
 	),
 
+	// 缓存服务器配置
 	'cache' => array(
-		'enable'=>0,
-		'l2_cache'=>1,
-		'type'=>'memcache',
+		'enable'=>0, 			// 是否启用缓存
+		'l2_cache'=>1, 			// 是否启用二级缓存
+		'type'=>'memcache', 	// 支持: memcache|file|apc|redis
 		'pre' => 'tw_',
 		'memcache'=>array (
 			'multi'=>1,
