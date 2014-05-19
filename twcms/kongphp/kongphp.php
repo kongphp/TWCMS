@@ -30,6 +30,9 @@ defined('RUNTIME_PATH') || define('RUNTIME_PATH', APP_PATH.'runtime/');	//运行
 defined('RUNTIME_MODEL') || define('RUNTIME_MODEL', RUNTIME_PATH.APP_NAME.'_model/');	//模型缓存目录
 defined('RUNTIME_CONTROL') || define('RUNTIME_CONTROL', RUNTIME_PATH.APP_NAME.'_control/');	//控制器缓存目录
 
+// 高速写入数据应用中，开启以后，可保证单台服务器的 maxid 唯一。
+defined('KONG_MAXID_SAFE') || define('KONG_MAXID_SAFE', FALSE);
+
 include CONFIG_PATH.'config.inc.php';
 
 if(DEBUG) {

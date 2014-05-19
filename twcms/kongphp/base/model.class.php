@@ -264,7 +264,21 @@ class model{
 	 * @return int	返回最大ID
 	 */
 	public function maxid($val = FALSE) {
-		return $this->cache_db_maxid($val);
+		// KONG_MAXID_SAFE 确保 maxid 为唯一的值。
+		if(KONG_MAXID_SAFE && $val) {
+			$lockfile = RUNTIME_PATH.APP_NAME.$this->table.'.maxid.lock';
+			$fp = fopen($lockfile, 'w+');
+			$i = 0;
+			while(!flock($fp, LOCK_EX)) {
+				if(++$i > 10) throw new Exception('Database is too busy, get maxid failed.');
+				usleep(20000); // 20000 微秒 = 20 毫秒
+			}
+			$n = $this->cache_db_maxid($val);
+			fclose($fp); // 关闭句柄，自动解锁。
+			return $n;
+		}else{
+			return $this->cache_db_maxid($val);
+		}
 	}
 
 	/**
