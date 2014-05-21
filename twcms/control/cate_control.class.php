@@ -10,6 +10,8 @@ class cate_control extends control{
 	public $_cfg = array();	// 全站参数
 	public $_var = array();	// 分类页参数
 
+	// hook common_control_after.php
+
 	public function index() {
 		// hook cate_control_index_before.php
 

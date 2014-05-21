@@ -10,6 +10,8 @@ class tag_control extends control{
 	public $_cfg = array();	// 全站参数
 	public $_var = array();	// 标签页参数
 
+	// hook common_control_after.php
+
 	public function index() {
 		// hook tag_control_index_before.php
 

@@ -10,6 +10,8 @@ class index_control extends control{
 	public $_cfg = array();	// 全站参数
 	public $_var = array();	// 首页参数
 
+	// hook common_control_after.php
+
 	public function index() {
 		// hook index_control_index_before.php
 

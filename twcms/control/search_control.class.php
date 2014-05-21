@@ -10,6 +10,8 @@ class search_control extends control{
 	public $_cfg = array();	// 全站参数
 	public $_var = array();	// 搜索页参数
 
+	// hook common_control_after.php
+
 	public function index() {
 		// hook search_control_index_before.php
 
