@@ -64,10 +64,11 @@ class runtime extends model {
 					$this->data[$key] = &$cfg;
 					$this->set('cfg', $this->data[$key]);
 				}else{
-					if(!empty($this->_cfg['theme_mobile']) && is_mobile()) {
-						$cfg['theme'] = $this->_cfg['theme_mobile'];
+					$this->data[$key]['theme_mobile'] = 'default_black';
+					if(!empty($this->data[$key]['theme_mobile']) && is_mobile()) {
+						$this->data[$key]['theme'] = $this->data[$key]['theme_mobile'];
 					}
-					$cfg['tpl'] = $cfg['view'].$cfg['theme'].'/';
+					$this->data[$key]['tpl'] = $this->data[$key]['view'].$this->data[$key]['theme'].'/';
 				}
 			}
 		}
