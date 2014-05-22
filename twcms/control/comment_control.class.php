@@ -42,7 +42,7 @@ class comment_control extends control{
 
 		// hook comment_control_index_after.php
 
-		$_ENV['_theme'] = !empty($this->_cfg['theme_mobile']) && is_mobile() ? $this->_cfg['theme_mobile'] : $this->_cfg['theme'];
+		$_ENV['_theme'] = &$this->_cfg['theme'];
 		$this->display('comment.htm');
 	}
 
