@@ -37,31 +37,38 @@ class runtime extends model {
 	public function xget($key = 'cfg') {
 		if(!isset($this->data[$key])) {
 			$this->data[$key] = $this->get($key);
-			if($key == 'cfg' && empty($this->data[$key])) {
-				$cfg = (array)$this->kv->get('cfg');
+			if($key == 'cfg') {
+				if(empty($this->data[$key])) {
+					$cfg = (array)$this->kv->get('cfg');
 
-				empty($cfg['theme']) && $cfg['theme'] = 'default';
+					empty($cfg['theme']) && $cfg['theme'] = 'default';
 
-				$cfg['tpl'] = $cfg['webdir'].(defined('F_APP_NAME') ? F_APP_NAME : APP_NAME).'/view/'.$cfg['theme'].'/';
-				$cfg['webroot'] = 'http://'.$cfg['webdomain'];
-				$cfg['weburl'] = 'http://'.$cfg['webdomain'].$cfg['webdir'];
+					$cfg['view'] = $cfg['webdir'].(defined('F_APP_NAME') ? F_APP_NAME : APP_NAME).'/view/';
+					$cfg['webroot'] = 'http://'.$cfg['webdomain'];
+					$cfg['weburl'] = 'http://'.$cfg['webdomain'].$cfg['webdir'];
 
-				$table_arr = $this->models->get_table_arr();
-				$cfg['table_arr'] = $table_arr;
+					$table_arr = $this->models->get_table_arr();
+					$cfg['table_arr'] = $table_arr;
 
-				$mod_name = $this->models->get_name();
-				unset($mod_name[1]);
-				$cfg['mod_name'] = $mod_name;
+					$mod_name = $this->models->get_name();
+					unset($mod_name[1]);
+					$cfg['mod_name'] = $mod_name;
 
-				$categorys = $this->category->get_category_db();
-				$cate_arr = array();
-				foreach($categorys as $row) {
-					$cate_arr[$row['cid']] = $row['alias'];
+					$categorys = $this->category->get_category_db();
+					$cate_arr = array();
+					foreach($categorys as $row) {
+						$cate_arr[$row['cid']] = $row['alias'];
+					}
+					$cfg['cate_arr'] = $cate_arr;
+
+					$this->data[$key] = &$cfg;
+					$this->set('cfg', $this->data[$key]);
+				}else{
+					if(!empty($this->_cfg['theme_mobile']) && is_mobile()) {
+						$cfg['theme'] = $this->_cfg['theme_mobile'];
+					}
+					$cfg['tpl'] = $cfg['view'].$cfg['theme'].'/';
 				}
-				$cfg['cate_arr'] = $cate_arr;
-
-				$this->data[$key] = &$cfg;
-				$this->set('cfg', $this->data[$key]);
 			}
 		}
 		return $this->data[$key];
