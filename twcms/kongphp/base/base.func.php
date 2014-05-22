@@ -465,7 +465,7 @@ function pages($page, $maxpage, $url, $offset = 5, $lang = array('&#171;', '&#18
 // 判断是否为手机访问
 function is_mobile() {
 	$is_mobile = R($_ENV['_config']['cookie_pre'].'is_mobile', 'R');
-	if(isset($is_mobile)) return $is_mobile ? TRUE : FALSE;
+	if(isset($is_mobile)) return $is_mobile ? 1 : 0;
 
 	$mobile_agents = array(
 		'iphone','ipod','android','samsung','sony','meizu','ericsson','mot','htc','sgh','lg','sharp','sie-',
@@ -473,11 +473,11 @@ function is_mobile() {
 		'palm','operamini','operamobi','openwave','nexusone','cldc','midp','wap','mobile'
 	);
 
-	$is_mobile = FALSE;
+	$is_mobile = 0;
 	$browser = $_SERVER['HTTP_USER_AGENT'];
 	foreach($mobile_agents as $agent) {
-		if(stripos($browser, $agent) !== FALSE) {
-			$is_mobile = TRUE;
+		if(stripos($browser, $agent) !== 0) {
+			$is_mobile = 1;
 			break;
 		}
 	}
