@@ -42,7 +42,7 @@ class tag_control extends control{
 
 		// hook tag_control_index_after.php
 
-		$_ENV['_theme'] = &$this->_cfg['theme'];
+		$_ENV['_theme'] = !empty($this->_cfg['theme_mobile']) && is_mobile() ? $this->_cfg['theme_mobile'] : $this->_cfg['theme'];
 		$this->display('tag_list.htm');
 	}
 
@@ -61,7 +61,7 @@ class tag_control extends control{
 
 		// hook tag_control_top_after.php
 
-		$_ENV['_theme'] = &$this->_cfg['theme'];
+		$_ENV['_theme'] = !empty($this->_cfg['theme_mobile']) && is_mobile() ? $this->_cfg['theme_mobile'] : $this->_cfg['theme'];
 		$this->display('tag_top.htm');
 	}
 }
