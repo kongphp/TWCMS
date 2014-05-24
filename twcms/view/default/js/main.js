@@ -101,9 +101,11 @@ $(function() {
 	//搜索
 	(function(){
 		$("#search_form,#search_form2").submit(function(){
-			var mid = $(this).find("[name='mid']").val();
-			var keyword = $(this).find("[name='keyword']").val();
-			window.location.href = "index.php?search-index-mid-"+mid+"-keyword-"+encodeURIComponent(keyword);
+			var _me = $(this);
+			var mid = _me.find("[name='mid']").val();
+			var keyword = _me.find("[name='keyword']").val();
+			var action = _me.attr("action");
+			window.location.href = action+"?search-index-mid-"+mid+"-keyword-"+encodeURIComponent(keyword);
 			return false;
 		});
 	})();
