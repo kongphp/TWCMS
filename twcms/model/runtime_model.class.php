@@ -36,9 +36,9 @@ class runtime extends model {
 	// 读取
 	public function xget($key = 'cfg') {
 		if(!isset($this->data[$key])) {
-			$this->data[$key] = $this->get($key);
+			$cfg = $this->get($key);
 			if($key == 'cfg') {
-				if(empty($this->data[$key])) {
+				if(empty($cfg)) {
 					$cfg = (array)$this->kv->get('cfg');
 
 					empty($cfg['theme']) && $cfg['theme'] = 'default';
@@ -61,15 +61,15 @@ class runtime extends model {
 					}
 					$cfg['cate_arr'] = $cate_arr;
 
-					$this->data[$key] = &$cfg;
-					$this->set('cfg', $this->data[$key]);
-				}else{
-					if(!empty($this->data[$key]['theme_mobile']) && is_mobile()) {
-						$this->data[$key]['theme'] = $this->data[$key]['theme_mobile'];
-					}
-					$this->data[$key]['tpl'] = $this->data[$key]['view'].$this->data[$key]['theme'].'/';
+					$this->set('cfg', $cfg);
 				}
+
+				if(!empty($cfg['theme_mobile']) && is_mobile()) {
+					$cfg['theme'] = $cfg['theme_mobile'];
+				}
+				$cfg['tpl'] = $cfg['view'].$cfg['theme'].'/';
 			}
+			$this->data[$key] = $cfg;
 		}
 		return $this->data[$key];
 	}
