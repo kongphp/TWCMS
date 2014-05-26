@@ -106,7 +106,7 @@ class parseurl_control extends control{
 			}
 
 			// 标签排行页 (用的少)
-			if($uri == 'tag_top' && $uri == 'tag_top/') {
+			if($uri == 'tag_top' || $uri == 'tag_top/') {
 				$_GET['control'] = 'tag';
 				$_GET['action'] = 'top';
 				return;
