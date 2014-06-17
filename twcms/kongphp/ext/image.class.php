@@ -28,6 +28,10 @@ class image{
 		$src_h = $imgs[1];
 		if(empty($src_w) || empty($src_h)) return FALSE;
 
+		// 限制最小值
+		$dst_w < 10 && $dst_w = 10;
+		$dst_h < 10 && $dst_h = 10;
+
 		// GD库不支持时，使用原图
 		if(!function_exists('imagecreatefromjpeg')) {
 			return copy($src_file, $dst_file);
