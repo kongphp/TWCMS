@@ -37,7 +37,11 @@ class image{
 			return copy($src_file, $dst_file);
 		}
 
+		// 图片读取失败时，使用原图
 		$im_src = self::load_img($src_file, $imgs['mime']);
+		if(!$im_src) {
+			return copy($src_file, $dst_file);
+		}
 
 		switch($type) {
 			case 1: // 补白裁剪
@@ -223,23 +227,25 @@ class image{
 
 	// 加载图片资源
 	public static function load_img($src_file, $mime) {
-		switch($mime) {
-			case 'image/jpeg':
-				$im_src = imagecreatefromjpeg($src_file);
-				!$im_src && $im_src = imagecreatefromgif($src_file);
-				break;
-			case 'image/gif':
-				$im_src = imagecreatefromgif($src_file);
-				!$im_src && $im_src = imagecreatefromjpeg($src_file);
-				break;
-			case 'image/png':
-				$im_src = imagecreatefrompng($src_file);
-				break;
-			case 'image/wbmp':
-				$im_src = imagecreatefromwbmp($src_file);
-				break;
-			default:
-				return FALSE;
+		try {
+			switch($mime) {
+				case 'image/jpeg':
+					$im_src = imagecreatefromjpeg($src_file);
+					break;
+				case 'image/gif':
+					$im_src = imagecreatefromgif($src_file);
+					break;
+				case 'image/png':
+					$im_src = imagecreatefrompng($src_file);
+					break;
+				case 'image/wbmp':
+					$im_src = imagecreatefromwbmp($src_file);
+					break;
+				default:
+					return FALSE;
+			}
+		} catch (Exception $e) {
+			return FALSE;
 		}
 		return $im_src;
 	}
