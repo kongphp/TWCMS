@@ -645,7 +645,7 @@ class product_control extends admin_control {
 		$pic = image::thumb_name($path);
 		$src_file = TWCMS_PATH.$path;
 		$dst_file = TWCMS_PATH.$pic;
-		if(!is_file($dst_file)) {
+		if(is_file($src_file) && !is_file($dst_file)) {
 			image::thumb($src_file, $dst_file, $cfg['thumb_'.$table.'_w'], $cfg['thumb_'.$table.'_h'], $cfg['thumb_type'], $cfg['thumb_quality']);
 		}
 		return $pic;
